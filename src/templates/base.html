@@ -1,0 +1,72 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+	<meta charset="utf-8">
+	<title>HUD | Dashboard</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content>
+	<meta name="author" content>
+
+	<link href="{% static 'app/css/vendor.min.css' %}" rel="stylesheet">
+	<link href="{% static 'app/css/app.min.css' %}" rel="stylesheet">
+
+
+	{% comment %} <link href="{% static 'app/plugins/jvectormap-next/jquery-jvectormap.css' %}" rel="stylesheet"> {% endcomment %}
+
+</head>
+
+<body>
+    <div id="app" class="app app-sidebar-collapsed {% block extra_app_class %}{% endblock extra_app_class %}">
+{% include 'partials/header.html' %}
+{% include 'partials/sidebar.html' %} 
+<button class="app-sidebar-mobile-backdrop" data-toggle-target=".app"
+data-toggle-class="app-sidebar-mobile-toggled"></button>
+
+
+
+{% block content %}
+{% endblock content %}
+
+<a href="#" data-toggle="scroll-to-top" class="btn-scroll-top fade"><i class="fa fa-arrow-up"></i></a>
+    </div>
+<script src="{% static 'app/js/vendor.min.js' %}" type="14876ca369a8ef5d0d48d13e-text/javascript"></script>
+<script src="{% static 'app/js/app.min.js' %}" type="14876ca369a8ef5d0d48d13e-text/javascript"></script>
+
+{% block additional_js %}
+<script src="{% static 'app/plugins/@highlightjs/cdn-assets/highlight.min.js' %}" type="14876ca369a8ef5d0d48d13e-text/javascript"></script>
+<script src="{% static 'app/js/demo/highlightjs.demo.js' %}" type="b78577ba51db395b6b735828-text/javascript"></script>
+{% endblock additional_js %}
+
+
+<script src="{% static 'app/js/rocket-loader.min.js' %}" data-cf-settings="14876ca369a8ef5d0d48d13e-|49" defer></script>
+</body>
+
+</html>
+{% comment %} 
+<script data-cfasync="false" src="{% static 'app/js/email-decode.min.js' %}"></script> 
+<script src="{% static 'app/js/vendor.min.js' %}" type="14876ca369a8ef5d0d48d13e-text/javascript"></script>
+<script src="{% static 'app/js/app.min.js' %}" type="14876ca369a8ef5d0d48d13e-text/javascript"></script>
+
+
+<script src="{% static 'app/plugins/jvectormap-next/jquery-jvectormap.min.js' %}"
+type="14876ca369a8ef5d0d48d13e-text/javascript"></script>
+<script src="{% static 'app/plugins/jvectormap-content/world-mill.js' %}"
+    type="14876ca369a8ef5d0d48d13e-text/javascript"></script>
+    <script src="{% static 'app/plugins/apexcharts/dist/apexcharts.min.js' %}"
+    type="14876ca369a8ef5d0d48d13e-text/javascript"></script>
+    <script src="{% static 'app/js/demo/dashboard.demo.js' %}" type="14876ca369a8ef5d0d48d13e-text/javascript"></script>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y3Q0VGQKY3"
+    type="14876ca369a8ef5d0d48d13e-text/javascript"></script>
+<script type="14876ca369a8ef5d0d48d13e-text/javascript">
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    
+    gtag('config', 'G-Y3Q0VGQKY3');
+</script>
+<script src="{% static 'app/js/rocket-loader.min.js' %}" data-cf-settings="14876ca369a8ef5d0d48d13e-|49" defer></script>
+{% endcomment %}
