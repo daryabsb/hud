@@ -18,15 +18,15 @@ DJANGO_APPS = [
     'django.contrib.staticfiles',
 ]
 THIRD_PARTY_APPS = [
-
+    'src._utils',
 ]
 LOCAL_APPS = [
-'src.accounts',
-'src.core',
-'src.pos',
-'src.products',
-'src.orders',
-'src.tax',
+    'src.accounts',
+    'src.core',
+    'src.pos',
+    'src.products',
+    'src.orders',
+    'src.tax',
 
 ]
 
@@ -54,7 +54,7 @@ TEMPLATES = [
             PROJECT_PATH + "\\accounts\\templates",
             PROJECT_PATH + "\\pos\\templates",
 
-            ],
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

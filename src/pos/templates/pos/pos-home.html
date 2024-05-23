@@ -29,11 +29,12 @@
                                 </div>
                             </a>
                         </li>
+                        {% for group in groups %}
                         <li class="nav-item">
-                            <a class="nav-link" href="#" data-filter="meat">
+                            <a class="nav-link" href="#" data-filter="{{ group.id }}">
                                 <div class="card">
                                     <div class="card-body">
-                                        <i class="fa fa-fw fa-drumstick-bite"></i> Meat
+                                        <i class="fa fa-fw fa-drumstick-bite"></i> {{ group.name }}
                                     </div>
                                     <div class="card-arrow">
                                         <div class="card-arrow-top-left"></div>
@@ -44,81 +45,7 @@
                                 </div>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" data-filter="burger">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <i class="fa fa-fw fa-hamburger"></i> Burger
-                                    </div>
-                                    <div class="card-arrow">
-                                        <div class="card-arrow-top-left"></div>
-                                        <div class="card-arrow-top-right"></div>
-                                        <div class="card-arrow-bottom-left"></div>
-                                        <div class="card-arrow-bottom-right"></div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" data-filter="pizza">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <i class="fa fa-fw fa-pizza-slice"></i> Pizza
-                                    </div>
-                                    <div class="card-arrow">
-                                        <div class="card-arrow-top-left"></div>
-                                        <div class="card-arrow-top-right"></div>
-                                        <div class="card-arrow-bottom-left"></div>
-                                        <div class="card-arrow-bottom-right"></div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" data-filter="drinks">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <i class="fa fa-fw fa-cocktail"></i> Drinks
-                                    </div>
-                                    <div class="card-arrow">
-                                        <div class="card-arrow-top-left"></div>
-                                        <div class="card-arrow-top-right"></div>
-                                        <div class="card-arrow-bottom-left"></div>
-                                        <div class="card-arrow-bottom-right"></div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" data-filter="desserts">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <i class="fa fa-fw fa-ice-cream"></i> Desserts
-                                    </div>
-                                    <div class="card-arrow">
-                                        <div class="card-arrow-top-left"></div>
-                                        <div class="card-arrow-top-right"></div>
-                                        <div class="card-arrow-bottom-left"></div>
-                                        <div class="card-arrow-bottom-right"></div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" data-filter="snacks">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <i class="fa fa-fw fa-cookie-bite"></i> Snacks
-                                    </div>
-                                    <div class="card-arrow">
-                                        <div class="card-arrow-top-left"></div>
-                                        <div class="card-arrow-top-right"></div>
-                                        <div class="card-arrow-bottom-left"></div>
-                                        <div class="card-arrow-bottom-right"></div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
+                        {% endfor %}
                     </ul>
                 </div>
             </div>
@@ -126,13 +53,14 @@
         <div class="pos-content">
             <div class="pos-content-container h-100 p-4" data-scrollbar="true" data-height="100%">
                 <div class="row gx-4">
-                    <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-4 col-sm-6 pb-4" data-type="meat">
+                    {% for product in products %}
+                    <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-4 col-sm-6 pb-4" data-type="{{ product.parent_group.parent }}">
                         <div class="card h-100">
                             <div class="card-body h-100 p-1">
                                 <a href="#" class="pos-product" data-bs-toggle="modal" data-bs-target="#modalPosItem">
-                                    <div class="img" style="background-image: url({% static 'app/img/pos/product-1.jpg' %})"></div>
+                                    <div class="img" style="background-image: url({{ product.image.url }})"></div>
                                     <div class="info">
-                                        <div class="title">Grill Chicken Chop&reg;</div>
+                                        <div class="title">{{ product.name }}&reg;</div>
                                         <div class="desc">chicken, egg, mushroom, salad</div>
                                         <div class="price">$10.99</div>
                                     </div>
@@ -146,6 +74,7 @@
                             </div>
                         </div>
                     </div>
+                    {% endfor %}
                     <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-4 col-sm-6 pb-4" data-type="meat">
                         <div class="card h-100">
                             <div class="card-body h-100 p-1">

@@ -10,6 +10,7 @@ class Product(models.Model):
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="products")
     name = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=255, unique=True, null=True)
     parent_group = TreeForeignKey(
         "ProductGroup", on_delete=models.CASCADE, related_name="products"
     )
@@ -20,7 +21,8 @@ class Product(models.Model):
 
     price = models.DecimalField(default=3, decimal_places=3, max_digits=11)
     currency = models.ForeignKey(
-        "Currency", on_delete=models.CASCADE, related_name="products"
+        "Currency", on_delete=models.CASCADE, related_name="products",
+        null=True, blank=True, default=1
     )
     is_tax_inclusive_price = models.BooleanField(default=False)
     is_price_change_allowed = models.BooleanField(default=False)
@@ -31,7 +33,7 @@ class Product(models.Model):
         default=0, null=True, blank=True, decimal_places=3, max_digits=11)
     margin = models.DecimalField(max_digits=18, decimal_places=3, default=0)
     image = models.ImageField(null=True, blank=True,
-                            upload_to=upload_image_file_path)
+                              upload_to=upload_image_file_path)
     color = models.CharField(max_length=50, default="Transparent")
     is_enabled = models.BooleanField(default=True)
     age_restriction = models.SmallIntegerField(null=True, blank=True)
@@ -52,11 +54,11 @@ class Product(models.Model):
         return '/media/placeholder-image.jpg'
 
     def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+
         rate = 0
         rate = rate / 100
-        print('price: ', self.price)
-        print('markup: ', self.margin)
-
         if self.price == 0 and self.margin is not None:
             markup = self.cost * self.margin / 100
             self.price = self.cost + markup
