@@ -4,12 +4,17 @@
 
 
 {% block content %}
-<div id="content" class="app-content p-1 ps-xl-4 pe-xl-4 pt-xl-3 pb-xl-3">
+<div id="content" 
+hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' 
+hx-on::load="bInput=htmx.find('#barcode-input');bInput.value= '';bInput.focus();"
+class="app-content p-1 ps-xl-4 pe-xl-4 pt-xl-3 pb-xl-3">
 {% block pos_content %}
 {% endblock pos_content %}
 </div>
 {% endblock content %}
 
-{% block additional_js %}
-<script src="{% static 'app/js/demo/pos-customer-order.demo.js' %}" type="14876ca369a8ef5d0d48d13e-text/javascript"></script>
-{% endblock additional_js %}
+{% block modals %}
+<div class="modal modal-pos fade" id="modal-product">
+    {% include 'pos/modals/product-modal2.html' %}
+</div>
+{% endblock modals %}

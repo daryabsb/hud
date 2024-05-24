@@ -1,0 +1,43 @@
+{% if item %}
+<div class="pos-order border-bottom" id="order-item-{{ item.number }}">
+    <div class="pos-order-product">
+        <div class="img"
+        style="background-image: url({{ item.product.img }})"></div>
+        <!-- item details will be updated here -->
+        {% comment %} {% include 'hud/pos/partials/order-item-detail.html' %} {% endcomment %}
+    </div>
+    <div id="pos-order-price-{{ item.number }}" class="pos-order-price">
+        <div>{{ item.product.currency.name }} {{ item.subtotal|floatformat:"0" }}</div>
+        {% comment %} <div class="">
+        {{ item.product.currency.name }} {{ item.subtotal|floatformat:"0" }}
+        </div>
+        <div class="">
+        {{ item.product.currency.name }} {{ item.subtotal|floatformat:"0" }}
+        </div> {% endcomment %}
+        <div class="btn-group position-absolute end-0 bottom-0">
+        <button 
+            hx-delete="{% url 'pos:remove-item' item.number %}"
+            hx-target="#orders-detail"
+            hx-trigger="click"
+            class="btn text-danger">
+            <i class="far fa-fw fa-trash-alt col"></i>
+            </button>
+        </div>
+    </div>
+    <div
+    id="confirm-remove"  role="alert"
+    class="alert pos-order-confirmation text-center flex-column justify-content-center dismiss">
+    <div class="mb-1">
+        <i class="bi bi-trash fs-36px lh-1"></i>
+    </div>
+    <div class="mb-1">Remove item #{{ item.number }}??</div>
+        <div>
+            <button data-bs-dismiss="alert" class="btn btn-outline-default btn-sm ms-auto me-2 width-100px">No</button>
+            <button 
+            hx-delete="{% url 'pos:remove-item' item.number %}"
+            hx-target="#orders-detail"
+            class="btn btn-outline-theme btn-sm width-100px">Yes</button>
+        </div>
+    </div>
+</div>
+{% endif %}

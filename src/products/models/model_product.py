@@ -51,6 +51,8 @@ class Product(models.Model):
         from django.urls import reverse
         if self.image:
             return self.image.url
+        elif self.parent_group.image:
+            return self.parent_group.image.url
         return '/media/placeholder-image.jpg'
 
     def save(self, *args, **kwargs):

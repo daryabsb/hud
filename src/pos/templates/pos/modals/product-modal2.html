@@ -1,0 +1,112 @@
+{% load static %}
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content border-0">
+            <div class="card">
+                <div class="card-body p-0">
+                    <a href="#" data-bs-dismiss="modal" class="btn-close position-absolute top-0 end-0 m-4"></a>
+                    <div class="modal-pos-product">
+                        <div class="modal-pos-product-img">
+                            <div class="img" style="background-image: url({% static 'hud/img/pos/product-1.jpg' %})"></div>
+                        </div>
+                        <div class="modal-pos-product-info">
+                            <div class="h4 mb-2">Burger</div>
+                            <div class="text-inverse text-opacity-50 mb-2">
+                                chicken, egg, mushroom, salad
+                            </div>
+                            <div class="h4 mb-3">$10.99</div>
+                            <div class="d-flex mb-3">
+                                <a href="#" class="btn btn-outline-theme"><i class="fa fa-minus"></i></a>
+                                <input type="text"
+                                    class="form-control w-50px fw-bold mx-2 bg-inverse bg-opacity-15 border-0 text-center"
+                                    name="qty" value="1">
+                                <a href="#" class="btn btn-outline-theme"><i class="fa fa-plus"></i></a>
+                            </div>
+                            <hr class="mx-n4">
+                            <div class="mb-2">
+                                <div class="fw-bold">Size:</div>
+                                <div class="option-list">
+                                    <div class="option">
+                                        <input type="radio" id="size3" name="size" class="option-input" checked>
+                                        <label class="option-label" for="size3">
+                                            <span class="option-text">Small</span>
+                                            <span class="option-price">+0.00</span>
+                                        </label>
+                                    </div>
+                                    <div class="option">
+                                        <input type="radio" id="size1" name="size" class="option-input">
+                                        <label class="option-label" for="size1">
+                                            <span class="option-text">Large</span>
+                                            <span class="option-price">+3.00</span>
+                                        </label>
+                                    </div>
+                                    <div class="option">
+                                        <input type="radio" id="size2" name="size" class="option-input">
+                                        <label class="option-label" for="size2">
+                                            <span class="option-text">Medium</span>
+                                            <span class="option-price">+1.50</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-2">
+                                <div class="fw-bold">Add On:</div>
+                                <div class="option-list">
+                                    <div class="option">
+                                        <input type="checkbox" name="addon[sos]" value="true" class="option-input"
+                                            id="addon1">
+                                        <label class="option-label" for="addon1">
+                                            <span class="option-text">More BBQ sos</span>
+                                            <span class="option-price">+0.00</span>
+                                        </label>
+                                    </div>
+                                    <div class="option">
+                                        <input type="checkbox" name="addon[ff]" value="true" class="option-input"
+                                            id="addon2">
+                                        <label class="option-label" for="addon2">
+                                            <span class="option-text">Extra french fries</span>
+                                            <span class="option-price">+1.00</span>
+                                        </label>
+                                    </div>
+                                    <div class="option">
+                                        <input type="checkbox" name="addon[ms]" value="true" class="option-input"
+                                            id="addon3">
+                                        <label class="option-label" for="addon3">
+                                            <span class="option-text">Mushroom soup</span>
+                                            <span class="option-price">+3.50</span>
+                                        </label>
+                                    </div>
+                                    <div class="option">
+                                        <input type="checkbox" name="addon[ms]" value="true" class="option-input"
+                                            id="addon4">
+                                        <label class="option-label" for="addon4">
+                                            <span class="option-text">Lemon Juice (set)</span>
+                                            <span class="option-price">+2.50</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="mx-n4">
+                            <div class="row">
+                                <div class="col-4">
+                                    <a href="#" class="btn btn-default h4 mb-0 d-block rounded-0 py-3"
+                                        data-bs-dismiss="modal">Cancel</a>
+                                </div>
+                                <div class="col-8">
+                                    <a href="#"
+                                        class="btn btn-theme d-flex justify-content-center align-items-center rounded-0 py-3 h4 m-0">Add
+                                        to cart <i class="bi bi-plus fa-2x ms-2 my-n3"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-arrow">
+                    <div class="card-arrow-top-left"></div>
+                    <div class="card-arrow-top-right"></div>
+                    <div class="card-arrow-bottom-left"></div>
+                    <div class="card-arrow-bottom-right"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+

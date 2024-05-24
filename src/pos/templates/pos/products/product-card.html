@@ -1,0 +1,32 @@
+{% if product %}
+<div class="col-xxl-3 col-xl-4 col-lg-6 col-md-4 col-sm-6 pb-4" data-type="{{ product.parent_group.id }}">
+    <div class="card h-100">
+        <div class="card-body h-100 p-1">
+            <a href="#" 
+                hx-get="{% url 'pos:modal-product' product.id %}" 
+                hx-target="#modal-product" 
+                hx-trigger="click" 
+                class="pos-product" 
+                data-bs-toggle="modal"
+                data-bs-target="#modal-product"
+                >
+                <div class="img"
+                    style="background-image: url({{ product.img }})"></div>
+                <div class="info">
+                    <div class="title">{{ product.name }}</div>
+                    {% comment %} <div class="desc">Dill pickle, cheddar cheese, tomato
+                    </div> {% endcomment %}
+                    <div class="price">{{ product.currency.name }} {{ product.price|floatformat:"0" }}</div>
+                </div>
+            </a>
+
+        </div>
+        <div class="card-arrow">
+            <div class="card-arrow-top-left"></div>
+            <div class="card-arrow-top-right"></div>
+            <div class="card-arrow-bottom-left"></div>
+            <div class="card-arrow-bottom-right"></div>
+        </div>
+    </div>
+</div>
+{% endif %}

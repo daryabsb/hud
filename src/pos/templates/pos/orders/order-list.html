@@ -1,0 +1,37 @@
+<div class="tab-pane fade h-100" id="orderHistoryTab">
+    <div
+        class="h-100 d-flex align-items-center justify-content-center text-center p-20">
+        <div>
+            
+            {% if orders %}
+            <table class="table">
+                <thead>
+                    <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        <th scope="row">{{ order.id }}</th>
+                        <td>{{ order.created }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                </table>
+            {% else %}
+            <div class="mb-3 mt-n5">
+                <svg width="6em" height="6em" viewBox="0 0 16 16" class="text-gray-300"
+                    fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M14 5H2v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V5zM1 4v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4H1z" />
+                    <path
+                        d="M8 1.5A2.5 2.5 0 0 0 5.5 4h-1a3.5 3.5 0 1 1 7 0h-1A2.5 2.5 0 0 0 8 1.5z" />
+                </svg>
+            </div>
+            <h5>No order history found</h5>
+            {% endif %}
+        </div>
+    </div>
+</div>

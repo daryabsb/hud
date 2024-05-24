@@ -1,0 +1,41 @@
+{% load static %}
+<div class="h-100 d-flex flex-column p-0" id="orders-detail">
+    <div class="pos-sidebar-header">
+        <div class="back-btn">
+            <button type="button" data-toggle-class="pos-mobile-sidebar-toggled"
+                data-toggle-target="#pos" class="btn">
+            <i class="bi bi-chevron-left"></i>
+            </button>
+        </div>
+        <div class="icon">
+            {% comment %} <img src="{% static 'hud/img/pos/icon-table-black.svg' %}" class="invert-dark"alt> {% endcomment %}
+            <img src="{% static 'app/img/user/customer.png' %}" class="invert-dark"alt>
+        </div>
+        {% comment %} <div class="title">Table 01</div> {% endcomment %}
+        <div class="title">{{ active_order.customer.name }}</div>
+        <div class="order">Order: <b>#00{{ active_order.id }}</b></div>
+    </div>
+    <div class="pos-sidebar-nav">
+        <ul class="nav nav-tabs nav-fill">
+            <li class="nav-item">
+                <a class="nav-link active" href="#" data-bs-toggle="tab"
+                    data-bs-target="#active-order-tab-{{ active_order.id }}">Order # ({{ active_order.id }})</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-bs-toggle="tab"
+                    data-bs-target="#orderHistoryTab">Order List ({{ orders.count }})</a>
+            </li>
+        </ul>
+    </div>
+    <div class="btn-group gap-1 btn-group w-100 px-2 mt-2 position-static top-3">
+        <button type="button" class="btn btn-outline-danger rounded-0">Void</button>
+        <button type="button" class="btn btn-outline-success rounded-0">Discount</button>
+        <button type="button" class="btn btn-outline-info rounded-0">Next</button>
+        </div>
+    <div class="pos-sidebar-body tab-content" data-scrollbar="true" data-height="100%">
+        {% include 'pos/orders/active-order.html' %}
+        {% include 'pos/orders/order-list.html' %}
+    </div>
+    <!-- ORDER CALCULATIONS -->
+    {% include 'pos/orders/order-calculations.html' %}
+</div>

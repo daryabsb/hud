@@ -1,0 +1,6 @@
+{% load static globals %}{% for cssurl in dz_array.app.global_css %}
+    <link rel="stylesheet" href="{% static cssurl %}">{% endfor %}
+{% for htmx_url in dz_array.app.htmx %}
+    <script src="{% static htmx_url %}" defer></script>{% endfor %}
+    
+	

@@ -1,0 +1,28 @@
+<div class="input-group flex-nowrap mb-3">
+    {% comment %} <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+        <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
+        <label class="btn btn-outline-primary" for="btnradio1">Radio 1</label>
+      
+        <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+        <label class="btn btn-outline-primary" for="btnradio2">Radio 2</label>
+      
+        <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+        <label class="btn btn-outline-primary" for="btnradio3">Radio 3</label>
+      </div> {% endcomment %}
+    <span class="input-group-text" id="addon-wrapping"><i class="bi bi-search"></i></span>
+    <input
+    id="barcode-input"
+    hx-post="{% url 'pos:add-item-with-barcode' %}" 
+    hx-trigger="keyup[keyCode==13]" type="text"
+   
+    hx-target="#orders-detail"
+    name="barcode" 
+    class="form-control form-control-lg active position-relative" 
+    
+    placeholder="Search for barcodes..">
+    <span class="input-group-text"
+    data-bs-toggle="modal" data-bs-target="#barcode-search-result"
+    ><i class="fas fa-lg fa-fw me-2 fa-keyboard"></i></span>
+    
+    
+</div>

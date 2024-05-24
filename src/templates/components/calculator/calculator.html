@@ -1,0 +1,46 @@
+<div class="card">
+  <div class="card-header fw-bold " id="message">
+    {% include './input_display.html' %}
+  </div>
+  <div class="card-body">
+    {% for row in digits %}
+    <div class="mb-3">
+      <div class="btn-group gap-2">
+        {% for digit in row %}
+        <button type="button" class="btn btn-outline-theme text-center" style="width:3.7rem;" hx-trigger="click"
+          hx-post="{% url 'pos:add_digit' %}" hx-include="#display" hx-target="#message" hx-swap="innerHTML"
+          hx-swap="innerHTML" hx-vals='{"digit": "{{ digit }}"}'>{{digit}}</button>
+        {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="card-footer">
+    <a href="#" class="card-link" 
+    {% if is_ajax %}
+      hx-post="{{ url }}"
+      hx-swap="outerHTML" 
+      {% else %} 
+      hx-post="{% url 'hud:calculate' %}" 
+      hx-swap="none" 
+      hx-on::after-request="htmx.find('#{{ el_id }}').value = (JSON.parse(event.detail.xhr.responseText).message)"
+      {% endif %}
+      hx-trigger="click" 
+      hx-include="#display"
+      hx-target="#{{ el_id }}"
+      data-bs-dismiss="modal" 
+      data-bs-target="#modal-calculator">Submit
+      result</a>
+    <a href="#" class="card-link">{{ is_ajax }}</a>
+  </div>
+  <div class="card-arrow">
+    <div class="card-arrow-top-left"></div>
+    <div class="card-arrow-top-right"></div>
+    <div class="card-arrow-bottom-left"></div>
+    <div class="card-arrow-bottom-right"></div>
+  </div>
+</div>
+
+<!-- htmx.find('#{{ el_id }}').value = htmx.; -->
+<!-- form-control w-50px text-center mx-2    fw-bold  bg-inverse bg-opacity-15 border-0  -->
+<!-- form-control w-50px text-center mx-2    form-control-sm  bg-white bg-opacity-25  -->

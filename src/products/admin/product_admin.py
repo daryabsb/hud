@@ -54,11 +54,11 @@ class ProductAdmin(admin.ModelAdmin):
     @staticmethod
     def initial_data():
         for index, product in enumerate(INITIAL_DATA):
-            pdct = Product.objects.filter(slug=(product['id'])).first()
+            pdct = Product.objects.filter(id=(product['id'])).first()
+            currency = Currency.objects.filter(code='IQD').first()
             if not pdct:
                 user = User.objects.get(email='root@root.com')
                 parent_id = product.pop('parent_group')
-                currency = Currency.objects.filter(code='IQD').first()
                 parent_group = ProductGroup.objects.get(id=parent_id)
                 pdct = Product(**product)
 
@@ -71,4 +71,5 @@ class ProductAdmin(admin.ModelAdmin):
                 pdct.save(force_update=True)
             else:
                 pdct.name = product['name']
+                pdct.currency = currency
                 pdct.save(force_update=True)
