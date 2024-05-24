@@ -5,6 +5,7 @@ from src.pos.calculations import (create_order_item,)
 from src.pos.utils import get_active_order
 
 update_active_order_template = 'pos/partials/order-detail.html'
+update_items_list = 'pos/orders/items/list.html'
 update_order_item_template = 'pos/renders/update-order-item.html'
 order_item_confirm_remove_template = 'pos/renders/order-item-with-confirm.html'
 
@@ -19,7 +20,7 @@ def change_quantity(request, item_number):
 
     active_order = get_active_order()
     context = {"active_order": active_order, "item": item}
-    return render(request, update_active_order_template, context)
+    return render(request, update_order_item_template, context)
 
 
 def add_quantity(request, item_number):
@@ -29,7 +30,7 @@ def add_quantity(request, item_number):
     # item = recalculate_item(order_item=item)
     active_order = get_active_order()
     context = {"active_order": active_order, "item": item}
-    return render(request, update_active_order_template, context)
+    return render(request, update_order_item_template, context)
 
 
 def subtract_quantity(request, item_number):
@@ -41,14 +42,14 @@ def subtract_quantity(request, item_number):
 
         active_order = get_active_order()
         context = {"active_order": active_order, "item": item}
-        return render(request, update_active_order_template, context)
+        return render(request, update_order_item_template, context)
     elif item.quantity == 1:
 
         active_order = get_active_order()
         context = {"active_order": active_order,
                    "item": item,
                    "confirm_remove": item.number}
-        return render(request, update_active_order_template, context)
+        return render(request, update_order_item_template, context)
 
 
 def remove_item(request, item_number):

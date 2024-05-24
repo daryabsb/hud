@@ -2,7 +2,6 @@
     <div
         class="h-100 d-flex align-items-center justify-content-center text-center p-20">
         <div>
-            
             {% if orders %}
             <table class="table">
                 <thead>
@@ -15,7 +14,9 @@
                     {% for order in orders %}
                     <tr>
                         <th scope="row">{{ order.id }}</th>
-                        <td>{{ order.created }}</td>
+                        <td>
+                        {{ order.created }}
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>

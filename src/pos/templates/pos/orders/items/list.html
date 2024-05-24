@@ -1,0 +1,3 @@
+        {% for item in active_order.items.all %}
+        {% include 'pos/orders/items/card.html' with item=item %}
+        {% endfor %}

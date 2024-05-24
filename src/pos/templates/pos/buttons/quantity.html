@@ -1,5 +1,5 @@
 <div class="d-flex">
-    <button hx-get="{% url 'pos:subtract-quantity' item.number %}" hx-target="#orders-detail"
+    <button hx-get="{% url 'pos:subtract-quantity' item.number %}" hx-target="#items-list"
         class="btn btn-sm btn-outline-theme btn-sm"><i class="fa fa-minus"></i></button>
     <input 
     hx-get="{% url 'pos:modal-calculator' %}" 
@@ -21,6 +21,6 @@
         role=button
         readonly
         >
-    <button hx-get="{% url 'pos:add-quantity' item.number %}" hx-target="#orders-detail"
+    <button hx-get="{% url 'pos:add-quantity' item.number %}" hx-target="#items-list"
         class="btn btn-sm btn-outline-theme btn-sm"><i class="fa fa-lg fa-plus"></i></button>
 </div>

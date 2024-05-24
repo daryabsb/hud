@@ -1,28 +1,8 @@
 {% load pos humanize  %}
-{% include 'pos/orders/items/card.html' %}
-<div hx-swap-oob="true" class="pos-sidebar-footer" id="order-calculations">
-    <div class="row align-content-center">
-        <div class="col-lg-4 text-center">
-            <div class="h6">Subtotal</div>
-            <div class="h5">${{ active_order.item_subtotal|floatformat:"0"|intcomma }}</div>
-        </div>
-        <div class="col-lg-4 text-center">
-            <div class="h6 text-success">Total Discount</div>
-            <div class="h5 text-success">${{ active_order.discounted_amount|floatformat:"0"|intcomma }}</div>
-        </div>
-        <div class="col-lg-4 text-center">
-        <div class="h6 text-danger">VAT ({{ active_order.total_tax_rate|floatformat:"0" }}%)</div>
-        <div class="h5 text-danger">${{ active_order.total_tax|floatformat:"0"|intcomma }}</div>
-        </div>
-    </div>
-    <hr>
-    <div class="d-flex align-items-center mb-2">
-        {% comment %} <div>Total</div> {% endcomment %}
-        <div id="order-subtotal-{{ active_order.id }}" class="flex-1 text-center mb-0">
-            <p class="h4">Total</p>
-            {% comment %} <h1 class="display-4">IQD {{ totals.active_order.total|floatformat:"0"|intcomma }}</h1>     {% endcomment %}
-            <h6 class="display-4">IQD {{ active_order.total|floatformat:"0"|intcomma }}</h6>    
-        </div>
+{% include 'pos/orders/items/list.html' %}
+<div  hx-swap-oob="true" id="order-calculations">
+{% include 'pos/orders/order-calculations.html' %}
+<div>
 
-    </div>
+
 
