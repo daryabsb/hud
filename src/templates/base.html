@@ -8,7 +8,10 @@
 {% include 'partials/top-css.html' %}
 </head>
 
-<body>
+<body
+hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' 
+hx-on::load="bInput=htmx.find('#barcode-input');bInput.value= '';bInput.focus();"
+>
     <div 
     id="app" 
     class="app app-sidebar-collapsed {% block extra_app_class %}{% endblock extra_app_class %}">

@@ -1,12 +1,7 @@
-{% load static %}
-<div class="card m-2">
-    
-    <div class="card-body">
-        <div class="list-group-item list-group-item-action d-flex align-items-center text-inverse"
-            
-            >
-
-
+{% load static %}{% if item %}
+<div class="card m-2" id="order-item-{{ item.number }}">
+    <div class="pos-order card-body">
+        <div class=" list-group-item list-group-item-action d-flex align-items-center text-inverse">
             <a href="#" class="w-60px h-60px d-flex align-items-center justify-content-center ms-n1"
             hx-get="{% url 'pos:modal-product' item.product.id %}" 
                 hx-target="#modal-product" 
@@ -41,7 +36,7 @@
                             hx-vals='{
                                 "is_ajax": true,
                                 "el-id": "orders-detail",
-                                "url": "/pos/change-discount/{{ item.number}}/",
+                                "url": "/pos/change-quantity/{{ item.number}}/",
                                 "template_name":"pos/pos/order-detail.html"
                                 }'
                             data-bs-toggle="modal"
@@ -66,11 +61,30 @@
                         bg-white bg-opacity-25' %}
                         {% endcomponent %} 
                         {% endcomment %}
+                        {% include 'pos/buttons/quantity.html' %}
                    
                     </div>
                 
             </div>
         </div>
+{% if confirm_remove == item.number %}
+        <div
+            id="confirm-remove"  role="alert"
+            class="alert pos-order-confirmation text-center flex-column justify-content-center dismiss">
+            <div class="mb-1">
+                <i class="bi bi-trash fs-36px lh-1"></i>
+            </div>
+            <div class="mb-1">Remove item #{{ item.number }}??</div>
+                <div>
+                    <button data-bs-dismiss="alert" class="btn btn-outline-default btn-sm ms-auto me-2 width-100px">No</button>
+                    <button 
+                    hx-delete="{% url 'pos:remove-item' item.number %}"
+                    hx-target="#orders-detail"
+                    class="btn btn-outline-theme btn-sm width-100px">Yes</button>
+                </div>
+        </div>
+{% endif %}
+
     </div>
 <!-- arrow -->
     <div class="card-arrow">
@@ -80,3 +94,4 @@
         <div class="card-arrow-bottom-right"></div>
     </div>
 </div>
+{% endif %}

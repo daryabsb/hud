@@ -5,8 +5,6 @@
 
 {% block content %}
 <div id="content" 
-hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' 
-hx-on::load="bInput=htmx.find('#barcode-input');bInput.value= '';bInput.focus();"
 class="app-content p-1 ps-xl-4 pe-xl-4 pt-xl-3 pb-xl-3">
 {% block pos_content %}
 {% endblock pos_content %}
@@ -16,5 +14,8 @@ class="app-content p-1 ps-xl-4 pe-xl-4 pt-xl-3 pb-xl-3">
 {% block modals %}
 <div class="modal modal-pos fade" id="modal-product">
     {% include 'pos/modals/product-modal2.html' %}
+</div>
+<div class="modal modal-cover modal-pos fade" id="modal-calculator">
+    {% include 'pos/modals/discount-modal.html' %} 
 </div>
 {% endblock modals %}

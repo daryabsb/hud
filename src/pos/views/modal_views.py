@@ -24,6 +24,7 @@ def modal_calculator(request):
     digits = [[7, 8, 9, '/'], [4, 5, 6, '*'],
               [1, 2, 3, '-'], [0, '.', '=', '+'],]
     context = {
+        "calc_on": True,
         "is_ajax": is_ajax,
         "div_class": div_class,
         "el_id": el_id,
@@ -32,7 +33,7 @@ def modal_calculator(request):
         "digits": digits,
     }
 
-    return render(request, 'hud/pos/modals/calculator-modal.html', context)
+    return render(request, 'pos/modals/calculator-modal.html', context)
 
 
 def calculate(request):
@@ -48,5 +49,5 @@ def add_digit(request):
         current_value = request.POST.get('display', '')
         digit = request.POST.get('digit', '')
         new_value = current_value + digit
-        return render(request, 'hud/pos/buttons/input_display.html', {'new_value': new_value})
+        return render(request, 'components/calculator/input_display.html', {'new_value': new_value})
     return render(request, 'keypad.html', {'error': 'Invalid request'})

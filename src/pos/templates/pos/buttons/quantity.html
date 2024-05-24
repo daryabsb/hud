@@ -1,8 +1,26 @@
 <div class="d-flex">
     <button hx-get="{% url 'pos:subtract-quantity' item.number %}" hx-target="#orders-detail"
         class="btn btn-sm btn-outline-theme btn-sm"><i class="fa fa-minus"></i></button>
-    <input id="qty-input-{{ item.number }}" value="{{ item.quantity }}" type="text"
-        class="form-control w-50px text-center mx-2 form-control-sm bg-white bg-opacity-25" name="qty">
-    <button hx-get="{% url 'hud:add-quantity' item.number %}" hx-target="#orders-detail"
+    <input 
+    hx-get="{% url 'pos:modal-calculator' %}" 
+        hx-target="#modal-calculator" 
+        hx-trigger="click"
+        hx-vals='{
+            "is_ajax": true,
+            "el-id": "orders-detail",
+            "url": "/pos/change-quantity/{{ item.number}}/",
+            "template_name":"pos/pos/order-detail.html"
+            }'
+        data-bs-toggle="modal"
+        data-bs-target="#modal-calculator"
+        id="qty-input-{{ item.number }}" 
+        value="{{ item.quantity }}" 
+        type="text"
+        class="form-control w-50px text-center mx-2 form-control-sm bg-white bg-opacity-25" 
+        name="qty"
+        role=button
+        readonly
+        >
+    <button hx-get="{% url 'pos:add-quantity' item.number %}" hx-target="#orders-detail"
         class="btn btn-sm btn-outline-theme btn-sm"><i class="fa fa-lg fa-plus"></i></button>
 </div>

@@ -1,6 +1,9 @@
+{% if calc_on %}
 <div class="card">
-  <div class="card-header fw-bold " id="message">
-    {% include './input_display.html' %}
+  <div class="card-header fw-bold " id="message"
+    htmx::after-settle="htmx.find('#display').focus(); console.log(htmx.find('#display'))"
+    >
+    {% include 'components/calculator/input_display.html' %}
   </div>
   <div class="card-body">
     {% for row in digits %}
@@ -21,7 +24,7 @@
       hx-post="{{ url }}"
       hx-swap="outerHTML" 
       {% else %} 
-      hx-post="{% url 'hud:calculate' %}" 
+      hx-post="{% url 'pos:calculate' %}" 
       hx-swap="none" 
       hx-on::after-request="htmx.find('#{{ el_id }}').value = (JSON.parse(event.detail.xhr.responseText).message)"
       {% endif %}
@@ -40,6 +43,7 @@
     <div class="card-arrow-bottom-right"></div>
   </div>
 </div>
+{% endif %}
 
 <!-- htmx.find('#{{ el_id }}').value = htmx.; -->
 <!-- form-control w-50px text-center mx-2    fw-bold  bg-inverse bg-opacity-15 border-0  -->
