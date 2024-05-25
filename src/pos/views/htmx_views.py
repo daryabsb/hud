@@ -60,7 +60,7 @@ def remove_item(request, item_number):
     context = {"active_order": active_order}
     # context = get_context(active_order)
 
-    return render(request, update_active_order_template, context)
+    return render(request, update_order_item_template, context)
 
 
 def add_item_with_barcode(request):
@@ -80,7 +80,7 @@ def add_item_with_barcode(request):
 
     active_order = get_active_order()
     context = {"active_order": active_order, "item": item}
-    return render(request, update_active_order_template, context)
+    return render(request, update_order_item_template, context)
 
 
 def add_order_item(request):
@@ -102,4 +102,4 @@ def add_order_item(request):
     active_order = get_active_order()
     context = {"active_order": active_order, "item": item}
 
-    return render(request, update_active_order_template, context)
+    return render(request, update_order_item_template, context)

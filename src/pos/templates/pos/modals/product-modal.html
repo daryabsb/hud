@@ -7,7 +7,7 @@
                     <form 
                     hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' 
                     hx-post="{% url 'pos:add-item' %}" 
-                    hx-target="#orders-detail"
+                    hx-target="#items-list"
                     
                     >
                         <div class="modal-pos-product">
