@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div id="content" class="app-content">
+	<div class="d-flex align-items-center mb-md-3 mb-2">
+		<div class="flex-fill">
+			<ul class="breadcrumb">
+				<li class="breadcrumb-item"><a href="#">PAGES</a></li>
+				<li class="breadcrumb-item active">SCRUM BOARD</li>
+			</ul>
+			<h1 class="page-header mb-0">
+				Scrum Board
+			</h1>
+		</div>
+		<div class="ms-auto">
+			<a href="#modalAddTask" data-bs-toggle="modal" class="btn btn-outline-theme"><i class="fa fa-plus-circle me-1"></i> Add Task</a>
+		</div>
+	</div>
+	<div class="mb-md-4 mb-3 d-md-flex">
+		<div class="dropdown-toggle">
+			<a href="#" data-bs-toggle="dropdown" class="text-inverse text-opacity-75 text-decoration-none"><i class="far fa-folder fa-fw fa-lg text-theme me-1"></i> project/hud</a>
+			<div class="dropdown-menu">
+				<a href="#" class="dropdown-item"><i class="far fa-folder fa-fw fa-lg text-theme me-1"></i> project/mobile-app-dev</a>
+				<a href="#" class="dropdown-item"><i class="far fa-folder fa-fw fa-lg text-theme me-1"></i> project/bootstrap-5</a>
+				<a href="#" class="dropdown-item"><i class="far fa-folder fa-fw fa-lg text-theme me-1"></i> project/mvc-version</a>
+				<a href="#" class="dropdown-item"><i class="far fa-folder fa-fw fa-lg text-theme me-1"></i> project/ruby-version</a>
+			</div>
+		</div>
+		<div class="ms-md-4 mt-md-0 mt-2"><i class="fa fa-code-branch fa-fw fa-lg me-1 text-theme"></i> 1,392 pull request</div>
+		<div class="ms-md-4 mt-md-0 mt-2"><i class="fa fa-users-cog fa-fw fa-lg me-1 text-theme"></i> 52 participant</div>
+		<div class="ms-md-4 mt-md-0 mt-2"><i class="far fa-clock fa-fw fa-lg me-1 text-theme"></i> 14 day(s)</div>
+	</div>
+	<div class="row">
+        
+        {% for module in modules %}
+		<div class="col-xl-4 col-lg-6">
+			<div class="card mb-3">
+				<div class="card-header d-flex align-items-center bg-inverse bg-opacity-10">
+					<span class="flex-grow-1 fw-400">Done (1)</span>
+					<a href="#" class="text-inverse text-opacity-50 text-decoration-none me-3"><i class="fa fa-fw fa-redo"></i></a>
+					<a href="#" class="text-inverse text-opacity-50 text-decoration-none"><i class="fa fa-fw fa-trash"></i></a>
+				</div>
+				<div class="list-group list-group-flush">
+                    <a href="{{ module.url }}" class="card text-decoration-none">
+                        <div class="card-body d-flex align-items-center text-inverse m-5px bg-inverse bg-opacity-10">
+                            <div class="flex-fill">
+                                <div class="mb-1">Total {{ module.name }}: 25</div>
+                                <h2>{{ module.name }}</h2>
+                                <div>Today, 11:25AM</div>
+                            </div>
+                            <div class="opacity-5">
+                                <i class="fa fa-{{ module.icon }} fa-4x"></i>
+                            </div>
+                        </div>
+                        <!-- card-arrow -->
+                      
+                    </a>>
+				</div>
+				<div class="card-arrow">
+					<div class="card-arrow-top-left"></div>
+					<div class="card-arrow-top-right"></div>
+					<div class="card-arrow-bottom-left"></div>
+					<div class="card-arrow-bottom-right"></div>
+				</div>
+			</div>
+		</div>
+        {% endfor %}
+	</div>
+	<div class="modal fade" id="modalAddTask">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Add Task</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+				<div class="modal-body">
+					<div class="mb-3">
+						<label class="form-label">Title</label>
+						<input type="text" class="form-control" placeholder="e.g Feature enhancement">
+					</div>
+					<div class="mb-3">
+						<label class="form-label">Status</label>
+						<select class="form-select">
+							<option value="">To Do</option>
+							<option value="">In Progress</option>
+							<option value="">Done</option>
+						</select>
+					</div>
+					<div class="mb-3">
+						<label class="form-label">Tags</label>
+						<ul id="jquery-tagit" class="tagit form-control ui-widget ui-widget-content ui-corner-all">
+							<li class="tagit-choice ui-widget-content ui-state-default ui-corner-all tagit-choice-editable"><span class="tagit-label">enhancement</span><a class="tagit-close"><span class="text-icon">×</span><span class="ui-icon ui-icon-close"></span></a><input type="hidden" value="enhancement" name="tags" class="tagit-hidden-field"></li>
+							<li class="tagit-new"><input type="text" class="ui-widget-content ui-autocomplete-input" autocomplete="off"></li>
+						</ul>
+					</div>
+					<div class="form-group">
+						<label>Description</label>
+						<textarea class="form-control" rows="10"></textarea>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<a href="#" class="btn btn-outline-default" data-bs-dismiss="modal">Cancel</a>
+					<button type="button" class="btn btn-outline-theme">Create</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

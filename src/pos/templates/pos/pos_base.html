@@ -4,7 +4,8 @@
 
 
 {% block content %}
-<div id="content" 
+<div id="content"
+hx-on::load="bInput=htmx.find('#barcode-input');bInput.value= '';bInput.focus();" 
 class="app-content p-1 ps-xl-4 pe-xl-4 pt-xl-3 pb-xl-3">
 {% block pos_content %}
 {% endblock pos_content %}

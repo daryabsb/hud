@@ -8,6 +8,7 @@
                     hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' 
                     hx-post="{% url 'pos:add-item' %}" 
                     hx-target="#items-list"
+                    hx-swap="beforeend"
                     
                     >
                         <div class="modal-pos-product">

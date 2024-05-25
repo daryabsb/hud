@@ -21,14 +21,17 @@ DJANGO_APPS = [
 ]
 THIRD_PARTY_APPS = [
     'src._utils',
+    "django_extensions",
 ]
 LOCAL_APPS = [
     'src.accounts',
     'src.core',
     'src.pos',
+    'src.management',
     'src.products',
     'src.orders',
     'src.tax',
+    'src.stock',
 
 ]
 
@@ -56,6 +59,7 @@ TEMPLATES = [
             PROJECT_PATH + "\\templates",
             PROJECT_PATH + "\\accounts\\templates",
             PROJECT_PATH + "\\pos\\templates",
+            PROJECT_PATH + "\\management\\templates",
 
         ],
         'APP_DIRS': True,
