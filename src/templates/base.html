@@ -6,6 +6,12 @@
 <head>
 {% include 'partials/metas.html' %}
 {% include 'partials/top-css.html' %}
+
+<title>
+{% block head_title %}
+HUD | Dashboard
+{% endblock head_title %}
+</title>
 </head>
 
 <body
@@ -24,11 +30,11 @@ data-toggle-class="app-sidebar-mobile-toggled"></button>
 
 {% block content %}
 {% endblock content %}
-
 <a href="#" data-toggle="scroll-to-top" class="btn-scroll-top fade"><i class="fa fa-arrow-up"></i></a>
     </div>
 {% block modals %}
 {% endblock modals %}
+{% include 'modals/confirm-logout.html' %}
 {% include 'partials/bottom-js.html' %}
 </body>
 

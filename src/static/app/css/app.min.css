@@ -35649,3 +35649,25 @@ body .note-modal-backdrop {
     width: 100%;
     color: var(--bs-gray);
 }
+
+.my-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    /* Ensure the container takes full viewport height */
+}
+
+.my-box {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    padding: 20px;
+    margin: 10px;
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+}
+
+.my-box:hover {
+    transform: scale(1.1);
+    /* Example of box growing on hover */
+}

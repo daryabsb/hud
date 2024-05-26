@@ -8,13 +8,17 @@ BASE_ENDPOINT = config('BASE_ENDPOINT', default='http://127.0.0.1:8000')
 WS_ENDPOINT = config('WS_ENDPOINT', default='ws://127.0.0.1:8000')
 
 # Application definition
+SITE_ID = 1
 
 DJANGO_APPS = [
     'django.contrib.admin',
+    'django.contrib.sites',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'allauth',
+    'allauth.account',
     "django_htmx",
     'django.contrib.staticfiles',
     'django.contrib.humanize',
@@ -22,6 +26,7 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     'src._utils',
     "django_extensions",
+    'widget_tweaks',
 ]
 LOCAL_APPS = [
     'src.accounts',
@@ -39,6 +44,18 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 AUTH_USER_MODEL = "accounts.User"
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+LOGIN_REDIRECT_URL = '/pos/'
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'optional'  # or 'mandatory'
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -48,6 +65,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = 'src.urls'

@@ -1,10 +1,13 @@
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 
 
+@login_required
 def mgt_home(request):
     context = {
         "modules": [
-            {"id": 1, "name": "Products", "url": "/mgt/products/", "icon": "shopping-bag"},
+            {"id": 1, "name": "Products",
+                "url": "/mgt/products/", "icon": "shopping-bag"},
             {"id": 2, "name": "Orders", "url": "#", "icon": "shopping-cart"},
             {"id": 3, "name": "Stock", "url": "#", "icon": "shopping-basket"},
             {"id": 4, "name": "Printers", "url": "#", "icon": "print"},

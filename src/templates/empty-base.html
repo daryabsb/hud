@@ -1,0 +1,27 @@
+{% load static globals %}
+
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+{% include 'partials/metas.html' %}
+{% include 'partials/top-css.html' %}
+<title>
+{% block head_title %}
+{% endblock head_title %}
+</title>
+</head>
+<body class="pace-top">
+
+<div id="app" class="app app-full-height app-content-full-width app-content-full-height">
+
+{% block content %}
+{% endblock content %}
+
+<a href="#" data-toggle="scroll-to-top" class="btn-scroll-top fade"><i class="fa fa-arrow-up"></i></a>
+
+</div>
+
+{% include 'partials/bottom-js.html' %}
+</body>
+</html>
