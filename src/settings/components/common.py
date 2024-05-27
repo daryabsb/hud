@@ -31,6 +31,9 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     'src.accounts',
     'src.core',
+    'src.configurations',
+    'src.documents',
+    'src.finances',
     'src.pos',
     'src.management',
     'src.products',
