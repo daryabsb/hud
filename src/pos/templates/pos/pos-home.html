@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block pos_content %}
-<div class="pos card" id="pos">
+
     <div class="pos-container card-body">
         <div class="pos-menu">
             <div class="logo">
@@ -67,19 +67,10 @@
                 </div>
             </div>
         </div>
-        <div class="pos-sidebar" id="pos-sidebar">
+        <div class="pos-sidebar" style="width: 350px;" id="pos-sidebar">
             {% include 'pos/partials/order-detail.html' %}
         </div>
     </div>
-    <div class="card-arrow">
-        <div class="card-arrow-top-left"></div>
-        <div class="card-arrow-top-right"></div>
-        <div class="card-arrow-bottom-left"></div>
-        <div class="card-arrow-bottom-right"></div>
-    </div>
-</div>
-<a href="#" class="pos-mobile-sidebar-toggler" data-toggle-class="pos-mobile-sidebar-toggled" data-toggle-target="#pos">
-<i class="bi bi-bag"></i>
-<span class="badge">5</span>
-</a>
+
+
 {% endblock pos_content %}

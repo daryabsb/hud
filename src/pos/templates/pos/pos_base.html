@@ -7,16 +7,29 @@
 <div id="content"
 hx-on::load="bInput=htmx.find('#barcode-input');bInput.value= '';bInput.focus();" 
 class="app-content p-1 ps-xl-4 pe-xl-4 pt-xl-3 pb-xl-3">
+<div class="pos card" id="pos">
 {% block pos_content %}
 {% endblock pos_content %}
 </div>
+
+<a href="#" class="pos-mobile-sidebar-toggler" data-toggle-class="pos-mobile-sidebar-toggled" data-toggle-target="#pos">
+    <i class="bi bi-bag"></i>
+    <span class="badge">5</span>
+</a>
+</div>
+<div class="card-arrow">
+    <div class="card-arrow-top-left"></div>
+    <div class="card-arrow-top-right"></div>
+    <div class="card-arrow-bottom-left"></div>
+    <div class="card-arrow-bottom-right"></div>
+</div>
 {% endblock content %}
 
-{% block modals %}
+{% comment %} {% block modals %}
 <div class="modal modal-pos fade" id="modal-product">
     {% include 'pos/modals/product-modal2.html' %}
 </div>
 <div class="modal modal-cover modal-pos fade" id="modal-calculator">
     {% include 'pos/modals/discount-modal.html' %} 
 </div>
-{% endblock modals %}
+{% endblock modals %} {% endcomment %}

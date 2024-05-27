@@ -257,7 +257,9 @@ body {
     text-align: var(--bs-body-text-align);
     background-color: var(--bs-body-bg);
     -webkit-text-size-adjust: 100%;
-    -webkit-tap-highlight-color: transparent
+    -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 hr {
@@ -34279,9 +34281,10 @@ body .note-modal-backdrop {
     flex: 1
 }
 
+/* NO NEED FOR EXTRA SCROLL */
 @media (min-width:992px) {
     .pos .pos-content {
-        overflow: scroll
+        /* overflow: scroll */
     }
 }
 

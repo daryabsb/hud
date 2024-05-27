@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resizable DIVs with Vanilla JS</title>
+    <style>
+        body {
+            display: flex;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+        }
+        .products, .order-items {
+            padding: 10px;
+            box-sizing: border-box;
+            overflow: auto;
+        }
+        .products {
+            width: 60%; /* Initial width */
+            max-width: 70%;
+            min-width: 30%;
+            background-color: #f0f0f0;
+        }
+        .order-items {
+            width: 40%; /* Initial width */
+            max-width: 70%;
+            min-width: 30%;
+            background-color: #e0e0e0;
+        }
+        .divider {
+            width: 10px;
+            background-color: #ccc;
+            cursor: ew-resize;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="products">Products Container</div>
+        <div class="divider"></div>
+        <div class="order-items">Order Items Container</div>
+    </div>
+
+    <script>
+        const divider = document.querySelector('.divider');
+        const container = document.querySelector('.container');
+        const products = document.querySelector('.products');
+        const orderItems = document.querySelector('.order-items');
+        let isDragging = false;
+
+        divider.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            document.addEventListener('mousemove', onMouseMove);
+            document.addEventListener('mouseup', onMouseUp);
+        });
+
+        function onMouseMove(e) {
+            if (!isDragging) return;
+
+            const totalWidth = container.offsetWidth;
+            const dividerWidth = divider.offsetWidth;
+            const offsetX = e.clientX - container.offsetLeft;
+
+            // Calculate the new widths of the products and order-items
+            const productsWidth = Math.max(0, offsetX - dividerWidth / 2);
+            const orderItemsWidth = Math.max(0, totalWidth - productsWidth - dividerWidth);
+
+            products.style.width = productsWidth + 'px';
+            orderItems.style.width = orderItemsWidth + 'px';
+        }
+
+        function onMouseUp() {
+            isDragging = false;
+            document.removeEventListener('mousemove', onMouseMove);
+            document.removeEventListener('mouseup', onMouseUp);
+        }
+    </script>
+</body>
+</html>
