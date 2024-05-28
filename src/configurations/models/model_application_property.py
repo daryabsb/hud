@@ -9,8 +9,9 @@ class ApplicationProperty(models.Model):
         User, on_delete=models.CASCADE, related_name="application_properties"
     )
     name = models.CharField(max_length=50)
-    value = models.SmallIntegerField()
-
+    value = models.CharField(max_length=50)
+    title = models.CharField(max_length=100, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
