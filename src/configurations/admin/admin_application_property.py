@@ -16,7 +16,7 @@ INITIAL_DATA = [
 
 @admin.register(ApplicationProperty)
 class ApplicationPropertyAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'title', 'value', 'user', 'updated')
+    list_display = ('id', 'name', 'title', 'value', 'updated')
     ordering = ('created', )
     list_filter = ('name', )
 

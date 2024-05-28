@@ -31,6 +31,7 @@ from src.settings.components import PROJECT_PATH, BASE_DIR
 #         }
 #     }
 
+DATABASE_ROUTERS = ['src.db_router.ConfigurationsRouter']
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -41,5 +42,3 @@ DATABASES = {
         'NAME': PROJECT_PATH + '\\configurations\\settings_db.sqlite3',
     }
 }
-
-DATABASE_ROUTERS = ['src.configurations.db_router.ConfigurationsRouter']
