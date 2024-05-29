@@ -5,6 +5,16 @@ from src.accounts.models import User
 
 
 class ApplicationProperty(models.Model):
+    INPUT_TYPE_CHOICES = (
+        ('', 'Select InputType'),
+        ('text', 'text'),
+        ('textarea', 'textarea'),
+        ('file', 'file'),
+        ('checkbox', 'checkbox'),
+        ('radio', 'radio'),
+        ('button', 'button'),
+        ('select', 'select'),
+    )
     user = models.SmallIntegerField(default=1)
     # user = models.ForeignKey(
     #     User, on_delete=models.CASCADE, related_name="application_properties"
@@ -13,6 +23,11 @@ class ApplicationProperty(models.Model):
     value = models.CharField(max_length=50)
     title = models.CharField(max_length=100, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
+    input_type = models.CharField(
+        max_length=255, choices=INPUT_TYPE_CHOICES, default=INPUT_TYPE_CHOICES[0][0])
+    editable = models.BooleanField(default=True)
+    order = models.IntegerField(null=True, blank=True)
+    params = models.TextField(null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
