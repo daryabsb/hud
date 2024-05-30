@@ -5,9 +5,11 @@ from django.contrib import admin
 from django.urls import path, include
 from src.core.views import index
 
+
 def test(request):
     from django.shortcuts import render
     return render(request, 'test.html')
+
 
 urlpatterns = [
     path('accounts/', include('allauth.urls')),
@@ -15,6 +17,7 @@ urlpatterns = [
     path('', index, name="index"),
     path('pos/', include('src.pos.urls'), name="pos"),
     path('mgt/', include('src.management.urls'), name="mgt"),
+    path('settings/', include('src.configurations.urls'), name="settings"),
 
     path('test/', test, name='test')
 ]

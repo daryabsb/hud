@@ -81,6 +81,7 @@ TEMPLATES = [
             PROJECT_PATH + "\\accounts\\templates",
             PROJECT_PATH + "\\pos\\templates",
             PROJECT_PATH + "\\management\\templates",
+            PROJECT_PATH + "\\configurations\\templates",
 
         ],
         'APP_DIRS': True,
