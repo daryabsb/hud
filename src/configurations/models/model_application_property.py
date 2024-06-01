@@ -4,6 +4,15 @@ from src.accounts.models import User
 # Create your models here.
 
 
+class ApplicationPropertySection(models.Model):
+    parent = models.ForeignKey(
+        "self", on_delete=models.SET_NULL, null=True, blank=True)
+    name = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.name
+
+
 class ApplicationProperty(models.Model):
     INPUT_TYPE_CHOICES = (
         ('', 'Select InputType'),
@@ -16,9 +25,11 @@ class ApplicationProperty(models.Model):
         ('select', 'select'),
     )
     user = models.SmallIntegerField(default=1)
-    # user = models.ForeignKey(
-    #     User, on_delete=models.CASCADE, related_name="application_properties"
-    # )
+
+    section = models.ForeignKey(
+        "ApplicationPropertySection", on_delete=models.SET_NULL,
+        null=True, blank=True, related_name="application_properties"
+    )
     name = models.CharField(max_length=50, unique=True)
     value = models.CharField(max_length=50)
     title = models.CharField(max_length=100, blank=True, null=True)

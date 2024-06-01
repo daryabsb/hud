@@ -1,1 +1,1 @@
-from .admin_application_property import ApplicationPropertyAdmin
+from .admin_application_property import ApplicationPropertyAdmin, ApplicationPropertySectionAdmin
