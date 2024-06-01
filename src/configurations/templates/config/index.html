@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% block head_title %}
+	{{ page_title }}
+{% endblock head_title %}
+	
 {% block content %}
 <div id="content" class="app-content">
 	<div class="container">
@@ -387,19 +391,73 @@
 								</div>
 							</div>
 						</div>
+						{% for setting in settings %}
+						<div id="{{ setting.name }}" class="mb-5">
+							<h4><i class="fa fa-redo fa-fw text-theme"></i> {{ setting.name }}</h4>
+							<p>Reset all website setting to factory default setting.</p>
+							<div class="card">
+								<div class="list-group list-group-flush">
+									
+									{% for row in setting.rows %}	
+									<div class="list-group-item d-flex align-items-center">
+										<div class="flex-1 text-break">
+											<div>{{row.id}}: {{ row.title }}</div>
+											<div class="text-inverse text-opacity-50">
+												This action will clear and reset all the current website setting.
+											</div>
+										</div>
+										<div>
+											<a href="#" class="btn btn-outline-default w-100px">Reset</a>
+										</div>
+									</div>
+									{% endfor %}
+
+								</div>
+								<div class="card-arrow">
+									<div class="card-arrow-top-left"></div>
+									<div class="card-arrow-top-right"></div>
+									<div class="card-arrow-bottom-left"></div>
+									<div class="card-arrow-bottom-right"></div>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
 					</div>
 					<div class="col-xl-3">
 						<nav id="sidebar-bootstrap" class="navbar navbar-sticky d-none d-xl-block">
 							<nav class="nav">
-								<a class="nav-link" href="#general" data-toggle="scroll-to">General</a>
-								<a class="nav-link" href="#notifications" data-toggle="scroll-to">Notifications</a>
-								<a class="nav-link" href="#privacyAndSecurity" data-toggle="scroll-to">Privacy and security</a>
-								<a class="nav-link" href="#payment" data-toggle="scroll-to">Payment</a>
-								<a class="nav-link" href="#shipping" data-toggle="scroll-to">Shipping</a>
-								<a class="nav-link" href="#mediaAndFiles" data-toggle="scroll-to">Media and Files</a>
-								<a class="nav-link active" href="#languages" data-toggle="scroll-to">Languages</a>
-								<a class="nav-link" href="#system" data-toggle="scroll-to">System</a>
-								<a class="nav-link" href="#resetSettings" data-toggle="scroll-to">Reset settings</a>
+								<a 
+								_="on click remove .active from <a/> then add .active to me "
+								class="nav-link" href="#general" data-toggle="scroll-to">General</a>
+								<a 
+								_="on click remove .active from <a/> then add .active to me "
+								class="nav-link" href="#notifications" data-toggle="scroll-to">Notifications</a>
+								<a 
+								_="on click remove .active from <a/> then add .active to me "
+								class="nav-link" href="#privacyAndSecurity" data-toggle="scroll-to">Privacy and security</a>
+								<a 
+								_="on click remove .active from <a/> then add .active to me "
+								class="nav-link" href="#payment" data-toggle="scroll-to">Payment</a>
+								<a 
+								_="on click remove .active from <a/> then add .active to me "
+								class="nav-link" href="#shipping" data-toggle="scroll-to">Shipping</a>
+								<a 
+								_="on click remove .active from <a/> then add .active to me "
+								class="nav-link" href="#mediaAndFiles" data-toggle="scroll-to">Media and Files</a>
+								<a 
+								_="on click remove .active from <a/> then add .active to me "
+								class="nav-link" href="#languages" data-toggle="scroll-to">Languages</a>
+								<a 
+								_="on click remove .active from <a/> then add .active to me "
+								class="nav-link" href="#system" data-toggle="scroll-to">System</a>
+								<a 
+								_="on click remove .active from <a/> then add .active to me "
+								class="nav-link" href="#resetSettings" data-toggle="scroll-to">Reset settings</a>
+								{% for section in sections %}
+								<a 
+								_="on click remove .active from <a/> then add .active to me "
+								class="nav-link" href="#{{ section }}" data-toggle="scroll-to">{{ section }}</a>
+								{% endfor %}
 							</nav>
 						</nav>
 					</div>

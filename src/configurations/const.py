@@ -30,6 +30,7 @@ INITIAL_DATA = [
         "value": 'top', "title": 'Position', "description": ''},
     {"id": 16, "name": "POS.button_bar.note",
         "value": 'top', "title": '', "description": '* Applicable for visual layout only!'},
+
     {"id": 17, "name": "POS.button_bar.search",
         "value": 'True', "title": '', "description": ''},
     {"id": 18, "name": "POS.button_bar.discount",
@@ -48,6 +49,9 @@ INITIAL_DATA = [
         "value": 'True', "title": '', "description": ''},
     {"id": 25, "name": "POS.button_bar.cash_drawer",
         "value": 'True', "title": '', "description": ''},
+    {"id": 26, "name": "POS.button_bar.cash_drawer",
+        "value": 'True', "title": '', "description": ''},
+    # ORDER AND PAYMENT
     {"id": 26, "name": "POS.button_bar.cash_drawer",
         "value": 'True', "title": '', "description": ''},
 ]
