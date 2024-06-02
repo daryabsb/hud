@@ -20,7 +20,7 @@ def settings_view(request):
 
     sections = ApplicationPropertySection.objects.prefetch_related(
         Prefetch('application_properties',
-                queryset=ApplicationProperty.objects.all())
+                 queryset=ApplicationProperty.objects.all())
     ).filter(parent__isnull=True)
 
     settings_list = []
@@ -39,13 +39,13 @@ def settings_view(request):
                 "id": prop.id,
                 "value": convert_value(prop.value),
                 "title": prop.title,
-                # "description": prop.description,
-                # "input_type": prop.input_type,
-                # "editable": prop.editable,
-                # "order": prop.order,
-                # "params": prop.params,
-                # "created": prop.created,
-                # "updated": prop.updated,
+                "description": prop.description,
+                "input_type": prop.input_type,
+                "editable": prop.editable,
+                "order": prop.order,
+                "params": prop.params,
+                "created": prop.created,
+                "updated": prop.updated,
             })
 
         for child in section.children.all():
@@ -62,13 +62,13 @@ def settings_view(request):
                     "id": prop.id,
                     "value": convert_value(prop.value),
                     "title": prop.title,
-                    # "description": prop.description,
-                    # "input_type": prop.input_type,
-                    # "editable": prop.editable,
-                    # "order": prop.order,
-                    # "params": prop.params,
-                    # "created": prop.created,
-                    # "updated": prop.updated,
+                    "description": prop.description,
+                    "input_type": prop.input_type,
+                    "editable": prop.editable,
+                    "order": prop.order,
+                    "params": prop.params,
+                    "created": prop.created,
+                    "updated": prop.updated,
                 })
 
             section_dict["children"].append(child_dict)

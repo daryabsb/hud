@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load fontawesome_5 %}
+{% load fontawesome_5 static globals %}
 {% block head_title %}
 	{{ page_title }}
 {% endblock head_title %}
@@ -402,20 +402,18 @@
 								<div class="list-group list-group-flush">
 									{% for row in setting.rows %}	
 									<form class="list-group-item d-flex align-items-center">
-										<div class="flex-1 text-break">
-											<div class="d-flex align-items-center gap-3">
-												<span>{{row.id}} | {{ row.title }}::</span>
-												<span>
-												
-												<input class="form-control" type="{{ row.input_type }}" value="{{ row.value }}" disabled />
-												
-												</span>
-												{% comment %}{{ row.value }} {% endcomment %}
-											
-											</div>
+										<div class="flex-1">
+											<dl class="row">
+												<dt class="col-sm-2">{{ row.title }}:::</dt>
+												<dd class="col-sm-8">
+												{% include 'config/partials/input_type.html' with config=row %}												
+												</dd>											
+											</dl>
+											{% if row.description %}
 											<div class="text-inverse text-opacity-50">
 												{{ row.description }}
 											</div>
+											{% endif %}
 										</div>
 										<div>
 											<a href="#" class="btn btn-outline-theme w-100px">Reset</a>
@@ -446,10 +444,16 @@
 									<div class="list-group-item d-flex align-items-center">
 										<div class="flex-1 text-break">
 											<div class="d-flex gap-3">
-												<span>{{ row.title }}::</span><span>{{ row.value }}</span></div>
+												<span>{{ row.title }}::</span>
+												<span style="width: 380px;">
+												{% include 'config/partials/input_type.html' with config=row %}												
+												</span>	
+												</div>
+											{% if row.description %}
 											<div class="text-inverse text-opacity-50">
 												{{ row.description }}
 											</div>
+											{% endif %}
 										</div>
 										<div>
 											<a href="#" class="btn btn-outline-theme w-100px">Reset</a>

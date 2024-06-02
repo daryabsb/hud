@@ -33,3 +33,17 @@ def getdata(json_data, args):
 
 
 register.filter('getdata', getdata)
+
+
+def split(val, args):
+    return val.split(args)
+
+
+register.filter('split', split)
+
+
+def multiply(val1, val2):
+    return val1*val2
+
+
+register.filter('multiply', multiply)

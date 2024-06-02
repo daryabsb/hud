@@ -1,0 +1,130 @@
+{% load fontawesome_5 globals %}
+{% if config %}
+
+
+{% comment %} DONE {% endcomment %}
+{% if config.input_type == 'select' %}
+<select name="{{config.id}}"  class="form-select" {% if not config.editable %}disabled{% endif %}>
+<option >Select option</option>
+{% if config.params %}
+{% with config.params|split:"," as selectlist %}
+{% for item in selectlist %}
+<option {% if config.value  == item %}selected{% endif %} value="{{item}}">{{ item }}</option>
+{% endfor %}
+{% endwith %}
+{% endif %}
+</select>
+{% endif %}
+
+
+
+
+{% if config.input_type == 'text' %}
+<input type="{{config.input_type}}" name="{{config.id}}" 
+    class="form-control" value="{% if config.value %}{{config.value}}{% endif %}" 
+    {%if not config.editable %}disabled{% endif %}>
+{% endif %}
+
+
+{% if config.input_type == 'textarea' %}
+<textarea type="{{config.input_type}}" name="{{config.id}}" 
+    class="form-control"  {% if not config.editable %}disabled{% endif %} 
+    rows='3' cols='5'>{% if config.value %}{{config.value}}{% endif %}</textarea>
+{% endif %}
+
+
+
+{% if config.input_type == 'checkbox' %}
+{% if config.value %}
+<input type="{{config.input_type}}" name="{{config.id}}"  value="1" class="form-check-input"   checked="checked" {% if not config.editable %}disabled{% endif %}>
+{% else %}
+<input type="{{config.input_type}}"  name="{{config.id}}"  class="form-check-input"  value="0" {% if not config.editable %}disabled{% endif %}>
+{% endif %}
+{% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% if config.input_type == 'file' and config.params == '' %}
+<div class="image-field-box">
+    <div class="avatar-upload feature-img-upload prefix-upload">
+        <div class="avatar-preview feature-img">
+            {% if config.value %}
+            <div class="image-preview" style="background-image: url('{{ config.value }}')">
+            </div>
+            {% else %}
+            <div class="image-preview" style="background-image: url('/static/dashboard/images/no-photo-available.png');">
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <div>
+        <div>
+            <label class="text-black">Currently:</label>
+            {% if config.value %}
+            <label class="text-primary">{{ config.value }}</label>
+            {% endif %}
+        </div>
+        <input type="{{config.input_type}}" name="image_{{config.id}}" accept=".png, .jpg, .jpeg"   class="form-control form-control-sm 
+        image-field" {% if not config.editable %}disabled{% endif %}>
+    </div>
+</div>
+{% endif %}
+
+
+{% if config.input_type == 'file' and config.params == 'multiple' %}
+<div class="image-field-box">
+    <div>
+        {% if config.value %}
+        <div class="d-flex flex-wrap pb-2">
+            {% for val  in  config.value|split:"," %}    
+            <div class="slider-pre pb-2 pe-2">
+                <img src="{{val}}">
+                <div class="delete-round-button">
+                    <a href="{% url 'dashboard:deleteConfigSlider' id=config.id file_name=val|split:"/"|last %}"><i class="fa-solid fa-xmark"></i></a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <input type="{{config.input_type}}" name="image_{{config.id}}" accept=".png, .jpg, .jpeg" {{config.params}}  class="form-control form-control-sm 
+        image-field" {% if not config.editable %}disabled{% endif %}>
+    </div>
+</div>
+{% endif %}
+
+
+
+{% if config.input_type == 'radio' %}
+{% if config.params %}
+{% with config.params|split:"," as radiolist %}
+{% for item in radiolist %}
+<div class="form-check">
+    <input type="{{config.input_type}}" name="{{config.id}}"   {% if config.value == item  %}checked{% endif %} id="radio{{ forloop.counter0}}" class="form-check-input"  value="{{item}}" {% if not config.editable %}disabled{% endif %}>
+    <label  class="form-check-label mx-2" for="radio{{ forloop.counter0}}" >{{ item | title }}</label>
+    {% if config.value == item  %}
+    <span class="fw-light fs-6">(Default)</span>
+    {% endif %}
+</div>
+{% endfor %}
+{% endwith %}
+{% endif %}
+{% endif %}
+
+
+
+
+
+
+
+
+{% endif %}
