@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load fontawesome_5 %}
 {% block head_title %}
 	{{ page_title }}
 {% endblock head_title %}
@@ -391,10 +391,10 @@
 								</div>
 							</div>
 						</div>
-						{% load fontawesome_5 %}
+						
 
 						{% for setting in settings %}
-						<div id="{{ setting.name }}" class="mb-5">
+						<div id="{{ setting.name }}" class="{% if setting.children %}mb-2{% else %}mb-5{% endif %}">
 							<h4><span class=" fa-fw text-theme">{{ setting.icon.as_html }}</span> {{ setting.name }}</h4>
 							<p>Reset all website setting to factory default setting.</p>
 							{% if setting.rows %}
@@ -405,7 +405,11 @@
 										<div class="flex-1 text-break">
 											<div class="d-flex align-items-center gap-3">
 												<span>{{row.id}} | {{ row.title }}::</span>
-												<span><input class="form-control" type="{{ row.input_type }}" value="{{ row.value }}" disabled /></span>
+												<span>
+												
+												<input class="form-control" type="{{ row.input_type }}" value="{{ row.value }}" disabled />
+												
+												</span>
 												{% comment %}{{ row.value }} {% endcomment %}
 											
 											</div>
@@ -432,7 +436,7 @@
 						
 						{% for child in  setting.children %}
 						
-						<div id="{{ child.name }}" class="mb-5">
+						<div id="{{ child.name }}" class="ms-4 mb-5">
 							<h5><span class=" fa-fw text-theme">{{ child.icon.as_html }}</span> {{ child.name }}</h5>
 							<p>Reset all website setting to factory default setting.</p>
 							<div class="card">
