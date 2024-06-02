@@ -28,6 +28,7 @@ def settings_view(request):
     for section in sections:
         section_dict = {
             "name": section.name,
+            "icon": section.icon,
             "rows": [],
             "children": []
         }
@@ -50,6 +51,7 @@ def settings_view(request):
         for child in section.children.all():
             child_dict = {
                 "name": child.name,
+                "icon": child.icon,
                 "rows": [],
                 "children": []
             }

@@ -1,5 +1,6 @@
 from django.db import models
 from src.accounts.models import User
+from fontawesome_5.fields import IconField
 
 # Create your models here.
 
@@ -9,6 +10,7 @@ class ApplicationPropertySection(models.Model):
         "self", on_delete=models.SET_NULL, null=True, blank=True,
         related_name='children')
     name = models.CharField(max_length=50, unique=True)
+    icon = IconField()
 
     def __str__(self):
         return self.name

@@ -23,12 +23,14 @@ DJANGO_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
 ]
+
 THIRD_PARTY_APPS = [
     'src._utils',
     "django_extensions",
     'widget_tweaks',
-    'django_fontawesome_5',
+    'fontawesome_5',
 ]
+
 LOCAL_APPS = [
     'src.accounts',
     'src.core',
@@ -41,7 +43,6 @@ LOCAL_APPS = [
     'src.orders',
     'src.tax',
     'src.stock',
-
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
