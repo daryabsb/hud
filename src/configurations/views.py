@@ -20,25 +20,42 @@ def settings_view(request):
 
     sections = ApplicationPropertySection.objects.prefetch_related(
         Prefetch('application_properties',
-                 queryset=ApplicationProperty.objects.all())
+                queryset=ApplicationProperty.objects.all())
     ).filter(parent__isnull=True)
 
     settings_list = []
 
-    def get_section_dict(section):
+    for section in sections:
         section_dict = {
             "name": section.name,
-            "rows": []
+            "rows": [],
+            "children": []
         }
 
-        children = section.children.all()
-        if children.exists():
-            for child in children:
-                child_dict = get_section_dict(child)
-                section_dict["rows"].append(child_dict)
-        else:
-            for prop in section.application_properties.all():
-                section_dict["rows"].append({
+        for prop in section.application_properties.all():
+            section_dict["rows"].append({
+                "name": prop.name,
+                "id": prop.id,
+                "value": convert_value(prop.value),
+                "title": prop.title,
+                "description": prop.description,
+                "input_type": prop.input_type,
+                "editable": prop.editable,
+                "order": prop.order,
+                "params": prop.params,
+                "created": prop.created,
+                "updated": prop.updated,
+            })
+
+        for child in section.children.all():
+            child_dict = {
+                "name": child.name,
+                "rows": [],
+                "children": []
+            }
+
+            for prop in child.application_properties.all():
+                child_dict["rows"].append({
                     "name": prop.name,
                     "id": prop.id,
                     "value": convert_value(prop.value),
@@ -52,10 +69,8 @@ def settings_view(request):
                     "updated": prop.updated,
                 })
 
-        return section_dict
+            section_dict["children"].append(child_dict)
 
-    for section in sections:
-        section_dict = get_section_dict(section)
         settings_list.append(section_dict)
 
     context = {
@@ -65,3 +80,30 @@ def settings_view(request):
     }
 
     return render(request, 'config/index.html', context)
+
+
+settings_list =  [
+    {
+        'name': 'Theme', 
+        'rows': [
+            {
+                'name': 'Mode', 'id': 1, 'value': 'dark', 'title': 'Mode', 'description': '', 'input_type': 'checkbox', 'editable': True, 'order': None, 'params': '', 'created': datetime.datetime(2024, 6, 1, 20, 14, 17, 431913, tzinfo=datetime.timezone.utc), 'updated': datetime.datetime(2024, 6, 1, 20, 14, 17, 431913, tzinfo=datetime.timezone.utc)
+            }, 
+            {
+                'name': 'Color', 'id': 2, 'value': 'info', 'title': 'Color', 'description': '', 'input_type': 'text', 'editable': True, 'order': None, 'params': '', 'created': datetime.datetime(2024, 6, 1, 20, 14, 56, 459809, tzinfo=datetime.timezone.utc), 'updated': datetime.datetime(2024, 6, 1, 20, 14, 56, 459809, tzinfo=datetime.timezone.utc)
+            }
+        ]
+    }, 
+    {
+        'name': 'Site', 
+        'rows': [
+            {
+                'name': 'Title', 'id': 3, 'value': 'Zeneon LLc.', 'title': 'Title', 'description': '', 'input_type': 'text', 'editable': True, 'order': None, 'params': '', 'created': datetime.datetime(2024, 6, 1, 20, 22, 45, 361359, tzinfo=datetime.timezone.utc), 'updated': datetime.datetime(2024, 6, 1, 20, 22, 45, 361359, tzinfo=datetime.timezone.utc)
+            }
+        ]
+    }, 
+    {
+        'name': 'POS', 
+        'rows': [
+            {
+                'name': 'Messages', 'rows': []}]}]
