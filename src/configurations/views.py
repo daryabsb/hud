@@ -21,33 +21,41 @@ def settings_view(request):
     sections = ApplicationPropertySection.objects.prefetch_related(
         Prefetch('application_properties',
                  queryset=ApplicationProperty.objects.all())
-    )
+    ).filter(parent__isnull=True)
 
     settings_list = []
 
-    for section in sections:
+    def get_section_dict(section):
         section_dict = {
             "name": section.name,
             "rows": []
         }
 
-        for prop in section.application_properties.all():
-            section_dict["rows"].append({
-                "name": prop.name,
-                "id": prop.id,
-                "name": prop.name,
-                "value": convert_value(prop.value),
-                "title": prop.title,
-                "description": prop.description,
-                "input_type": prop.input_type,
-                "editable": prop.editable,
-                "order": prop.order,
-                "params": prop.params,
-                "created": prop.created,
-                "updated": prop.updated,
+        children = section.children.all()
+        if children.exists():
+            for child in children:
+                child_dict = get_section_dict(child)
+                section_dict["rows"].append(child_dict)
+        else:
+            for prop in section.application_properties.all():
+                section_dict["rows"].append({
+                    "name": prop.name,
+                    "id": prop.id,
+                    "value": convert_value(prop.value),
+                    "title": prop.title,
+                    "description": prop.description,
+                    "input_type": prop.input_type,
+                    "editable": prop.editable,
+                    "order": prop.order,
+                    "params": prop.params,
+                    "created": prop.created,
+                    "updated": prop.updated,
+                })
 
-            })
+        return section_dict
 
+    for section in sections:
+        section_dict = get_section_dict(section)
         settings_list.append(section_dict)
 
     context = {
