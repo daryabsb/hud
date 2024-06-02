@@ -21,3 +21,4 @@ tzlocal
 django-split-settings
 icecream
 cryptography
+django-fontawesome-5

@@ -27,6 +27,7 @@ THIRD_PARTY_APPS = [
     'src._utils',
     "django_extensions",
     'widget_tweaks',
+    'django_fontawesome_5',
 ]
 LOCAL_APPS = [
     'src.accounts',

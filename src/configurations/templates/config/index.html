@@ -395,10 +395,48 @@
 						<div id="{{ setting.name }}" class="mb-5">
 							<h4><i class="fa fa-redo fa-fw text-theme"></i> {{ setting.name }}</h4>
 							<p>Reset all website setting to factory default setting.</p>
+							{% if setting.rows %}
+							<div class="card">
+								<div class="list-group list-group-flush">
+									{% for row in setting.rows %}	
+									<form class="list-group-item d-flex align-items-center">
+										<div class="flex-1 text-break">
+											<div class="d-flex align-items-center gap-3">
+												<span>{{row.id}} | {{ row.title }}::</span>
+												<span><input class="form-control" type="{{ row.input_type }}" value="{{ row.value }}" disabled /></span>
+												{% comment %}{{ row.value }} {% endcomment %}
+											
+											</div>
+											<div class="text-inverse text-opacity-50">
+												{{ row.description }}
+											</div>
+										</div>
+										<div>
+											<a href="#" class="btn btn-outline-theme w-100px">Reset</a>
+										</div>
+									</form>
+									{% endfor %}
+								</div>
+								<div class="card-arrow">
+									<div class="card-arrow-top-left"></div>
+									<div class="card-arrow-top-right"></div>
+									<div class="card-arrow-bottom-left"></div>
+									<div class="card-arrow-bottom-right"></div>
+								</div>
+							</div>
+							{% endif %}
+						</div>
+						{% if setting.children %}
+						
+						{% for child in  setting.children %}
+						
+						<div id="{{ child.name }}" class="mb-5">
+							<h5><i class="fa fa-redo fa-fw text-theme"></i> {{ child.name }}</h5>
+							<p>Reset all website setting to factory default setting.</p>
 							<div class="card">
 								<div class="list-group list-group-flush">
 									
-									{% for row in setting.rows %}	
+									{% for row in child.rows %}	
 									<div class="list-group-item d-flex align-items-center">
 										<div class="flex-1 text-break">
 											<div class="d-flex gap-3">
@@ -422,6 +460,11 @@
 								</div>
 							</div>
 						</div>
+					
+							{% endfor %}
+				
+						{% endif %}
+							
 						{% endfor %}
 					</div>
 					<div class="col-xl-3">

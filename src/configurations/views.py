@@ -38,13 +38,13 @@ def settings_view(request):
                 "id": prop.id,
                 "value": convert_value(prop.value),
                 "title": prop.title,
-                "description": prop.description,
-                "input_type": prop.input_type,
-                "editable": prop.editable,
-                "order": prop.order,
-                "params": prop.params,
-                "created": prop.created,
-                "updated": prop.updated,
+                # "description": prop.description,
+                # "input_type": prop.input_type,
+                # "editable": prop.editable,
+                # "order": prop.order,
+                # "params": prop.params,
+                # "created": prop.created,
+                # "updated": prop.updated,
             })
 
         for child in section.children.all():
@@ -60,13 +60,13 @@ def settings_view(request):
                     "id": prop.id,
                     "value": convert_value(prop.value),
                     "title": prop.title,
-                    "description": prop.description,
-                    "input_type": prop.input_type,
-                    "editable": prop.editable,
-                    "order": prop.order,
-                    "params": prop.params,
-                    "created": prop.created,
-                    "updated": prop.updated,
+                    # "description": prop.description,
+                    # "input_type": prop.input_type,
+                    # "editable": prop.editable,
+                    # "order": prop.order,
+                    # "params": prop.params,
+                    # "created": prop.created,
+                    # "updated": prop.updated,
                 })
 
             section_dict["children"].append(child_dict)
@@ -80,30 +80,3 @@ def settings_view(request):
     }
 
     return render(request, 'config/index.html', context)
-
-
-settings_list =  [
-    {
-        'name': 'Theme', 
-        'rows': [
-            {
-                'name': 'Mode', 'id': 1, 'value': 'dark', 'title': 'Mode', 'description': '', 'input_type': 'checkbox', 'editable': True, 'order': None, 'params': '', 'created': datetime.datetime(2024, 6, 1, 20, 14, 17, 431913, tzinfo=datetime.timezone.utc), 'updated': datetime.datetime(2024, 6, 1, 20, 14, 17, 431913, tzinfo=datetime.timezone.utc)
-            }, 
-            {
-                'name': 'Color', 'id': 2, 'value': 'info', 'title': 'Color', 'description': '', 'input_type': 'text', 'editable': True, 'order': None, 'params': '', 'created': datetime.datetime(2024, 6, 1, 20, 14, 56, 459809, tzinfo=datetime.timezone.utc), 'updated': datetime.datetime(2024, 6, 1, 20, 14, 56, 459809, tzinfo=datetime.timezone.utc)
-            }
-        ]
-    }, 
-    {
-        'name': 'Site', 
-        'rows': [
-            {
-                'name': 'Title', 'id': 3, 'value': 'Zeneon LLc.', 'title': 'Title', 'description': '', 'input_type': 'text', 'editable': True, 'order': None, 'params': '', 'created': datetime.datetime(2024, 6, 1, 20, 22, 45, 361359, tzinfo=datetime.timezone.utc), 'updated': datetime.datetime(2024, 6, 1, 20, 22, 45, 361359, tzinfo=datetime.timezone.utc)
-            }
-        ]
-    }, 
-    {
-        'name': 'POS', 
-        'rows': [
-            {
-                'name': 'Messages', 'rows': []}]}]
