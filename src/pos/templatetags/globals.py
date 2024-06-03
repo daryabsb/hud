@@ -38,9 +38,36 @@ register.filter('getdata', getdata)
 def split(val, args):
     return val.split(args)
 
-
 register.filter('split', split)
 
+
+def load(str, args=None):
+    import json, ast
+    try:
+        # Parse the JSON string into a Python list
+        result_list = json.loads(str)
+        # Convert 'true'/'false' strings to boolean True/False
+        for item in result_list:
+            if item['show'] == 'true':
+                item['show'] = True
+            elif item['show'] == 'false':
+                item['show'] = False
+
+        print("result_list = ", result_list)
+        # print("type = ", type(result_list))
+
+        return result_list
+    except json.JSONDecodeError as e:
+        # Handle the error if the string is not a valid JSON
+        print(f"Error decoding JSON: {e}")
+        return None
+
+    # print("Str is: ", s)
+    # print("Type Str is: ", type(s))
+
+    # return s
+
+register.filter('load', load)
 
 def multiply(val1, val2):
     return val1*val2

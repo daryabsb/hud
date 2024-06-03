@@ -19,7 +19,31 @@
 
 
 
+{% if config.input_type == 'number' %}
+<div class="button-container">
+    <button id="decrease"
+    _="
+    on click decrement #{{config.id}}.value"
+        
+    >-</button>
+
+
+<input type="number" name="{{config.id}}" id="{{config.id}}"
+    class="form-control" value="{% if config.value %}{{config.value}}{% endif %}" value="0" min="0"
+    {%if not config.editable %}disabled{% endif %}>
+
+        <button id="increase"
+        _="on click increment #{{config.id}}.value"
+        >+</button>
+    </div>
+
+{% endif %}
+
+
+
+
 {% if config.input_type == 'text' %}
+
 <input type="{{config.input_type}}" name="{{config.id}}" 
     class="form-control" value="{% if config.value %}{{config.value}}{% endif %}" 
     {%if not config.editable %}disabled{% endif %}>
@@ -35,15 +59,49 @@
 
 
 {% if config.input_type == 'checkbox' %}
-{% if config.value %}
-<input type="{{config.input_type}}" name="{{config.id}}"  value="1" class="form-check-input"   checked="checked" {% if not config.editable %}disabled{% endif %}>
-{% else %}
-<input type="{{config.input_type}}"  name="{{config.id}}"  class="form-check-input"  value="0" {% if not config.editable %}disabled{% endif %}>
+
+{% if config.params %}
+    {% with config.params|load:'buttons' as checklist %}
+        {% for item in checklist %}
+            <div class="form-check form-check-inline">
+                <input class="form-check-input mb-2" type="checkbox" value="" id="check-{{item.name}}" 
+                {% if item.show %}checked{% endif %}>
+                <label class="form-check-label" for="check-{{item.name}}">{{ item.name }}</label>
+            </div>
+        {% endfor %}
+    {% endwith %}
+    {% else %}
+    <div class="form-check form-switch">
+    {% if config.value %}
+    <input type="{{config.input_type}}" name="{{config.id}}"  value="1" class="form-check-input"   checked="checked" {% if not config.editable %}disabled{% endif %}>
+    {% else %}
+    <input type="{{config.input_type}}"  name="{{config.id}}"  class="form-check-input"  value="0" {% if not config.editable %}disabled{% endif %}>
+    {% endif %}
+    </div>
+    {% endif %}
+{% endif %}
+
+
+
+
+
+
+
+{% if config.input_type == 'radio' %}
+{% if config.params %}
+{% with config.params|split:"," as radiolist %}
+{% for item in radiolist %}
+<div class="form-check">
+    <input type="{{config.input_type}}" name="{{config.id}}"   {% if config.value == item  %}checked{% endif %} id="radio{{ forloop.counter0}}" class="form-check-input"  value="{{item}}" {% if not config.editable %}disabled{% endif %}>
+    <label  class="form-check-label mx-2" for="radio{{ forloop.counter0}}" >{{ item | title }}</label>
+    {% if config.value == item  %}
+    <span class="fw-light fs-6">(Default)</span>
+    {% endif %}
+</div>
+{% endfor %}
+{% endwith %}
 {% endif %}
 {% endif %}
-
-
-
 
 
 

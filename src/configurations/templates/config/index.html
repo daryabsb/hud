@@ -404,8 +404,8 @@
 									<form class="list-group-item d-flex align-items-center">
 										<div class="flex-1">
 											<dl class="row">
-												<dt class="col-sm-2">{{ row.title }}:::</dt>
-												<dd class="col-sm-8">
+												<dt class="col-sm-4">{{ row.title }}:::</dt>
+												<dd class="col-sm-7">
 												{% include 'config/partials/input_type.html' with config=row %}												
 												</dd>											
 											</dl>
@@ -416,7 +416,7 @@
 											{% endif %}
 										</div>
 										<div>
-											<a href="#" class="btn btn-outline-theme w-100px">Reset</a>
+											<a href="#" class="btn btn-outline-theme w-100px">Update</a>
 										</div>
 									</form>
 									{% endfor %}
@@ -439,16 +439,15 @@
 							<p>Reset all website setting to factory default setting.</p>
 							<div class="card">
 								<div class="list-group list-group-flush">
-									
 									{% for row in child.rows %}	
-									<div class="list-group-item d-flex align-items-center">
-										<div class="flex-1 text-break">
-											<div class="d-flex gap-3">
-												<span>{{ row.title }}::</span>
-												<span style="width: 380px;">
+									<form class="list-group-item d-flex align-items-center">
+										<div class="flex-1">
+											<dl class="row">
+												<dt class="col-4">{{ row.title }}</dt>
+												<dd class="col-7">
 												{% include 'config/partials/input_type.html' with config=row %}												
-												</span>	
-												</div>
+												</dd>											
+											</dl>
 											{% if row.description %}
 											<div class="text-inverse text-opacity-50">
 												{{ row.description }}
@@ -456,9 +455,9 @@
 											{% endif %}
 										</div>
 										<div>
-											<a href="#" class="btn btn-outline-theme w-100px">Reset</a>
+											<a href="#" class="btn btn-outline-theme w-100px">Update</a>
 										</div>
-									</div>
+									</form>					
 									{% endfor %}
 
 								</div>
