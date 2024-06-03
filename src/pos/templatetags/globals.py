@@ -74,3 +74,20 @@ def multiply(val1, val2):
 
 
 register.filter('multiply', multiply)
+
+
+def extract_values(params_str, value_str=''):
+    # Split the input strings by comma to get lists of words
+    params_list = params_str.split(',')
+    value_list = value_str.split(',')
+    
+    # Create a list of dictionaries with 'name' and 'show' properties
+    result_list = []
+    for word in params_list:
+        result_list.append({
+            'name': word,
+            'show': word in value_list
+        })
+    
+    return result_list
+register.filter('extract_values', extract_values)

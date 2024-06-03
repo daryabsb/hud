@@ -20,6 +20,7 @@ class ApplicationProperty(models.Model):
     INPUT_TYPE_CHOICES = (
         ('', 'Select InputType'),
         ('text', 'text'),
+        ('number', 'number'),
         ('textarea', 'textarea'),
         ('file', 'file'),
         ('checkbox', 'checkbox'),
@@ -34,7 +35,7 @@ class ApplicationProperty(models.Model):
         null=True, blank=True, related_name="application_properties"
     )
     name = models.CharField(max_length=50, unique=True)
-    value = models.CharField(max_length=50)
+    value = models.CharField(max_length=500)
     title = models.CharField(max_length=100, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     input_type = models.CharField(

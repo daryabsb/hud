@@ -403,7 +403,7 @@
 									{% for row in setting.rows %}	
 									<form class="list-group-item d-flex align-items-center">
 										<div class="flex-1">
-											<dl class="row">
+											<dl class="row mb-0">
 												<dt class="col-sm-4">{{ row.title }}:::</dt>
 												<dd class="col-sm-7">
 												{% include 'config/partials/input_type.html' with config=row %}												
@@ -416,7 +416,7 @@
 											{% endif %}
 										</div>
 										<div>
-											<a href="#" class="btn btn-outline-theme w-100px">Update</a>
+											<button type="submit" class="btn btn-outline-theme w-100px">Update</button>
 										</div>
 									</form>
 									{% endfor %}
@@ -442,7 +442,7 @@
 									{% for row in child.rows %}	
 									<form class="list-group-item d-flex align-items-center">
 										<div class="flex-1">
-											<dl class="row">
+											<dl class="row mb-0">
 												<dt class="col-4">{{ row.title }}</dt>
 												<dd class="col-7">
 												{% include 'config/partials/input_type.html' with config=row %}												
@@ -455,7 +455,7 @@
 											{% endif %}
 										</div>
 										<div>
-											<a href="#" class="btn btn-outline-theme w-100px">Update</a>
+											<button type="submit" class="btn btn-outline-theme w-100px">Update</button>
 										</div>
 									</form>					
 									{% endfor %}

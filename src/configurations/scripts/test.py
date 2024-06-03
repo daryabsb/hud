@@ -33,14 +33,25 @@ def nested_settings(properties):
     # Convert the nested dictionary to a list format
     return dict_to_list(settings_dict)
 
+import pickle
+import os
+from django.conf import settings
+base_dir = settings.BASE_DIR
+filepath = os.path.join(base_dir,'src/configurations/Config')
+
+def loadConfig():
+    dbfile = open(filepath, 'rb')
+    config_data = pickle.load(dbfile)
+    dbfile.close()
+    return config_data
 
 def run():
     properties = ApplicationProperty.objects.all()
     # Convert the properties to the nested settings list
-    logger.success(f"Testing properties:> {properties.first().name}")
+    logger.success(f"loadConfig:>")
 
-    nested_settings_list = nested_settings(properties)
+    nested_settings_list = loadConfig()
 
-    logger.success("Testing started:>")
+   
     print(nested_settings_list)
-    logger.success("Testing finished:>")
+    logger.success("loadConfig finished:>")
