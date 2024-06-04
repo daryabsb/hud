@@ -13,8 +13,10 @@ class ApplicationPropertySectionAdmin(admin.ModelAdmin):
     @staticmethod
     def initial_data():
         for index, sec in enumerate(SECTIONS_INITIAL_DATA):
-            section = ApplicationPropertySection.objects.filter(name=sec['name']).first()
+            section = ApplicationPropertySection.objects.filter(
+                name=sec['name']).first()
             if not section:
+
                 section = ApplicationPropertySection(**sec)
                 section.save(force_insert=True)
             else:
@@ -31,9 +33,11 @@ class ApplicationPropertyAdmin(admin.ModelAdmin):
     @staticmethod
     def initial_data():
         for index, cur in enumerate(SETTINGS_INITIAL_DATA):
-            setting = ApplicationProperty.objects.filter(name=cur['name']).first()
+            setting = ApplicationProperty.objects.filter(
+                name=cur['name']).first()
             if not setting:
-                section = ApplicationPropertySection.objects.get(name=cur['section'])
+                section = ApplicationPropertySection.objects.filter(
+                    name=cur['section']).first()
                 cur['section'] = section
                 setting = ApplicationProperty(**cur)
                 setting.save(force_insert=True)

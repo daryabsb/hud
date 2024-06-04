@@ -117,7 +117,8 @@ def maintain_model_initial_data(**kwargs):
     connection = connections[db]
     user_model = get_user_model()
     if user_model.objects.count() == 0:
-        super_user = user_model.objects.create_superuser('root@root.com', 'root')
+        super_user = user_model.objects.create_superuser(
+            'root@root.com', 'root')
         super_user.name = 'Super Admin'
         super_user.save()
     admin_user = user_model.objects.get(id=1)
