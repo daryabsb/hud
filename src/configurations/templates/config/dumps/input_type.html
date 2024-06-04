@@ -1,0 +1,168 @@
+{% load fontawesome_5 globals %}
+{% if config %}
+
+
+{% comment %} DONE {% endcomment %}
+{% if config.input_type == 'select' %}
+<select name="{{config.id}}"  class="form-select" {% if not config.editable %}disabled{% endif %}>
+<option >Select option</option>
+{% if config.params %}
+{% with config.params|split:"," as selectlist %}
+{% for item in selectlist %}
+<option {% if config.value  == item %}selected{% endif %} value="{{item}}">{{ item }}</option>
+{% endfor %}
+{% endwith %}
+{% endif %}
+</select>
+{% endif %}
+
+
+
+{% if config.input_type == 'number' %}
+<div class="d-flex gap-2 w-150px position-relative">
+    <button id="decrease" role="button" type="button" 
+    class="position-absolute h-100 btn btn-outline-theme rounded-0"
+    _="on click if #numberinput.value > 0 decrement #numberinput.value"        
+    ><i class="fa fa-minus"></i></button>
+    <input type="number" name="{{config.id}}" id="numberinput" readonly
+    class="form-control  text-center border-theme border-theme-color" 
+    value="{% if config.value %}{{config.value}}{% endif %}"
+    {%if not config.editable %}disabled{% endif %}
+    _="on mousedown
+        halt the event -- prevent text selection... 
+        end" />
+    <button id="increase" type="button" class="position-absolute end-0 h-100 btn btn-outline-theme rounded-0"
+        _="on click increment #numberinput.value"
+        ><i class="fa fa-plus"></i></button>
+    </div>
+{% endif %}
+
+
+
+
+{% if config.input_type == 'text' %}
+
+<input type="{{config.input_type}}" name="{{config.id}}" 
+    class="form-control" value="{% if config.value %}{{config.value}}{% endif %}" 
+    {%if not config.editable %}disabled{% endif %}>
+{% endif %}
+
+
+{% if config.input_type == 'textarea' %}
+<textarea type="{{config.input_type}}" name="{{config.id}}" 
+    class="form-control"  {% if not config.editable %}disabled{% endif %} 
+    rows='3' cols='5'>{% if config.value %}{{config.value}}{% endif %}</textarea>
+{% endif %}
+
+
+
+{% if config.input_type == 'checkbox' %}
+
+{% if config.params and config.value %}
+    {% with config.params|extract_values:config.value as checklist %}
+        {% for item in checklist %}
+            <div class="form-check form-check-inline">
+                <input class="form-check-input mb-2" type="checkbox" value="" id="check-{{item.name}}" 
+                {% if item.show %}checked{% endif %}>
+                <label class="form-check-label" for="check-{{item.name}}">{{ item.name }}</label>
+            </div>
+        {% endfor %}
+    {% endwith %}
+
+    {% else %}
+
+    <div class="form-check form-switch">
+    {% if config.value %}
+    <input type="{{config.input_type}}" name="{{config.id}}"  value="1" class="form-check-input"   checked="checked" {% if not config.editable %}disabled{% endif %}>
+    {% else %}
+    <input type="{{config.input_type}}"  name="{{config.id}}"  class="form-check-input"  value="0" {% if not config.editable %}disabled{% endif %}>
+    {% endif %}
+    </div>
+    {% endif %}
+{% endif %}
+
+
+
+
+
+
+
+{% if config.input_type == 'radio' %}
+{% if config.params %}
+{% with config.params|split:"," as radiolist %}
+{% for item in radiolist %}
+<div class="form-check form-check-inline">
+    <input type="{{config.input_type}}" name="{{config.id}}"   {% if config.value == item  %}checked{% endif %} id="radio{{ forloop.counter0}}" class="form-check-input"  value="{{item}}" {% if not config.editable %}disabled{% endif %}>
+    <label  class="form-check-label mx-2" for="radio{{ forloop.counter0}}" >{{ item | title }}</label>
+    {% if config.value == item  %}
+    <span class="fw-light fs-6">(Default)</span>
+    {% endif %}
+</div>
+{% endfor %}
+{% endwith %}
+{% endif %}
+{% endif %}
+
+
+
+
+
+
+
+
+
+
+{% if config.input_type == 'file' and config.params == '' %}
+<div class="d-flex gap-3">
+    <div class="avatar-upload feature-img-upload prefix-upload">
+        <div class="avatar-preview feature-img">
+            {% if config.value %}
+            <div class="image-preview" style="background-image: url('{{ config.value }}')">
+            </div>
+            <div class="w-40px h-40px d-flex align-items-center justify-content-center ms-n1">
+                <img src="{{ config.value }}" alt="" class="ms-100 mh-100 rounded-circle">
+            </div>
+            {% else %}
+            <div class="image-preview" style="background-image: url('/static/dashboard/images/no-photo-available.png');">
+            </div>
+            <div class="w-40px h-40px d-flex align-items-center justify-content-center ms-n1">
+                <img src="/media/no-photo-available.png" alt="" class="ms-100 mh-100 rounded-circle">
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <div>
+        
+        <input type="{{config.input_type}}" name="image_{{config.id}}" accept=".png, .jpg, .jpeg"   class="form-control form-control-sm 
+        image-field" {% if not config.editable %}disabled{% endif %}>
+    </div>
+</div>
+{% endif %}
+
+
+{% if config.input_type == 'file' and config.params == 'multiple' %}
+I need to work on multiple file selections
+<div class="image-field-box">
+    <div>
+        {% if config.value %}
+        <div class="d-flex flex-wrap pb-2">
+            {% for val  in  config.value|split:"," %}    
+            <div class="slider-pre pb-2 pe-2">
+                <img src="{{val}}">
+                <div class="delete-round-button">
+                    {% comment %} <a href="{% url 'dashboard:deleteConfigSlider' id=config.id file_name=val|split:"/"|last %}"><i class="fa-solid fa-xmark"></i></a> {% endcomment %}
+                    <a href="#"><i class="fa-solid fa-xmark"></i></a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <input type="{{config.input_type}}" name="image_{{config.id}}" accept=".png, .jpg, .jpeg" {{config.params}}  class="form-control form-control-sm 
+        image-field" {% if not config.editable %}disabled{% endif %}>
+    </div>
+</div>
+{% endif %}
+
+
+
+{% endif %}
