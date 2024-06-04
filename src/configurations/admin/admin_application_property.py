@@ -1,27 +1,42 @@
 from django.contrib import admin
 from src.accounts.models import User
 from src.configurations.models import ApplicationProperty, ApplicationPropertySection
-from src.configurations.const import INITIAL_DATA
+from src.configurations.const import SECTIONS_INITIAL_DATA, SETTINGS_INITIAL_DATA
 
 
 @admin.register(ApplicationPropertySection)
 class ApplicationPropertySectionAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('id', 'parent', 'name', 'icon', 'description')
+    ordering = ('created', )
+    list_filter = ('name', )
+
+    @staticmethod
+    def initial_data():
+        for index, sec in enumerate(SECTIONS_INITIAL_DATA):
+            section = ApplicationPropertySection.objects.filter(name=sec['name']).first()
+            if not section:
+                section = ApplicationPropertySection(**sec)
+                section.save(force_insert=True)
+            else:
+                section.name = sec['name']
+                section.save(force_update=True)
 
 
 @admin.register(ApplicationProperty)
 class ApplicationPropertyAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'title', 'value', 'updated')
+    list_display = ('id', 'section', 'title', 'value', 'updated')
     ordering = ('created', )
     list_filter = ('name', )
 
-    # @staticmethod
-    # def initial_data():
-    #     for index, cur in enumerate(INITIAL_DATA):
-    #         setting = ApplicationProperty.objects.get(name=cur['name'])
-    #         if not setting:
-    #             setting = ApplicationProperty(**cur)
-    #             setting.save(force_insert=True)
-    #         else:
-    #             setting.name = cur['name']
-    #             setting.save(force_update=True)
+    @staticmethod
+    def initial_data():
+        for index, cur in enumerate(SETTINGS_INITIAL_DATA):
+            setting = ApplicationProperty.objects.filter(name=cur['name']).first()
+            if not setting:
+                section = ApplicationPropertySection.objects.get(name=cur['section'])
+                cur['section'] = section
+                setting = ApplicationProperty(**cur)
+                setting.save(force_insert=True)
+            else:
+                setting.name = cur['name']
+                setting.save(force_update=True)

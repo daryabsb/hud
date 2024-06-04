@@ -40,6 +40,13 @@ def split(val, args):
 
 register.filter('split', split)
 
+def get_title(val, args):
+    # this splits the name and creates a title for settings
+    split_title_list = val.split(args)
+    return " ".join(split_title_list).capitalize()
+
+register.filter('get_title', get_title)
+
 
 def load(str, args=None):
     import json, ast

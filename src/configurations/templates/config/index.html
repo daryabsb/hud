@@ -11,29 +11,42 @@
 				<div class="row">
 					<div class="col-xl-9">
 						{% for setting in settings %}
+						{% if setting.rows %}
 						<div id="{{ setting.name }}" class="{% if setting.children %}mb-3{% else %}mb-5{% endif %}">
-							<h4><span class=" fa-fw text-theme">{{ setting.icon.as_html }}</span> {{ setting.name }}</h4>
-							<p>Reset all website setting to factory default setting.</p>
-							{% if setting.rows %}
+							<h4>
+								<span class=" fa-fw text-theme">{{ setting.icon.as_html }}</span>
+								{% with setting.name|get_title:'_' as title %}
+								<span>{{ title }}</span>
+								{% endwith %}
+							</h4>
+							<p>{{ setting.description }}</p>
+							
 							<div class="card">
 								<div class="list-group list-group-flush">
 									{% for row in setting.rows %}	
 									<form class="list-group-item d-flex align-items-center">
 										<div class="flex-1">
-											<dl class="row mb-0">
-												<dt class="col-sm-4 h5">{{ row.title }}</dt>
-												<dd class="col-sm-7">
+											<dl class="row mb-0 align-items-start py-2">
+												<dd class="col-5 h6">{{ row.title }}</dd>
+												<dd class="col-5">
 													{% include 'config/partials/input_type.html' with config=row %}												
+												</dd>
+												<dd class="col-2 text-end">
+													<button type="submit" class="btn btn-outline-theme w-100px">Update</button>
 												</dd>
 											</dl>
 											{% if row.description %}
 											<div class="text-inverse text-opacity-50">
-												<i class="fa fa-circle fs-8px fa-fw text-success me-1"></i>{{ row.description }}
+												{{ row.description }}
 											</div>
+											{% comment %} {% else %}
+											<div class="text-inverse text-opacity-50">
+												<span class="bg-warning-transparent-1 text-warning ms-xl-3 mt-1 d-inline-block mt-xl-0 px-1 rounded-sm">
+													<i class="fa fa-exclamation-circle text-warning fs-12px me-1"></i>
+													<span class="text-warning">Please enable the firewall for your website</span>
+													</span>
+											</div> {% endcomment %}
 											{% endif %}
-										</div>
-										<div>
-											<button type="submit" class="btn btn-outline-theme w-100px">Update</button>
 										</div>
 									</form>
 									{% endfor %}
@@ -45,38 +58,44 @@
 									<div class="card-arrow-bottom-right"></div>
 								</div>
 							</div>
-							{% endif %}
+							
 						</div>
+						{% endif %}
 						{% if setting.children %}{% for child in  setting.children %}
 						<div id="{{ child.name }}" class="ms-4 mb-5">
-							<h4><span class=" fa-fw text-theme">{{ child.icon.as_html }}</span> {{ child.name }}</h4>
+							<h4>
+								<span class=" fa-fw text-theme">{{ setting.icon.as_html }}</span>
+								{% with child.name|get_title:'_' as title %}
+								<span>{{ title }}</span>
+								{% endwith %}
+							</h4>
 							<p>Reset all website setting to factory default setting.</p>
 							<div class="card">
 								<div class="list-group list-group-flush">
 									{% for row in child.rows %}	
 									<form class="list-group-item d-flex align-items-center">
 										<div class="flex-1">
-											<dl class="row mb-0">
-												<dt class="col-4 h6">{{ row.title }}</dt>
-												<dd class="col-7">
+											<dl class="row mb-0 align-items-start py-2">
+												<dd class="col-5 h6">{{ row.title }}</dd>
+												<dd class="col-5">
 													{% include 'config/partials/input_type.html' with config=row %}												
+												</dd>
+												<dd class="col-2 text-end">
+													<button type="submit" class="btn btn-outline-theme w-100px">Update</button>
 												</dd>
 											</dl>
 											{% if row.description %}
 											<div class="text-inverse text-opacity-50">
 												{{ row.description }}
 											</div>
-											{% else %}
+											{% comment %} {% else %}
 											<div class="text-inverse text-opacity-50">
 												<span class="bg-warning-transparent-1 text-warning ms-xl-3 mt-1 d-inline-block mt-xl-0 px-1 rounded-sm">
 													<i class="fa fa-exclamation-circle text-warning fs-12px me-1"></i>
 													<span class="text-warning">Please enable the firewall for your website</span>
 													</span>
-											</div>
+											</div> {% endcomment %}
 											{% endif %}
-										</div>
-										<div>
-											<button type="submit" class="btn btn-outline-theme w-100px">Update</button>
 										</div>
 									</form>
 									{% endfor %}
@@ -121,9 +140,14 @@
 						<nav id="sidebar-bootstrap" class="navbar navbar-sticky d-none d-xl-block">
 							<nav class="nav">
 								{% for section in sections %}
+								{% if section.application_properties.exists %}
+								{% with section.name|get_title:'_' as title %}
 								<a 
 									_="on click remove .active from <a/> then add .active to me "
-									class="nav-link" href="#{{ section }}" data-toggle="scroll-to">{{ section }}</a>
+									class="nav-link" href="#{{ section.name }}" data-toggle="scroll-to">{{ title }}</a>
+									
+								{% endwith %}
+								{% endif %}
 								{% endfor %}
 								<a 
 									_="on click remove .active from <a/> then add .active to me "

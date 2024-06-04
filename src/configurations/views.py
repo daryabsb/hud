@@ -29,6 +29,7 @@ def settings_view(request):
         section_dict = {
             "name": section.name,
             "icon": section.icon,
+            "description": section.description,
             "rows": [],
             "children": []
         }
