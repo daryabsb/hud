@@ -8,9 +8,13 @@ SECTIONS_INITIAL_DATA = [
     {"id": 3, "name": "business_day", "icon": 'fas,business-time',
         "description": 'When a new day starts, a few things needs to be considered.'},
     {"id": 4, "name": "basic_operations", "icon": 'fas,anchor',
-     "description": 'This area defines all operations for your app.'},
+        "description": 'This area defines all operations for your app.'},
     {"id": 5, "name": "items", "icon": 'fab,first-order',
-     "description": 'This area sets some settings for items.'},
+        "description": 'This area sets some settings for items.'},
+    {"id": 6, "name": "users", "icon": 'fas,user',
+        "description": 'This area sets basic settings for users.'},
+    {"id": 7, "name": "payment", "icon": 'fas,money-bill',
+        "description": 'This area sets basic settings for settings.'},
 ]
 
 
@@ -33,9 +37,9 @@ SETTINGS_INITIAL_DATA = [
     {"id": 8, "name": "zoom", "value": '100%', "title": 'Zoom', "input_type": 'select',
         "params": '150%,125%,100%,75%,500%', "description": '', 'section': 'application'},
     {"id": 9, "name": "button_bar", "value": 'Search,Transfer,Discount,New Sale,Refund,Cash drawer',
-     "title": 'Button bar', "input_type": 'checkbox',
-     "params": 'Search,Discount,Comment,Refund,Transfer,New Sale,Order name,Cash drawer',
-     "description": '* Applicable for "Visual" layout only.', 'section': 'application'},
+        "title": 'Button bar', "input_type": 'checkbox',
+        "params": 'Search,Discount,Comment,Refund,Transfer,New Sale,Order name,Cash drawer',
+        "description": '* Applicable for "Visual" layout only.', 'section': 'application'},
     # Messages
     {"id": 10, "name": "show_close_button", "value": 'True', "title": 'Show "Close" button',
         "input_type": 'checkbox', "params": '', "description": '', 'section': 'messages'},
@@ -64,4 +68,47 @@ SETTINGS_INITIAL_DATA = [
         "input_type": 'checkbox', "params": '', "description": '', 'section': 'items'},
     {"id": 21, "name": "default_discount_type", "value": 'Percentage (%)', "title": 'Default discount type',
         "input_type": 'select', "params": 'Percentage (%),Amount ($)', "description": '', 'section': 'items'},
+    {"id": 22, "name": "separate_row_for_items", "value": 'False', "title": 'Separate row for each item',
+        "input_type": 'checkbox', "params": '', "description": '', 'section': 'items'},
+    {"id": 23, "name": "prevent_negative_inventory", "value": 'False', "title": 'Prevent negative inventory',
+        "input_type": 'checkbox', "params": '', "description": '', 'section': 'items'},
+    # Users
+    {"id": 24, "name": "single_user", "value": 'True', "title": 'Single User',
+        "input_type": 'checkbox', "params": '', "description": '', 'section': 'users'},
+    {"id": 25, "name": "display_receipt_print_dialogue", "value": 'True', "title": 'Display receipt dialog', "input_type": 'checkbox', "params": '', "description": '', 'section': 'payment'},
+    {"id": 26, "name": "default_due_date", "value": '14', "title": 'Default due date', "input_type": 'number', "params": '', "description": '', 'section': 'payment'},
+    {"id": 27, "name": "merge_items_on_receipt", "value": 'True', "title": 'Merge items on receipt', "input_type": 'checkbox', "params": '', "description": '', 'section': 'payment'},
+    {"id": 28, "name": "single_item_discount", "value": 'True', "title": 'Single item discount allowed', "input_type": 'checkbox', "params": '', "description": '', 'section': 'payment'},
+    {"id": 29, "name": "shortcut_key_payment_confirm", "value": 'True', "title": 'Shortcut keys payment confirmation', "input_type": 'checkbox', "params": '', "description": '', 'section': 'payment'},
+    # products_settings 
+    {"id": 30, "name": "display_and_print_items_with_tax_included", "value": 'False', "title": 'Display and print items with tax included', "input_type": 'checkbox', "params": '', "description": '', 'section': 'products'},
+    {"id": 31, "name": "discount_apply_rule", "value": 'Before tax', "title": 'Discount apply rule', "input_type": 'dropdown', "params": '', "description": '', 'section': 'products'},
+    {"id": 32, "name": "sorting", "value": 'Name', "title": 'Sorting', "input_type": 'dropdown', "params": '', "description": '', 'section': 'products'},
+    {"id": 33, "name": "allow_negative_price", "value": 'True', "title": 'Allow negative price', "input_type": 'checkbox', "params": '', "description": '', 'section': 'products'},
+    {"id": 34, "name": "default_tax_rate", "value": '', "title": 'Default tax rate', "input_type": 'text', "params": '', "description": 'Taxes not found. Please add tax rates in management section.', 'section': 'products'},
+    {"id": 35, "name": "cost_price_based_markup", "value": 'False', "title": 'Cost price based markup', "input_type": 'checkbox', "params": '', "description": '', 'section': 'products'},
+    {"id": 36, "name": "automatically_update_cost_price_on_purchase", "value": 'False', "title": 'Automatically update cost price on purchase', "input_type": 'checkbox', "params": '', "description": "What's this?", 'section': 'products'},
+    {"id": 37, "name": "enable_moving_average_price", "value": 'False', "title": 'Enable moving average price', "input_type": 'checkbox', "params": '', "description": "What's this?", 'section': 'products'},
+    # weighing_scale
+    {"id": 38, "name": "enable_weighing_scales_barcode", "value": 'False', "title": 'Enable weighing scales barcode', "input_type": 'checkbox', "params": '', "description": '', 'section': 'weighing_scale'},
+    # customer_display
+    {"id": 39, "name": "enabled", "value": 'False', "title": 'Enabled', "input_type": 'checkbox', "params": '', "description": '', 'section': 'customer_display'},
+    {"id": 40, "name": "com_port", "value": '', "title": 'COM port', "input_type": 'dropdown', "params": '', "description": '', 'section': 'customer_display'},
+    {"id": 41, "name": "number_of_characters", "value": '20', "title": 'Number of characters', "input_type": 'number', "params": '', "description": '', 'section': 'customer_display'},
+    {"id": 42, "name": "welcome_message_top_line", "value": 'WELCOME!', "title": 'Top line', "input_type": 'text', "params": '', "description": '', 'section': 'customer_display'},
+    {"id": 43, "name": "welcome_message_bottom_line", "value": '', "title": 'Bottom line', "input_type": 'text', "params": '', "description": '', 'section': 'customer_display'},
+    {"id": 44, "name": "test_display", "value": '', "title": 'Test display', "input_type": 'button', "params": '', "description": '', 'section': 'customer_display'},
+
 ]
+
+'''
+payment, fas,money
+
+id  name                            value       title                                    input_type     description     section
+25  display_receipt_print_dialogue  True        Display receipt dialog                   checkbox       -               payment
+26  default_due_date                14          Default due daye                         number         -               payment
+27  merge_items_on_receipt          True        Merge items on receipt                   checkbox       -               payment
+28  single_item_discount            True        Single item discount allowed             checkbox       -               payment
+29 shortcut_key_payment_confirm     True        Shortcut keys payment confirmation       checkbox       -               payment
+    
+'''
