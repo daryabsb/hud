@@ -3,7 +3,7 @@ import ast
 from django.db.models import Prefetch
 from django.shortcuts import render
 from src.configurations.models import ApplicationProperty, ApplicationPropertySection
-
+from src.configurations.forms import ConfigurationForm
 # Create your views here.
 
 
@@ -35,7 +35,9 @@ def settings_view(request):
         }
 
         for prop in section.application_properties.all():
+            form = ConfigurationForm(instance=prop)
             section_dict["rows"].append({
+                "form": form,
                 "name": prop.name,
                 "id": prop.id,
                 "value": convert_value(prop.value),
@@ -58,7 +60,9 @@ def settings_view(request):
             }
 
             for prop in child.application_properties.all():
+                form = ConfigurationForm(instance=prop)
                 child_dict["rows"].append({
+                    "form": form,
                     "name": prop.name,
                     "id": prop.id,
                     "value": convert_value(prop.value),

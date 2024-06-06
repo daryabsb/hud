@@ -19,12 +19,12 @@
 								<span>{{ title }}</span>
 								{% endwith %}
 							</h4>
-							<p>{{ setting.description }}</p>
-							
+							<p>{{ setting.description }}</p>							
 							<div class="card">
 								<div class="list-group list-group-flush">
 									{% for row in setting.rows %}	
 									<form class="list-group-item d-flex align-items-center">
+									<input type="hidden" name="{{ row.id }}
 										<div class="flex-1">
 											<dl class="row mb-0 align-items-start py-2">
 												<dd class="col-5 h6">{{ row.title }}</dd>
@@ -133,6 +133,20 @@
 									<div class="card-arrow-bottom-left"></div>
 									<div class="card-arrow-bottom-right"></div>
 								</div>
+							</div>
+						</div>
+						<div class="coming-soon-content d-flex flex-column">
+							<div class="flex-1 mb-3">
+								<h2 class="mb-3">Acquire more settings!</h2>
+								<p class="mb-4">We will be glad to assist you.<br> You just need to add your email address below!</p>
+								<div class="input-group mb-2">
+									<input type="text" class="form-control" placeholder="Email Address">
+									<button type="submit" class="btn btn-outline-theme">SEND REQUEST</button>
+								</div>
+								<div class="mb-1 small text-inverse text-opacity-50">* Your email address will be safe and remain secret</div>
+							</div>
+							<div class="text-center small text-inverse text-opacity-50">
+								© 2024 Zeneon LLC. Right Reserved
 							</div>
 						</div>
 					</div>

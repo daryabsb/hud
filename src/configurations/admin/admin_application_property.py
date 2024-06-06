@@ -35,12 +35,17 @@ class ApplicationPropertyAdmin(admin.ModelAdmin):
         for index, cur in enumerate(SETTINGS_INITIAL_DATA):
             setting = ApplicationProperty.objects.filter(
                 name=cur['name']).first()
+            section = ApplicationPropertySection.objects.filter(
+                name=cur['section']).first()
+            cur['section'] = section
             if not setting:
-                section = ApplicationPropertySection.objects.filter(
-                    name=cur['section']).first()
-                cur['section'] = section
                 setting = ApplicationProperty(**cur)
                 setting.save(force_insert=True)
             else:
                 setting.name = cur['name']
+                setting.input_type = cur['input_type']
+                setting.params = cur['params']
+                setting.value = cur['value']
+                if not setting.section:
+                    setting.section = section
                 setting.save(force_update=True)
