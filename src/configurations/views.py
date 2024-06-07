@@ -1,9 +1,10 @@
 from collections import defaultdict
 import ast
 from django.db.models import Prefetch
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from src.configurations.models import ApplicationProperty, ApplicationPropertySection
-from src.configurations.forms import ConfigurationForm
+from src.configurations.forms import ConfigurationForm, ApplicationPropertyForm
+from src.configurations.const import direct_save_fields, indirect_save_fields
 # Create your views here.
 
 
@@ -35,7 +36,7 @@ def settings_view(request):
         }
 
         for prop in section.application_properties.all():
-            form = ConfigurationForm(instance=prop)
+            form = ApplicationPropertyForm(instance=prop)
             section_dict["rows"].append({
                 "form": form,
                 "name": prop.name,
@@ -60,7 +61,7 @@ def settings_view(request):
             }
 
             for prop in child.application_properties.all():
-                form = ConfigurationForm(instance=prop)
+                form = ApplicationPropertyForm(instance=prop)
                 child_dict["rows"].append({
                     "form": form,
                     "name": prop.name,
@@ -87,3 +88,32 @@ def settings_view(request):
     }
 
     return render(request, 'config/index.html', context)
+
+
+def update_config(request, id):
+    config = get_object_or_404(ApplicationProperty, id=id)
+
+    if config.input_type in direct_save_fields:
+        value = request.POST.get(f"{config.name}", '')
+        if value:
+            config.value = value
+            config.save()
+
+    elif config.input_type in indirect_save_fields:
+        if config.input_type == 'checkbox' and config.params != '':
+            value = request.POST.getlist(f"{config.name}", '')
+            config.value = ','.join(value)
+            config.save()
+        elif config.input_type == 'checkbox' and config.params == '':
+            value = request.POST.get(f"{config.name}", None)
+            if value:
+                config.value = 'True'
+                config.save()
+            else:
+                config.value = 'False'
+                config.save()
+    # config.refresh_from_db()
+    context = {
+        "config": config
+    }
+    return render(request, 'config/partials/input_type.html', context)

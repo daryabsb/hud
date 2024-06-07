@@ -1,5 +1,9 @@
 
 
+direct_save_fields = {"number", "text", "textarea"}
+indirect_save_fields = {"checkbox", "radio", "select"}
+
+
 SECTIONS_INITIAL_DATA = [
     {"id": 1, "name": "application", "icon": 'fab,microsoft',
         "description": 'Settings related to the software.'},
@@ -139,5 +143,51 @@ id  name                            value       title                           
 27  merge_items_on_receipt          True        Merge items on receipt                   checkbox       -               payment
 28  single_item_discount            True        Single item discount allowed             checkbox       -               payment
 29 shortcut_key_payment_confirm     True        Shortcut keys payment confirmation       checkbox       -               payment
-    
+
+
+('language', 'en-US', 'English,Arabic,Kurdish')
+('writing_direction', 'Left to right', 'Left to write,Right to left')
+('color_scheme', 'dark', 'dark,light,contrast')
+('layout', 'visual', 'visual,standard')
+('num_of_rows', '5', '')
+('num_of_cols', '5', '')
+('virtual_keyboard', 'False', '')
+('zoom', '100%', '150%,125%,100%,75%,500%')
+('button_bar', 'Search,Transfer,Discount,New Sale,Refund,Cash drawer', 'Search,Discount,Comment,Refund,Transfer,New Sale,Order name,Cash drawer')
+('show_close_button', 'True', '')
+('click_to_close', 'False', '')
+('slide_in', 'True', '')
+('duration', '5', '')
+('position', 'Top', 'Top,Bottom,Left,Right')
+('show_cash', 'False', '')
+('show_business_day', 'False', '')
+('use_floor_plan', 'False', '')
+('sounds', 'False', '')
+('default_search', 'Barcode', 'Name,Barcode,Number')
+('show_search_options', 'True', '')
+('default_discount_type', 'Percentage (%)', 'Percentage (%),Amount ($)')
+('separate_row_for_items', 'False', '')
+('prevent_negative_inventory', 'False', '')
+('single_user', 'True', '')
+('display_receipt_print_dialogue', 'True', '')
+('default_due_date', '14', '')
+('merge_items_on_receipt', 'True', '')
+('single_item_discount', 'True', '')
+('shortcut_key_payment_confirm', 'True', '')
+('display_and_print_items_with_tax_included', 'False', '')
+('discount_apply_rule', 'Before tax', 'Before tax,After tax')
+('sorting', 'Name', 'Name,Code')
+('allow_negative_price', 'True', '')
+('default_tax_rate', '', '')
+('cost_price_based_markup', 'False', '')
+('automatically_update_cost_price_on_purchase', 'False', '')
+('enable_moving_average_price', 'False', '')
+('enable_weighing_scales_barcode', 'False', '')
+('enabled', 'False', '')
+('com_port', 'COM1', 'COM1,COM2,COM3')
+('number_of_characters', '20', '')
+('welcome_message_top_line', 'WELCOME!', '')
+('welcome_message_bottom_line', '', '')
+('test_display', '', '')
+
 '''

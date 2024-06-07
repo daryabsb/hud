@@ -19,16 +19,20 @@
 								<span>{{ title }}</span>
 								{% endwith %}
 							</h4>
-							<p>{{ setting.description }}</p>							
+							<p>{{ setting.description }}</p>
 							<div class="card">
 								<div class="list-group list-group-flush">
-									{% for row in setting.rows %}	
-									<form class="list-group-item d-flex align-items-center">
-									<input type="hidden" name="{{ row.id }}
+									{% for row in setting.rows %}
+									<form 
+									hx-post="{% url 'configs:update-settings' row.id %}"
+									hx-target="#value-input-{{row.id}}"
+									hx-swap="innerHTML"
+									class="list-group-item d-flex align-items-center">
+									
 										<div class="flex-1">
 											<dl class="row mb-0 align-items-start py-2">
 												<dd class="col-5 h6">{{ row.title }}</dd>
-												<dd class="col-5">
+												<dd class="col-5" id="value-input-{{row.id}}">
 													{% include 'config/partials/input_type.html' with config=row %}												
 												</dd>
 												<dd class="col-2 text-end">
