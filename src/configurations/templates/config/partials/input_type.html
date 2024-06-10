@@ -46,10 +46,12 @@
             {% endfor %}
         {% else %}
             <div class="form-check form-switch">
-                <input type="checkbox" name="{{ config.name }}" class="form-check-input" _="on input halt -- prevent default"
-                    {% if config.value %}checked{% else %} '' {% endif %}   {% if not config.editable %}disabled{% endif %}>
+                {{ config.value }}
+                <input type="checkbox" name="{{ config.name }}" class="form-check-input" 
+                {% if config.value %}checked{% endif %}   {% if not config.editable %}disabled{% endif %}>
             </div>
         {% endif %}
+
     {% elif config.input_type == 'radio' %}
         {% if config.params %}
             {% for item in config.params|split:"," %}

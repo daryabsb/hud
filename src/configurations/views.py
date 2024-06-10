@@ -106,7 +106,8 @@ def update_config(request, id):
             config.save()
         elif config.input_type == 'checkbox' and config.params == '':
             value = request.POST.get(f"{config.name}", None)
-            if value:
+            print("value = ", value)
+            if value == 'on':
                 config.value = 'True'
                 config.save()
             else:
@@ -117,3 +118,28 @@ def update_config(request, id):
         "config": config
     }
     return render(request, 'config/partials/input_type.html', context)
+'''
+from django.contrib.auth.models import Group, Permission
+from django.contrib.contenttypes.models import ContentType
+from django.shortcuts import get_object_or_404
+from src.products.models import Product
+from src.accounts.models import User
+
+cash_group = Group.objects.get_or_create(name="Cashiers")
+
+content_type = ContentType.objects.get_for_model(Product)
+
+product_permission = Permission.objects.filter(content_type=content_type)
+
+[perm.codename for perm in product_permission]
+# ['add_product', 'change_product', 'delete_product', 'view_product']
+user = User.objects.first()
+user.groups.add(cash_group)
+
+user = get_object_or_404(User, pk=user.id)
+
+print(user.has_perm("products.add_product")) # => False
+print(user.has_perm("products.change_product")) # => False
+print(user.has_perm("products.delete_product")) # => True
+print(user.has_perm("products.view_product")) # => True
+'''
