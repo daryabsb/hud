@@ -6,6 +6,7 @@ from src.configurations.models import ApplicationProperty, ApplicationPropertySe
 from src.configurations.forms import ConfigurationForm, ApplicationPropertyForm
 from src.configurations.const import direct_save_fields, indirect_save_fields
 # Create your views here.
+from src.core.decorators import required_security_level
 
 
 def convert_value(value):
@@ -17,6 +18,7 @@ def convert_value(value):
         return value
 
 
+@required_security_level(3)
 def settings_view(request):
 
     sections = ApplicationPropertySection.objects.prefetch_related(
@@ -118,6 +120,8 @@ def update_config(request, id):
         "config": config
     }
     return render(request, 'config/partials/input_type.html', context)
+
+
 '''
 from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType

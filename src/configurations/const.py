@@ -1,5 +1,9 @@
 
 
+SECURITY_KEY_INITIAL_DATA = [
+    {"name": "user", "level": 5}
+]
+
 direct_save_fields = {"number", "text", "textarea"}
 indirect_save_fields = {"checkbox", "radio", "select"}
 

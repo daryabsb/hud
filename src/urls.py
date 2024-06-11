@@ -3,7 +3,7 @@ from django.conf.urls.static import static
 
 from django.contrib import admin
 from django.urls import path, include
-from src.core.views import index
+from src.core.views import index, not_authorized
 
 
 def test(request):
@@ -14,6 +14,7 @@ def test(request):
 urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('admin/', admin.site.urls),
+    path('not-authorized/', not_authorized, name="not-authorized"),
     path('', index, name="index"),
     path('pos/', include('src.pos.urls'), name="pos"),
     path('mgt/', include('src.management.urls'), name="mgt"),
