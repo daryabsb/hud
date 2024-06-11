@@ -9,7 +9,8 @@ from django.contrib.auth.models import PermissionsMixin
 class User(PermissionsMixin, AbstractBaseUser):
     # Custom user model supports email instead of username
     access_level = models.OneToOneField(
-        "SecurityKey", on_delete=models.CASCADE, default='user', related_name="access_level"
+        "SecurityKey", on_delete=models.CASCADE, null=True, 
+        blank=True, related_name="access_level"
     )
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255, null=True, blank=True)
