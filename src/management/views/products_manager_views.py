@@ -2,6 +2,7 @@ from django.shortcuts import render
 from src.products.models import Product
 from src.products.forms import ProductForm
 from src.stock.models import Stock
+from src.accounts.models import User
 # Create your views here.
 
 
@@ -14,3 +15,10 @@ def mgt_stocks(request):
     stocks = Stock.objects.all()
     form = ProductForm()
     return render(request, 'mgt/stocks/list.html', {"stocks": stocks, "form": form})
+
+
+def mgt_users(request):
+    users = User.objects.all()
+    return render(request, 'mgt/users/list.html', {"users": users})
+
+

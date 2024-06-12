@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div id="content" class="app-content">
+	<div class="d-flex align-items-center mb-3">
+		<div>
+			<ul class="breadcrumb">
+				<li class="breadcrumb-item"><a href="/mgt/">MANAGEMENT</a></li>
+				<li class="breadcrumb-item active">USERS</li>
+			</ul>
+			<h1 class="page-header mb-0">Users</h1>
+		</div>
+		<div class="ms-auto">
+			<a href="#" class="btn btn-outline-theme" id="foo"
+			_="on click toggle .active"><i class="fa fa-plus-circle fa-fw me-1"></i> Add User</a>
+		</div>
+	</div>
+	<div class="mb-sm-4 mb-3 d-sm-flex">
+		<div class="mt-sm-0 mt-2"><a href="#" class="text-inverse text-opacity-75 text-decoration-none"><i class="fa fa-download fa-fw me-1 text-theme"></i> Export</a></div>
+		<div class="ms-sm-4 mt-sm-0 mt-2"><a href="#" class="text-inverse text-opacity-75 text-decoration-none"><i class="fa fa-upload fa-fw me-1 text-theme"></i> Import</a></div>
+		<div class="ms-sm-4 mt-sm-0 mt-2 dropdown-toggle">
+			<a href="#" data-bs-toggle="dropdown" class="text-inverse text-opacity-75 text-decoration-none" aria-expanded="false">More Actions</a>
+			<div class="dropdown-menu" style="">
+				<a class="dropdown-item" href="#">Action</a>
+				<a class="dropdown-item" href="#">Another action</a>
+				<a class="dropdown-item" href="#">Something else here</a>
+				<div role="separator" class="dropdown-divider"></div>
+				<a class="dropdown-item" href="#">Separated link</a>
+			</div>
+		</div>
+	</div>
+	<div class="card">
+		<ul class="nav nav-tabs nav-tabs-v2 px-4" role="tablist">
+			<li class="nav-item me-3" role="presentation"><a href="#allUsers" class="nav-link active px-2" data-bs-toggle="tab" aria-selected="true" role="tab">All Users</a></li>
+			<li class="nav-item me-3" role="presentation"><a href="#groupsTab" class="nav-link px-2" data-bs-toggle="tab" aria-selected="false" tabindex="-1" role="tab">Groups</a></li>
+			<li class="nav-item me-3" role="presentation"><a href="#permissionsTab" class="nav-link px-2" data-bs-toggle="tab" aria-selected="false" tabindex="-1" role="tab">Permissions</a></li>
+			<li class="nav-item me-3" role="presentation"><a href="#deletedTab" class="nav-link px-2" data-bs-toggle="tab" aria-selected="false" tabindex="-1" role="tab">Security Levels</a></li>
+		</ul>
+		<div class="tab-content p-4">
+			<div class="tab-pane fade show active" id="allUsers" role="tabpanel">
+				{% include './tabs/all-users.html' %}
+			</div>
+			<div class="tab-pane fade" id="groupsTab" role="tabpanel">
+				{% include './tabs/all-groups.html' %}
+			</div>
+			<div class="tab-pane fade" id="permissionsTab" role="tabpanel">
+				{% include './tabs/all-permissions.html' %}
+			</div>
+		</div>
+		<div class="card-arrow">
+			<div class="card-arrow-top-left"></div>
+			<div class="card-arrow-top-right"></div>
+			<div class="card-arrow-bottom-left"></div>
+			<div class="card-arrow-bottom-right"></div>
+		</div>
+	</div>
+</div>
+{% endblock content %}

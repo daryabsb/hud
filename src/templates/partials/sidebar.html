@@ -4,6 +4,34 @@
 
         <div class="menu">
             <div class="menu-header">Navigation</div>
+            <!-- MANAGEMENT -->
+            <div class="menu-item has-sub">
+                <a href="#" class="menu-link">
+                    <span class="menu-icon">
+                        <i class="bi bi-envelope"></i>
+                    </span>
+                    <span class="menu-text">Management</span>
+                    <span class="menu-caret"><b class="caret"></b></span>
+                </a>
+                <div class="menu-submenu">
+                    <div class="menu-item">
+                        <a href="/mgt/" class="menu-link">
+                            <span class="menu-text">Dashboard</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a href="{% url 'mgt:products' %}" class="menu-link">
+                            <span class="menu-text">Products</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a href="{% url 'mgt:stocks' %}" class="menu-link">
+                            <span class="menu-text">Stock</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
             <div class="menu-item active">
                 <a href="index.html" class="menu-link">
                     <span class="menu-icon"><i class="bi bi-cpu"></i></span>
