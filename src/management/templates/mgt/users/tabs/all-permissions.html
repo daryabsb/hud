@@ -1,4 +1,4 @@
-{% if users %}
+{% if permissions %}
 <div class="input-group mb-4">
     <button class="btn btn-outline-default dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Filter products &nbsp;</button>
     <div class="dropdown-menu">
@@ -28,7 +28,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for user in users %}
+            {% for permission in permissions %}
             <tr>
                 <td class="w-10px align-middle">
                     <div class="form-check">
@@ -39,12 +39,12 @@
                 <td>
                     <div class="d-flex align-items-center">
                         <div class="ms-3">
-                            <a href="page_product_details.html" class="text-inverse text-opacity-75 text-decoration-none">{{ user.name }}</a>
+                            <a href="page_product_details.html" class="text-inverse text-opacity-75 text-decoration-none">{{ permission.name }}</a>
                         </div>
                     </div>
                 </td>
-                <td class="align-middle">{{ user.email }}</td>
-                <td class="align-middle">{{ user.name }}</td>
+                <td class="align-middle">{{ permission.codename }}</td>
+                <td class="align-middle">Edit | Delete</td>
             </tr>
             {% endfor %}
         </tbody>
