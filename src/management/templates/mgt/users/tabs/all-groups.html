@@ -28,23 +28,23 @@
             </tr>
         </thead>
         <tbody>
-            {% for user in users %}
+            {% for permission in groups_permissions %}
             <tr>
                 <td class="w-10px align-middle">
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="product1">
-                        <label class="form-check-label" for="product1"></label>
+                        <input type="checkbox" class="form-check-input" name="{{permission.group.id}}">
+                        <label class="form-check-label" for="{{permission.group.id}}"></label>
                     </div>
                 </td>
                 <td>
                     <div class="d-flex align-items-center">
                         <div class="ms-3">
-                            <a href="page_product_details.html" class="text-inverse text-opacity-75 text-decoration-none">{{ user.name }}</a>
+                            <a href="page_product_details.html" class="text-inverse text-opacity-75 text-decoration-none">{{ permission.group.name }}</a>
                         </div>
                     </div>
                 </td>
-                <td class="align-middle">{{ user.email }}</td>
-                <td class="align-middle">{{ user.name }}</td>
+                <td class="align-middle">{{ permission.group.user_set.count }}</td>
+                <td class="align-middle">{{ permission.group.permissions.count }}</td>
             </tr>
             {% endfor %}
         </tbody>

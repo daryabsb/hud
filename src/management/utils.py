@@ -46,3 +46,47 @@ def populate_users_permissions(users=None):
                     pass
 
     return users_permissions
+
+
+def populate_groups_permissions(groups=None):
+    list_permissions = add_actions_to_models(list_permissions_template)
+
+    if not groups:
+        groups = Group.objects.all()
+
+    groups_permissions = [{'group': group, 'list_permissions': deepcopy(
+        list_permissions)} for group in groups]
+
+    for group_perm in groups_permissions:
+        list_permissions = group_perm['list_permissions']
+
+        for app_data in list_permissions:
+            app_label = app_data['app_label']
+            models_data = app_data['models']
+
+            for model_data in models_data:
+                model_name = model_data['model']
+
+                # Retrieve ContentType for the model
+                try:
+                    content_type = ContentType.objects.get(
+                        app_label=app_label, model=model_name)
+
+                    # Retrieve permissions associated with this ContentType for the group
+                    permissions = Permission.objects.filter(
+                        content_type=content_type, group=group_perm['group'])
+
+                    # Update actions with actual permission values
+                    model_actions = model_data['actions']
+
+                    for action in model_actions:
+                        # Convert action name to lowercase (e.g., 'add')
+                        action_name = action['name'].lower()
+                        action['state'] = any(
+                            perm.codename == f'{action_name}_{model_name}' for perm in permissions)
+
+                except ContentType.DoesNotExist:
+                    # Handle case where ContentType does not exist (should not normally happen)
+                    pass
+
+    return groups_permissions
