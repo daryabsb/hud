@@ -25,10 +25,10 @@ list_permissions_template = [
         ]
     },
     {
-        'app_label': 'finances',
+        'app_label': 'tax',
         'models': [
             {'model': 'tax'},
-            {'model': 'pos_order'},
+            {'model': 'producttax'},
         ]
     },
 ]

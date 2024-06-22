@@ -19,7 +19,7 @@
         </div>
     </div>
 </div>
-<div class="table-responsive">
+<div class="table-responsive" id="mgt-users">
     <table class="table table-hover text-nowrap">
         <thead>
             <tr>
@@ -59,44 +59,52 @@
             </tr>
             <tr id="{{permission.user.id}}" class="accordion-collapse collapse" data-bs-parent="#accordionExample02" style="">
             <td colspan="5">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">model</th>
-                            <th scope="col">Actions</th>
-                            <th scope="col"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for perm in permission.list_permissions %}
-                        <tr>
-                            <td colspan="4">{{ perm.app_label|title }}</td>
-                        </tr>
-                        {% for item in perm.models %}
-                        <tr>
-                            <th scope="row">#</th>
-                            <td scope="col">{{ item.model|title }}</td>
-                            <td scope="col">
-                            <div class="form-group mb-3">
-                            {% for action in item.actions %}
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="{{ action.state }}"
-                                    {% if action.state %}checked{% endif %}
-                                     >
-                                    <label class="form-check-label" for="inlineCheckbox1">{{ action.name }}</label>
+                <form hx-post="{% url 'mgt:update-permissions' %}" hx-target="#check-response">
+                    <input type="hidden" name="user-id" value="{{permission.user.id}}" />
+                    
+                    <table class="table">
+                        <caption>
+                            <button type="submit" class="btn btn-outline-theme align-self-end">Save</button>
+                            <div class="mx-5"><div  id="check-response"></div></div>
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">model</th>
+                                <th scope="col">Actions</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for perm in permission.list_permissions %}
+                            <tr>
+                                <td colspan="4">{{ perm.app_label|title }}</td>
+                            </tr>
+                            {% for item in perm.models %}
+                            <tr>
+                                <th scope="row">#</th>
+                                <td scope="col">{{ item.model|title }}</td>
+                                <td scope="col">
+                                <div class="form-group mb-3">
+                                {% for action in item.actions %}
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" 
+                                        type="checkbox" 
+                                        id="checkbox-{{action.name}}_{{item.model}}" 
+                                        name="permissions"
+                                        value="{{action.name}}_{{item.model}}_{{perm.app_label}}"
+                                        {% if action.state %}checked{% endif %}>
+                                        <label class="form-check-label" for="inlineCheckbox1">{{ action.name }}</label>
+                                    </div>
+                                {% endfor %}
                                 </div>
+                                </td>
+                            </tr>
                             {% endfor %}
-                            </div>
-                            </td>
-                            <td class="align-left">
-                            <button class="btn btn-outline-theme">Save</button>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                        {% endfor %}
-                    </tbody>
-                </table>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </form>
             </td>
             {% comment %} <td colspan="2"></td> <td >Tax</td> <td colspan="3">nazanm chi nazanm chi nazanm chi nazanm chi</td> {% endcomment %}
             </tr>
