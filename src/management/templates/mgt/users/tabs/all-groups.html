@@ -17,39 +17,11 @@
         </div>
     </div>
 </div>
-<div class="table-responsive">
-    <table class="table table-hover text-nowrap">
-        <thead>
-            <tr>
-                <th class="pt-0 pb-2"></th>
-                <th class="pt-0 pb-2">Group Name</th>
-                <th class="pt-0 pb-2">User Count</th>
-                <th class="pt-0 pb-2">Permission Count</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for permission in groups_permissions %}
-            <tr>
-                <td class="w-10px align-middle">
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" name="{{permission.group.id}}">
-                        <label class="form-check-label" for="{{permission.group.id}}"></label>
-                    </div>
-                </td>
-                <td>
-                    <div class="d-flex align-items-center">
-                        <div class="ms-3">
-                            <a href="page_product_details.html" class="text-inverse text-opacity-75 text-decoration-none">{{ permission.group.name }}</a>
-                        </div>
-                    </div>
-                </td>
-                <td class="align-middle">{{ permission.group.user_set.count }}</td>
-                <td class="align-middle">{{ permission.group.permissions.count }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<div class="table-responsive" id="mgt-groups">
+    {% include 'mgt/users/partials/groups-table.html' %}
 </div>
+{% if groups_permissions|length > 10 %}
+{% comment %} {% if groups_permissions %} {% endcomment %}
 <div class="d-md-flex align-items-center">
     <div class="me-md-auto text-md-left text-center mb-2 mb-md-0">
         Showing 1 to 10 of 57 entries
@@ -65,4 +37,5 @@
         <li class="page-item"><a class="page-link" href="#">Next</a></li>
     </ul>
 </div>
+{% endif %}
 {% endif %}

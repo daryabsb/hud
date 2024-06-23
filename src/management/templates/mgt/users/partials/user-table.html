@@ -5,7 +5,7 @@
                 <th class="pt-0 pb-2">User</th>
                 <th class="pt-0 pb-2">Email</th>
                 <th class="pt-0 pb-2">Name</th>
-                <th class="pt-0 pb-2">Group</th>
+                <th class="pt-0 pb-2"></th>
             </tr>
         </thead>
         <tbody class="accordion" id="accordionExample02">
@@ -37,7 +37,7 @@
             </tr>
             <tr id="{{permission.user.id}}" class="accordion-collapse collapse" data-bs-parent="#accordionExample02" style="">
             <td colspan="5">
-                <form hx-post="{% url 'mgt:update-permissions' %}" hx-target="#mgt-users">
+                <form hx-post="{% url 'mgt:update-permissions' %}" hx-swap="innerHTML" hx-target="#mgt-users">
                     <input type="hidden" name="user-id" value="{{permission.user.id}}" />
                     
                     <table class="table">

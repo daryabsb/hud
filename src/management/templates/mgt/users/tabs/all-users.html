@@ -110,7 +110,7 @@
 
 
 
-
+{% if permissions|length > 10 %}
 <div class="d-md-flex align-items-center">
     <div class="me-md-auto text-md-left text-center mb-2 mb-md-0">
         Showing 1 to 10 of 57 entries
@@ -126,4 +126,5 @@
         <li class="page-item"><a class="page-link" href="#">Next</a></li>
     </ul>
 </div>
+{% endif %}
 {% endif %}

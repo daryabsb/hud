@@ -1,3 +1,4 @@
+    {% if groups_permissions %}
     <table class="table table-hover text-nowrap">
         <thead>
             <tr>
@@ -5,9 +6,10 @@
                 <th class="pt-0 pb-2">Group Name</th>
                 <th class="pt-0 pb-2">User Count</th>
                 <th class="pt-0 pb-2">Permission Count</th>
+                <th class="pt-0 pb-2"></th>
             </tr>
         </thead>
-        <tbody class="accordion" id="accordionExample02">
+        <tbody class="accordion" id="accordionExample03">
             {% for permission in groups_permissions %}
             <tr>
                 <td class="w-10px align-middle">
@@ -25,10 +27,15 @@
                 </td>
                 <td class="align-middle">{{ permission.group.user_set.count }}</td>
                 <td class="align-middle">{{ permission.group.permissions.count }}</td>
+                <td class="align-middle">
+                <button class="btn accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{permission.group.id}}" aria-expanded="false">
+			        Permissions
+                </button>
+                </td>
             </tr>
-            <tr id="{{permission.group.id}}" class="accordion-collapse collapse" data-bs-parent="#accordionExample02" style="">
+            <tr id="{{permission.group.id}}" class="accordion-collapse collapse" data-bs-parent="#accordionExample03" style="">
             <td colspan="5">
-                <form hx-post="{% url 'mgt:update-permissions' %}" hx-target="#mgt-groups">
+                <form hx-post="{% url 'mgt:update-group-permissions' %}" hx-target="#mgt-groups">
                     <input type="hidden" name="group-id" value="{{permission.group.id}}" />
                     
                     <table class="table">
@@ -80,3 +87,4 @@
             {% endfor %}
         </tbody>
     </table>
+    {% endif %}

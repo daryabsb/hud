@@ -54,6 +54,8 @@ def populate_groups_permissions(groups=None):
     if not groups:
         groups = Group.objects.all()
 
+    groups_count = groups.count
+
     groups_permissions = [{'group': group, 'list_permissions': deepcopy(
         list_permissions)} for group in groups]
 
@@ -88,5 +90,6 @@ def populate_groups_permissions(groups=None):
                 except ContentType.DoesNotExist:
                     # Handle case where ContentType does not exist (should not normally happen)
                     pass
+    # groups_permissions['count'] = groups_count
 
     return groups_permissions

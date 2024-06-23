@@ -2,7 +2,7 @@
 from django.urls import path
 from src.management.views import (
     mgt_home, mgt_products, mgt_stocks, mgt_users,
-    mgt_update_permissions,
+    mgt_update_permissions, mgt_update_group_permissions
 )
 
 
@@ -14,4 +14,6 @@ urlpatterns = [
     path('stocks/', mgt_stocks, name='stocks'),
     path('users/', mgt_users, name='users'),
     path('update-permissions/', mgt_update_permissions, name='update-permissions'),
+    path('update-group-permissions/', mgt_update_group_permissions,
+         name='update-group-permissions'),
 ]
