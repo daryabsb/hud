@@ -14,13 +14,10 @@ def mgt_update_permissions(request):
     user_id = request.POST.get('user-id')
     new_permissions = request.POST.getlist('permissions')
 
-    print("new_permissions = ", new_permissions)
-
     user = get_object_or_404(User, pk=user_id)
 
     # Extract the current permissions of the user
     current_permissions = user.user_permissions.all()
-    print("current_permissions = ", current_permissions)
 
     # Create sets for easier comparison
     current_permission_codenames = set(
@@ -33,12 +30,6 @@ def mgt_update_permissions(request):
 
     # Permissions to remove
     permissions_to_remove = current_permission_codenames - new_permission_codenames
-
-    # Debug prints
-    print("New permissions:", new_permissions)
-    print("Current permissions:", current_permission_codenames)
-    print("Permissions to add:", permissions_to_add)
-    print("Permissions to remove:", permissions_to_remove)
 
     # Add new permissions
     for perm in permissions_to_add:

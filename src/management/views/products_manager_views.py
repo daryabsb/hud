@@ -39,17 +39,9 @@ def mgt_users(request):
 
     groups_list = Group.objects.all()
     lone_group = Group.objects.first()
-    print(dir(lone_group))
     groups_permission_list = populate_groups_permissions(groups_list)
 
     permissions_by_app_model = defaultdict(lambda: defaultdict(list))
-
-    # users_with_permissions, groups_with_permissions = get_permissions_context()
-
-    # for permission in permission_list:
-    #     app_label = permission.content_type.app_label
-    #     model_name = permission.content_type.model
-    #     permissions_by_app_model[app_label][model_name].append(permission)
 
     context = {
         "users": users,
