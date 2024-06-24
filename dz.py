@@ -39,7 +39,7 @@ dz_array = {
 
                 ],
                 "mgt_users": [
-                    f"{app}/plugins/tag-it/js/tag-it.min.js",
+                    # f"{app}/plugins/tag-it/js/tag-it.min.js",
                         
                 ],
             },
@@ -48,8 +48,8 @@ dz_array = {
                     f"{app}/js/demo/pos-customer-order.demo.js",
                 ],
                 "mgt_users": [
-                    f"{app}/plugins/jquery-migrate/dist/jquery-migrate.min.js",
-                    f"{app}/plugins/tag-it/js/tag-it.min.js",
+                    # f"{app}/plugins/jquery-migrate/dist/jquery-migrate.min.js",
+                    # f"{app}/plugins/tag-it/js/tag-it.min.js",
                 ],
             },
         }
