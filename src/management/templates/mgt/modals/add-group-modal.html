@@ -1,0 +1,33 @@
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Group</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label">Name</label>
+                    <input type="text" class="form-control" placeholder="Give name to the new group">
+                </div>
+                {% if users %}
+                <div class="mb-3">
+                    <label class="form-label">Assign users to the group</label>
+                    <select class="form-select" multiple>
+                        {% for user in users %}
+                        <option value="{{ user.id }}">{{ user.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                {% endif %}
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea class="form-control" rows="10"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-outline-default" data-bs-dismiss="modal">Cancel</a>
+                <button type="button" class="btn btn-outline-theme">Create</button>
+            </div>
+        </div>
+    </div>

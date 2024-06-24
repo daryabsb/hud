@@ -2,7 +2,8 @@
 from django.urls import path
 from src.management.views import (
     mgt_home, mgt_products, mgt_stocks, mgt_users,
-    mgt_update_permissions, mgt_update_group_permissions
+    mgt_update_permissions, mgt_update_group_permissions,
+    modal_add_group
 )
 
 
@@ -17,3 +18,9 @@ urlpatterns = [
     path('update-group-permissions/', mgt_update_group_permissions,
          name='update-group-permissions'),
 ]
+
+# MODALS URLS
+urlpatterns += [
+    path('modal-add-group/', modal_add_group, name='modal-add-group'),
+
+] 

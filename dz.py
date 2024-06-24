@@ -38,10 +38,18 @@ dz_array = {
                 "pos_home": [
 
                 ],
+                "mgt_users": [
+                    f"{app}/plugins/tag-it/js/tag-it.min.js",
+                        
+                ],
             },
             "js": {
                 "pos_home": [
                     f"{app}/js/demo/pos-customer-order.demo.js",
+                ],
+                "mgt_users": [
+                    f"{app}/plugins/jquery-migrate/dist/jquery-migrate.min.js",
+                    f"{app}/plugins/tag-it/js/tag-it.min.js",
                 ],
             },
         }
