@@ -1,6 +1,6 @@
 from collections import defaultdict
 from django.shortcuts import render
-from src.products.models import Product
+from src.products.models import Product, ProductGroup
 from src.products.forms import ProductForm
 from src.stock.models import Stock
 from src.accounts.models import User
@@ -10,7 +10,12 @@ from django.contrib.auth.models import Group, Permission
 
 def mgt_products(request):
     products = Product.objects.all()
-    return render(request, 'mgt/products/list.html', {"products": products})
+    groups = ProductGroup.objects.all()
+    context = {
+        "products": products,
+        "groups": groups,
+    }
+    return render(request, 'mgt/products/list.html', context)
 
 
 def mgt_stocks(request):

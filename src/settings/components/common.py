@@ -28,6 +28,7 @@ THIRD_PARTY_APPS = [
     'src._utils',
     "django_extensions",
     'widget_tweaks',
+    'mptt',
     'fontawesome_5',
 ]
 
