@@ -38,14 +38,22 @@ dz_array = {
                 "pos_home": [
 
                 ],
+                "mgt_products": [
+                    f"{app}/plugins/bootstrap-icons/font/bootstrap-icons.css",
+
+                ],
                 "mgt_users": [
                     # f"{app}/plugins/tag-it/js/tag-it.min.js",
-                        
+
                 ],
             },
             "js": {
                 "pos_home": [
                     f"{app}/js/demo/pos-customer-order.demo.js",
+                ],
+                "mgt_products": [
+                    f"{app}/plugins/iconify/iconify.min.js",
+                    f"{app}/js/demo/file-manager.demo.js",
                 ],
                 "mgt_users": [
                     # f"{app}/plugins/jquery-migrate/dist/jquery-migrate.min.js",

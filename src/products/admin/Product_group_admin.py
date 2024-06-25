@@ -3,11 +3,12 @@ from src.accounts.models import User
 from src.products.models import ProductGroup
 
 INITIAL_DATA = [
-    {"id": 1, "name": "Grocery", "slug": "grocery", "rank": 1},
-    {"id": 2, "name": "Electronics", "slug": "electronics", "rank": 7},
-    {"id": 3, "name": "Home", "slug": "home", "rank": 13},
-    {"id": 4, "name": "Accessories", "slug": "accessories", "rank": 19},
-    {"id": 5, "name": "Goodies", "slug": "goodies", "rank": 25},
+    {"id": 1, "name": "Products", "slug": "products", "rank": 1},
+    {"id": 2, "name": "Grocery", "slug": "grocery", "rank": 2},
+    {"id": 3, "name": "Electronics", "slug": "electronics", "rank": 8},
+    {"id": 4, "name": "Home", "slug": "home", "rank": 14},
+    {"id": 5, "name": "Accessories", "slug": "accessories", "rank": 20},
+    {"id": 6, "name": "Goodies", "slug": "goodies", "rank": 26},
 ]
 
 
@@ -44,52 +45,52 @@ class ProductGroupAdmin(admin.ModelAdmin):
 
 initial_data_with_parents = [
     # Grocery
-    {"id": 6, "name": "Fresh Produce", "parent": 1,
+    {"id": 6, "name": "Fresh Produce", "parent": 2,
         "slug": "fresh_produce", "rank": 2},
-    {"id": 7, "name": "Dairy Products", "parent": 1,
+    {"id": 7, "name": "Dairy Products", "parent": 2,
         "slug": "dairy_products", "rank": 3},
-    {"id": 8, "name": "Meat & Seafood", "parent": 1,
+    {"id": 8, "name": "Meat & Seafood", "parent": 2,
         "slug": "meat_seafood", "rank": 4},
-    {"id": 9, "name": "Bakery Items", "parent": 1,
+    {"id": 9, "name": "Bakery Items", "parent": 2,
         "slug": "bakery_items", "rank": 5},
-    {"id": 10, "name": "Canned Goods", "parent": 1,
+    {"id": 10, "name": "Canned Goods", "parent": 2,
         "slug": "canned_goods", "rank": 6},
 
     # Electronics
-    {"id": 11, "name": "Mobile Phones", "parent": 2,
+    {"id": 11, "name": "Mobile Phones", "parent": 3,
         "slug": "mobile_phones", "rank": 8},
-    {"id": 12, "name": "Laptops", "parent": 2, "slug": "laptops", "rank": 9},
-    {"id": 13, "name": "Home Appliances", "parent": 2,
+    {"id": 12, "name": "Laptops", "parent": 3, "slug": "laptops", "rank": 9},
+    {"id": 13, "name": "Home Appliances", "parent": 3,
         "slug": "home_appliances", "rank": 10},
-    {"id": 14, "name": "Audio & Video", "parent": 2,
+    {"id": 14, "name": "Audio & Video", "parent": 3,
         "slug": "audio_video", "rank": 11},
     {"id": 15, "name": "Cameras & Photography",
-        "parent": 2, "slug": "cameras_photography", "rank": 12},
+        "parent": 3, "slug": "cameras_photography", "rank": 12},
 
     # Home
-    {"id": 16, "name": "Furniture", "parent": 3, "slug": "furniture", "rank": 14},
-    {"id": 17, "name": "Bedding & Bath", "parent": 3,
+    {"id": 16, "name": "Furniture", "parent": 4, "slug": "furniture", "rank": 14},
+    {"id": 17, "name": "Bedding & Bath", "parent": 4,
         "slug": "bedding_bath", "rank": 15},
-    {"id": 18, "name": "Kitchenware", "parent": 3,
+    {"id": 18, "name": "Kitchenware", "parent": 4,
         "slug": "kitchenware", "rank": 16},
-    {"id": 19, "name": "Home Decor", "parent": 3, "slug": "home_decor", "rank": 17},
+    {"id": 19, "name": "Home Decor", "parent": 4, "slug": "home_decor", "rank": 17},
     {"id": 20, "name": "Cleaning Supplies",
-        "parent": 3, "slug": "cleaning_supplies", "rank": 18},
+        "parent": 4, "slug": "cleaning_supplies", "rank": 18},
 
     # Accessories
-    {"id": 21, "name": "Jewelry", "parent": 4, "slug": "jewelry", "rank": 20},
-    {"id": 22, "name": "Handbags", "parent": 4, "slug": "handbags", "rank": 21},
-    {"id": 23, "name": "Watches", "parent": 4, "slug": "watches", "rank": 22},
-    {"id": 24, "name": "Sunglasses", "parent": 4, "slug": "sunglasses", "rank": 23},
-    {"id": 25, "name": "Scarves", "parent": 4, "slug": "scarves", "rank": 24},
+    {"id": 21, "name": "Jewelry", "parent": 5, "slug": "jewelry", "rank": 20},
+    {"id": 22, "name": "Handbags", "parent": 5, "slug": "handbags", "rank": 21},
+    {"id": 23, "name": "Watches", "parent": 5, "slug": "watches", "rank": 22},
+    {"id": 24, "name": "Sunglasses", "parent": 5, "slug": "sunglasses", "rank": 23},
+    {"id": 25, "name": "Scarves", "parent": 5, "slug": "scarves", "rank": 24},
 
     # Goodies
-    {"id": 26, "name": "Chocolates", "parent": 5, "slug": "chocolates", "rank": 26},
-    {"id": 27, "name": "Snacks", "parent": 5, "slug": "snacks", "rank": 27},
-    {"id": 28, "name": "Candies", "parent": 5, "slug": "candies", "rank": 28},
-    {"id": 29, "name": "Gourmet Foods", "parent": 5,
+    {"id": 26, "name": "Chocolates", "parent": 6, "slug": "chocolates", "rank": 26},
+    {"id": 27, "name": "Snacks", "parent": 6, "slug": "snacks", "rank": 27},
+    {"id": 28, "name": "Candies", "parent": 6, "slug": "candies", "rank": 28},
+    {"id": 29, "name": "Gourmet Foods", "parent": 6,
         "slug": "gourmet_foods", "rank": 29},
-    {"id": 30, "name": "Gift Baskets", "parent": 5,
+    {"id": 30, "name": "Gift Baskets", "parent": 6,
         "slug": "gift_baskets", "rank": 30},
 ]
 
