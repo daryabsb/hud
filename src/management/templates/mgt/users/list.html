@@ -13,7 +13,11 @@
 			<h1 class="page-header mb-0">Users</h1>
 		</div>
 		<div class="ms-auto">
-			<a href="#" class="btn btn-outline-theme me-2" id="foo"
+			<a 
+			hx-get="{% url 'mgt:modal-add-user' %}" 
+			hx-target="#modalAddUser" 
+			hx-trigger="click"
+			href="#modalAddUser" data-bs-toggle="modal" class="btn btn-outline-theme me-2" id="foo"
 			><i class="fa fa-plus-circle fa-fw me-1"></i> Add User</a>
 			<a 
 			hx-get="{% url 'mgt:modal-add-group' %}" 

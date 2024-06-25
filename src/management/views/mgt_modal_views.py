@@ -9,3 +9,11 @@ def modal_add_group(request):
     users = User.objects.all()
     context = {"users": users}
     return render(request, 'mgt/modals/add-group-modal.html', context)
+
+
+@login_required
+@require_GET
+def modal_add_user(request):
+    users = User.objects.all()
+    context = {"users": users}
+    return render(request, 'mgt/modals/add-user-modal.html', context)

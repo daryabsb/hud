@@ -34,10 +34,9 @@ data-toggle-class="app-sidebar-mobile-toggled"></button>
     </div>
 {% block modals %}
 {% endblock modals %}
-{% include 'modals/confirm-logout.html' %}
-<div class="modal fade" id="modalAddGroup">
-    {% include 'mgt/modals/add-group-modal.html' %}
-</div>
+{% include 'modals/all-modals.html' %}
+
+
 
 {% include 'partials/bottom-js.html' %}
 {% block additional_js %}

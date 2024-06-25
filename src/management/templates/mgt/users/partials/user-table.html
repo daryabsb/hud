@@ -29,10 +29,16 @@
                 </td>
                 <td class="align-middle">{{ permission.user.email }}</td>
                 <td class="align-middle">{{ permission.user.name }}</td>
-                <td class="align-middle">			
+                {% comment %} <td class="align-middle">			
                 <button class="btn accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{permission.user.id}}" aria-expanded="false">
 			        Permissions
                 </button>
+                </td> {% endcomment %}
+                <td class="table-action align-middle">
+                    <a href="javascript: void(0);" class="action-icon"> <i class="fas fa-lg fa-fw me-2 fa-edit"></i></a>
+                    <a href="javascript: void(0);" class="action-icon"
+                    data-bs-toggle="collapse" data-bs-target="#{{permission.user.id}}" aria-expanded="false"
+                    > <i class="fas fa-lg fa-fw me-2 fa-trash-alt"></i></a>
                 </td>
             </tr>
             <tr id="{{permission.user.id}}" class="accordion-collapse collapse" data-bs-parent="#accordionExample02" style="">
