@@ -63,7 +63,7 @@
 								<div class="file-tree mb-3">
 								{% recursetree groups %}
 									<div class="file-node {% if not node.is_leaf_node %}has-sub{% endif %} expand selected">
-										<a href="javascript:;" class="file-link">
+										<a href="#" class="file-link" data-filter="parent-{{ node.id }}">
 										<span class="file-arrow"></span>
 										<span class="file-info">
 										<span class="file-icon"><i
@@ -139,7 +139,7 @@
 									<tbody>
 										{% for product in products %}
 										
-										<tr>
+										<tr  data-type="parent-{{ product.parent_group.id }}">
 											<td class="w-10px align-middle">
 												<div class="form-check">
 													<input type="checkbox" class="form-check-input" id="product1">
