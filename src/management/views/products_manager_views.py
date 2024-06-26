@@ -1,5 +1,6 @@
 from collections import defaultdict
-from django.shortcuts import render
+from django.core.paginator import Paginator
+from django.shortcuts import get_object_or_404, render
 from src.products.models import Product, ProductGroup
 from src.products.forms import ProductForm
 from src.stock.models import Stock
@@ -8,11 +9,25 @@ from src.accounts.models import User
 from django.contrib.auth.models import Group, Permission
 
 
-def mgt_products(request):
+def mgt_products(request, slug=None):
     products = Product.objects.all()
     groups = ProductGroup.objects.all()
+
+    if slug:
+        if slug != 'products':
+            groups = ProductGroup.objects.filter(slug=slug)
+        products = products.filter(parent_group__in=groups)
+    
+    # Pagination logic
+    paginator = Paginator(products, 8)  # Show 10 products per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    if request.htmx:
+        return render(request, 'mgt/products/renders/update-products.html', {"products": page_obj})
+
     context = {
-        "products": products,
+        "products": page_obj,
         "groups": groups,
     }
     return render(request, 'mgt/products/list.html', context)

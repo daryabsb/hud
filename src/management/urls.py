@@ -26,3 +26,8 @@ urlpatterns += [
     path('modal-add-user/', modal_add_user, name='modal-add-user'),
     path('modal-add-product/', modal_add_product, name='modal-add-product'),
 ]
+
+# HTMX URLS
+urlpatterns += [
+    path('filter-products/<slug:slug>/', mgt_products, name='filter-products'),
+]

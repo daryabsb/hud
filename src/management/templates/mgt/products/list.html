@@ -9,7 +9,24 @@
 		</div> {% endcomment %}
 {% block content %}
 <div id="content" class="app-content d-flex flex-column">
-	<h1 class="page-header">File Manager <small>header small text goes here...</small></h1>
+	<div class="d-flex align-items-center mb-3">
+		<div>
+			<ul class="breadcrumb">
+				<li class="breadcrumb-item"><a href="/mgt/">MANAGEMENT</a></li>
+				<li class="breadcrumb-item active">PRODUCTS</li>
+			</ul>
+			<h1 class="page-header mb-0">Products</h1>
+		</div>
+		<div class="ms-auto">
+			{% comment %} _="on click toggle .active" {% endcomment %}
+			<a  class="btn btn-outline-theme" id="add-product"
+			hx-get="{% url 'mgt:modal-add-product' %}" 
+			hx-target="#modalAddProduct" 
+			hx-trigger="click"
+			href="#modalAddProduct" data-bs-toggle="modal"
+			><i class="fa fa-plus-circle fa-fw me-1"></i> Add Product</a>
+		</div>
+	</div>
 	<div class="card flex-1 m-0 d-flex flex-column overflow-hidden rounded-0">
 		<div class="card-header fw-bold small d-flex">
 			<span class="flex-grow-1">File Manager</span>
@@ -63,7 +80,11 @@
 								<div class="file-tree mb-3">
 								{% recursetree groups %}
 									<div class="file-node {% if not node.is_leaf_node %}has-sub{% endif %} expand selected">
-										<a href="#" class="file-link" data-filter="parent-{{ node.id }}">
+										<a 
+										hx-get="{% url 'mgt:filter-products' slug=node.slug %}"
+										hx-target="#mgt-products-table"
+										hx-swap="innerHTML"
+										href="#" class="file-link" data-filter="parent-{{ node.id }}">
 										<span class="file-arrow"></span>
 										<span class="file-info">
 										<span class="file-icon"><i
@@ -116,54 +137,50 @@
 							<button type="button" class="btn btn-sm btn-default me-2 mb-10px px-2"><i
 								class="fa fa-fw fa-arrows-rotate"></i></button>
 							<div class="btn-group me-2 mb-10px">
-								<button type="button" class="btn btn-sm btn-default"><i
-									class="fa fa-fw fa-check ms-n1"></i> Select All</button>
-								<button type="button" class="btn btn-sm btn-default"><i
+								<button type="button" class="btn btn-sm btn-default"
+								_="on click set .product-select-checkbox.checked to true"
+								><i class="fa fa-fw fa-check ms-n1"></i> Select All</button>
+								<button type="button" class="btn btn-sm btn-default"
+								_="on click set .product-select-checkbox.checked to false"
+								><i
 									class="far fa-fw fa-square ms-n1"></i> Unselect All</button>
 							</div>
 						</div>
 						<div class="flex-1 overflow-hidden">
-							<div data-scrollbar="true" data-skip-mobile="true" data-height="100%" class="p-0">
-								<table
-									class="table table-striped table-borderless table-sm m-0 text-nowrap small">
-									<thead>
-										<tr class="border-bottom">
-											<th class="pt-0 pb-2"></th>
-											<th class="px-10px">Name</th>
-											<th class="px-10px w-100px">Size</th>
-											<th class="px-10px w-200px">Last Modified</th>
-											<th class="px-10px w-200px">Type</th>
-											<th class="px-10px w-100px">Permission</th>
-										</tr>
-									</thead>
-									<tbody>
-										{% for product in products %}
-										
-										<tr  data-type="parent-{{ product.parent_group.id }}">
-											<td class="w-10px align-middle">
-												<div class="form-check">
-													<input type="checkbox" class="form-check-input" id="product1">
-													<label class="form-check-label" for="product1"></label>
-												</div>
-											</td>
-											<td class="px-10px border-0">
-												<div class="d-flex align-items-center">
-													<div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
-														<img alt="" class="mw-100 mh-100" src="{{ product.img }}">
-													</div>
-													<div class="ms-3">
-														<a href="page_product_details.html" class="text-inverse text-opacity-75 text-decoration-none">{{ product.name }}</a>
-													</div>
-												</div>
-											</td>
-											<td class="px-10px">4 KB</td>
-											<td class="px-10px">Jun 11, 2024, 10:35PM</td>
-											<td class="px-10px">http:/unix-directory</td>
-											<td class="px-10px border-0">0755</td>
-										</tr>
-										{% endfor %}
-									</tbody>
-								</table>
+							<div id="mgt-products-table" data-scrollbar="true" data-skip-mobile="true" data-height="32rem" class="p-0"  >
+							{% include 'mgt/products/partials/products-table.html' %}
+							</div>
+						</div>
+						<div class="border-top p-2">
+							<div class="d-md-flex align-items-center" id="mgt-products-table-pagination">
+								<div class="me-md-auto text-md-left text-center mb-2 mb-md-0">
+									Page {{ products.number }} of {{ products.paginator.num_pages }}
+								</div>
+								<ul class="pagination mb-0 justify-content-center">
+									{% if products.has_previous %}
+									<li class="page-item"><a class="page-link" href="#">1</a></li>
+									<li class="page-item"><a href="#" class="page-link" hx-get="?page=1" 
+										hx-target="#mgt-products-table" hx-swap="innerHTML">&laquo; first</a></li>
+									<li class="page-item"><a href="#" class="page-link" hx-get="?page={{ products.previous_page_number }}" 
+										hx-target="#mgt-products-table" hx-swap="innerHTML">previous|{{ products.previous_page_number }}</a></li>
+									{% else %}
+									<li class="page-item disabled"><a class="page-link">Previous</a></li>
+									{% endif %}
+									<li class="page-item"><a class="page-link" href="#">1</a></li>
+									<li class="page-item active"><a class="page-link" href="#">2</a></li>
+									<li class="page-item"><a class="page-link" href="#">3</a></li>
+									<li class="page-item"><a class="page-link" href="#">4</a></li>
+									<li class="page-item"><a class="page-link" href="#">5</a></li>
+									<li class="page-item"><a class="page-link" href="#">6</a></li>
+									{% if products.has_next %}
+										<li class="page-item"><a href="#" class="page-link" hx-get="?page={{ products.next_page_number }}" 
+											hx-target="#mgt-products-table" hx-swap="innerHTML">next | {{ products.next_page_number }}</a></li>
+										<li class="page-item"><a href="#" class="page-link" hx-get="?page={{ products.paginator.num_pages }}" 
+											hx-target="#mgt-products-table" hx-swap="innerHTML">last &raquo;</a></li>
+									{% else %}
+									<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+									{% endif %}
+								</ul>
 							</div>
 						</div>
 					</div>
