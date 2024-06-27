@@ -1,6 +1,14 @@
 from django import forms
 from src.products.models import Product, ProductGroup
 
+
+class ProductGroupForm(forms.ModelForm):
+
+    class Meta:
+        model = ProductGroup
+        fields = ('parent', 'name')
+
+
 class ProductForm(forms.ModelForm):
     # parent_group = forms.ModelChoiceField(
     #     queryset=ProductGroup.objects.all(),

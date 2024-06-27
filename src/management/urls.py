@@ -4,6 +4,7 @@ from src.management.views import (
     mgt_home, mgt_products, mgt_stocks, mgt_users,
     mgt_update_permissions, mgt_update_group_permissions,
     modal_add_group, modal_add_user, modal_add_product,
+    add_product_group, update_product_group,
 
 )
 
@@ -30,5 +31,9 @@ urlpatterns += [
 
 # HTMX URLS
 urlpatterns += [
+    path('update-product-group/<slug:slug>/', update_product_group,
+         name='update-product-group'),
+    path('add-product-group/', add_product_group,
+         name='add-product-group'),
     # path('filter-products/<slug:slug>/', mgt_products, name='filter-products'),
 ]

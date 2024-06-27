@@ -1,0 +1,39 @@
+{% load widget_tweaks %}
+    <div class="modal-dialog modal-right">
+    
+        <form 
+        hx-post="{% url 'mgt:add-product-group' %}"
+        hx-target="#mgt-products-sidebar"
+        class="modal-content">
+        <input type="hidden" name="group-id" value="{{ group.id }}" />
+            <div class="modal-header">
+                <h5 class="modal-title">Add Product</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            {{ group.slug }}
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label">Name</label>
+                    {{ form.parent|attr:"class:form-select"|attr:"type:text"}}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Name</label>
+                    {% comment %} {% render_field form.name type="text" class="form-control" %} {% endcomment %}
+                    {{ form.name|attr:"class:form-control"|attr:"type:text"}}
+                    {% comment %} <input type="text" class="form-control" placeholder="Give name to the new group"> {% endcomment %}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Assign users to the group</label>
+                    
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea class="form-control" rows="10"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-outline-default" data-bs-dismiss="modal">Cancel</a>
+                <button type="submit" class="btn btn-outline-theme">Create</button>
+            </div>
+        </form>
+    </div>

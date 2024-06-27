@@ -1,8 +1,11 @@
 from collections import defaultdict
 from django.core.paginator import Paginator
+from django.views.decorators.http import require_GET, require_POST
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render
+from django.http import HttpResponseRedirect
 from src.products.models import Product, ProductGroup
-from src.products.forms import ProductForm
+from src.products.forms import ProductForm, ProductGroupForm
 from src.stock.models import Stock
 from src.accounts.models import User
 # Create your views here.
@@ -57,6 +60,9 @@ def mgt_products(request, slug=None):
     if request.htmx:
         return render(request, 'mgt/products/renders/update-products.html', context)
 
+    if not page_obj:
+        return HttpResponseRedirect('/mgt/products/products/')
+
     return render(request, 'mgt/products/list.html', context)
 
 
@@ -101,6 +107,51 @@ def mgt_users(request):
         # "groups_with_permissions": groups_with_permissions,
     }
     return render(request, 'mgt/users/list.html', context)
+
+
+@require_POST
+@login_required
+def update_product_group(request, slug=None):
+    group = None
+    if slug:
+        group = get_object_or_404(ProductGroup, slug=slug)
+    form = ProductGroupForm(request.POST, instance=group)
+
+    if form.is_valid():
+        group = form.save(commit=False)
+        group.user = request.user
+        print("slug is: ", group.slug)
+        group.save()
+    groups_list = Group.objects.all()
+    context = {
+        "groups": groups_list,
+    }
+
+    return render(request, 'mgt/products/partials/sidebar.html', context)
+
+
+@require_POST
+@login_required
+def add_product_group(request):
+
+    group_id = request.POST.get('group-id', None)
+    if group_id:
+        print("group id from update is: ", group_id)
+        group = get_object_or_404(ProductGroup, id=group_id)
+        form = ProductGroupForm(request.POST, instance=group)
+    else:
+        form = ProductGroupForm(request.POST)
+
+    if form.is_valid():
+        group = form.save(commit=False)
+        group.user = request.user
+        group.save()
+    groups_list = Group.objects.all()
+    context = {
+        "groups": groups_list,
+    }
+
+    return render(request, 'mgt/products/partials/sidebar.html', context)
 
 
 permision_sample = [

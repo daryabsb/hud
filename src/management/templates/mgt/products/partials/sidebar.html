@@ -1,0 +1,42 @@
+
+{% load mptt_tags %}
+<div class="file-manager-sidebar-content" id="mgt-products-sidebar">
+    <div data-scrollbar="true" data-height="100%" class="p-3">
+        <input type="text" class="form-control form-control-sm mb-3"
+            placeholder="Seach file..." />
+        
+        <div class="file-tree mb-3">
+        {% recursetree groups %}
+            <div class="file-node {% if not node.is_leaf_node %}has-sub{% endif %} expand selected">
+                <a 
+                hx-get="{% url 'mgt:filter-products' slug=node.slug %}"
+                hx-push-url="true" hx-target="#mgt-products-table"
+                hx-swap="innerHTML"
+                href="#" class="file-link active" data-filter="parent-{{ node.id }}"
+                _=" on click 
+                        remove .text-warning from .file-icon 
+                        add .text-warning to #file-icon-{{ node.id }}
+                        set #edit-group-button-input.value to {{node.id}}
+                        remove @disabled from #edit-group-button
+                    init add .text-warning to #file-icon-1
+                    "
+                >
+                <input type="hidden" id="product-group-{{ node.id }}" value="{{ node.id }}" />
+                <span class="file-arrow"></span>
+                <span class="file-info">
+                <span class="file-icon" id="file-icon-{{ node.id }}"><i
+                    class="fa fa-folder fa-lg "></i></span>
+                <span class="file-text">{{ node.name }}</span>
+                </span>
+                </a>
+                <!-- starting the first list -->
+                {% if not node.is_leaf_node %}
+                <div class="file-tree">
+                    {{ children }}
+                </div>
+                {% endif %}
+            </div>
+            {% endrecursetree %}
+        </div>
+    </div>
+</div>

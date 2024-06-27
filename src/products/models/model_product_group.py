@@ -34,7 +34,7 @@ class ProductGroup(MPTTModel):
         verbose_name_plural = "ProductGroups"
 
     def save(self, *args, **kwargs):
-        if not self.slug:
+        if self.slug is None:
             self.slug = slugify(self.name)
         return super().save(*args, **kwargs)
 

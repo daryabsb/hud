@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load mptt_tags %}
+
 		{% comment %} <div>
 			<ul class="breadcrumb">
 				<li class="breadcrumb-item"><a href="/mgt/">MANAGEMENT</a></li>
@@ -39,8 +39,16 @@
 					<button type="button" class="btn border-0"><i class="bi bi-plus-lg me-1"></i> File</button>
 					<button type="button" class="btn border-0"><i class="bi bi-plus-lg me-1"></i>
 					Folder</button>
-					<button type="button" class="btn border-0" disabled><i class="bi me-1 bi-copy"></i>
-					Copy</button>
+					<button type="button" class="btn border-0"  id="edit-group-button" disabled
+						hx-get="{% url 'mgt:modal-add-product' %}" 
+						hx-target="#modalAddProductGroup" 
+						hx-trigger="click"
+						hx-include="#edit-group-button-input"
+						href="#modalAddProductGroup" data-bs-toggle="modal"
+					>
+					<i class="bi me-1 bi-copy"></i>
+					<input type="hidden" name="group-id" id="edit-group-button-input" />
+					Edit Group</button>
 					<button type="button" class="btn border-0" disabled><i class="bi me-1 bi-arrows-move"></i>
 					Move</button>
 					<button type="button" class="btn border-0"><i class="bi me-1 bi-upload"></i> Upload</button>
@@ -72,37 +80,9 @@
 								data-toggle-class="file-manager-sidebar-mobile-toggled"
 								data-toggle-target="#fileManager"><i class="far fa-lg fa-folder"></i></button>
 						</div>
-						<div class="file-manager-sidebar-content">
-							<div data-scrollbar="true" data-height="100%" class="p-3">
-								<input type="text" class="form-control form-control-sm mb-3"
-									placeholder="Seach file..." />
-								
-								<div class="file-tree mb-3">
-								{% recursetree groups %}
-									<div class="file-node {% if not node.is_leaf_node %}has-sub{% endif %} expand selected">
-										<a 
-										hx-get="{% url 'mgt:filter-products' slug=node.slug %}"
-										hx-push-url="true" hx-target="#mgt-products-table"
-										hx-swap="innerHTML"
-										href="#" class="file-link" data-filter="parent-{{ node.id }}">
-										<span class="file-arrow"></span>
-										<span class="file-info">
-										<span class="file-icon"><i
-											class="fa fa-folder fa-lg text-warning"></i></span>
-										<span class="file-text">{{ node.name }}</span>
-										</span>
-										</a>
-										<!-- starting the first list -->
-										{% if not node.is_leaf_node %}
-										<div class="file-tree">
-											{{ children }}
-										</div>
-										{% endif %}
-									</div>
-									{% endrecursetree %}
-								</div>
-							</div>
-						</div>
+						<!-- mgt products sidebar -->
+						{% include 'mgt/products/partials/sidebar.html' %}
+
 						<div class="file-manager-sidebar-footer" style="height:3.9rem;">
 							<div class="d-flex align-items-center">
 								<div class="mx-n1">
