@@ -13,6 +13,7 @@ app_name = 'mgt'
 urlpatterns = [
     path('', mgt_home, name='mgt-home'),
     path('products/', mgt_products, name='products'),
+    path('products/<slug:slug>/', mgt_products, name='filter-products'),
     path('stocks/', mgt_stocks, name='stocks'),
     path('users/', mgt_users, name='users'),
     path('update-permissions/', mgt_update_permissions, name='update-permissions'),
@@ -29,5 +30,5 @@ urlpatterns += [
 
 # HTMX URLS
 urlpatterns += [
-    path('filter-products/<slug:slug>/', mgt_products, name='filter-products'),
+    # path('filter-products/<slug:slug>/', mgt_products, name='filter-products'),
 ]

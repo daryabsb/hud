@@ -82,7 +82,7 @@
 									<div class="file-node {% if not node.is_leaf_node %}has-sub{% endif %} expand selected">
 										<a 
 										hx-get="{% url 'mgt:filter-products' slug=node.slug %}"
-										hx-target="#mgt-products-table"
+										hx-push-url="true" hx-target="#mgt-products-table"
 										hx-swap="innerHTML"
 										href="#" class="file-link" data-filter="parent-{{ node.id }}">
 										<span class="file-arrow"></span>
@@ -103,14 +103,14 @@
 								</div>
 							</div>
 						</div>
-						<div class="file-manager-sidebar-footer">
+						<div class="file-manager-sidebar-footer" style="height:3.9rem;">
 							<div class="d-flex align-items-center">
 								<div class="mx-n1">
 									<span class="iconify fa-2x text-theme"
 										data-icon="solar:ssd-square-bold-duotone"></span>
 								</div>
 								<div class="flex-1 ps-3 small">
-									<div class="fw-bold small">SSD Storage:</div>
+									
 									<div class="progress h-5px my-1">
 										<div class="progress-bar progress-bar-striped bg-theme"
 											style="width: 80%"></div>
@@ -144,6 +144,22 @@
 								_="on click set .product-select-checkbox.checked to false"
 								><i
 									class="far fa-fw fa-square ms-n1"></i> Unselect All</button>
+								<div class="form-group row mx-4">
+									<label for="staticEmail" class="col-sm-6 col-form-label">Page size</label>
+									<div class="col-sm-6">
+									<select class="form-select form-select-inline"
+											id="page-size"
+											name="page-size"
+											hx-get="."
+											hx-trigger="change"
+											hx-push-url="true">
+										{% for size in page_size_range %}
+											<option value="{{ size }}" {% if size == page_size %}selected{% endif %}>{{ size }}</option>
+										{% endfor %}
+									</select>
+							
+									</div>
+									</div>
 							</div>
 						</div>
 						<div class="flex-1 overflow-hidden">
@@ -152,35 +168,10 @@
 							</div>
 						</div>
 						<div class="border-top p-2">
-							<div class="d-md-flex align-items-center" id="mgt-products-table-pagination">
-								<div class="me-md-auto text-md-left text-center mb-2 mb-md-0">
-									Page {{ products.number }} of {{ products.paginator.num_pages }}
-								</div>
-								<ul class="pagination mb-0 justify-content-center">
-									{% if products.has_previous %}
-									<li class="page-item"><a class="page-link" href="#">1</a></li>
-									<li class="page-item"><a href="#" class="page-link" hx-get="?page=1" 
-										hx-target="#mgt-products-table" hx-swap="innerHTML">&laquo; first</a></li>
-									<li class="page-item"><a href="#" class="page-link" hx-get="?page={{ products.previous_page_number }}" 
-										hx-target="#mgt-products-table" hx-swap="innerHTML">previous|{{ products.previous_page_number }}</a></li>
-									{% else %}
-									<li class="page-item disabled"><a class="page-link">Previous</a></li>
-									{% endif %}
-									<li class="page-item"><a class="page-link" href="#">1</a></li>
-									<li class="page-item active"><a class="page-link" href="#">2</a></li>
-									<li class="page-item"><a class="page-link" href="#">3</a></li>
-									<li class="page-item"><a class="page-link" href="#">4</a></li>
-									<li class="page-item"><a class="page-link" href="#">5</a></li>
-									<li class="page-item"><a class="page-link" href="#">6</a></li>
-									{% if products.has_next %}
-										<li class="page-item"><a href="#" class="page-link" hx-get="?page={{ products.next_page_number }}" 
-											hx-target="#mgt-products-table" hx-swap="innerHTML">next | {{ products.next_page_number }}</a></li>
-										<li class="page-item"><a href="#" class="page-link" hx-get="?page={{ products.paginator.num_pages }}" 
-											hx-target="#mgt-products-table" hx-swap="innerHTML">last &raquo;</a></li>
-									{% else %}
-									<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
-									{% endif %}
-								</ul>
+							<div class="d-md-flex align-items-center" style="height:2.8rem;"  id="mgt-products-table-pagination">
+						{% if products.paginator.num_pages > 1 %}
+								{% include 'mgt/products/partials/pagination.html' %}
+						{% endif %}
 							</div>
 						</div>
 					</div>

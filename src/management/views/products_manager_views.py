@@ -6,6 +6,7 @@ from src.products.forms import ProductForm
 from src.stock.models import Stock
 from src.accounts.models import User
 # Create your views here.
+from django.db.models import Q
 from django.contrib.auth.models import Group, Permission
 
 
@@ -14,22 +15,48 @@ def mgt_products(request, slug=None):
     groups = ProductGroup.objects.all()
 
     if slug:
-        if slug != 'products':
-            groups = ProductGroup.objects.filter(slug=slug)
-        products = products.filter(parent_group__in=groups)
-    
+        # if slug != 'products':
+        group = ProductGroup.objects.filter(slug=slug).first()
+        products = products.filter(
+            Q(parent_group=group) | Q(parent_group__parent=group))
+
     # Pagination logic
-    paginator = Paginator(products, 8)  # Show 10 products per page
+    page_size = request.GET.get('page-size', 8)
+    page_size = int(page_size)
+
+    paginator = Paginator(products, page_size)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    if request.htmx:
-        return render(request, 'mgt/products/renders/update-products.html', {"products": page_obj})
+    # Determine pagination range
+    num_pages = paginator.num_pages
+    print("page_obj.count = ", page_obj.end_index() - page_obj.start_index() + 1)
+    current_page = page_obj.number
+    if num_pages <= 5:
+        page_range = range(1, num_pages + 1)
+    else:
+        start = max(1, current_page - 2)
+        end = min(num_pages, current_page + 2)
+        if start == 1:
+            end = min(5, num_pages)
+        if end == num_pages:
+            start = max(1, num_pages - 4)
+        page_range = range(start, end + 1)
 
+    # Range of page sizes for the select dropdown
+    page_size_range = range(6, 11)
     context = {
         "products": page_obj,
+        "products_count": products.count(),
+        "page_range": page_range,
+        "page_size": page_size,
+        "page_size_range": page_size_range,
         "groups": groups,
     }
+
+    if request.htmx:
+        return render(request, 'mgt/products/renders/update-products.html', context)
+
     return render(request, 'mgt/products/list.html', context)
 
 
