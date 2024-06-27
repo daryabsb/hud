@@ -45,4 +45,5 @@ def modal_add_product(request):
         form = ProductGroupForm(instance=group)
         context = {"group": group, "form": form}
         return render(request, 'mgt/modals/add-product-group-modal.html', context)
+    form = ProductGroupForm(instance=group)
     return render(request, 'mgt/modals/add-product-group-modal.html', {"form": form})

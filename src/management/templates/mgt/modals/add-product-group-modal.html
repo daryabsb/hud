@@ -5,12 +5,13 @@
         hx-post="{% url 'mgt:add-product-group' %}"
         hx-target="#mgt-products-sidebar"
         class="modal-content">
-        <input type="hidden" name="group-id" value="{{ group.id }}" />
+            {% if group %}
+            <input type="hidden" name="group-id" value="{{ group.id }}" />
+            {% endif %}
             <div class="modal-header">
                 <h5 class="modal-title">Add Product</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            {{ group.slug }}
             <div class="modal-body">
                 <div class="mb-3">
                     <label class="form-label">Name</label>
@@ -33,7 +34,10 @@
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn btn-outline-default" data-bs-dismiss="modal">Cancel</a>
-                <button type="submit" class="btn btn-outline-theme">Create</button>
+                
+                <button type="submit" class="btn btn-outline-theme" data-bs-dismiss="modal">
+                {% if group %}Update{% else %}Create{% endif %}
+                </button>
             </div>
         </form>
     </div>

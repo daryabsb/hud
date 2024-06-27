@@ -146,7 +146,7 @@ def add_product_group(request):
         group = form.save(commit=False)
         group.user = request.user
         group.save()
-    groups_list = Group.objects.all()
+    groups_list = ProductGroup.objects.all()
     context = {
         "groups": groups_list,
     }
