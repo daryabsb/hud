@@ -37,19 +37,17 @@
 			<div class="file-manager h-100" id="fileManager">
 				<div class="file-manager-toolbar">
 					<button type="button" class="btn border-0"><i class="bi bi-plus-lg me-1"></i> File</button>
-					<button type="button" class="btn border-0"><i class="bi bi-plus-lg me-1"></i>
-					Folder</button>
-					<button type="button" class="btn border-0"  id="edit-group-button"
-						hx-get="{% url 'mgt:modal-add-product' %}" 
+					<button type="button" class="btn border-0"  id="add-group-button"
+						hx-get="{% url 'mgt:modal-add-product-group' %}" 
 						hx-target="#modalAddProductGroup" 
 						hx-trigger="click"
 						href="#modalAddProductGroup" data-bs-toggle="modal"
 					>
 					<i class="bi bi-plus-lg me-1"></i>
-					<input type="hidden" name="group-id" id="edit-group-button-input" />
 					Add Group</button>
+					<!-- both buttons below will use the group-id input as hx-include -->
 					<button type="button" class="btn border-0"  id="edit-group-button" disabled
-						hx-get="{% url 'mgt:modal-add-product' %}" 
+						hx-get="{% url 'mgt:modal-add-product-group' %}" 
 						hx-target="#modalAddProductGroup" 
 						hx-trigger="click"
 						hx-include="#edit-group-button-input"
@@ -58,6 +56,19 @@
 					<i class="bi me-1 bi-copy"></i>
 					<input type="hidden" name="group-id" id="edit-group-button-input" />
 					Edit Group</button>
+					<button type="button" class="btn border-0"  id="delete-group-button" disabled
+						
+						hx-get="{% url 'mgt:modal-delete-product-group' %}" 
+						hx-target="#modalDeleteProductGroup" 
+						hx-trigger="click"
+						hx-include="#delete-group-button-input"
+						href="#modalDeleteProductGroup"
+						data-bs-toggle="modal"
+					>
+					<i class="bi me-1 bi-trash"></i>
+					<input type="hidden" name="group-id" id="delete-group-button-input" />
+					{% comment %} <input type="hidden" name="group-id" id="delete-group-button-input" /> {% endcomment %}
+					Delete Group</button>
 					<button type="button" class="btn border-0" disabled><i class="bi me-1 bi-arrows-move"></i>
 					Move</button>
 					<button type="button" class="btn border-0"><i class="bi me-1 bi-upload"></i> Upload</button>

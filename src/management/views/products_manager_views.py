@@ -3,9 +3,9 @@ from django.core.paginator import Paginator
 from django.views.decorators.http import require_GET, require_POST
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from src.products.models import Product, ProductGroup
-from src.products.forms import ProductForm, ProductGroupForm
+from src.products.forms import ProductForm, ProductGroupForm, ConfirmPasswordForm
 from src.stock.models import Stock
 from src.accounts.models import User
 # Create your views here.
@@ -152,6 +152,25 @@ def add_product_group(request):
     }
 
     return render(request, 'mgt/products/partials/sidebar.html', context)
+
+
+def delete_product_group(request):
+    from django.contrib.auth import authenticate
+    group_id = request.POST.get('delete-group-id', None)
+    form = ConfirmPasswordForm(request.POST)
+    if form.is_valid():
+        password = form.cleaned_data.get('password')
+        user = authenticate(email=request.user.email, password=password)
+        if user is not None:
+            group = get_object_or_404(ProductGroup, id=group_id)
+            group.delete()
+            groups_list = ProductGroup.objects.all()
+            context = {
+                "groups": groups_list,
+            }
+            return render(request, 'mgt/products/partials/sidebar.html', context)
+
+    # group.delete()
 
 
 permision_sample = [
