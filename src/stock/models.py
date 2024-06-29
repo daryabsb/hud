@@ -37,7 +37,8 @@ class StockControl(models.Model):
         Product, on_delete=models.CASCADE, related_name="stock_controls"
     )
     customer = models.ForeignKey(
-        Customer, on_delete=models.SET_NULL, null=True, related_name="stock_controls"
+        Customer, on_delete=models.SET_NULL, null=True,
+        related_name="stock_controls", default=1
     )
     reorder_point = models.FloatField(default=0)
     preferred_quantity = models.SmallIntegerField(default=1)

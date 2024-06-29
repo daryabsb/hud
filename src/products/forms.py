@@ -19,9 +19,11 @@ class ProductDetailsForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = [
-            'name', 'code', 'measurement_unit', 'currency', 'image', 'color', 'is_enabled', 
-            'age_restriction', 'is_service', 'is_using_default_quantity', 'parent_group'
+            'name', 'code', 'measurement_unit', 'currency', 'image', 'color', 'is_enabled',
+            'age_restriction', 'is_service', 'is_using_default_quantity', 'parent_group',
+            'cost', 'margin', 'price', 'is_tax_inclusive_price', 'is_price_change_allowed',
         ]
+
 
 class BarcodeForm(forms.ModelForm):
     class Meta:

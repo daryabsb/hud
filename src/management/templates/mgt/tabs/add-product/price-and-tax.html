@@ -1,24 +1,58 @@
 {% load widget_tweaks %}
 <div class="tab-pane fade" id="add-product-price-and-tax">
-    <div class="mb-2">
-        <label class="form-label">Taxes</label>
-        {{ product_tax_formset.management_form }}
-        {% for form in product_tax_formset %}
-        {% render_field form.tax class="form-select"  style="display:none;" %}
-        {% endfor %}
+    <div class="mb-5">
+        <div class="mb-2">
+            <label class="form-label">Taxes</label>
+            {{ product_tax_formset.management_form }}
+            {% for form in product_tax_formset %}
+            {% render_field form.tax class="form-select"  style="display:none;" %}
+            {% endfor %}
+        </div>
+        <button class="btn btn-outline-theme" id="cancel-add-tax-to-product-form" style="display:none;"
+        _="on click 
+        toggle *display of #id_form-0-tax
+        toggle *display of #add-tax-to-product-form-button
+        toggle my *display    
+        "
+        >Cancel</button>
+        <button class="btn btn-outline-default" id="add-tax-to-product-form-button"
+        _="on click 
+        toggle *display of #id_form-0-tax
+        toggle *display of #cancel-add-tax-to-product-form
+        toggle my *display    
+        "
+        >Add tax to product</button>
+        <button class="btn btn-outline-link  ms-2" 
+        _="on mouseenter toggle *display of #product-tax-help until mouseleave"
+        >
+        <i class="far fa-lg fa-fw fa-question-circle"></i>
+        </button>
+        <div class="my-4" style="display:none;" id="product-tax-help">
+            <h6>Explanation:</h6>
+            <p>Here the explanation of the tax process happens</p>
+        </div>
     </div>
-    <button class="btn btn-outline-theme" id="cancel-add-tax-to-product-form" style="display:none;"
-    _="on click 
-    toggle *display of #id_form-0-tax
-    toggle *display of #add-tax-to-product-form-button
-    toggle my *display    
-    "
-    >Cancel</button>
-    <button class="btn btn-outline-theme" id="add-tax-to-product-form-button"
-    _="on click 
-    toggle *display of #id_form-0-tax
-    toggle *display of #cancel-add-tax-to-product-form
-    toggle my *display    
-    "
-    >Add tax to product</button>
+    <div class="mb-3">
+        <label class="form-label">Cost</label>
+        {% render_field product_form.cost class="form-control" %}
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Markup (%)</label>
+        {% render_field product_form.margin class="form-control" %}
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Sale price</label>
+        {% render_field product_form.price class="form-control" %}
+    </div>
+    <div class="mb-3">
+        <div class="form-check form-switch mb-2">
+            {% render_field product_form.is_tax_inclusive_price class="form-check-input" %}
+            <label class="form-check-label" for="customSwitch1">Price include tax</label>
+        </div>
+        <div class="form-check form-switch mb-2">
+            {% render_field product_form.is_price_change_allowed class="form-check-input" %}
+            <label class="form-check-label" for="customSwitch1">Price change allowed</label>
+        </div>
+    </div>
+
 </div>

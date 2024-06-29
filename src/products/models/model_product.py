@@ -18,9 +18,10 @@ class Product(models.Model):
     code = models.CharField(max_length=100, null=True, blank=True)
     description = models.CharField(max_length=300, null=True, blank=True)
     plu = models.IntegerField(null=True, blank=True)
-    measurement_unit = models.CharField(max_length=10, null=True, blank=True, default='pcs')
+    measurement_unit = models.CharField(
+        max_length=10, null=True, blank=True, default='pcs')
 
-    price = models.DecimalField(default=3, decimal_places=3, max_digits=11)
+    price = models.DecimalField(default=0.000, decimal_places=3, max_digits=11)
     currency = models.ForeignKey(
         "Currency", on_delete=models.CASCADE, related_name="products",
         null=True, blank=True, default=1
@@ -34,7 +35,7 @@ class Product(models.Model):
         default=0, null=True, blank=True, decimal_places=3, max_digits=11)
     margin = models.DecimalField(max_digits=18, decimal_places=3, default=0)
     image = models.ImageField(null=True, blank=True,
-                            upload_to=upload_image_file_path)
+                              upload_to=upload_image_file_path)
     color = models.CharField(max_length=50, default="Transparent")
     is_enabled = models.BooleanField(default=True)
     age_restriction = models.SmallIntegerField(null=True, blank=True)
