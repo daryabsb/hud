@@ -257,9 +257,7 @@ body {
     text-align: var(--bs-body-text-align);
     background-color: var(--bs-body-bg);
     -webkit-text-size-adjust: 100%;
-    -webkit-tap-highlight-color: transparent;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: transparent
 }
 
 hr {
@@ -795,7 +793,7 @@ progress {
 }
 
 .blockquote-footer::before {
-    content: "— "
+    content: "— "
 }
 
 .img-fluid {
@@ -2985,18 +2983,6 @@ textarea.form-control-lg {
 
 .form-check-input[type=radio] {
     border-radius: 50%
-}
-
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-/* Firefox */
-input[type=number] {
-    -moz-appearance: textfield;
 }
 
 .form-check-input:active {
@@ -7910,10 +7896,6 @@ fieldset:disabled .btn {
     border: var(--bs-modal-border-width) solid var(--bs-modal-border-color);
     border-radius: var(--bs-modal-border-radius);
     outline: 0
-}
-
-.modal-product {
-    z-index: 1251 !important;
 }
 
 .modal-backdrop {
@@ -34293,10 +34275,9 @@ body .note-modal-backdrop {
     flex: 1
 }
 
-/* NO NEED FOR EXTRA SCROLL */
 @media (min-width:992px) {
     .pos .pos-content {
-        /* overflow: scroll */
+        overflow: scroll
     }
 }
 
@@ -34310,19 +34291,12 @@ body .note-modal-backdrop {
     padding: 0 2rem
 }
 
-/* .pos .pos-sidebar {
+.pos .pos-sidebar {
     width: 360px;
     height: 100%;
     display: flex;
     flex-direction: column;
     flex: 0 0 360px
-} */
-.pos .pos-sidebar {
-    width: 450px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    flex: 0 0 450px
 }
 
 @media (max-width:991.98px) {
@@ -34408,14 +34382,12 @@ body .note-modal-backdrop {
 }
 
 .pos .pos-sidebar .pos-sidebar-footer {
-    /* position: absolute;
-    bottom: 0; */
     border-top: 1px solid var(--bs-border-color);
     padding: 1rem 1.5rem
 }
 
 .pos .pos-sidebar .pos-order {
-    padding: 1.1rem;
+    padding: 1.5rem;
     position: relative;
     display: flex
 }
@@ -34433,11 +34405,11 @@ body .note-modal-backdrop {
 }
 
 .pos .pos-sidebar .pos-order .pos-order-product>*+* {
-    margin-left: 0.75rem
+    margin-left: 1rem
 }
 
 .pos .pos-sidebar .pos-order>*+* {
-    margin-left: 0.75rem
+    margin-left: 1rem
 }
 
 .pos .pos-sidebar .pos-order .pos-order-confirmation {
@@ -34448,7 +34420,7 @@ body .note-modal-backdrop {
     bottom: 0;
     z-index: 10;
     background: rgba(235, 235, 235, .88);
-    padding: 0.5rem;
+    padding: 1rem;
     margin: 0
 }
 
