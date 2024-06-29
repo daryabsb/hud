@@ -16,8 +16,7 @@
                 _=" on click 
                         remove .text-warning from .file-icon 
                         add .text-warning to #file-icon-{{ node.id }}
-                        set #edit-group-button-input.value to {{node.id}}
-                        set #delete-group-button-input.value to {{node.id}}
+                        set #selected-group.value to {{node.id}}
                         remove @disabled from #edit-group-button
                         remove @disabled from #delete-group-button
                     init add .text-warning to #file-icon-1
@@ -39,6 +38,24 @@
                 {% endif %}
             </div>
             {% endrecursetree %}
+        </div>
+    </div>
+</div>
+<div class="file-manager-sidebar-footer" style="height:3.9rem;">
+    <div class="d-flex align-items-center">
+        <div class="mx-n1">
+            <span class="iconify fa-2x text-theme"
+                data-icon="solar:ssd-square-bold-duotone"></span>
+        </div>
+        <div class="flex-1 ps-3 small">
+            
+            <div class="progress h-5px my-1">
+                <div class="progress-bar progress-bar-striped bg-theme"
+                    style="width: 80%"></div>
+            </div>
+            <div class="fw-bold text-body text-opacity-50 small">
+                <b class="text-body">127.7GB</b> free of <b class="text-body">256GB</b>
+            </div>
         </div>
     </div>
 </div>

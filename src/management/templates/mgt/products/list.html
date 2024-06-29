@@ -1,101 +1,29 @@
 {% extends 'base.html' %}
 
-		{% comment %} <div>
-			<ul class="breadcrumb">
-				<li class="breadcrumb-item"><a href="/mgt/">MANAGEMENT</a></li>
-				<li class="breadcrumb-item active">PRODUCTS</li>
-			</ul>
-			<h1 class="page-header mb-0">Products</h1>
-		</div> {% endcomment %}
 {% block content %}
 <div id="content" class="app-content d-flex flex-column">
 	<div class="d-flex align-items-center mb-3">
 		<div>
-			<ul class="breadcrumb">
-				<li class="breadcrumb-item"><a href="/mgt/">MANAGEMENT</a></li>
-				<li class="breadcrumb-item active">PRODUCTS</li>
-			</ul>
+			
 			<h1 class="page-header mb-0">Products</h1>
 		</div>
 		<div class="ms-auto">
 			{% comment %} _="on click toggle .active" {% endcomment %}
-			<a  class="btn btn-outline-theme" id="add-product"
-			hx-get="{% url 'mgt:modal-add-product' %}" 
-			hx-target="#modalAddProduct" 
-			hx-trigger="click"
-			href="#modalAddProduct" data-bs-toggle="modal"
-			><i class="fa fa-plus-circle fa-fw me-1"></i> Add Product</a>
+			{% include 'mgt/buttons/add-product-button.html' %}
 		</div>
 	</div>
 	<div class="card flex-1 m-0 d-flex flex-column overflow-hidden rounded-0">
 		<div class="card-header fw-bold small d-flex">
-			<span class="flex-grow-1">File Manager</span>
+				<ul class="breadcrumb flex-grow-1">
+					<li class="breadcrumb-item"><a href="/mgt/">MANAGEMENT</a></li>
+					<li class="breadcrumb-item active">PRODUCTS</li>
+				</ul>
 			<a href="#" data-toggle="card-expand" class="text-white text-opacity-50 text-decoration-none"><i
 				class="fa fa-fw fa-expand"></i> EXPAND</a>
 		</div>
 		<div class="card-body p-0 flex-1 overflow-hidden">
 			<div class="file-manager h-100" id="fileManager">
-				<div class="file-manager-toolbar">
-					<button type="button" class="btn border-0"
-					_="on click reload() the location of the window"
-					><i class="bi bi-plus-lg me-1"
-					></i> Reload</button>
-					<button type="button" class="btn border-0"  id="add-group-button"
-						hx-get="{% url 'mgt:modal-add-product-group' %}" 
-						hx-target="#modalAddProductGroup" 
-						hx-trigger="click"
-						href="#modalAddProductGroup" data-bs-toggle="modal"
-					>
-					<i class="bi bi-plus-lg me-1"></i>
-					Add Group</button>
-					<!-- both buttons below will use the group-id input as hx-include -->
-					<button type="button" class="btn border-0"  id="edit-group-button" disabled
-						hx-get="{% url 'mgt:modal-add-product-group' %}" 
-						hx-target="#modalAddProductGroup" 
-						hx-trigger="click"
-						hx-include="#edit-group-button-input"
-						href="#modalAddProductGroup" data-bs-toggle="modal"
-					>
-					<i class="bi me-1 bi-copy"></i>
-					<input type="hidden" name="group-id" id="edit-group-button-input" />
-					Edit Group</button>
-					<button type="button" class="btn border-0"  id="delete-group-button" disabled
-						
-						hx-get="{% url 'mgt:modal-delete-product-group' %}" 
-						hx-target="#modalDeleteProductGroup" 
-						hx-trigger="click"
-						hx-include="#delete-group-button-input"
-						href="#modalDeleteProductGroup"
-						data-bs-toggle="modal"
-					>
-					<i class="bi me-1 bi-trash"></i>
-					<input type="hidden" name="group-id" id="delete-group-button-input" />
-					{% comment %} <input type="hidden" name="group-id" id="delete-group-button-input" /> {% endcomment %}
-					Delete Group</button>
-					<button type="button" class="btn border-0" disabled><i class="bi me-1 bi-arrows-move"></i>
-					Move</button>
-					<button type="button" class="btn border-0"><i class="bi me-1 bi-upload"></i> Upload</button>
-					<button type="button" class="btn border-0" disabled><i class="bi me-1 bi-download"></i>
-					Download</button>
-					<button type="button" class="btn border-0" disabled><i class="bi me-1 bi-trash"></i>
-					Delete</button>
-					<button type="button" class="btn border-0" disabled><i
-						class="bi me-1 bi-arrow-clockwise"></i> Restore</button>
-					<button type="button" class="btn border-0" disabled><i
-						class="bi me-1 bi-file-earmark-text"></i> Rename</button>
-					<button type="button" class="btn border-0" disabled><i class="bi me-1 bi-pen"></i>
-					Edit</button>
-					<button type="button" class="btn border-0" disabled><i class="bi me-1 bi-pencil-square"></i>
-					HTML Editor</button>
-					<button type="button" class="btn border-0" disabled><i class="bi me-1 bi-key"></i>
-					Permissions</button>
-					<button type="button" class="btn border-0" disabled><i class="bi me-1 bi-eye"></i>
-					View</button>
-					<button type="button" class="btn border-0" disabled><i class="bi me-1 bi-unlock"></i>
-					Extract</button>
-					<button type="button" class="btn border-0" disabled><i
-						class="bi me-1 bi-file-earmark-zip"></i> Compress</button>
-				</div>
+				{% include 'mgt/products/partials/buttons-toolbar.html' %}
 				<div class="file-manager-container">
 					<div class="file-manager-sidebar">
 						<div class="file-manager-sidebar-mobile-toggler">
@@ -105,66 +33,9 @@
 						</div>
 						<!-- mgt products sidebar -->
 						{% include 'mgt/products/partials/sidebar.html' %}
-
-						<div class="file-manager-sidebar-footer" style="height:3.9rem;">
-							<div class="d-flex align-items-center">
-								<div class="mx-n1">
-									<span class="iconify fa-2x text-theme"
-										data-icon="solar:ssd-square-bold-duotone"></span>
-								</div>
-								<div class="flex-1 ps-3 small">
-									
-									<div class="progress h-5px my-1">
-										<div class="progress-bar progress-bar-striped bg-theme"
-											style="width: 80%"></div>
-									</div>
-									<div class="fw-bold text-body text-opacity-50 small">
-										<b class="text-body">127.7GB</b> free of <b class="text-body">256GB</b>
-									</div>
-								</div>
-							</div>
-						</div>
 					</div>
 					<div class="file-manager-content d-flex flex-column">
-						<div class="mb-0 d-flex flex-wrap text-nowrap px-10px pt-10px pb-0 border-bottom">
-							<button type="button" class="btn btn-sm btn-default me-2 mb-10px px-2"><i
-								class="fa fa-fw fa-home"></i></button>
-							<button type="button" class="btn btn-sm btn-default me-2 mb-10px" disabled><i
-								class="fa fa-fw fa-arrow-turn-up ms-n1"></i> Up One Level</button>
-							<div class="btn-group me-2 mb-10px">
-								<button type="button" class="btn btn-sm btn-default" disabled><i
-									class="fa me-1 fa-arrow-left"></i> Back</button>
-								<button type="button" class="btn btn-sm btn-default" disabled><i
-									class="fa me-1 fa-arrow-right"></i> Forward</button>
-							</div>
-							<button type="button" class="btn btn-sm btn-default me-2 mb-10px px-2"><i
-								class="fa fa-fw fa-arrows-rotate"></i></button>
-							<div class="btn-group me-2 mb-10px">
-								<button type="button" class="btn btn-sm btn-default"
-								_="on click set .product-select-checkbox.checked to true"
-								><i class="fa fa-fw fa-check ms-n1"></i> Select All</button>
-								<button type="button" class="btn btn-sm btn-default"
-								_="on click set .product-select-checkbox.checked to false"
-								><i
-									class="far fa-fw fa-square ms-n1"></i> Unselect All</button>
-								<div class="form-group row mx-4">
-									<label for="staticEmail" class="col-sm-6 col-form-label">Page size</label>
-									<div class="col-sm-6">
-									<select class="form-select form-select-inline"
-											id="page-size"
-											name="page-size"
-											hx-get="."
-											hx-trigger="change"
-											hx-push-url="true">
-										{% for size in page_size_range %}
-											<option value="{{ size }}" {% if size == page_size %}selected{% endif %}>{{ size }}</option>
-										{% endfor %}
-									</select>
-							
-									</div>
-									</div>
-							</div>
-						</div>
+						{% include 'mgt/products/partials/table-header.html' %}
 						<div class="flex-1 overflow-hidden">
 							<div id="mgt-products-table" data-scrollbar="true" data-skip-mobile="true" data-height="32rem" class="p-0"  >
 							{% include 'mgt/products/partials/products-table.html' %}

@@ -1,0 +1,39 @@
+<div class="mb-0 d-flex flex-wrap text-nowrap px-10px pt-10px pb-0 border-bottom">
+    <button type="button" class="btn btn-sm btn-default me-2 mb-10px px-2"><i
+        class="fa fa-fw fa-home"></i></button>
+    <button type="button" class="btn btn-sm btn-default me-2 mb-10px" disabled><i
+        class="fa fa-fw fa-arrow-turn-up ms-n1"></i> Up One Level</button>
+    <div class="btn-group me-2 mb-10px">
+        <button type="button" class="btn btn-sm btn-default" disabled><i
+            class="fa me-1 fa-arrow-left"></i> Back</button>
+        <button type="button" class="btn btn-sm btn-default" disabled><i
+            class="fa me-1 fa-arrow-right"></i> Forward</button>
+    </div>
+    <button type="button" class="btn btn-sm btn-default me-2 mb-10px px-2"><i
+        class="fa fa-fw fa-arrows-rotate"></i></button>
+    <div class="btn-group me-2 mb-10px">
+        <button type="button" class="btn btn-sm btn-default"
+        _="on click set .product-select-checkbox.checked to true"
+        ><i class="fa fa-fw fa-check ms-n1"></i> Select All</button>
+        <button type="button" class="btn btn-sm btn-default"
+        _="on click set .product-select-checkbox.checked to false"
+        ><i
+            class="far fa-fw fa-square ms-n1"></i> Unselect All</button>
+        <div class="form-group row mx-4">
+            <label for="staticEmail" class="col-sm-6 col-form-label">Page size</label>
+            <div class="col-sm-6">
+            <select class="form-select form-select-inline"
+                    id="page-size"
+                    name="page-size"
+                    hx-get="."
+                    hx-trigger="change"
+                    hx-push-url="true">
+                {% for size in page_size_range %}
+                    <option value="{{ size }}" {% if size == page_size %}selected{% endif %}>{{ size }}</option>
+                {% endfor %}
+            </select>
+    
+            </div>
+            </div>
+    </div>
+</div>

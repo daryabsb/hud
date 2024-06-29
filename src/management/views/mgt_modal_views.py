@@ -33,16 +33,37 @@ def modal_add_product(request):
 
 @login_required
 @require_GET
-def modal_add_product_group(request):
+def modal_update_product_group(request):
     group = None
     group_id = request.GET.get('group-id', None)
+    parent_id = request.POST.get('parent-id', None)
+
 
     if group_id:
         group = get_object_or_404(ProductGroup, id=group_id)
         form = ProductGroupForm(instance=group)
         context = {"group": group, "form": form}
         return render(request, 'mgt/modals/add-product-group-modal.html', context)
-    form = ProductGroupForm()
+    if parent_id:
+        parent_group = get_object_or_404(ProductGroup, id=parent_id)
+        form = ProductGroupForm(initial={'parent_group': parent_group})
+    else:
+        form = ProductGroupForm()
+    return render(request, 'mgt/modals/add-product-group-modal.html', {"form": form})
+
+
+@login_required
+@require_GET
+def modal_add_product_group(request):
+
+    parent_id = request.GET.get('group-id', None)
+
+    if parent_id:
+        parent = get_object_or_404(ProductGroup, id=parent_id)
+    else:
+        parent = get_object_or_404(ProductGroup, slug='products')
+
+    form = ProductGroupForm(initial={'parent': parent})
     return render(request, 'mgt/modals/add-product-group-modal.html', {"form": form})
 
 

@@ -1,0 +1,61 @@
+<div class="file-manager-toolbar">
+    <input type="hidden" name="group-id" id="selected-group" />
+    <button type="button" class="btn border-0"
+    _="on click reload() the location of the window"
+    ><i class="bi bi-plus-lg me-1"
+    ></i> Reload</button>
+    <button type="button" class="btn border-0"  id="add-group-button"
+        hx-get="{% url 'mgt:modal-add-product-group' %}" 
+        hx-target="#modalAddProductGroup" 
+        hx-trigger="click"
+        hx-include="#selected-group"
+        href="#modalAddProductGroup" data-bs-toggle="modal"
+    >
+    <i class="bi bi-plus-lg me-1"></i>
+    Add Group</button>
+    <!-- both buttons below will use the group-id input as hx-include -->
+    <button type="button" class="btn border-0"  id="edit-group-button" disabled
+        hx-get="{% url 'mgt:modal-update-product-group' %}" 
+        hx-target="#modalAddProductGroup" 
+        hx-trigger="click"
+        hx-include="#selected-group"
+        href="#modalAddProductGroup" data-bs-toggle="modal"
+    >
+    <i class="bi me-1 bi-copy"></i>
+    Edit Group</button>
+    <button type="button" class="btn border-0"  id="delete-group-button" disabled
+        
+        hx-get="{% url 'mgt:modal-delete-product-group' %}" 
+        hx-target="#modalDeleteProductGroup" 
+        hx-trigger="click"
+        hx-include="#selected-group"
+        href="#modalDeleteProductGroup"
+        data-bs-toggle="modal"
+    >
+    <i class="bi me-1 bi-trash"></i>
+    {% comment %} <input type="hidden" name="group-id" id="delete-group-button-input" /> {% endcomment %}
+    Delete Group</button>
+    <button type="button" class="btn border-0" disabled><i class="bi me-1 bi-arrows-move"></i>
+    Move</button>
+    <button type="button" class="btn border-0"><i class="bi me-1 bi-upload"></i> Upload</button>
+    <button type="button" class="btn border-0" disabled><i class="bi me-1 bi-download"></i>
+    Download</button>
+    <button type="button" class="btn border-0" disabled><i class="bi me-1 bi-trash"></i>
+    Delete</button>
+    <button type="button" class="btn border-0" disabled><i
+        class="bi me-1 bi-arrow-clockwise"></i> Restore</button>
+    <button type="button" class="btn border-0" disabled><i
+        class="bi me-1 bi-file-earmark-text"></i> Rename</button>
+    <button type="button" class="btn border-0" disabled><i class="bi me-1 bi-pen"></i>
+    Edit</button>
+    <button type="button" class="btn border-0" disabled><i class="bi me-1 bi-pencil-square"></i>
+    HTML Editor</button>
+    <button type="button" class="btn border-0" disabled><i class="bi me-1 bi-key"></i>
+    Permissions</button>
+    <button type="button" class="btn border-0" disabled><i class="bi me-1 bi-eye"></i>
+    View</button>
+    <button type="button" class="btn border-0" disabled><i class="bi me-1 bi-unlock"></i>
+    Extract</button>
+    <button type="button" class="btn border-0" disabled><i
+        class="bi me-1 bi-file-earmark-zip"></i> Compress</button>
+</div>
