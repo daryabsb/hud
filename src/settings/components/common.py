@@ -42,6 +42,7 @@ LOCAL_APPS = [
     'src.management',
     'src.products',
     'src.orders',
+    'src.printers',
     'src.tax',
     'src.stock',
 ]

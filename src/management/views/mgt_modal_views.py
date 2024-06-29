@@ -10,10 +10,12 @@ from src.products.forms import (
     ProductGroupForm, ConfirmPasswordForm, ProductDetailsForm,
     BarcodeForm, ProductCommentForm
 )
+from src.printers.forms import ProductPrintStationForm
 from src.stock.forms import StockControlForm
 from src.tax.forms import ProductTaxForm
 from src.accounts.forms import CustomerForm
 from src.tax.models import ProductTax
+
 
 @login_required
 @require_GET
@@ -37,10 +39,13 @@ def modal_add_product(request):
     users = User.objects.all()
     product_form = ProductDetailsForm()
     barcode_form = BarcodeForm()
-    product_tax_formset = modelformset_factory(ProductTax, form=ProductTaxForm, extra=1)(queryset=ProductTax.objects.none())
+    product_printstation_form = ProductPrintStationForm()
+    product_tax_formset = modelformset_factory(
+        ProductTax, form=ProductTaxForm, extra=1)(queryset=ProductTax.objects.none())
     stock_control_form = StockControlForm()
     customer_form = CustomerForm()
-    product_comment_formset = modelformset_factory(ProductComment, form=ProductCommentForm, extra=1)(queryset=ProductComment.objects.none())
+    product_comment_formset = modelformset_factory(
+        ProductComment, form=ProductCommentForm, extra=1)(queryset=ProductComment.objects.none())
 
     context = {
         "users": users,
@@ -48,6 +53,7 @@ def modal_add_product(request):
         'barcode_form': barcode_form,
         'product_tax_formset': product_tax_formset,
         'stock_control_form': stock_control_form,
+        'product_printstation_form': product_printstation_form,
         'customer_form': customer_form,
         'product_comment_formset': product_comment_formset,
     }
@@ -60,7 +66,6 @@ def modal_update_product_group(request):
     group = None
     group_id = request.GET.get('group-id', None)
     parent_id = request.POST.get('parent-id', None)
-
 
     if group_id:
         group = get_object_or_404(ProductGroup, id=group_id)

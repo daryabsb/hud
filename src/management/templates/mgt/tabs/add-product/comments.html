@@ -1,3 +1,54 @@
+{% load widget_tweaks %}
 <div class="tab-pane fade" id="add-product-comments">
-    This is the comments
+    <div class="card mb-3">
+        <div class="card-header fw-bold text-warning">Warning</div>
+        <div class="widget-reminder">
+            <div class="widget-reminder-item">
+                <div class="widget-reminder-time">
+                    <div class="w-100 h-100 d-flex align-items-center justify-content-center h1">
+                        <i class="fas fa-lg fa-fw me-2 fa-info-circle"></i>
+                    </div>
+                </div>
+                <div class="widget-reminder-divider bg-primary"></div>
+                <div class="widget-reminder-content">
+                    <div class="fw-bold">Comments will be printed on the receipts!</div>
+                    <div class="d-flex align-items-center fs-13px mt-2">
+                        <a href="#" class="ms-auto">Get License</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <!-- card-arrow -->
+        <div class="card-arrow">
+            <div class="card-arrow-top-left"></div>
+            <div class="card-arrow-top-right"></div>
+            <div class="card-arrow-bottom-left"></div>
+            <div class="card-arrow-bottom-right"></div>
+        </div>
+    </div>
+    <div class="form-group row align-items-center mb-3">
+        <div class="col-sm-8 ">
+        <label class="form-label">Comment</label>
+            {{ product_comment_formset.management_form }}
+                {% for form in product_comment_formset %}
+                    {% render_field form.comment class="form-control" %}
+                {% endfor %}
+        </div>
+        <div class="col-sm-2 ">
+            <button type="button" class="btn btn-outline-success" 
+            
+            >Add</button>
+        </div>
+        <div class="col-sm-2 ">
+            <button type="button" class="btn btn-outline-success"
+            
+            >Delete</button>
+        </div>
+        <!-- _="on click set my value to null" -->
+    </div>
+    <div class="mb-3">
+        <textarea class="form-control" rows="6"></textarea>
+        <!-- _="on click set my value to null" -->
+    </div>
 </div>
