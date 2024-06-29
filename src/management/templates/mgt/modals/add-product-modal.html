@@ -5,15 +5,15 @@
                 <h5 class="modal-title">Add Product</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body overflow-y-auto" style="height: 80vh;">
                 <div class="mb-3">
-                    <ul class="nav nav-tabs nav-tabs-v2 ps-4 pe-4">
-                        <li class="nav-item me-5"><a href="#add-product-details" class="nav-link active" data-bs-toggle="tab">Details</a></li>
-                        <li class="nav-item me-5"><a href="#add-product-price-and-tax" class="nav-link" data-bs-toggle="tab">Price & Tax</a></li>
-                        <li class="nav-item me-5"><a href="#add-product-stock-control" class="nav-link" data-bs-toggle="tab">Stock control</a></li>
-                        <li class="nav-item me-5"><a href="#add-product-print-stations" class="nav-link" data-bs-toggle="tab">Print stations</a></li>
-                        <li class="nav-item me-5"><a href="#add-product-comments" class="nav-link" data-bs-toggle="tab">Comments</a></li>
-                        <li class="nav-item me-5"><a href="#add-product-image-and-color" class="nav-link" data-bs-toggle="tab">Image & color</a></li>
+                    <ul class="nav nav-tabs d-flex align-content-center nav-tabs-v2 ps-2 pe-2">
+                        <li class="nav-item me-3"><a href="#add-product-details" class="nav-link w-125px active" data-bs-toggle="tab">Details</a></li>
+                        <li class="nav-item me-3"><a href="#add-product-price-and-tax" class="nav-link w-125px" data-bs-toggle="tab">Price & Tax</a></li>
+                        <li class="nav-item me-3"><a href="#add-product-stock-control" class="nav-link w-125px" data-bs-toggle="tab">Stock control</a></li>
+                        <li class="nav-item me-3"><a href="#add-product-print-stations" class="nav-link w-125px" data-bs-toggle="tab">Print stations</a></li>
+                        <li class="nav-item me-3"><a href="#add-product-comments" class="nav-link w-125px" data-bs-toggle="tab">Comments</a></li>
+                        <li class="nav-item me-3"><a href="#add-product-image-and-color" class="nav-link w-125px" data-bs-toggle="tab">Image & color</a></li>
                     </ul>
                     <div class="tab-content pt-3">
                         {% include 'mgt/tabs/add-product/details.html' %}
@@ -24,24 +24,6 @@
                         {% include 'mgt/tabs/add-product/image-and-color.html' %}
                     {% comment %} <div class="tab-pane fade" id="dropdown2">...</div> {% endcomment %}
                     </div>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Name</label>
-                    <input type="text" class="form-control" placeholder="Give name to the new group">
-                </div>
-                {% if users %}
-                <div class="mb-3">
-                    <label class="form-label">Assign users to the group</label>
-                    <select class="form-select" multiple>
-                        {% for user in users %}
-                        <option value="{{ user.id }}">{{ user.name }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                {% endif %}
-                <div class="form-group">
-                    <label>Description</label>
-                    <textarea class="form-control" rows="10"></textarea>
                 </div>
             </div>
             <div class="modal-footer">

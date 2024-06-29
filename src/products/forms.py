@@ -1,5 +1,7 @@
 from django import forms
-from src.products.models import Product, ProductGroup
+from src.products.models import (
+    Product, ProductGroup, Barcode, ProductComment
+)
 
 
 class ConfirmPasswordForm(forms.Form):
@@ -13,14 +15,21 @@ class ProductGroupForm(forms.ModelForm):
         fields = ('parent', 'name')
 
 
-class ProductForm(forms.ModelForm):
-    # parent_group = forms.ModelChoiceField(
-    #     queryset=ProductGroup.objects.all(),
-    #     empty_label="Select Product Group",
-    #     label="Parent Group",
-    #     widget=forms.Select
-    # )
-
+class ProductDetailsForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = '__all__'
+        fields = [
+            'name', 'code', 'measurement_unit', 'currency', 'image', 'color', 'is_enabled', 
+            'age_restriction', 'is_service', 'is_using_default_quantity', 'parent_group'
+        ]
+
+class BarcodeForm(forms.ModelForm):
+    class Meta:
+        model = Barcode
+        fields = ['value']
+
+
+class ProductCommentForm(forms.ModelForm):
+    class Meta:
+        model = ProductComment
+        fields = ['comment']

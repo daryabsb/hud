@@ -1,3 +1,24 @@
+{% load widget_tweaks %}
 <div class="tab-pane fade" id="add-product-price-and-tax">
-    This is the price and tax
+    <div class="mb-2">
+        <label class="form-label">Taxes</label>
+        {{ product_tax_formset.management_form }}
+        {% for form in product_tax_formset %}
+        {% render_field form.tax class="form-select"  style="display:none;" %}
+        {% endfor %}
+    </div>
+    <button class="btn btn-outline-theme" id="cancel-add-tax-to-product-form" style="display:none;"
+    _="on click 
+    toggle *display of #id_form-0-tax
+    toggle *display of #add-tax-to-product-form-button
+    toggle my *display    
+    "
+    >Cancel</button>
+    <button class="btn btn-outline-theme" id="add-tax-to-product-form-button"
+    _="on click 
+    toggle *display of #id_form-0-tax
+    toggle *display of #cancel-add-tax-to-product-form
+    toggle my *display    
+    "
+    >Add tax to product</button>
 </div>

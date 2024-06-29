@@ -2,10 +2,18 @@ from collections import defaultdict
 from django.core.paginator import Paginator
 from django.views.decorators.http import require_GET, require_POST
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponseRedirect, JsonResponse
-from src.products.models import Product, ProductGroup
-from src.products.forms import ProductForm, ProductGroupForm, ConfirmPasswordForm
+from src.products.models import Product, ProductGroup, ProductComment
+from src.tax.models import ProductTax
+from django.forms import modelformset_factory
+from src.products.forms import (
+    ProductGroupForm, ConfirmPasswordForm, ProductDetailsForm,
+    BarcodeForm, ProductCommentForm
+)
+from src.stock.forms import StockControlForm
+from src.tax.forms import ProductTaxForm
+from src.accounts.forms import CustomerForm
 from src.stock.models import Stock
 from src.accounts.models import User
 # Create your views here.
@@ -68,8 +76,7 @@ def mgt_products(request, slug=None):
 
 def mgt_stocks(request):
     stocks = Stock.objects.all()
-    form = ProductForm()
-    return render(request, 'mgt/stocks/list.html', {"stocks": stocks, "form": form})
+    return render(request, 'mgt/stocks/list.html', {"stocks": stocks})
 
 
 list_permissions = [
@@ -171,6 +178,72 @@ def delete_product_group(request):
             return render(request, 'mgt/products/partials/sidebar.html', context)
 
     # group.delete()
+
+
+def add_product(request):
+    if request.method == 'POST':
+        product_form = ProductDetailsForm(request.POST, request.FILES)
+        barcode_form = BarcodeForm(request.POST)
+        product_tax_formset = modelformset_factory(ProductTax, form=ProductTaxForm, extra=1)(request.POST, queryset=ProductTax.objects.none())
+        stock_control_form = StockControlForm(request.POST)
+        customer_form = CustomerForm(request.POST)
+        product_comment_formset = modelformset_factory(ProductComment, form=ProductCommentForm, extra=1)(request.POST, queryset=ProductComment.objects.none())
+
+        if all([
+            product_form.is_valid(),
+            barcode_form.is_valid(),
+            product_tax_formset.is_valid(),
+            stock_control_form.is_valid(),
+            customer_form.is_valid(),
+            product_comment_formset.is_valid()
+        ]):
+            product = product_form.save()
+            barcode = barcode_form.save(commit=False)
+            barcode.product = product
+            barcode.save()
+
+            for form in product_tax_formset:
+                tax = form.save(commit=False)
+                tax.product = product
+                tax.save()
+
+            stock_control = stock_control_form.save(commit=False)
+            stock_control.product = product
+            stock_control.save()
+
+            for form in product_comment_formset:
+                comment = form.save(commit=False)
+                comment.product = product
+                comment.save()
+
+            return redirect('product_list')  # Replace 'product_list' with your product list view name
+
+    else:
+        product_form = ProductDetailsForm()
+        barcode_form = BarcodeForm()
+        product_tax_formset = modelformset_factory(ProductTax, form=ProductTaxForm, extra=1)(queryset=ProductTax.objects.none())
+        stock_control_form = StockControlForm()
+        customer_form = CustomerForm()
+        product_comment_formset = modelformset_factory(ProductComment, form=ProductCommentForm, extra=1)(queryset=ProductComment.objects.none())
+
+    return render(request, 'your_template.html', {
+        'product_form': product_form,
+        'barcode_form': barcode_form,
+        'product_tax_formset': product_tax_formset,
+        'stock_control_form': stock_control_form,
+        'customer_form': customer_form,
+        'product_comment_formset': product_comment_formset,
+    })
+
+
+
+
+
+
+
+
+
+
 
 
 permision_sample = [

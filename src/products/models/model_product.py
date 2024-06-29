@@ -12,7 +12,8 @@ class Product(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=255, unique=True, null=True)
     parent_group = TreeForeignKey(
-        "ProductGroup", on_delete=models.CASCADE, related_name="products"
+        "ProductGroup", on_delete=models.CASCADE, related_name="products",
+        default='products'
     )
     code = models.CharField(max_length=100, null=True, blank=True)
     description = models.CharField(max_length=300, null=True, blank=True)

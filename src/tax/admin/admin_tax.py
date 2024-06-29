@@ -3,7 +3,8 @@ from src.tax.models import Tax, ProductTax
 from src.accounts.models import User
 
 INITIAL_DATA = [
-    {"id": 1, "name": "VAT", "rate": 5.0, "is_tax_on_total": True}
+    {"id": 1, "name": "VAT", "rate": 5.0, "is_tax_on_total": True},
+    {"id": 2, "name": "Cigarete", "rate": 5.0, "is_tax_on_total": False}
 ]
 
 

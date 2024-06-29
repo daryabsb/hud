@@ -4,8 +4,16 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from src.accounts.models import User
 from src.products.forms import ProductGroupForm, ConfirmPasswordForm
-from src.products.models import ProductGroup
-
+from src.products.models import ProductGroup, ProductComment
+from django.forms import modelformset_factory
+from src.products.forms import (
+    ProductGroupForm, ConfirmPasswordForm, ProductDetailsForm,
+    BarcodeForm, ProductCommentForm
+)
+from src.stock.forms import StockControlForm
+from src.tax.forms import ProductTaxForm
+from src.accounts.forms import CustomerForm
+from src.tax.models import ProductTax
 
 @login_required
 @require_GET
@@ -27,7 +35,22 @@ def modal_add_user(request):
 @require_GET
 def modal_add_product(request):
     users = User.objects.all()
-    context = {"users": users}
+    product_form = ProductDetailsForm()
+    barcode_form = BarcodeForm()
+    product_tax_formset = modelformset_factory(ProductTax, form=ProductTaxForm, extra=1)(queryset=ProductTax.objects.none())
+    stock_control_form = StockControlForm()
+    customer_form = CustomerForm()
+    product_comment_formset = modelformset_factory(ProductComment, form=ProductCommentForm, extra=1)(queryset=ProductComment.objects.none())
+
+    context = {
+        "users": users,
+        'product_form': product_form,
+        'barcode_form': barcode_form,
+        'product_tax_formset': product_tax_formset,
+        'stock_control_form': stock_control_form,
+        'customer_form': customer_form,
+        'product_comment_formset': product_comment_formset,
+    }
     return render(request, 'mgt/modals/add-product-modal.html', context)
 
 
