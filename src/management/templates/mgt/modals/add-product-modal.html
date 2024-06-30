@@ -1,6 +1,9 @@
 
-    <div class="modal-dialog modal-right">
-        <div class="modal-content">
+    <form method="post" action="{% url 'mgt:add-product' %}"
+    class="modal-dialog modal-right">
+    {% csrf_token %}
+        <div 
+        class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Add Product</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -15,7 +18,9 @@
                         <li class="nav-item me-3"><a href="#add-product-comments" class="nav-link w-125px" data-bs-toggle="tab">Comments</a></li>
                         <li class="nav-item me-3"><a href="#add-product-image-and-color" class="nav-link w-125px" data-bs-toggle="tab">Image & color</a></li>
                     </ul>
-                    <div class="tab-content pt-3">
+                    <div 
+                    
+                    class="tab-content pt-3">
                         {% include 'mgt/tabs/add-product/details.html' %}
                         {% include 'mgt/tabs/add-product/price-and-tax.html' %}
                         {% include 'mgt/tabs/add-product/stock-control.html' %}
@@ -28,7 +33,7 @@
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn btn-outline-default" data-bs-dismiss="modal">Cancel</a>
-                <button type="button" class="btn btn-outline-theme">Create</button>
+                <button type="submit"  class="btn btn-outline-theme">Submit</button>
             </div>
         </div>
-    </div>
+    </form>

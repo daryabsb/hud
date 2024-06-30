@@ -181,6 +181,8 @@ def delete_product_group(request):
 
 
 def add_product(request):
+    from django.utils.text import slugify
+
     if request.method == 'POST':
         product_form = ProductDetailsForm(request.POST, request.FILES)
         barcode_form = BarcodeForm(request.POST)
@@ -189,34 +191,53 @@ def add_product(request):
         customer_form = CustomerForm(request.POST)
         product_comment_formset = modelformset_factory(ProductComment, form=ProductCommentForm, extra=1)(request.POST, queryset=ProductComment.objects.none())
 
-        if all([
-            product_form.is_valid(),
-            barcode_form.is_valid(),
-            product_tax_formset.is_valid(),
-            stock_control_form.is_valid(),
-            customer_form.is_valid(),
-            product_comment_formset.is_valid()
-        ]):
-            product = product_form.save()
+        
+        if product_form.is_valid():
+            product = product_form.save(commit=False)
+            product.user = request.user
+            product.slug = slugify(product.name)
+            product.save()
+        else:
+            print("Product is not valid")
+        
+        if barcode_form.is_valid():
             barcode = barcode_form.save(commit=False)
+            barcode.user = request.user
             barcode.product = product
             barcode.save()
-
+        else:
+            print("Barcode is not valid")
+        
+        if product_tax_formset.is_valid():
             for form in product_tax_formset:
                 tax = form.save(commit=False)
+                tax.user = request.user
                 tax.product = product
                 tax.save()
 
+        if stock_control_form.is_valid():
             stock_control = stock_control_form.save(commit=False)
+            stock_control.user = request.user
             stock_control.product = product
             stock_control.save()
+        
+        if customer_form.is_valid():
+            customer_form.save()
+        else:
+            print("Customer error happened!")
 
+
+        if product_comment_formset.is_valid():
             for form in product_comment_formset:
                 comment = form.save(commit=False)
                 comment.product = product
                 comment.save()
+        
 
-            return redirect('product_list')  # Replace 'product_list' with your product list view name
+
+
+
+            return redirect('/mgt/products/')  # Replace 'product_list' with your product list view name
 
     else:
         product_form = ProductDetailsForm()
@@ -226,7 +247,8 @@ def add_product(request):
         customer_form = CustomerForm()
         product_comment_formset = modelformset_factory(ProductComment, form=ProductCommentForm, extra=1)(queryset=ProductComment.objects.none())
 
-    return render(request, 'your_template.html', {
+    return render(request, 'mgt/products/list.html', {
+        'groups': ProductGroup.objects.all(),
         'product_form': product_form,
         'barcode_form': barcode_form,
         'product_tax_formset': product_tax_formset,

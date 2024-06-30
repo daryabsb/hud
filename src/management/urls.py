@@ -5,7 +5,8 @@ from src.management.views import (
     mgt_update_permissions, mgt_update_group_permissions,
     modal_add_group, modal_add_user, modal_add_product, modal_add_product_group,
     modal_delete_product_group, modal_update_product_group,
-    add_product_group, update_product_group, delete_product_group
+    add_product_group, update_product_group, delete_product_group,
+    add_product,
 
 )
 
@@ -21,6 +22,9 @@ urlpatterns = [
      path('update-permissions/', mgt_update_permissions, name='update-permissions'),
      path('update-group-permissions/', mgt_update_group_permissions,
           name='update-group-permissions'),
+
+     path('add-product/', add_product,
+          name='add-product'),
 ]
 
 # MODALS URLS

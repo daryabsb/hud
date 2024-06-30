@@ -14,31 +14,7 @@
         </div>
         <!-- _="on click set my value to null" -->
     </div>
-    <div class="border rounded-2 p-3 mb-3" style="display:none;" id="inline-customer-form">
-        <h6>Add new customer:</h6>
-        {% for field in customer_form %}
-            <div class="form-group row mb-2">
-                <label class="col-sm-2 col-form-label">{{ field.label }}</label>
-                <div class="col-sm-10">
-                    {% render_field field class="form-control" %}
-                </div>
-            </div>
-        {% endfor %}
-        <div class="py-2">
-                <button class="btn btn-outline-default me-2" 
-                _="on click  
-                    toggle @disabled on #add-product-add-customer-button
-                    toggle *display of #inline-customer-form
-                "
-                >Cancel</button>
-                <button type="button" class="btn btn-outline-theme"
-                _="on click  
-                    toggle @disabled on #add-product-add-customer-button
-                    toggle *display of #inline-customer-form
-                "
-                >Create</button>
-        </div>
-    </div>
+    
     <div class="mb-2">
         <label class="form-label">Reorder point</label>
         {% render_field stock_control_form.reorder_point class="form-control" %}

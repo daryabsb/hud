@@ -54,6 +54,7 @@ dz_array = {
                 "mgt_products": [
                     f"{app}/plugins/iconify/iconify.min.js",
                     f"{app}/js/demo/file-manager.demo.js",
+                    f"{app}/plugins/jscolor/jscolor.min.js",
                 ],
                 "mgt_users": [
                     # f"{app}/plugins/jquery-migrate/dist/jquery-migrate.min.js",
