@@ -80,12 +80,13 @@ def add_product(request):
     if request.method == 'POST':
         product_form = ProductDetailsForm(request.POST, request.FILES)
         barcode_form = BarcodeForm(request.POST)
-        product_tax_formset = modelformset_factory(ProductTax, form=ProductTaxForm, extra=1)(request.POST, queryset=ProductTax.objects.none())
+        product_tax_formset = modelformset_factory(ProductTax, form=ProductTaxForm, extra=1)(
+            request.POST, queryset=ProductTax.objects.none())
         stock_control_form = StockControlForm(request.POST)
         customer_form = CustomerForm(request.POST)
-        product_comment_formset = modelformset_factory(ProductComment, form=ProductCommentForm, extra=1)(request.POST, queryset=ProductComment.objects.none())
+        product_comment_formset = modelformset_factory(ProductComment, form=ProductCommentForm, extra=1)(
+            request.POST, queryset=ProductComment.objects.none())
 
-        
         if product_form.is_valid():
             product = product_form.save(commit=False)
             product.user = request.user
@@ -93,7 +94,7 @@ def add_product(request):
             product.save()
         else:
             print("Product is not valid")
-        
+
         if barcode_form.is_valid():
             barcode = barcode_form.save(commit=False)
             barcode.user = request.user
@@ -101,8 +102,8 @@ def add_product(request):
             barcode.save()
         else:
             print("Barcode is not valid")
-        
-        if product_tax_formset.is_valid():
+
+        if product_tax_formset and product_tax_formset.is_valid():
             for form in product_tax_formset:
                 tax = form.save(commit=False)
                 tax.user = request.user
@@ -121,15 +122,18 @@ def add_product(request):
                 comment.product = product
                 comment.save()
 
-            return redirect('/mgt/products/')  # Replace 'product_list' with your product list view name
+            # Replace 'product_list' with your product list view name
+            return redirect('/mgt/products/')
 
     else:
         product_form = ProductDetailsForm()
         barcode_form = BarcodeForm()
-        product_tax_formset = modelformset_factory(ProductTax, form=ProductTaxForm, extra=1)(queryset=ProductTax.objects.none())
+        product_tax_formset = modelformset_factory(
+            ProductTax, form=ProductTaxForm, extra=1)(queryset=ProductTax.objects.none())
         stock_control_form = StockControlForm()
         customer_form = CustomerForm()
-        product_comment_formset = modelformset_factory(ProductComment, form=ProductCommentForm, extra=1)(queryset=ProductComment.objects.none())
+        product_comment_formset = modelformset_factory(
+            ProductComment, form=ProductCommentForm, extra=1)(queryset=ProductComment.objects.none())
 
     return render(request, 'mgt/products/list.html', {
         'groups': ProductGroup.objects.all(),
