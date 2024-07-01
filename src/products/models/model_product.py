@@ -35,7 +35,7 @@ class Product(models.Model):
         default=0, null=True, blank=True, decimal_places=3, max_digits=11)
     margin = models.DecimalField(max_digits=18, decimal_places=3, default=0)
     image = models.ImageField(null=True, blank=True,
-                              upload_to=upload_image_file_path)
+                                upload_to=upload_image_file_path)
     color = models.CharField(max_length=50, default="Transparent")
     is_enabled = models.BooleanField(default=True)
     age_restriction = models.SmallIntegerField(null=True, blank=True)

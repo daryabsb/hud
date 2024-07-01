@@ -1,0 +1,32 @@
+{% load widget_tweaks %}
+<form 
+    class="border rounded-2 p-3 mb-3" id="inline-customer-form">
+    <!-- Customer form will be shown here -->
+    <h6>Add new customer:</h6>
+        {% for field in customer_form %}
+            <div class="form-group row mb-2">
+                <label class="col-sm-2 col-form-label">{{ field.label }}</label>
+                <div class="col-sm-10">
+                {% render_field field class="form-control" %}
+                </div>
+            </div>
+        {% endfor %}
+    <div class="py-2">
+        <button class="btn btn-outline-default me-2" 
+            _="on click  
+                toggle @disabled on #add-product-add-customer-button
+                remove #inline-customer-form
+            "
+        >Cancel</button>
+        <button 
+            hx-post="{% url 'mgt:add-new-supplier' %}"
+            hx-target="#add-product-customer-field"
+            hx-iclude="#inline-customer-form"
+        class="btn btn-outline-theme"
+            _="on click  
+                toggle @disabled on #add-product-add-customer-button
+                remove #inline-customer-form
+            "
+        >Create</button>
+    </div>
+</form>

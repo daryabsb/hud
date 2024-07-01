@@ -104,3 +104,10 @@ def modal_delete_product_group(request):
     form = ConfirmPasswordForm()
     context = {"group": group, "form": form}
     return render(request, 'mgt/modals/confirm-test.html', context)
+
+
+def show_customer_form(request):
+    customer_form = CustomerForm()
+    context = {"customer_form": customer_form}
+    return render(
+        request, 'mgt/tabs/add-product/side-forms/customer-form.html', context)

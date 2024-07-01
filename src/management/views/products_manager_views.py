@@ -15,7 +15,7 @@ from src.stock.forms import StockControlForm
 from src.tax.forms import ProductTaxForm
 from src.accounts.forms import CustomerForm
 from src.stock.models import Stock
-from src.accounts.models import User
+from src.accounts.models import User, Customer
 # Create your views here.
 from django.db.models import Q
 from django.contrib.auth.models import Group, Permission
@@ -220,22 +220,12 @@ def add_product(request):
             stock_control.user = request.user
             stock_control.product = product
             stock_control.save()
-        
-        if customer_form.is_valid():
-            customer_form.save()
-        else:
-            print("Customer error happened!")
-
 
         if product_comment_formset.is_valid():
             for form in product_comment_formset:
                 comment = form.save(commit=False)
                 comment.product = product
                 comment.save()
-        
-
-
-
 
             return redirect('/mgt/products/')  # Replace 'product_list' with your product list view name
 
@@ -257,6 +247,21 @@ def add_product(request):
         'product_comment_formset': product_comment_formset,
     })
 
+
+
+def add_new_supplier(request):
+    form = CustomerForm(request.POST)
+
+    if form.is_valid():
+        customer = form.save(commit=False)
+        customer.user = request.user
+        customer.is_customer = False
+        customer.is_supplier = True
+        customer.save()
+    stock_control_form = StockControlForm(initial={'customer': customer})
+    context = {"stock_control_form": stock_control_form}
+    return render(
+        request, 'mgt/tabs/add-product/side-forms/customer-field.html', context)
 
 
 

@@ -25,7 +25,10 @@ class Customer(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.name} @ {self.city}"
+        return self.name
+    
+    class Meta:
+        ordering = ('id',)
 
 
 class CustomerDiscount(models.Model):

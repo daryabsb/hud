@@ -2,19 +2,25 @@
 <div class="tab-pane fade" id="add-product-stock-control">
     <div class="form-group row mb-3">
         <label class="col-sm-2 col-form-label">Supplier</label>
-        <div class="col-sm-8 ">
-            {% render_field stock_control_form.customer class="form-select" %}
-        </div>
+        {% include 'mgt/tabs/add-product/side-forms/customer-field.html' %}
         <div class="col-sm-1 ">
-            <button type="button" class="btn btn-outline-success" id="add-product-add-customer-button"
-            _="on click  
-                toggle *display of #inline-customer-form
-                add @disabled to me"
+            <button
+                hx-trigger="click"
+                hx-get="{% url 'mgt:show-customer-form' %}"
+                hx-swap="innerHTML"
+                class="btn btn-outline-success" 
+                id="add-product-add-customer-button"
+                hx-target="#customer-form"
+                _="on click
+                    wait 1 seconds
+                    add @disabled to me"
             >+</button>
         </div>
         <!-- _="on click set my value to null" -->
     </div>
-    
+    <div id="customer-form">
+        <!-- Customer form will be shown here -->
+    </div>
     <div class="mb-2">
         <label class="form-label">Reorder point</label>
         {% render_field stock_control_form.reorder_point class="form-control" %}
