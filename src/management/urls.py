@@ -1,12 +1,12 @@
 
 from django.urls import path
 from src.management.views import (
-    mgt_home, mgt_products, mgt_stocks, mgt_users,
-    mgt_update_permissions, mgt_update_group_permissions,
-    modal_add_group, modal_add_user, modal_add_product, modal_add_product_group,
-    modal_delete_product_group, modal_update_product_group,show_customer_form,
-    add_product_group, update_product_group, delete_product_group,
-    add_product, add_new_supplier,
+     mgt_home, mgt_products, mgt_stocks, mgt_users,
+     mgt_update_permissions, mgt_update_group_permissions,
+     modal_add_group, modal_add_user, modal_add_product, modal_add_product_group,
+     modal_delete_product_group, modal_update_product_group,show_customer_form,
+     add_product_group, update_product_group, delete_product_group,
+     add_product
 
 )
 
@@ -51,8 +51,5 @@ urlpatterns += [
           name='delete-product-group'),
      path('show-customer-form/', show_customer_form,
           name='show-customer-form'),
-     path('add-new-supplier/', add_new_supplier,
-          name='add-new-supplier'),
-
      # path('filter-products/<slug:slug>/', mgt_products, name='filter-products'),
 ]

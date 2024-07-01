@@ -13,11 +13,13 @@ def test(request):
 
 urlpatterns = [
     path('accounts/', include('allauth.urls')),
+
     path('admin/', admin.site.urls),
     path('not-authorized/', not_authorized, name="not-authorized"),
     path('', index, name="index"),
     path('pos/', include('src.pos.urls'), name="pos"),
     path('mgt/', include('src.management.urls'), name="mgt"),
+    path('my-accounts/', include('src.accounts.urls'), name="my-accounts"),
     path('settings/', include('src.configurations.urls'), name="settings"),
 
     path('test/', test, name='test')
@@ -26,6 +28,6 @@ urlpatterns = [
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL,
-                          document_root=settings.STATIC_ROOT)
+                        document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL,
-                          document_root=settings.MEDIA_ROOT)
+                        document_root=settings.MEDIA_ROOT)
