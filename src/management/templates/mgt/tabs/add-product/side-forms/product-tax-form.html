@@ -1,0 +1,40 @@
+<div class="form-group row mb-3" id="id_form-0-tax-{{ tax.id}}">
+        {% include 'mgt/tabs/add-product/side-forms/product-tax-field.html' %}
+        <div class="col-sm-1 has-button">
+            <button
+                hx-trigger="click"
+                hx-get="{% url 'mgt:append-product-tax-form' %}"
+                hx-target="#append-product-tax-form"
+                hx-swap="beforeend"
+                hx-include="#append-product-tax-form"
+                class="btn btn-outline-success is-button" 
+                id="add-product-add-customer-button"
+                my-form-id="{{ tax.id }}"
+                _="on click
+                    wait 1 seconds
+                    add @disabled to me"
+            >+</button>
+        </div>
+        <div class="col-sm-1 ">
+        <button class="btn btn-outline-theme {{ is_first_set }}" id="cancel-add-producttax-form-{{ tax.id}}"
+            _="on click
+                remove #id_form-0-tax-{{ tax.id }}
+                if I match .is-first-set
+                    then toggle *display of the #add-tax-to-product-form-button 
+                else 
+                    toggle @disabled on the last .is-button
+                end 
+                "
+            >-</button>
+                {% comment %} 
+                log #id_form-0-tax-{{ tax.id }}.innerHTML 
+                    toggle @disabled on the previous .is-button
+                toggle *display of the #add-tax-to-product-form-button if I match .is-first-set
+                end 
+                {% endcomment %}
+
+        </div>
+    </div>
+    
+    
+

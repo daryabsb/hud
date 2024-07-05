@@ -14,7 +14,7 @@ from src.printers.forms import ProductPrintStationForm
 from src.stock.forms import StockControlForm
 from src.tax.forms import ProductTaxForm
 from src.accounts.forms import CustomerForm
-from src.tax.models import ProductTax
+from src.tax.models import ProductTax, Tax
 
 
 @login_required
@@ -42,6 +42,7 @@ def modal_add_product(request):
     product_printstation_form = ProductPrintStationForm()
     product_tax_formset = modelformset_factory(
         ProductTax, form=ProductTaxForm, extra=1)(queryset=ProductTax.objects.none())
+    product_tax_form = ProductTaxForm(initial={'tax': Tax.objects.first()})
     stock_control_form = StockControlForm()
     customer_form = CustomerForm()
     product_comment_formset = modelformset_factory(
@@ -52,6 +53,7 @@ def modal_add_product(request):
         'product_form': product_form,
         'barcode_form': barcode_form,
         'product_tax_formset': product_tax_formset,
+        'product_tax_form': product_tax_form,
         'stock_control_form': stock_control_form,
         'product_printstation_form': product_printstation_form,
         'customer_form': customer_form,
@@ -111,3 +113,31 @@ def show_customer_form(request):
     context = {"customer_form": customer_form}
     return render(
         request, 'mgt/tabs/add-product/side-forms/customer-form.html', context)
+
+
+def append_product_tax_form(request):
+    tax_ids = request.GET.getlist('tax-id', None)
+    tax_ids = request.GET.getlist('tax', None)
+    is_first_set = ''
+
+    if tax_ids:
+        tax = Tax.objects.exclude(id__in=tax_ids).first()
+    else:
+        tax = Tax.objects.first()
+        is_first_set = 'is-first-set'
+
+    if not tax or tax.id in tax_ids:
+        is_first_set = ''
+        return render(
+            request,
+            'mgt/tabs/add-product/side-forms/max-reached.html', {'is_first_set': is_first_set})
+
+    product_tax_form = ProductTaxForm(initial={'tax': tax})
+    context = {
+        'tax': tax,
+        'product_tax_form': product_tax_form,
+        'is_first_set': is_first_set,
+    }
+    return render(
+        request,
+        'mgt/tabs/add-product/side-forms/product-tax-form.html', context)

@@ -1,0 +1,5 @@
+{% load widget_tweaks %}
+<div class="col-sm-7 " id="add-product-customer-field">
+    {% render_field product_tax_form.tax class="form-select" %}
+    <input type="checkbox" style="display:none;" value="{{ tax.id }}" name="tax-id" />
+</div>
