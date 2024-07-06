@@ -14,6 +14,11 @@
         "
         >Remove image</a>
     </div>
+    {% if product and product.image %}
+    <div class="mb-3">
+        <img src="{{ product.image.url }}" alt="Product Image" style="max-width: 200px;">
+    </div>
+    {% endif %}
 
 </div>
 

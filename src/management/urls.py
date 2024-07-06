@@ -25,6 +25,8 @@ urlpatterns = [
 
     path('add-product/', add_product,
          name='add-product'),
+    path('update-product/<int:product_id>/', add_product,
+         name='update-product'),
 ]
 
 # MODALS URLS
@@ -32,6 +34,8 @@ urlpatterns += [
     path('modal-add-group/', modal_add_group, name='modal-add-group'),
     path('modal-add-user/', modal_add_user, name='modal-add-user'),
     path('modal-add-product/', modal_add_product, name='modal-add-product'),
+    path('modal-update-product/<int:product_id>/',
+         modal_add_product, name='modal-update-product'),
     path('modal-add-product-group/', modal_add_product_group,
          name='modal-add-product-group'),
     path('modal-update-product-group/', modal_update_product_group,

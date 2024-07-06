@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponseRedirect, JsonResponse
 from src.products.models import Product, ProductGroup, ProductComment
-from src.tax.models import ProductTax
+from src.tax.models import ProductTax, Tax
 from django.forms import modelformset_factory
 from src.products.forms import (
     ProductGroupForm, ConfirmPasswordForm, ProductDetailsForm,
@@ -74,8 +74,11 @@ def mgt_products(request, slug=None):
     return render(request, 'mgt/products/list.html', context)
 
 
-def add_product(request):
+def add_product(request, product_id=None):
     from django.utils.text import slugify
+    product = None
+    if product_id:
+        product = get_object_or_404(Product, id=product_id)
 
     if request.method == 'POST':
         product_form = ProductDetailsForm(request.POST, request.FILES)
@@ -86,7 +89,9 @@ def add_product(request):
         customer_form = CustomerForm(request.POST)
         product_comment_formset = modelformset_factory(ProductComment, form=ProductCommentForm, extra=1)(
             request.POST, queryset=ProductComment.objects.none())
+        tax_ids = request.POST.getlist('tax')
 
+        # return
         if product_form.is_valid():
             product = product_form.save(commit=False)
             product.user = request.user
@@ -103,12 +108,15 @@ def add_product(request):
         else:
             print("Barcode is not valid")
 
-        if product_tax_formset and product_tax_formset.is_valid():
-            for form in product_tax_formset:
-                tax = form.save(commit=False)
-                tax.user = request.user
-                tax.product = product
-                tax.save()
+        if tax_ids:
+            for id in tax_ids:
+                tax = Tax.objects.get(id=id)
+                if not tax.is_tax_on_total:
+                    ProductTax.objects.create(
+                        user=request.user,
+                        tax=tax,
+                        product=product
+                    )
 
         if stock_control_form.is_valid():
             stock_control = stock_control_form.save(commit=False)
@@ -119,6 +127,7 @@ def add_product(request):
         if product_comment_formset.is_valid():
             for form in product_comment_formset:
                 comment = form.save(commit=False)
+                comment.user = request.user
                 comment.product = product
                 comment.save()
 
@@ -137,6 +146,7 @@ def add_product(request):
 
     return render(request, 'mgt/products/list.html', {
         'groups': ProductGroup.objects.all(),
+        'product': product,
         'product_form': product_form,
         'barcode_form': barcode_form,
         'product_tax_formset': product_tax_formset,

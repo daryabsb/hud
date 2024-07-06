@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from src.accounts.models import User
 from src.products.forms import ProductGroupForm, ConfirmPasswordForm
-from src.products.models import ProductGroup, ProductComment
+from src.products.models import Product, ProductGroup, ProductComment, Barcode
 from django.forms import modelformset_factory
 from src.products.forms import (
     ProductGroupForm, ConfirmPasswordForm, ProductDetailsForm,
@@ -12,6 +12,7 @@ from src.products.forms import (
 )
 from src.printers.forms import ProductPrintStationForm
 from src.stock.forms import StockControlForm
+from src.stock.models import StockControl
 from src.tax.forms import ProductTaxForm
 from src.accounts.forms import CustomerForm
 from src.tax.models import ProductTax, Tax
@@ -35,21 +36,38 @@ def modal_add_user(request):
 
 @login_required
 @require_GET
-def modal_add_product(request):
+def modal_add_product(request, product_id=None):
     users = User.objects.all()
-    product_form = ProductDetailsForm()
-    barcode_form = BarcodeForm()
+    product = None
+    product_tax_queryset = None
+    barcode = None
+    stock_control = None
+    product_comment_queryset = None
+    customer = None
+
+    if product_id:
+        product = get_object_or_404(Product, id=product_id)
+        barcode = Barcode.objects.filter(product=product).first()
+        product_tax_queryset = ProductTax.objects.filter(product=product)
+        stock_control = StockControl.objects.filter(product=product).first()
+        customer = stock_control.customer if stock_control else None
+        product_comment_queryset = ProductComment.objects.filter(
+            product=product)
+
+    product_form = ProductDetailsForm(instance=product)
+    barcode_form = BarcodeForm(instance=barcode)
     product_printstation_form = ProductPrintStationForm()
     product_tax_formset = modelformset_factory(
-        ProductTax, form=ProductTaxForm, extra=1)(queryset=ProductTax.objects.none())
+        ProductTax, form=ProductTaxForm, extra=1)(queryset=product_tax_queryset)
     product_tax_form = ProductTaxForm(initial={'tax': Tax.objects.first()})
-    stock_control_form = StockControlForm()
-    customer_form = CustomerForm()
+    stock_control_form = StockControlForm(instance=stock_control)
+    customer_form = CustomerForm(instance=customer)
     product_comment_formset = modelformset_factory(
-        ProductComment, form=ProductCommentForm, extra=1)(queryset=ProductComment.objects.none())
+        ProductComment, form=ProductCommentForm, extra=1)(queryset=product_comment_queryset)
 
     context = {
         "users": users,
+        'product': product,
         'product_form': product_form,
         'barcode_form': barcode_form,
         'product_tax_formset': product_tax_formset,

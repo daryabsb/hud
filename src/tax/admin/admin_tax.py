@@ -27,3 +27,10 @@ class TaxAdmin(admin.ModelAdmin):
                 tax.id = tx['id']
                 tax.is_tax_on_total = tx["is_tax_on_total"]
                 tax.save(force_update=True)
+
+
+@admin.register(ProductTax)
+class ProductTaxAdmin(admin.ModelAdmin):
+    list_display = ('id', 'tax', 'product', 'created')
+    ordering = ('created', )
+    list_filter = ('product', )
