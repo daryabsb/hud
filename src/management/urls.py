@@ -1,63 +1,58 @@
 
 from django.urls import path
-from src.management.views import (
-    mgt_home, mgt_products, mgt_stocks, mgt_users,
-    mgt_update_permissions, mgt_update_group_permissions,
-    modal_add_group, modal_add_user, modal_add_product, modal_add_product_group,
-    modal_delete_product_group, modal_update_product_group, show_customer_form,
-    add_product_group, update_product_group, delete_product_group,
-    add_product, append_product_tax_form, generate_barcode_for_product,
-
-)
+from src.management import views
 
 
 app_name = 'mgt'
 
 urlpatterns = [
-    path('', mgt_home, name='mgt-home'),
-    path('products/', mgt_products, name='products'),
-    path('products/<slug:slug>/', mgt_products, name='filter-products'),
-    path('stocks/', mgt_stocks, name='stocks'),
-    path('users/', mgt_users, name='users'),
-    path('update-permissions/', mgt_update_permissions, name='update-permissions'),
-    path('update-group-permissions/', mgt_update_group_permissions,
+    path('', views.mgt_home, name='mgt-home'),
+    path('products/', views.mgt_products, name='products'),
+    path('products/<slug:slug>/', views.mgt_products, name='filter-products'),
+    path('stocks/', views.mgt_stocks, name='stocks'),
+    path('users/', views.mgt_users, name='users'),
+    path('update-permissions/', views.mgt_update_permissions,
+         name='update-permissions'),
+    path('update-group-permissions/', views.mgt_update_group_permissions,
          name='update-group-permissions'),
 
-    path('add-product/', add_product,
+    path('add-product/', views.add_product,
          name='add-product'),
-    path('update-product/<int:product_id>/', add_product,
+    path('update-product/<int:product_id>/', views.add_product,
          name='update-product'),
 ]
 
 # MODALS URLS
 urlpatterns += [
-    path('modal-add-group/', modal_add_group, name='modal-add-group'),
-    path('modal-add-user/', modal_add_user, name='modal-add-user'),
-    path('modal-add-product/', modal_add_product, name='modal-add-product'),
+    path('modal-add-group/', views.modal_add_group, name='modal-add-group'),
+    path('modal-add-user/', views.modal_add_user, name='modal-add-user'),
+    path('modal-add-product/', views.modal_add_product, name='modal-add-product'),
     path('modal-update-product/<int:product_id>/',
-         modal_add_product, name='modal-update-product'),
-    path('modal-add-product-group/', modal_add_product_group,
+         views.modal_add_product, name='modal-update-product'),
+    path('modal-add-product-group/', views.modal_add_product_group,
          name='modal-add-product-group'),
-    path('modal-update-product-group/', modal_update_product_group,
+    path('modal-update-product-group/', views.modal_update_product_group,
          name='modal-update-product-group'),
-    path('modal-delete-product-group/', modal_delete_product_group,
+    path('modal-delete-product-group/', views.modal_delete_product_group,
          name='modal-delete-product-group'),
 ]
 
 # HTMX URLS
 urlpatterns += [
-    path('update-product-group/<slug:slug>/', update_product_group,
+    path('update-product-group/<slug:slug>/', views.update_product_group,
          name='update-product-group'),
-    path('add-product-group/', add_product_group,
+    path('add-product-group/', views.add_product_group,
          name='add-product-group'),
 
-    path('delete-product-group/', delete_product_group,
+    path('delete-product-group/', views.delete_product_group,
          name='delete-product-group'),
-    path('show-customer-form/', show_customer_form,
+    path('show-customer-form/', views.show_customer_form,
          name='show-customer-form'),
-    path('append-product-tax-form/', append_product_tax_form,
+    path('append-product-tax-form/', views.append_product_tax_form,
          name='append-product-tax-form'),
-    path('generate-barcode/', generate_barcode_for_product,
+    path('generate-barcode/', views.generate_barcode_for_product,
          name='generate-barcode'),
+    path('add-to-producttax-formset/', views.add_to_product_tax_formset,
+         name='add-to-producttax-formset'),
     # path('filter-products/<slug:slug>/', mgt_products, name='filter-products'),
 ]

@@ -1,10 +1,11 @@
-{% load widget_tweaks %}
+{% load widget_tweaks  mgt_tags %}
 <div class="tab-pane fade" id="add-product-price-and-tax">
     <label class="form-label">Taxes <span class="badge badge-warning"
     _="on mouseenter toggle *display of #product-tax-help until mouseleave"
     >
     <i class="far fa-lg fa-fw fa-question-circle"></i>
     </span></label>
+    <!--
         <button class="btn btn-outline-default is-add-button" id="add-tax-to-product-form-button"
         hx-get="{% url 'mgt:append-product-tax-form' %}"
         hx-target="#append-product-tax-form"
@@ -14,12 +15,7 @@
             "
         {% if product and product.productTaxes.exists %}style="display:none;"{% endif %}    
             >Add tax to product</button>
-    {% if product and product.productTaxes.exists %}
-        {{ product_tax_formset.management_form }}
-        {% for form in product_tax_formset %}
-        {% include 'mgt/tabs/add-product/side-forms/product-tax-form.html' with product_tax_form=form %}
-        {% endfor %}
-    {% endif %}
+
     <div class="mb-5" id="append-product-tax-form">
 
     </div>
@@ -27,6 +23,12 @@
         <h6>Explanation:</h6>
         <p>Here the explanation of the tax process happens</p>
     </div>
+
+    <div>--------------------------------</div>
+    <div>--------------------------------</div>
+    -->
+ {% include 'mgt/tabs/add-product/side-forms/product-tax-formset.html' %}
+
     <div class="mb-3">
         <label class="form-label">Cost</label>
         {% render_field product_form.cost class="form-control" %}

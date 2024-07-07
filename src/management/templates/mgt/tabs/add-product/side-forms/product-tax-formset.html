@@ -1,0 +1,20 @@
+{% load widget_tweaks mgt_tags %}
+
+<div class="mb-3" id="product-tax-formset">
+{{ product_tax_formset.management_form }}
+{% for form in product_tax_formset %}
+    {% include 'mgt/tabs/add-product/side-forms/product-tax-form.html' with product_tax_form=form %}
+{% endfor %}
+<div class="mb-3">
+    <input type="hidden" id="product-id" name="product-id" value="{{ product.id }}" />
+    <button class="btn btn-outline-default is-add-button" id="add-tax-to-product-form-button"
+            hx-get="{% url 'mgt:add-to-producttax-formset' %}"
+            hx-target="#product-tax-formset"
+            hx-include="#product-id"
+           
+            {% if max_forms == product_tax_formset|length %}disabled{% endif %}
+            _="on click
+            toggle my *display"
+            >Add more</button>
+</div>
+</div>

@@ -37,9 +37,10 @@ def modal_add_user(request):
 @login_required
 @require_GET
 def modal_add_product(request, product_id=None):
+    max_forms = Tax.objects.exclude(is_tax_on_total=False).count()
     users = User.objects.all()
     product = None
-    product_tax_queryset = None
+    product_tax_queryset = ProductTax.objects.none()
     barcode = None
     stock_control = None
     product_comment_queryset = None
@@ -57,20 +58,21 @@ def modal_add_product(request, product_id=None):
     product_form = ProductDetailsForm(instance=product)
     barcode_form = BarcodeForm(instance=barcode)
     product_printstation_form = ProductPrintStationForm()
-    product_tax_formset = modelformset_factory(
-        ProductTax, form=ProductTaxForm, extra=1)(queryset=product_tax_queryset)
     product_tax_form = ProductTaxForm(initial={'tax': Tax.objects.first()})
     stock_control_form = StockControlForm(instance=stock_control)
     customer_form = CustomerForm(instance=customer)
     product_comment_formset = modelformset_factory(
         ProductComment, form=ProductCommentForm, extra=1)(queryset=product_comment_queryset)
 
+    product_tax_formset = modelformset_factory(
+        ProductTax, form=ProductTaxForm, extra=0)(queryset=product_tax_queryset)
+
     context = {
         "users": users,
         'product': product,
         'product_form': product_form,
         'barcode_form': barcode_form,
-        'product_tax_formset': product_tax_formset,
+        'max_forms': max_forms,
         'product_tax_form': product_tax_form,
         'stock_control_form': stock_control_form,
         'product_printstation_form': product_printstation_form,
@@ -78,6 +80,26 @@ def modal_add_product(request, product_id=None):
         'product_comment_formset': product_comment_formset,
     }
     return render(request, 'mgt/modals/add-product-modal.html', context)
+
+
+def add_to_product_tax_formset(request):
+    template = 'mgt/tabs/add-product/side-forms/product-tax-formset.html'
+    max_forms = Tax.objects.exclude(is_tax_on_total=False).count()
+    product_id = request.GET.get('product-id', None)
+    product = None
+    product_tax_queryset = ProductTax.objects.none()
+    if product_id:
+        product = get_object_or_404(Product, id=product_id)
+        product_tax_queryset = ProductTax.objects.exclude(
+            tax__is_tax_on_total=False).filter(product=product)
+    product_tax_formset = modelformset_factory(
+        ProductTax, form=ProductTaxForm, extra=1)(queryset=product_tax_queryset)
+
+    context = {
+        'product_tax_formset': product_tax_formset,
+        'max_forms': max_forms,
+    }
+    return render(request, template, context)
 
 
 @login_required
@@ -166,6 +188,6 @@ def generate_barcode_for_product(request):
     from src.products.forms import BarcodeForm
     template = 'mgt/tabs/add-product/side-forms/barcode-field.html'
     barcode = generate_barcode()
-    barcode_form = BarcodeForm(initial={"value":barcode})
+    barcode_form = BarcodeForm(initial={"value": barcode})
     context = {"barcode_form": barcode_form}
     return render(request, template, context)

@@ -1,18 +1,16 @@
 <div class="form-group row mb-3" id="id_form-0-tax-{{ tax.id}}">
         {% include 'mgt/tabs/add-product/side-forms/product-tax-field.html' %}
         <div class="col-sm-1 has-button">
+            <input type="hidden" id="product-id" name="product-id" value="{{ product.id }}" />
             <button
-                hx-trigger="click"
-                hx-get="{% url 'mgt:append-product-tax-form' %}"
-                hx-target="#append-product-tax-form"
-                hx-swap="beforeend"
-                hx-include="#append-product-tax-form"
+                hx-get="{% url 'mgt:add-to-producttax-formset' %}"
+                hx-target="#product-tax-formset"
+                hx-include="#product-id"
                 class="btn btn-outline-success is-button" 
                 id="add-product-add-customer-button"
                 my-form-id="{{ tax.id }}"
-                _="on click
-                    wait 1 seconds
-                    add @disabled to me"
+                {% if max_forms == product_tax_formset|length %}disabled{% endif %}
+                
             >+</button>
         </div>
         <div class="col-sm-1 ">
@@ -20,9 +18,11 @@
             _="on click
                 remove #id_form-0-tax-{{ tax.id }}
                 if I match .is-first-set
-                    then toggle *display of the #add-tax-to-product-form-button 
+                    then 
+                        toggle *display of the #add-tax-to-product-form-button  
                 else 
                     toggle @disabled on the last .is-button
+                    toggle @disabled on the #add-tax-to-product-form-button
                 end 
                 "
             >-</button>
@@ -35,6 +35,3 @@
 
         </div>
     </div>
-    
-    
-
