@@ -6,7 +6,7 @@ from src.management.views import (
     modal_add_group, modal_add_user, modal_add_product, modal_add_product_group,
     modal_delete_product_group, modal_update_product_group, show_customer_form,
     add_product_group, update_product_group, delete_product_group,
-    add_product, append_product_tax_form,
+    add_product, append_product_tax_form, generate_barcode_for_product,
 
 )
 
@@ -57,5 +57,7 @@ urlpatterns += [
          name='show-customer-form'),
     path('append-product-tax-form/', append_product_tax_form,
          name='append-product-tax-form'),
+    path('generate-barcode/', generate_barcode_for_product,
+         name='generate-barcode'),
     # path('filter-products/<slug:slug>/', mgt_products, name='filter-products'),
 ]

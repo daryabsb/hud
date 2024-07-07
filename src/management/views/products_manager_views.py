@@ -1,11 +1,13 @@
 from collections import defaultdict
+from src.management.utils import generate_barcode
 from django.core.paginator import Paginator
 from django.views.decorators.http import require_GET, require_POST
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponseRedirect, JsonResponse
-from src.products.models import Product, ProductGroup, ProductComment
+from src.products.models import Product, ProductGroup, ProductComment, Barcode
 from src.tax.models import ProductTax, Tax
+from src.stock.models import StockControl
 from django.forms import modelformset_factory
 from src.products.forms import (
     ProductGroupForm, ConfirmPasswordForm, ProductDetailsForm,
@@ -77,36 +79,64 @@ def mgt_products(request, slug=None):
 def add_product(request, product_id=None):
     from django.utils.text import slugify
     product = None
+    product_tax_queryset = None
+    barcode = None
+    stock_control = None
+    product_comment_queryset = None
+    customer = None
+
     if product_id:
         product = get_object_or_404(Product, id=product_id)
+        barcode = Barcode.objects.filter(product=product).first()
+        product_tax_queryset = ProductTax.objects.filter(product=product)
+        stock_control = StockControl.objects.filter(product=product).first()
+        customer = stock_control.customer if stock_control else None
+        product_comment_queryset = ProductComment.objects.filter(
+            product=product)
 
     if request.method == 'POST':
-        product_form = ProductDetailsForm(request.POST, request.FILES)
-        barcode_form = BarcodeForm(request.POST)
+        product_form = ProductDetailsForm(request.POST, request.FILES, instance=product)
+        barcode_form = BarcodeForm(request.POST, instance=barcode)
         product_tax_formset = modelformset_factory(ProductTax, form=ProductTaxForm, extra=1)(
-            request.POST, queryset=ProductTax.objects.none())
+            request.POST, queryset=product_tax_queryset)
         stock_control_form = StockControlForm(request.POST)
-        customer_form = CustomerForm(request.POST)
+        customer_form = CustomerForm(request.POST, instance=customer)
         product_comment_formset = modelformset_factory(ProductComment, form=ProductCommentForm, extra=1)(
-            request.POST, queryset=ProductComment.objects.none())
+            request.POST, queryset=product_comment_queryset)
         tax_ids = request.POST.getlist('tax')
 
-        # return
         if product_form.is_valid():
             product = product_form.save(commit=False)
-            product.user = request.user
-            product.slug = slugify(product.name)
+            if not product_id:  # Only set user and initial slug if it's a new product
+                product.user = request.user
+                product.slug = slugify(product.name)
+            else:  # For existing product, update slug only if name has changed
+                if product_form.cleaned_data['name'] != product.name:
+                    product.slug = slugify(product_form.cleaned_data['name'])
             product.save()
         else:
-            print("Product is not valid")
+            print("Product form is not valid")
 
         if barcode_form.is_valid():
             barcode = barcode_form.save(commit=False)
-            barcode.user = request.user
             barcode.product = product
+            barcode.user = request.user
+
+            if not barcode_form.cleaned_data['value']:  # Check if the barcode is not provided
+                barcode.value = generate_barcode()
             barcode.save()
         else:
             print("Barcode is not valid")
+
+        if product_id:
+            if product_tax_formset.is_valid():
+                # ProductTax.objects.filter(product=product).delete()
+
+                for form in product_tax_formset:
+                    product_tax = form.save(commit=False)
+                    product_tax.user = request.user
+                    product_tax.product = product
+                    product_tax.save()
 
         if tax_ids:
             for id in tax_ids:

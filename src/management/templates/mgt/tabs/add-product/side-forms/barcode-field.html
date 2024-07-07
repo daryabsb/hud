@@ -1,0 +1,7 @@
+{% load widget_tweaks %}
+    <label class="form-label">Barcode</label>
+    {% render_field barcode_form.value class="form-control" required="false" %}
+    <a href="#"
+    hx-get="{% url 'mgt:generate-barcode' %}"
+    hx-target="#add-product-barcode-field"
+    >Generate Barcode</a>

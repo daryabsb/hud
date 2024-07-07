@@ -12,7 +12,14 @@
         hx-swap="beforeend"
             _="on click toggle my *display    
             "
+        {% if product and product.productTaxes.exists %}style="display:none;"{% endif %}    
             >Add tax to product</button>
+    {% if product and product.productTaxes.exists %}
+        {{ product_tax_formset.management_form }}
+        {% for form in product_tax_formset %}
+        {% include 'mgt/tabs/add-product/side-forms/product-tax-form.html' with product_tax_form=form %}
+        {% endfor %}
+    {% endif %}
     <div class="mb-5" id="append-product-tax-form">
 
     </div>

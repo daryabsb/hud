@@ -1,5 +1,10 @@
 
-    <form method="post" action="{% url 'mgt:add-product' %}"
+    <form method="post" 
+    {% if product and product.id %}
+    action="{% url 'mgt:update-product' product.id %}"
+    {% else %}
+    action="{% url 'mgt:add-product' %}"
+    {% endif %}
     enctype="multipart/form-data"
     class="modal-dialog modal-right">
     {% csrf_token %}

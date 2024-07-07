@@ -1,8 +1,14 @@
+import random, string
 from django.contrib.auth.models import Group, Permission
 from src.accounts.models import User
 from django.contrib.contenttypes.models import ContentType
 from src.management.const import list_permissions_template, add_actions_to_models
 from copy import deepcopy
+
+
+def generate_barcode():
+    return ''.join(random.choices(string.digits, k=12))  # Generate a 12-digit numeric barcode
+
 
 
 def populate_users_permissions(users=None):

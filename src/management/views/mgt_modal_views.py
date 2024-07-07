@@ -159,3 +159,13 @@ def append_product_tax_form(request):
     return render(
         request,
         'mgt/tabs/add-product/side-forms/product-tax-form.html', context)
+
+
+def generate_barcode_for_product(request):
+    from src.management.utils import generate_barcode
+    from src.products.forms import BarcodeForm
+    template = 'mgt/tabs/add-product/side-forms/barcode-field.html'
+    barcode = generate_barcode()
+    barcode_form = BarcodeForm(initial={"value":barcode})
+    context = {"barcode_form": barcode_form}
+    return render(request, template, context)

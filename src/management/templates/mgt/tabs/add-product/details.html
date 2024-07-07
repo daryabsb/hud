@@ -8,10 +8,8 @@
         <label class="form-label">Code</label>
         {% render_field product_form.code class="form-control" %}
     </div>
-    <div class="mb-2">
-        <label class="form-label">Barcode</label>
-        {% render_field barcode_form.value class="form-control" %}
-        <a href="#">Generate Barcode</a>
+    <div class="mb-2" id="add-product-barcode-field">
+        {% include 'mgt/tabs/add-product/side-forms/barcode-field.html' %}
     </div>
     <div class="mb-2">
         <label class="form-label">Unit of measurement</label>
