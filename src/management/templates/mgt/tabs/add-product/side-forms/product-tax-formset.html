@@ -12,7 +12,7 @@
             hx-target="#product-tax-formset"
             hx-include="#product-id"
            
-            {% if max_forms == product_tax_formset|length %}disabled{% endif %}
+            {% if max_forms == product_tax_formset|length %}style="display:none;"{% endif %}
             _="on click
             toggle my *display"
             >Add more</button>

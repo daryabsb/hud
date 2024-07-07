@@ -95,9 +95,12 @@ def add_to_product_tax_formset(request):
     product_tax_formset = modelformset_factory(
         ProductTax, form=ProductTaxForm, extra=1)(queryset=product_tax_queryset)
 
+    is_first_set = 'is-first-set'
+
     context = {
         'product_tax_formset': product_tax_formset,
         'max_forms': max_forms,
+        'is_first_set': is_first_set,
     }
     return render(request, template, context)
 
