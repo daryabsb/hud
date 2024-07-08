@@ -97,13 +97,18 @@ def add_product(request, product_id=None):
             product=product)
 
     if request.method == 'POST':
-        product_form = ProductDetailsForm(request.POST, request.FILES, instance=product)
+        product_form = ProductDetailsForm(
+            request.POST, request.FILES, instance=product)
         barcode_form = BarcodeForm(request.POST, instance=barcode)
-        product_tax_formset = modelformset_factory(ProductTax, form=ProductTaxForm, extra=1)(
+        ProductTaxFormset = modelformset_factory(
+            ProductTax, form=ProductTaxForm, extra=1)
+        product_tax_formset = ProductTaxFormset(
             request.POST, queryset=product_tax_queryset)
         stock_control_form = StockControlForm(request.POST)
         customer_form = CustomerForm(request.POST, instance=customer)
-        product_comment_formset = modelformset_factory(ProductComment, form=ProductCommentForm, extra=1)(
+        ProductCommentFormset = modelformset_factory(
+            ProductComment, form=ProductCommentForm, extra=1)
+        product_comment_formset = ProductCommentFormset(
             request.POST, queryset=product_comment_queryset)
         tax_ids = request.POST.getlist('tax')
 
@@ -124,21 +129,22 @@ def add_product(request, product_id=None):
             barcode.product = product
             barcode.user = request.user
 
-            if not barcode_form.cleaned_data['value']:  # Check if the barcode is not provided
+            # Check if the barcode is not provided
+            if not barcode_form.cleaned_data['value']:
                 barcode.value = generate_barcode()
             barcode.save()
         else:
             print("Barcode is not valid")
 
-        if product_tax_formset.is_valid():
-            for form in product_tax_formset:
-                if form.cleaned_data:  # Only save the form if it's not empty
-                    product_tax = form.save(commit=False)
-                    product_tax.user = request.user
-                    product_tax.product = product
-                    product_tax.save()
-        else:
-            print("ProductTax formset is not valid")
+        # if product_tax_formset.is_valid():
+        for form in product_tax_formset:
+            if form.is_valid():
+                product_tax = form.save(commit=False)
+                product_tax.user = request.user
+                product_tax.product = product
+                product_tax.save()
+            else:
+                print("ProductTax formset is not valid")
 
         # if tax_ids:
         #     for id in tax_ids:
@@ -162,7 +168,6 @@ def add_product(request, product_id=None):
                 comment.user = request.user
                 comment.product = product
                 comment.save()
-            
 
         # Replace 'product_list' with your product list view name
         return redirect(reverse('mgt:products'))
@@ -187,3 +192,24 @@ def add_product(request, product_id=None):
         'customer_form': customer_form,
         'product_comment_formset': product_comment_formset,
     })
+
+
+form_contains = [
+    'Meta',
+    '__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__',
+    '__ge__', '__getattribute__', '__getitem__', '__getstate__', '__gt__', '__hash__', '__html__',
+    '__init__', '__init_subclass__', '__iter__', '__le__', '__lt__', '__module__', '__ne__', '__new__',
+    '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__',
+    '__weakref__',
+    '_bound_fields_cache', '_bound_items', '_clean_fields', '_clean_form', '_errors',
+    '_get_validation_exclusions', '_meta', '_post_clean', '_save_m2m', '_update_errors',
+    '_validate_unique', '_widget_data_value',
+
+    'add_error', 'add_initial_prefix', 'add_prefix', 'as_div', 'as_p', 'as_table', 'as_ul',
+    'auto_id', 'base_fields', 'changed_data', 'clean', 'data', 'declared_fields', 'default_renderer',
+    'empty_permitted', 'error_class', 'errors', 'field_order', 'fields', 'files', 'full_clean', 'get_context',
+    'get_initial_for_field', 'has_changed', 'has_error', 'hidden_fields', 'initial', 'instance', 'is_bound',
+    'is_multipart', 'is_valid', 'label_suffix', 'media', 'non_field_errors', 'order_fields', 'prefix',
+    'render', 'renderer', 'save', 'template_name', 'template_name_div', 'template_name_label', 'template_name_p',
+    'template_name_table', 'template_name_ul', 'use_required_attribute', 'validate_unique', 'visible_fields'
+]

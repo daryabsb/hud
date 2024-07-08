@@ -2,7 +2,7 @@
         {% include 'mgt/tabs/add-product/side-forms/product-tax-field.html' %}
         max_forms = {{ max_forms }}|{{product_tax_formset.forms|length}}
         <div class="col-sm-1 has-button">
-            <input type="hidden" id="product-id" name="product-id" value="{{ product.id }}" />
+            {% comment %} <input type="hidden" id="product-id" name="product-id" value="{{ product.id }}" /> {% endcomment %}
             <button
                 hx-get="{% url 'mgt:add-to-producttax-formset' %}"
                 hx-target="#product-tax-formset"
