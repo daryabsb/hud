@@ -37,7 +37,7 @@ def modal_add_user(request):
 @login_required
 @require_GET
 def modal_add_product(request, product_id=None):
-    max_forms = Tax.objects.exclude(is_tax_on_total=False).count()
+    max_forms = Tax.objects.filter(is_tax_on_total=False).count()
     users = User.objects.all()
     product = None
     product_tax_queryset = ProductTax.objects.none()
@@ -73,6 +73,7 @@ def modal_add_product(request, product_id=None):
         'product_form': product_form,
         'barcode_form': barcode_form,
         'max_forms': max_forms,
+        'product_tax_formset': product_tax_formset,
         'product_tax_form': product_tax_form,
         'stock_control_form': stock_control_form,
         'product_printstation_form': product_printstation_form,
@@ -84,7 +85,7 @@ def modal_add_product(request, product_id=None):
 
 def add_to_product_tax_formset(request):
     template = 'mgt/tabs/add-product/side-forms/product-tax-formset.html'
-    max_forms = Tax.objects.exclude(is_tax_on_total=False).count()
+    max_forms = Tax.objects.filter(is_tax_on_total=False).count()
     product_id = request.GET.get('product-id', None)
     product = None
     product_tax_queryset = ProductTax.objects.none()
@@ -97,6 +98,30 @@ def add_to_product_tax_formset(request):
 
     is_first_set = 'is-first-set'
 
+    context = {
+        'product_tax_formset': product_tax_formset,
+        'max_forms': max_forms,
+        'is_first_set': is_first_set,
+    }
+    return render(request, template, context)
+
+
+def delete_product_tax(request):
+    template = 'mgt/tabs/add-product/side-forms/product-tax-formset.html'
+    max_forms = Tax.objects.filter(is_tax_on_total=False).count()
+    product_id = request.POST.get('product-id', None)
+    product_tax_id = request.POST.get('product_tax_id')
+
+    if product_id and product_tax_id:
+        product = get_object_or_404(Product, id=product_id)
+        product_tax = get_object_or_404(ProductTax, id=product_tax_id).delete()
+
+    product_tax_queryset = ProductTax.objects.exclude(
+            tax__is_tax_on_total=False).filter(product=product)
+    product_tax_formset = modelformset_factory(
+        ProductTax, form=ProductTaxForm, extra=0)(queryset=product_tax_queryset)
+    is_first_set = 'is-first-set'
+    
     context = {
         'product_tax_formset': product_tax_formset,
         'max_forms': max_forms,

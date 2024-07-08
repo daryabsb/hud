@@ -54,5 +54,7 @@ urlpatterns += [
          name='generate-barcode'),
     path('add-to-producttax-formset/', views.add_to_product_tax_formset,
          name='add-to-producttax-formset'),
+    path('delete-product-tax/', views.delete_product_tax,
+         name='delete-product-tax'),
     # path('filter-products/<slug:slug>/', mgt_products, name='filter-products'),
 ]

@@ -1,4 +1,6 @@
 from collections import defaultdict
+
+from django.urls import reverse
 from src.management.utils import generate_barcode
 from django.core.paginator import Paginator
 from django.views.decorators.http import require_GET, require_POST
@@ -79,7 +81,7 @@ def mgt_products(request, slug=None):
 def add_product(request, product_id=None):
     from django.utils.text import slugify
     product = None
-    product_tax_queryset = None
+    product_tax_queryset = ProductTax.objects.none()
     barcode = None
     stock_control = None
     product_comment_queryset = None
@@ -128,25 +130,25 @@ def add_product(request, product_id=None):
         else:
             print("Barcode is not valid")
 
-        if product_id:
-            if product_tax_formset.is_valid():
-                # ProductTax.objects.filter(product=product).delete()
-
-                for form in product_tax_formset:
+        if product_tax_formset.is_valid():
+            for form in product_tax_formset:
+                if form.cleaned_data:  # Only save the form if it's not empty
                     product_tax = form.save(commit=False)
                     product_tax.user = request.user
                     product_tax.product = product
                     product_tax.save()
+        else:
+            print("ProductTax formset is not valid")
 
-        if tax_ids:
-            for id in tax_ids:
-                tax = Tax.objects.get(id=id)
-                if not tax.is_tax_on_total:
-                    ProductTax.objects.create(
-                        user=request.user,
-                        tax=tax,
-                        product=product
-                    )
+        # if tax_ids:
+        #     for id in tax_ids:
+        #         tax = Tax.objects.get(id=id)
+        #         if not tax.is_tax_on_total:
+        #             ProductTax.objects.create(
+        #                 user=request.user,
+        #                 tax=tax,
+        #                 product=product
+        #             )
 
         if stock_control_form.is_valid():
             stock_control = stock_control_form.save(commit=False)
@@ -160,9 +162,10 @@ def add_product(request, product_id=None):
                 comment.user = request.user
                 comment.product = product
                 comment.save()
+            
 
-            # Replace 'product_list' with your product list view name
-            return redirect('/mgt/products/')
+        # Replace 'product_list' with your product list view name
+        return redirect(reverse('mgt:products'))
 
     else:
         product_form = ProductDetailsForm()
