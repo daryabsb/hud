@@ -101,11 +101,10 @@ def add_product(request, product_id=None):
             request.POST or None, request.FILES, instance=product)
         barcode_form = BarcodeForm(request.POST or None, instance=barcode)
 
-
-        ProductTaxFormset = modelformset_factory(ProductTax, form=ProductTaxForm, extra=1)
+        ProductTaxFormset = modelformset_factory(
+            ProductTax, form=ProductTaxForm, extra=1)
         product_tax_formset = ProductTaxFormset(request.POST or None)
-        
-        
+
         stock_control_form = StockControlForm(request.POST)
         customer_form = CustomerForm(request.POST or None, instance=customer)
         ProductCommentFormset = modelformset_factory(
@@ -147,7 +146,7 @@ def add_product(request, product_id=None):
                     product_tax.save()
                 else:
                     print("ProductTax formset is not valid")
-        # else:            
+        # else:
         #     print("product_tax_formset is not valid")
         #     print(product_tax_formset.error_messages)
 
@@ -197,84 +196,84 @@ form_contains = [
     'template_name_table', 'template_name_ul', 'use_required_attribute', 'validate_unique', 'visible_fields'
 ]
 form_dir = [
-    'Meta', 
-    '__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', 
-    '__ge__', '__getattribute__', '__getitem__', '__getstate__', '__gt__', '__hash__', '__html__', 
-    '__init__', '__init_subclass__', '__iter__', '__le__', '__lt__', '__module__', '__ne__', '__new__', 
-    '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 
-    '__weakref__', 
-    
-    '_bound_fields_cache', '_bound_items', '_clean_fields', '_clean_form', '_errors', 
-    '_get_validation_exclusions', '_meta', '_post_clean', '_save_m2m', '_update_errors', 
-    '_validate_unique', '_widget_data_value', 
-    
-    'add_error', 'add_initial_prefix', 'add_prefix', 
-    'as_div', 'as_p', 'as_table', 'as_ul', 
-    'auto_id', 'base_fields', 'changed_data', 'clean', 'data', 'declared_fields', 
-    'default_renderer', 'empty_permitted', 'error_class', 'errors', 'field_order', 
-    'fields', 'files', 'full_clean', 'get_context', 'get_initial_for_field', 'has_changed', 
-    'has_error', 'hidden_fields', 'initial', 'instance', 'is_bound', 'is_multipart', 'is_valid', 
-    'label_suffix', 'media', 'non_field_errors', 'order_fields', 'prefix', 'render', 'renderer', 
-    'save', 'template_name', 'template_name_div', 'template_name_label', 'template_name_p', 
-    'template_name_table', 'template_name_ul', 'use_required_attribute', 'validate_unique', 
+    'Meta',
+    '__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__',
+    '__ge__', '__getattribute__', '__getitem__', '__getstate__', '__gt__', '__hash__', '__html__',
+    '__init__', '__init_subclass__', '__iter__', '__le__', '__lt__', '__module__', '__ne__', '__new__',
+    '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__',
+    '__weakref__',
+
+    '_bound_fields_cache', '_bound_items', '_clean_fields', '_clean_form', '_errors',
+    '_get_validation_exclusions', '_meta', '_post_clean', '_save_m2m', '_update_errors',
+    '_validate_unique', '_widget_data_value',
+
+    'add_error', 'add_initial_prefix', 'add_prefix',
+    'as_div', 'as_p', 'as_table', 'as_ul',
+    'auto_id', 'base_fields', 'changed_data', 'clean', 'data', 'declared_fields',
+    'default_renderer', 'empty_permitted', 'error_class', 'errors', 'field_order',
+    'fields', 'files', 'full_clean', 'get_context', 'get_initial_for_field', 'has_changed',
+    'has_error', 'hidden_fields', 'initial', 'instance', 'is_bound', 'is_multipart', 'is_valid',
+    'label_suffix', 'media', 'non_field_errors', 'order_fields', 'prefix', 'render', 'renderer',
+    'save', 'template_name', 'template_name_div', 'template_name_label', 'template_name_p',
+    'template_name_table', 'template_name_ul', 'use_required_attribute', 'validate_unique',
     'visible_fields'
-    ]
+]
 
 formset_dir = [
-    '__bool__', '__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', 
-    '__ge__', '__getattribute__', '__getitem__', '__getstate__', '__gt__', '__hash__', '__html__', 
-    '__init__', '__init_subclass__', '__iter__', '__le__', '__len__', '__lt__', '__module__', '__ne__', 
-    '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', 
-    '__subclasshook__', '__weakref__', 
-    
-    '_construct_form', '_errors', '_existing_object', '_get_to_python', '_non_form_errors', 
-    '_should_delete_form', 
-    
-    'absolute_max', 'add_fields', 'add_prefix', 
-    'as_div', 'as_p', 'as_table', 'as_ul', 
+    '__bool__', '__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__',
+    '__ge__', '__getattribute__', '__getitem__', '__getstate__', '__gt__', '__hash__', '__html__',
+    '__init__', '__init_subclass__', '__iter__', '__le__', '__len__', '__lt__', '__module__', '__ne__',
+    '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__',
+    '__subclasshook__', '__weakref__',
 
-    'auto_id', 'can_delete', 'can_delete_extra', 'can_order', 'clean', 'cleaned_data', 
-    'data', 'default_error_messages', 'delete_existing', 'deleted_forms', 'deletion_widget', 
-    'edit_only', 'empty_form', 'error_class', 'error_messages', 'errors', 'extra', 'extra_forms', 
-    'files', 'form', 'form_kwargs', 'form_renderer', 'forms', 'full_clean', 'get_context', 
-    'get_date_error_message', 'get_default_prefix', 'get_deletion_widget', 'get_form_error', 
-    'get_form_kwargs', 'get_ordering_widget', 'get_queryset', 'get_unique_error_message', 
-    'has_changed', 'initial', 'initial_extra', 'initial_form_count', 'initial_forms', 'is_bound', 
-    'is_multipart', 'is_valid', 'management_form', 'max_num', 'media', 'min_num', 'model', 
-    'non_form_errors', 'ordered_forms', 'ordering_widget', 'prefix', 'queryset', 'render', 
-    'renderer', 'save', 'save_existing', 'save_existing_objects', 'save_new', 'save_new_objects', 
-    'template_name', 'template_name_div', 'template_name_p', 'template_name_table', 'template_name_ul', 
+    '_construct_form', '_errors', '_existing_object', '_get_to_python', '_non_form_errors',
+    '_should_delete_form',
+
+    'absolute_max', 'add_fields', 'add_prefix',
+    'as_div', 'as_p', 'as_table', 'as_ul',
+
+    'auto_id', 'can_delete', 'can_delete_extra', 'can_order', 'clean', 'cleaned_data',
+    'data', 'default_error_messages', 'delete_existing', 'deleted_forms', 'deletion_widget',
+    'edit_only', 'empty_form', 'error_class', 'error_messages', 'errors', 'extra', 'extra_forms',
+    'files', 'form', 'form_kwargs', 'form_renderer', 'forms', 'full_clean', 'get_context',
+    'get_date_error_message', 'get_default_prefix', 'get_deletion_widget', 'get_form_error',
+    'get_form_kwargs', 'get_ordering_widget', 'get_queryset', 'get_unique_error_message',
+    'has_changed', 'initial', 'initial_extra', 'initial_form_count', 'initial_forms', 'is_bound',
+    'is_multipart', 'is_valid', 'management_form', 'max_num', 'media', 'min_num', 'model',
+    'non_form_errors', 'ordered_forms', 'ordering_widget', 'prefix', 'queryset', 'render',
+    'renderer', 'save', 'save_existing', 'save_existing_objects', 'save_new', 'save_new_objects',
+    'template_name', 'template_name_div', 'template_name_p', 'template_name_table', 'template_name_ul',
     'total_error_count', 'total_form_count', 'unique_fields', 'validate_max', 'validate_min', 'validate_unique'
-    ]
+]
 
 reqpost = {'QueryDict': {
-        'csrfmiddlewaretoken': ['RsRr1eQ908gPhlzthWOhb4eVmQCr06O6NPUZLiodNSTkj2G5ii8RkqNV6Yd20x9s'], 
-        'name': ['Organic Bananas'], 
-        'code': [''], 
-        'value': ['556828708663'], 
-        'measurement_unit': ['KG'], 
-        'parent_group': ['2'], 
-        'is_enabled': ['on'], 
-        'is_using_default_quantity': ['on'], 
-        'age_restriction': [''], 
-        'form-TOTAL_FORMS': ['2', '2'], 
-        'form-INITIAL_FORMS': ['1', '2'], 
-        'form-MIN_NUM_FORMS': ['0', '0'], 
-        'form-MAX_NUM_FORMS': ['2', '1000'], 
-        'form-0-tax': ['2'], 
-        'form-1-tax': ['3'], 
-        'product-id': ['1'], 
-        'cost': ['0.000'], 
-        'margin': ['100.000'], 
-        'price': ['1200.000'], 
-        'customer': ['1'], 
-        'reorder_point': ['0.0'], 
-        'preferred_quantity': ['1'], 
-        'is_low_stock_warning_enabled': ['on'], 
-        'low_stock_warning_quantity': ['1'], 
-        'form-0-comment': [''], 
-        'form-1-comment': [''], 
-        'color': ['#FFFFFF'], 
-        'image': ['']
-            }
-        }
+    'csrfmiddlewaretoken': ['RsRr1eQ908gPhlzthWOhb4eVmQCr06O6NPUZLiodNSTkj2G5ii8RkqNV6Yd20x9s'],
+    'name': ['Organic Bananas'],
+    'code': [''],
+    'value': ['556828708663'],
+    'measurement_unit': ['KG'],
+    'parent_group': ['2'],
+    'is_enabled': ['on'],
+    'is_using_default_quantity': ['on'],
+    'age_restriction': [''],
+    'form-TOTAL_FORMS': ['2', '2'],
+    'form-INITIAL_FORMS': ['1', '2'],
+    'form-MIN_NUM_FORMS': ['0', '0'],
+    'form-MAX_NUM_FORMS': ['2', '1000'],
+    'form-0-tax': ['2'],
+    'form-1-tax': ['3'],
+    'product-id': ['1'],
+    'cost': ['0.000'],
+    'margin': ['100.000'],
+    'price': ['1200.000'],
+    'customer': ['1'],
+    'reorder_point': ['0.0'],
+    'preferred_quantity': ['1'],
+    'is_low_stock_warning_enabled': ['on'],
+    'low_stock_warning_quantity': ['1'],
+    'form-0-comment': [''],
+    'form-1-comment': [''],
+    'color': ['#FFFFFF'],
+    'image': ['']
+}
+}
