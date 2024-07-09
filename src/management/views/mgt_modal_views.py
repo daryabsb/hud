@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from src.accounts.models import User
 from src.products.forms import ProductGroupForm, ConfirmPasswordForm
 from src.products.models import Product, ProductGroup, ProductComment, Barcode
-from django.forms import modelformset_factory
+from django.forms import modelformset_factory, formset_factory
 from src.products.forms import (
     ProductGroupForm, ConfirmPasswordForm, ProductDetailsForm,
     BarcodeForm, ProductCommentForm
@@ -58,14 +58,16 @@ def modal_add_product(request, product_id=None):
     product_form = ProductDetailsForm(instance=product)
     barcode_form = BarcodeForm(instance=barcode)
     product_printstation_form = ProductPrintStationForm()
+
     product_tax_form = ProductTaxForm(initial={'tax': Tax.objects.first()})
     stock_control_form = StockControlForm(instance=stock_control)
     customer_form = CustomerForm(instance=customer)
     product_comment_formset = modelformset_factory(
-        ProductComment, form=ProductCommentForm, extra=1)(queryset=product_comment_queryset)
+        ProductComment, form=ProductCommentForm, extra=0)
+    # (queryset=product_comment_queryset)
 
-    ProductTaxFormset = modelformset_factory(ProductTax, form=ProductTaxForm, extra=0)
-    product_tax_formset = ProductTaxFormset(queryset=product_tax_queryset)
+
+    product_tax_formset = modelformset_factory(ProductTax, form=ProductTaxForm, max_num=max_forms, extra=0)()
 
     context = {
         "users": users,
@@ -94,8 +96,7 @@ def add_to_product_tax_formset(request):
         product = get_object_or_404(Product, id=product_id)
         product_tax_queryset = ProductTax.objects.filter(product=product)
     
-    ProductTaxFormset = modelformset_factory(ProductTax, form=ProductTaxForm, extra=1)
-    product_tax_formset = ProductTaxFormset(queryset=product_tax_queryset)
+    product_tax_formset = modelformset_factory(ProductTax, form=ProductTaxForm, max_num=max_forms, extra=1)()
 
     context = {
         'product': product,
@@ -119,7 +120,7 @@ def delete_product_tax(request):
         product = get_object_or_404(Product, id=product_id)
         product_tax_queryset = ProductTax.objects.filter(product=product)
 
-    ProductTaxFormset = modelformset_factory(ProductTax, form=ProductTaxForm, extra=1)
+    ProductTaxFormset = modelformset_factory(ProductTax, form=ProductTaxForm, max_num=max_forms, extra=0)
     product_tax_formset = ProductTaxFormset(queryset=product_tax_queryset)
     
     context = {
