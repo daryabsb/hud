@@ -64,8 +64,8 @@ def modal_add_product(request, product_id=None):
     product_comment_formset = modelformset_factory(
         ProductComment, form=ProductCommentForm, extra=1)(queryset=product_comment_queryset)
 
-    product_tax_formset = modelformset_factory(
-        ProductTax, form=ProductTaxForm, extra=0)(queryset=product_tax_queryset)
+    ProductTaxFormset = modelformset_factory(ProductTax, form=ProductTaxForm, extra=0)
+    product_tax_formset = ProductTaxFormset(queryset=product_tax_queryset)
 
     context = {
         "users": users,
@@ -89,19 +89,18 @@ def add_to_product_tax_formset(request):
     product_id = request.GET.get('product-id', None)
     product = None
     product_tax_queryset = ProductTax.objects.none()
+    print('check if product id? ', product_id)
     if product_id:
         product = get_object_or_404(Product, id=product_id)
-        product_tax_queryset = ProductTax.objects.exclude(
-            tax__is_tax_on_total=False).filter(product=product)
-    product_tax_formset = modelformset_factory(
-        ProductTax, form=ProductTaxForm, extra=1)(queryset=product_tax_queryset)
-
-    is_first_set = 'is-first-set'
+        product_tax_queryset = ProductTax.objects.filter(product=product)
+    
+    ProductTaxFormset = modelformset_factory(ProductTax, form=ProductTaxForm, extra=1)
+    product_tax_formset = ProductTaxFormset(queryset=product_tax_queryset)
 
     context = {
+        'product': product,
         'product_tax_formset': product_tax_formset,
         'max_forms': max_forms,
-        'is_first_set': is_first_set,
     }
     return render(request, template, context)
 
@@ -110,22 +109,23 @@ def delete_product_tax(request):
     template = 'mgt/tabs/add-product/side-forms/product-tax-formset.html'
     max_forms = Tax.objects.filter(is_tax_on_total=False).count()
     product_id = request.POST.get('product-id', None)
+    product = None
+    product_tax_queryset = ProductTax.objects.none()
+
     product_tax_id = request.POST.get('product_tax_id')
 
     if product_id and product_tax_id:
-        product = get_object_or_404(Product, id=product_id)
         product_tax = get_object_or_404(ProductTax, id=product_tax_id).delete()
+        product = get_object_or_404(Product, id=product_id)
+        product_tax_queryset = ProductTax.objects.filter(product=product)
 
-    product_tax_queryset = ProductTax.objects.exclude(
-            tax__is_tax_on_total=False).filter(product=product)
-    product_tax_formset = modelformset_factory(
-        ProductTax, form=ProductTaxForm, extra=0)(queryset=product_tax_queryset)
-    is_first_set = 'is-first-set'
+    ProductTaxFormset = modelformset_factory(ProductTax, form=ProductTaxForm, extra=1)
+    product_tax_formset = ProductTaxFormset(queryset=product_tax_queryset)
     
     context = {
+        'product': product,
         'product_tax_formset': product_tax_formset,
         'max_forms': max_forms,
-        'is_first_set': is_first_set,
     }
     return render(request, template, context)
 
