@@ -5,10 +5,10 @@
     {% for form in product_tax_formset %}
     {% include 'mgt/tabs/add-product/side-forms/product-tax-form.html' with product_tax_form=form %}
     {% endfor %}
+    {% comment %} {% include 'mgt/tabs/add-product/side-forms/product-tax-form.html' with product_tax_form=product_tax_formset.empty_form %}
     {% include 'mgt/tabs/add-product/side-forms/product-tax-form.html' with product_tax_form=product_tax_formset.empty_form %}
     {% include 'mgt/tabs/add-product/side-forms/product-tax-form.html' with product_tax_form=product_tax_formset.empty_form %}
-    {% include 'mgt/tabs/add-product/side-forms/product-tax-form.html' with product_tax_form=product_tax_formset.empty_form %}
-    {% include 'mgt/tabs/add-product/side-forms/product-tax-form.html' with product_tax_form=product_tax_formset.empty_form %}
+    {% include 'mgt/tabs/add-product/side-forms/product-tax-form.html' with product_tax_form=product_tax_formset.empty_form %} {% endcomment %}
     <div class="mb-3">
         <input type="hidden" id="product-id" name="product-id" value="{{ product.id }}" />
         <button class="btn btn-outline-default is-add-button" id="add-tax-to-product-form-button"

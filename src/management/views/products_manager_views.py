@@ -138,15 +138,15 @@ def add_product(request, product_id=None):
         else:
             print("Barcode is not valid")
 
-        # if product_tax_formset.is_valid():
-        for form in product_tax_formset:
-            if form.is_valid():
-                product_tax = form.save(commit=False)
-                product_tax.user = request.user
-                product_tax.product = product
-                product_tax.save()
-            else:
-                print("ProductTax formset is not valid")
+        if product_tax_formset.is_valid():
+            for form in product_tax_formset:
+                if form.is_valid():
+                    product_tax = form.save(commit=False)
+                    product_tax.user = request.user
+                    product_tax.product = product
+                    product_tax.save()
+                else:
+                    print("ProductTax formset is not valid")
         # else:            
         #     print("product_tax_formset is not valid")
         #     print(product_tax_formset.error_messages)
@@ -160,43 +160,21 @@ def add_product(request, product_id=None):
         #                 tax=tax,
         #                 product=product
         #             )
-
         if stock_control_form.is_valid():
             stock_control = stock_control_form.save(commit=False)
             stock_control.user = request.user
             stock_control.product = product
             stock_control.save()
 
-        if product_comment_formset.is_valid():
-            for form in product_comment_formset:
-                comment = form.save(commit=False)
-                comment.user = request.user
-                comment.product = product
-                comment.save()
+        # if product_comment_formset.is_valid():
+        #     for form in product_comment_formset:
+        #         comment = form.save(commit=False)
+        #         comment.user = request.user
+        #         comment.product = product
+        #         comment.save()
 
         # Replace 'product_list' with your product list view name
         return redirect(reverse('mgt:products'))
-
-    else:
-        product_form = ProductDetailsForm()
-        barcode_form = BarcodeForm()
-        product_tax_formset = modelformset_factory(
-            ProductTax, form=ProductTaxForm, extra=1)(queryset=ProductTax.objects.none())
-        stock_control_form = StockControlForm()
-        customer_form = CustomerForm()
-        product_comment_formset = modelformset_factory(
-            ProductComment, form=ProductCommentForm, extra=1)(queryset=ProductComment.objects.none())
-
-    return render(request, 'mgt/products/list.html', {
-        'groups': ProductGroup.objects.all(),
-        'product': product,
-        'product_form': product_form,
-        'barcode_form': barcode_form,
-        'product_tax_formset': product_tax_formset,
-        'stock_control_form': stock_control_form,
-        'customer_form': customer_form,
-        'product_comment_formset': product_comment_formset,
-    })
 
 
 form_contains = [
@@ -268,3 +246,35 @@ formset_dir = [
     'template_name', 'template_name_div', 'template_name_p', 'template_name_table', 'template_name_ul', 
     'total_error_count', 'total_form_count', 'unique_fields', 'validate_max', 'validate_min', 'validate_unique'
     ]
+
+reqpost = {'QueryDict': {
+        'csrfmiddlewaretoken': ['RsRr1eQ908gPhlzthWOhb4eVmQCr06O6NPUZLiodNSTkj2G5ii8RkqNV6Yd20x9s'], 
+        'name': ['Organic Bananas'], 
+        'code': [''], 
+        'value': ['556828708663'], 
+        'measurement_unit': ['KG'], 
+        'parent_group': ['2'], 
+        'is_enabled': ['on'], 
+        'is_using_default_quantity': ['on'], 
+        'age_restriction': [''], 
+        'form-TOTAL_FORMS': ['2', '2'], 
+        'form-INITIAL_FORMS': ['1', '2'], 
+        'form-MIN_NUM_FORMS': ['0', '0'], 
+        'form-MAX_NUM_FORMS': ['2', '1000'], 
+        'form-0-tax': ['2'], 
+        'form-1-tax': ['3'], 
+        'product-id': ['1'], 
+        'cost': ['0.000'], 
+        'margin': ['100.000'], 
+        'price': ['1200.000'], 
+        'customer': ['1'], 
+        'reorder_point': ['0.0'], 
+        'preferred_quantity': ['1'], 
+        'is_low_stock_warning_enabled': ['on'], 
+        'low_stock_warning_quantity': ['1'], 
+        'form-0-comment': [''], 
+        'form-1-comment': [''], 
+        'color': ['#FFFFFF'], 
+        'image': ['']
+            }
+        }
