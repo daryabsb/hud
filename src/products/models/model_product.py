@@ -1,16 +1,20 @@
 from django.db import models
 from django.utils.text import slugify
+from src.core.utils import slugify_function
 from src.accounts.models import User
 from src.core.modules import upload_image_file_path
 from mptt.models import MPTTModel, TreeForeignKey, TreeManyToManyField
 from django.utils.translation import gettext_lazy as _
+from django_extensions.db.fields import AutoSlugField
 
 
 class Product(models.Model):
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="products")
     name = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=255, unique=True, null=True)
+    slug2 = models.SlugField(max_length=255, unique=True, null=True)
+    slug = AutoSlugField(populate_from='name', blank=False, unique=True,
+                         slugify_function=slugify_function)
     parent_group = TreeForeignKey(
         "ProductGroup", on_delete=models.CASCADE, related_name="products",
         default='products'
@@ -35,7 +39,7 @@ class Product(models.Model):
         default=0, null=True, blank=True, decimal_places=3, max_digits=11)
     margin = models.DecimalField(max_digits=18, decimal_places=3, default=0)
     image = models.ImageField(null=True, blank=True,
-                                upload_to=upload_image_file_path)
+                              upload_to=upload_image_file_path)
     color = models.CharField(max_length=50, default="Transparent")
     is_enabled = models.BooleanField(default=True)
     age_restriction = models.SmallIntegerField(null=True, blank=True)

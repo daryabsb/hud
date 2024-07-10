@@ -160,7 +160,12 @@ def add_product(request, product_id=None):
             stock_control.product = product
             stock_control.save()
 
-        return redirect(reverse('mgt:products'))
+        if product and product.parent_group.slug:
+            parent_slug = product.parent_group.slug
+        else:
+            parent_slug = 'products'
+
+        return redirect(reverse('mgt:filter-products', kwargs={'slug': parent_slug}))
 
 
 form_contains = [

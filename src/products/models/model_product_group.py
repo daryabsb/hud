@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
+from django_extensions.db.fields import AutoSlugField
+from src.core.utils import slugify_function
 from src.accounts.models import User
 from src.core.modules import upload_image_file_path
 from mptt.models import MPTTModel, TreeForeignKey
@@ -11,7 +13,8 @@ class ProductGroup(MPTTModel):
         User, on_delete=models.CASCADE, related_name="productGroups"
     )
     name = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=255, unique=True, null=True)
+    slug = AutoSlugField(populate_from='name', blank=False, unique=True,
+                         slugify_function=slugify_function)
     parent = TreeForeignKey(
         "self", null=True, blank=True, on_delete=models.SET_NULL, related_name="groups"
     )

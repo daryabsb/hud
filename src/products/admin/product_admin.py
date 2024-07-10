@@ -59,7 +59,7 @@ INITIAL_DATA = [
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'parent_group', 'user', 'created')
+    list_display = ('id', 'name', 'parent_group', 'slug', 'user', 'created')
     ordering = ('created', )
     list_filter = ('name', )
 

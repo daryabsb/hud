@@ -31,6 +31,9 @@ from src.settings.components.env import config
 #     )
 #     print(checkou_session.url)
 
+def slugify_function(content):
+    return content.replace('_', '-').lower()
+
 
 def add_spaces(input_string):
     spaced_string = ''

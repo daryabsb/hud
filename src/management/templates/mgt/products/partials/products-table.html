@@ -28,6 +28,7 @@ id="mgt-products-table"
             hx-get="{% url 'mgt:modal-update-product' product.id %}" 
 			hx-target="#modalAddProduct" 
 			hx-trigger="click"
+            hx-include="#selected-group"
 			href="#modalAddProduct" data-bs-toggle="modal"
             >#{{ product.id }}</a></td>
         <td class="px-10px border-0">
@@ -48,7 +49,7 @@ id="mgt-products-table"
     {% endfor %}
     {% else %}
     <tr>
-    <td colspan="6">Want to add products to this category? <button class="btn btn-outlined-theme">Add product</button></td>
+    <td colspan="6">Want to add products to this category? {% include 'mgt/buttons/add-product-button.html' with type='btn' %}</td>
     </tr>
     {% endif %}
 </tbody>

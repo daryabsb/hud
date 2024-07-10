@@ -45,6 +45,7 @@ def modal_add_product(request, product_id=None):
     stock_control = None
     product_comment_queryset = None
     customer = None
+    product_group = request.GET.get('group-id', None)
 
     if product_id:
         product = get_object_or_404(Product, id=product_id)
@@ -54,8 +55,9 @@ def modal_add_product(request, product_id=None):
         customer = stock_control.customer if stock_control else None
         product_comment_queryset = ProductComment.objects.filter(
             product=product)
-
-    product_form = ProductDetailsForm(instance=product)
+        product_group = product.parent_group
+    product_form = ProductDetailsForm(instance=product, initial={
+                                      'parent_group': product_group})
     barcode_form = BarcodeForm(instance=barcode)
     product_printstation_form = ProductPrintStationForm()
 
