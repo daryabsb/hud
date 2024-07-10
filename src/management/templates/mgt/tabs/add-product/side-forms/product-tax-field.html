@@ -1,5 +1,6 @@
 {% load widget_tweaks %}
 <div class="col-sm-7 " id="add-product-customer-field">
-    {% render_field form.tax class="form-select" disabled="true" %}
+    {% render_field form.tax class="form-select" %}
+    {% render_field form.id type="hidden" %}
 </div>
 {{ form.errors }}

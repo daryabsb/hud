@@ -9,6 +9,7 @@ INITIAL_DATA = [
     {"id": 4, "name": "Home", "slug": "home", "rank": 14},
     {"id": 5, "name": "Accessories", "slug": "accessories", "rank": 20},
     {"id": 6, "name": "Goodies", "slug": "goodies", "rank": 26},
+    {"id": 7, "name": "Vapery", "slug": "vapery", "rank": 32},
 ]
 
 

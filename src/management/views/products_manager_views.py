@@ -103,7 +103,8 @@ def add_product(request, product_id=None):
 
         ProductTaxFormset = modelformset_factory(
             ProductTax, form=ProductTaxForm, extra=1)
-        product_tax_formset = ProductTaxFormset(request.POST or None, queryset=product_tax_queryset)
+        product_tax_formset = ProductTaxFormset(
+            request.POST or None, queryset=product_tax_queryset)
 
         stock_control_form = StockControlForm(request.POST)
         customer_form = CustomerForm(request.POST or None, instance=customer)
@@ -266,34 +267,34 @@ reqpost = {'QueryDict': {
 }
 
 post_data = {
-    'QueryDict': 
+    'QueryDict':
     {
-        'csrfmiddlewaretoken': ['8xh0xs3BdSeMeJYxzNgRcR6pNqhkVVMw4UkyhwBF0CRhgq59A9ArldFpxySVVm7S'], 
-        'name': ['Organic Bananas'], 
-        'code': [''], 
-        'value': ['556828708663'], 
-        'measurement_unit': ['KG'], 
-        'parent_group': ['2'], 
-        'is_enabled': ['on'], 
-        'is_using_default_quantity': ['on'], 
-        'age_restriction': [''], 
+        'csrfmiddlewaretoken': ['8xh0xs3BdSeMeJYxzNgRcR6pNqhkVVMw4UkyhwBF0CRhgq59A9ArldFpxySVVm7S'],
+        'name': ['Organic Bananas'],
+        'code': [''],
+        'value': ['556828708663'],
+        'measurement_unit': ['KG'],
+        'parent_group': ['2'],
+        'is_enabled': ['on'],
+        'is_using_default_quantity': ['on'],
+        'age_restriction': [''],
 
-        'form-TOTAL_FORMS': ['2'], 
-        'form-INITIAL_FORMS': ['1'], 
-        'form-MIN_NUM_FORMS': ['0'], 
-        'form-MAX_NUM_FORMS': ['2'], 
-        'form-0-tax': ['3'], 
-        'form-1-tax': ['2'], 
-        'product-id': ['1'], 
-        'cost': ['0.000'], 
-        'margin': ['100.000'], 
-        'price': ['1200.000'], 
-        'customer': ['1'], 
-        'reorder_point': ['0.0'], 
-        'preferred_quantity': ['1'], 
-        'is_low_stock_warning_enabled': ['on'], 
-        'low_stock_warning_quantity': ['1'], 
-        'color': ['#FFFFFF'], 
+        'form-TOTAL_FORMS': ['2'],
+        'form-INITIAL_FORMS': ['1'],
+        'form-MIN_NUM_FORMS': ['0'],
+        'form-MAX_NUM_FORMS': ['2'],
+        'form-0-tax': ['3'],
+        'form-1-tax': ['2'],
+        'product-id': ['1'],
+        'cost': ['0.000'],
+        'margin': ['100.000'],
+        'price': ['1200.000'],
+        'customer': ['1'],
+        'reorder_point': ['0.0'],
+        'preferred_quantity': ['1'],
+        'is_low_stock_warning_enabled': ['on'],
+        'low_stock_warning_quantity': ['1'],
+        'color': ['#FFFFFF'],
         'image': ['']
-        }
+    }
 }

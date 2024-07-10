@@ -66,8 +66,10 @@ def modal_add_product(request, product_id=None):
         ProductComment, form=ProductCommentForm, extra=0)
     # (queryset=product_comment_queryset)
 
-
-    product_tax_formset = modelformset_factory(ProductTax, form=ProductTaxForm, max_num=max_forms, extra=0)()
+    product_tax_formset = modelformset_factory(
+        ProductTax, form=ProductTaxForm, max_num=max_forms, extra=0)(
+            queryset=product_tax_queryset
+    )
 
     context = {
         "users": users,
@@ -95,8 +97,9 @@ def add_to_product_tax_formset(request):
     if product_id:
         product = get_object_or_404(Product, id=product_id)
         product_tax_queryset = ProductTax.objects.filter(product=product)
-    
-    product_tax_formset = modelformset_factory(ProductTax, form=ProductTaxForm, max_num=max_forms, extra=1)()
+
+    product_tax_formset = modelformset_factory(
+        ProductTax, form=ProductTaxForm, max_num=max_forms, extra=1)()
 
     context = {
         'product': product,
@@ -120,9 +123,10 @@ def delete_product_tax(request):
         product = get_object_or_404(Product, id=product_id)
         product_tax_queryset = ProductTax.objects.filter(product=product)
 
-    ProductTaxFormset = modelformset_factory(ProductTax, form=ProductTaxForm, max_num=max_forms, extra=0)
+    ProductTaxFormset = modelformset_factory(
+        ProductTax, form=ProductTaxForm, max_num=max_forms, extra=0)
     product_tax_formset = ProductTaxFormset(queryset=product_tax_queryset)
-    
+
     context = {
         'product': product,
         'product_tax_formset': product_tax_formset,
