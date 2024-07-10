@@ -103,7 +103,7 @@ def add_product(request, product_id=None):
 
         ProductTaxFormset = modelformset_factory(
             ProductTax, form=ProductTaxForm, extra=1)
-        product_tax_formset = ProductTaxFormset(request.POST or None)
+        product_tax_formset = ProductTaxFormset(request.POST or None, queryset=product_tax_queryset)
 
         stock_control_form = StockControlForm(request.POST)
         customer_form = CustomerForm(request.POST or None, instance=customer)
@@ -139,40 +139,27 @@ def add_product(request, product_id=None):
 
         if product_tax_formset.is_valid():
             for form in product_tax_formset:
-                if form.is_valid():
+                if form.instance and form.instance.id:
+                    form.save()
+                else:
                     product_tax = form.save(commit=False)
                     product_tax.user = request.user
                     product_tax.product = product
                     product_tax.save()
-                else:
-                    print("ProductTax formset is not valid")
-        # else:
-        #     print("product_tax_formset is not valid")
-        #     print(product_tax_formset.error_messages)
+        else:
+            print("ProductTax formset is not valid")
+            print("product_tax_formset.errors = ")  # Print formset errors
+            print(product_tax_formset.errors)  # Print formset errors
+            print("individual_forms.errors = ")  # Print formset errors
+            for form in product_tax_formset:
+                print(form.errors)  # Print individual form errors
 
-        # if tax_ids:
-        #     for id in tax_ids:
-        #         tax = Tax.objects.get(id=id)
-        #         if not tax.is_tax_on_total:
-        #             ProductTax.objects.create(
-        #                 user=request.user,
-        #                 tax=tax,
-        #                 product=product
-        #             )
         if stock_control_form.is_valid():
             stock_control = stock_control_form.save(commit=False)
             stock_control.user = request.user
             stock_control.product = product
             stock_control.save()
 
-        # if product_comment_formset.is_valid():
-        #     for form in product_comment_formset:
-        #         comment = form.save(commit=False)
-        #         comment.user = request.user
-        #         comment.product = product
-        #         comment.save()
-
-        # Replace 'product_list' with your product list view name
         return redirect(reverse('mgt:products'))
 
 
@@ -276,4 +263,37 @@ reqpost = {'QueryDict': {
     'color': ['#FFFFFF'],
     'image': ['']
 }
+}
+
+post_data = {
+    'QueryDict': 
+    {
+        'csrfmiddlewaretoken': ['8xh0xs3BdSeMeJYxzNgRcR6pNqhkVVMw4UkyhwBF0CRhgq59A9ArldFpxySVVm7S'], 
+        'name': ['Organic Bananas'], 
+        'code': [''], 
+        'value': ['556828708663'], 
+        'measurement_unit': ['KG'], 
+        'parent_group': ['2'], 
+        'is_enabled': ['on'], 
+        'is_using_default_quantity': ['on'], 
+        'age_restriction': [''], 
+
+        'form-TOTAL_FORMS': ['2'], 
+        'form-INITIAL_FORMS': ['1'], 
+        'form-MIN_NUM_FORMS': ['0'], 
+        'form-MAX_NUM_FORMS': ['2'], 
+        'form-0-tax': ['3'], 
+        'form-1-tax': ['2'], 
+        'product-id': ['1'], 
+        'cost': ['0.000'], 
+        'margin': ['100.000'], 
+        'price': ['1200.000'], 
+        'customer': ['1'], 
+        'reorder_point': ['0.0'], 
+        'preferred_quantity': ['1'], 
+        'is_low_stock_warning_enabled': ['on'], 
+        'low_stock_warning_quantity': ['1'], 
+        'color': ['#FFFFFF'], 
+        'image': ['']
+        }
 }
