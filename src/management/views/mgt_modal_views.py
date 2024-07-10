@@ -66,6 +66,9 @@ def modal_add_product(request, product_id=None):
         ProductComment, form=ProductCommentForm, extra=0)
     # (queryset=product_comment_queryset)
 
+    for tax in product_tax_queryset:
+        print(tax.product.name, ' : ', tax)
+
     product_tax_formset = modelformset_factory(
         ProductTax, form=ProductTaxForm, max_num=max_forms, extra=0)(
             queryset=product_tax_queryset
@@ -99,7 +102,9 @@ def add_to_product_tax_formset(request):
         product_tax_queryset = ProductTax.objects.filter(product=product)
 
     product_tax_formset = modelformset_factory(
-        ProductTax, form=ProductTaxForm, max_num=max_forms, extra=1)()
+        ProductTax, form=ProductTaxForm, max_num=max_forms, extra=1)(
+            queryset=product_tax_queryset
+    )
 
     context = {
         'product': product,

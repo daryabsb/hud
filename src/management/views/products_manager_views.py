@@ -143,17 +143,16 @@ def add_product(request, product_id=None):
                 if form.instance and form.instance.id:
                     form.save()
                 else:
-                    product_tax = form.save(commit=False)
-                    product_tax.user = request.user
-                    product_tax.product = product
-                    product_tax.save()
+                    if form.is_valid():
+                        product_tax = form.save(commit=False)
+                        product_tax.user = request.user
+                        product_tax.product = product
+                        product_tax.save()
+                    else:
+                        print(form.errors)  # Print individual form errors
         else:
             print("ProductTax formset is not valid")
-            print("product_tax_formset.errors = ")  # Print formset errors
             print(product_tax_formset.errors)  # Print formset errors
-            print("individual_forms.errors = ")  # Print formset errors
-            for form in product_tax_formset:
-                print(form.errors)  # Print individual form errors
 
         if stock_control_form.is_valid():
             stock_control = stock_control_form.save(commit=False)
