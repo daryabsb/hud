@@ -24,3 +24,4 @@ django-split-settings
 icecream
 cryptography
 django-fontawesome-5
+xhtml2pdf
