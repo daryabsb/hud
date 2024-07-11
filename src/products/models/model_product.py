@@ -6,6 +6,7 @@ from src.core.modules import upload_image_file_path
 from mptt.models import MPTTModel, TreeForeignKey, TreeManyToManyField
 from django.utils.translation import gettext_lazy as _
 from django_extensions.db.fields import AutoSlugField
+from colorfield.fields import ColorField
 
 
 class Product(models.Model):
@@ -40,7 +41,8 @@ class Product(models.Model):
     margin = models.DecimalField(max_digits=18, decimal_places=3, default=0)
     image = models.ImageField(null=True, blank=True,
                               upload_to=upload_image_file_path)
-    color = models.CharField(max_length=50, default="Transparent")
+    color2 = models.CharField(max_length=50, default="Transparent")
+    color = ColorField(default='#FF0000')
     is_enabled = models.BooleanField(default=True)
     age_restriction = models.SmallIntegerField(null=True, blank=True)
     last_purchase_price = models.DecimalField(

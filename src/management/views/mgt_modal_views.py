@@ -36,7 +36,7 @@ def modal_add_user(request):
 
 @login_required
 @require_GET
-def modal_add_product(request, product_id=None):
+def modal_add_product(request):
     max_forms = Tax.objects.filter(is_tax_on_total=False).count()
     users = User.objects.all()
     product = None
@@ -46,6 +46,7 @@ def modal_add_product(request, product_id=None):
     product_comment_queryset = None
     customer = None
     product_group = request.GET.get('group-id', None)
+    product_id = request.GET.get('product-id', None)
 
     if product_id:
         product = get_object_or_404(Product, id=product_id)
@@ -144,6 +145,17 @@ def delete_product_tax(request):
 
 @login_required
 @require_GET
+def modal_delete_product(request):
+    product_id = request.GET.get('product-id', None)
+    product = get_object_or_404(Product, id=product_id)
+    print("product_delete = ", product.name)
+    form = ConfirmPasswordForm()
+    context = {"product": product, "form": form}
+    return render(request, 'mgt/modals/confirm-delete-product.html', context)
+
+
+@login_required
+@require_GET
 def modal_update_product_group(request):
     group = None
     group_id = request.GET.get('group-id', None)
@@ -185,7 +197,7 @@ def modal_delete_product_group(request):
     print("group_delete = ", group.name)
     form = ConfirmPasswordForm()
     context = {"group": group, "form": form}
-    return render(request, 'mgt/modals/confirm-test.html', context)
+    return render(request, 'mgt/modals/confirm-delete-group.html', context)
 
 
 def show_customer_form(request):

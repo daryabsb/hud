@@ -30,6 +30,7 @@ THIRD_PARTY_APPS = [
     'widget_tweaks',
     'mptt',
     'fontawesome_5',
+    'colorfield',
 ]
 
 LOCAL_APPS = [

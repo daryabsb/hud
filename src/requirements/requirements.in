@@ -9,6 +9,8 @@ django-mptt
 django-widget-tweaks
 django-htmx
 django-components
+django-colorfield
+fpdf
 loguru
 psycopg2
 dj-database-url

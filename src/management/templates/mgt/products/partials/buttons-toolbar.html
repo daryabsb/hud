@@ -1,5 +1,6 @@
 <div class="file-manager-toolbar">
     <input type="hidden" name="group-id" id="selected-group" />
+    <input type="hidden" name="product-id" id="selected-product" />
     <button type="button" class="btn border-0"
     _="on click reload() the location of the window"
     ><i class="bi bi-plus-lg me-1"
@@ -35,11 +36,30 @@
     <i class="bi me-1 bi-trash"></i>
     {% comment %} <input type="hidden" name="group-id" id="delete-group-button-input" /> {% endcomment %}
     Delete Group</button>
-    <button type="button" class="btn border-0" disabled><i class="bi me-1 bi-arrows-move"></i>
-    Move</button>
-    <button type="button" class="btn border-0"><i class="bi me-1 bi-upload"></i> Upload</button>
-    <button type="button" class="btn border-0" disabled><i class="bi me-1 bi-download"></i>
-    Download</button>
+    <button type="button"
+    _="on click trigger click on the #add-product end" 
+    class="btn border-0"><i class="bi me-1 bi-arrows-move"></i>
+    Add Product</button>
+    <button type="button" class="btn border-0" id="edit-product-button"
+        hx-get="{% url 'mgt:modal-update-product' %}" 
+        hx-target="#modalAddProduct" 
+        hx-trigger="click"
+        hx-include="#selected-product"
+        data-bs-target="#modalAddProduct" data-bs-toggle="modal"
+    disabled
+    ><i class="bi me-1 bi-upload"></i> Edit Product</button>
+    <button type="button" class="btn border-0"  id="delete-product-button" disabled
+        
+        hx-get="{% url 'mgt:modal-delete-product' %}" 
+        hx-target="#modalDeleteProduct" 
+        hx-trigger="click"
+        hx-include="#selected-product"
+        href="#modalDeleteProduct"
+        data-bs-toggle="modal"
+    >
+    <i class="bi me-1 bi-trash"></i>
+    {% comment %} <input type="hidden" name="group-id" id="delete-group-button-input" /> {% endcomment %}
+    Delete Product</button>
     <button type="button" class="btn border-0" disabled><i class="bi me-1 bi-trash"></i>
     Delete</button>
     <button type="button" class="btn border-0" disabled><i

@@ -168,6 +168,23 @@ def add_product(request, product_id=None):
         return redirect(reverse('mgt:filter-products', kwargs={'slug': parent_slug}))
 
 
+def delete_product(request):
+    from django.contrib.auth import authenticate
+    product_id = request.POST.get('product-id', None)
+    form = ConfirmPasswordForm(request.POST)
+    if form.is_valid():
+        password = form.cleaned_data.get('password')
+        user = authenticate(email=request.user.email, password=password)
+        if user is not None:
+            product = get_object_or_404(Product, id=product_id)
+            product.delete()
+            products = Product.objects.all()
+            context = {
+                "products": products,
+            }
+            return render(request, 'mgt/products/partials/products-table.html', context)
+
+
 form_contains = [
     'Meta',
     '__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__',

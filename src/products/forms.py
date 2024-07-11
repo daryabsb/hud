@@ -19,7 +19,7 @@ class ProductDetailsForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = [
-            'name', 'code', 'measurement_unit', 'currency', 'image', 'color', 'is_enabled',
+            'name', 'code', 'measurement_unit', 'currency', 'image', 'color', 'color2', 'is_enabled',
             'age_restriction', 'is_service', 'is_using_default_quantity', 'parent_group',
             'cost', 'margin', 'price', 'is_tax_inclusive_price', 'is_price_change_allowed',
         ]
