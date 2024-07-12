@@ -21,6 +21,7 @@ urlpatterns = [
     path('mgt/', include('src.management.urls'), name="mgt"),
     path('my-accounts/', include('src.accounts.urls'), name="my-accounts"),
     path('settings/', include('src.configurations.urls'), name="settings"),
+    path('finance/', include('src.finances.urls'), name="finances"),
 
     path('test/', test, name='test')
 ]
@@ -28,6 +29,6 @@ urlpatterns = [
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL,
-                        document_root=settings.STATIC_ROOT)
+                          document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL,
-                        document_root=settings.MEDIA_ROOT)
+                          document_root=settings.MEDIA_ROOT)

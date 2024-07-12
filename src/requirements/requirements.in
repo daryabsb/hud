@@ -25,3 +25,7 @@ icecream
 cryptography
 django-fontawesome-5
 xhtml2pdf
+reportlab
+reportlab[pycairo]
+preppy
+rlextra -i https://www.reportlab.com/pypi/

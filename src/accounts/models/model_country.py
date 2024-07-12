@@ -2,6 +2,14 @@ from django.db import models
 from src.accounts.models import User
 
 
+class Region(models.Model):
+    NAME_LENGTH = 50
+    name = models.CharField(max_length=NAME_LENGTH)
+
+    def __str__(self):
+        return self.name
+
+
 class Country(models.Model):
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="countries")

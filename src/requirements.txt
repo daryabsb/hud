@@ -91,6 +91,10 @@ executing==2.0.1
     # via icecream
 fpdf==1.7.2
     # via -r src/requirements/requirements.in
+freetype-py==2.3.0
+    # via
+    #   reportlab
+    #   rlpycairo
 html5lib==1.1
     # via xhtml2pdf
 icecream==2.1.3
@@ -109,8 +113,12 @@ pillow==10.2.0
     #   django-colorfield
     #   reportlab
     #   xhtml2pdf
+preppy==4.2.3
+    # via -r src/requirements/requirements.in
 psycopg2==2.9.9
     # via -r src/requirements/requirements.in
+pycairo==1.26.1
+    # via rlpycairo
 pycodestyle==2.11.1
     # via autopep8
 pycparser==2.21
@@ -139,14 +147,17 @@ pyyaml==6.0.1
     # via pyhanko
 qrcode==7.4.2
     # via pyhanko
-reportlab==4.2.2
+reportlab[pycairo]==4.2.2
     # via
+    #   -r src/requirements/requirements.in
     #   svglib
     #   xhtml2pdf
 requests==2.32.3
     # via
     #   pyhanko
     #   pyhanko-certvalidator
+rlpycairo==0.3.0
+    # via reportlab
 six==1.16.0
     # via
     #   -r src/requirements/requirements.in

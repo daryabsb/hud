@@ -1,0 +1,1889 @@
+<!DOCTYPE document SYSTEM "rml.dtd"> 
+<document filename="fund_report.pdf" > 
+
+
+
+<!-- 
+==========
+docinit section is for registering fonts and colors 
+==========
+-->
+
+<docinit>
+
+<!--
+==========
+
+Register your own fonts here using this syntax:
+TODO registerFontFamily.
+
+	<registerTTFont faceName="" fileName=""/>
+
+===========
+-->
+
+	<color id="RL_BLUE" CMYK="[0.97, 0.81, 0.04, 0]"/>
+	<color id="BLACK_TEXT" CMYK="[0, 0.1, 0.14, 0.85]"/>
+	<color id="GRAY_TEXT" CMYK="[0, 0, 0, 0.65]"/>
+</docinit>
+
+<template pageSize="(842, 595)" leftMargin="72" showBoundary="0">
+
+	<pageTemplate id="cover">
+		<pageGraphics>
+			<image file="C:\api\hud\src\_utils\rml/logo.png" x="520" y="500" width="250" preserveAspectRatio="1"/>
+
+			<setFontSize size="24"/>
+			<fill color="BLACK_TEXT"/>
+			<drawString x="72" y="420">ReportLab Investment Management</drawString>			  
+
+			<setFontSize size="18"/>
+			<fill color="GRAY_TEXT"/>
+			<drawString x="72" y="395">Fund factsheet: New Movie</drawString>	
+
+			<fill color="RL_BLUE"/>
+			<rect x="0" y="385" height="3" width="842" stroke="0" fill="1"/>
+
+		</pageGraphics>
+		<frame id="1" x1="72" y1="72" width="200" height="200"/>
+	</pageTemplate>
+
+
+	<pageTemplate id="body">
+		<pageGraphics>
+			<image file="C:\api\hud\src\_utils\rml/logo_gray.png" x="657" y="520" width="150" preserveAspectRatio="1"/>
+			<fill color="RL_BLUE"/>
+			<rect x="0" y="520" height="3" width="842" stroke="0" fill="1"/>
+
+			<fill color="GRAY_TEXT"/>
+			<drawCenteredString x="421" y="35"><pageNumber/></drawCenteredString>
+			<drawString x="35" y="35">ReportLab Investment Management</drawString>
+			<drawRightString x="807" y="35">Private and Confidential</drawRightString>
+
+			<!--
+			==========
+			The <place> tag below will let you set new templates
+			and pass in a Title attribute, see the story below.
+			#AR expand
+			==========
+			-->
+
+			<place x="35" y="528" width="500" height="30"><para style="h1"><getName id="Title" default=""/></para></place>
+		</pageGraphics>
+				<frame id="body" x1="35" y1="72" width="772" height="428"/>
+	</pageTemplate>
+
+	<pageTemplate id="blank">
+		<frame id="1" x1="0" y1="0" width="842" height="595" />
+	</pageTemplate>
+
+</template>
+
+<!--
+==========
+
+The style sheet contains paragraph and table styles
+
+==========
+-->
+
+<stylesheet>
+
+	<paraStyle name="h1"
+		fontSize="20"
+		textColor="RL_BLUE"
+		leading="17"
+		spaceBefore = "27"
+		spaceAfter = "13"
+		/>
+		
+		<paraStyle name="table_headings"
+		fontName="Helvetica-Bold"
+		fontSize="7"
+		textColor="white"
+		/>
+
+	<paraStyle name="body"
+		fontName="Helvetica"
+		fontSize="8.4"
+		textColor="BLACK_TEXT"
+		leading="12"
+		spaceBefore = "8"
+		alignment="JUSTIFY"
+		/>
+
+	
+	<blockTableStyle id="basic">
+		<blockAlignment value="center"/>
+		<blockFont name="Helvetica" size="8.4" start="0,0" stop="-1,-1"/>
+		<blockValign value="middle" />
+		<lineStyle kind="LINEABOVE" colorName="black" start="0,0" stop="-1,0"/>
+		<lineStyle kind="LINEBELOW" colorName="black" start="0,-1" stop="-1,-1"/>
+		<blockBackground colorName="black" start="0,0" stop="-1,0"/>
+		<blockTextColor colorName="white" start="0,0" stop="-1,0"/>
+		<blockBackground colorsByRow="None;#DCE6F2" start="0,1" stop="-1,-1"/>
+	</blockTableStyle>
+
+	<blockTableStyle id="container">
+		<blockAlignment value="center"/>
+		<blockValign value="top" />
+		<blockLeftPadding length="0" />
+		<blockRightPadding length="0" />
+		<blockBottomPadding length="0" />
+		<blockTopPadding length="0" />
+		<blockTopPadding length="42" start="0,0" stop="0,0"/>
+	</blockTableStyle>
+
+	<blockTableStyle id="small_text" parent="basic">
+		<blockFont name="Helvetica" size="7" start="0,0" stop="-1,-1"/>
+	</blockTableStyle>
+	
+	<blockTableStyle id="deltas_header">
+		<blockAlignment value="right"/>
+		<blockFont name="Helvetica-Bold" size="8" start="0,0" stop="-1,-1"/>
+		<lineStyle kind="OUTLINE" colorName="black" start="0,0" stop="0,-1"/>
+		<lineStyle kind="OUTLINE" colorName="black" start="0,0" stop="3,-1"/>
+		<lineStyle kind="OUTLINE" colorName="black" start="4,0" stop="6,-1"/>
+		<lineStyle kind="OUTLINE" colorName="black" start="7,0" stop="9,-1"/>
+		<lineStyle kind="OUTLINE" colorName="black" start="10,0" stop="12,-1"/>
+		<lineStyle kind="OUTLINE" colorName="black" start="13,0" stop="15,-1"/>
+		<blockBackground colorsByRow="black" start="0,-1" stop="-1,-1"/>
+		<blockTextColor colorName="white" start="0,0" stop="-1,-1"/>
+	</blockTableStyle>
+
+	<blockTableStyle id="deltas_part">
+		<blockAlignment value="decimal"/>
+		<blockAlignment value="center" start="0,0" stop="0,-1"/>
+		<blockFont name="Helvetica" size="6" start="0,0" stop="-1,-1"/>
+		<blockValign value="middle" />
+		<lineStyle kind="OUTLINE" colorName="black" start="0,0" stop="0,-1"/>
+		<lineStyle kind="OUTLINE" colorName="black" start="0,0" stop="3,-1"/>
+		<lineStyle kind="OUTLINE" colorName="black" start="4,0" stop="6,-1"/>
+		<lineStyle kind="OUTLINE" colorName="black" start="7,0" stop="9,-1"/>
+		<lineStyle kind="OUTLINE" colorName="black" start="10,0" stop="12,-1"/>
+		<lineStyle kind="OUTLINE" colorName="black" start="13,0" stop="15,-1"/>
+		<lineStyle kind="OUTLINE" colorName="black" start="0,-1" stop="-1,-1"/>
+		<blockTextColor colorName="black" start="0,0" stop="-1,-1"/>
+		 <blockFont name="Helvetica-Bold" size="6" start="0,-1" stop="-1,-1"/>
+		<blockBackground colorsByRow="silver" start="0,-1" stop="-1,-1"/>
+	</blockTableStyle>
+	<blockTableStyle id="deltas_footer">
+		<blockAlignment value="decimal"/>
+		<blockAlignment value="center" start="0,0" stop="0,-1"/>
+		<blockFont name="Helvetica-Bold" size="6" start="0,0" stop="-1,-1"/>
+		<blockValign value="middle" />
+		<lineStyle kind="OUTLINE" colorName="black" start="0,0" stop="0,-1"/>
+		<lineStyle kind="OUTLINE" colorName="black" start="0,0" stop="3,-1"/>
+		<lineStyle kind="OUTLINE" colorName="black" start="4,0" stop="6,-1"/>
+		<lineStyle kind="OUTLINE" colorName="black" start="7,0" stop="9,-1"/>
+		<lineStyle kind="OUTLINE" colorName="black" start="10,0" stop="12,-1"/>
+		<lineStyle kind="OUTLINE" colorName="black" start="13,0" stop="15,-1"/>
+		<lineStyle kind="OUTLINE" colorName="black" start="0,-1" stop="-1,-1"/>
+		<blockTextColor colorName="black" start="0,0" stop="-1,-1"/>
+		<blockBackground colorsByRow="gray" start="0,0" stop="-1,-1"/>
+	</blockTableStyle>
+</stylesheet>
+
+<!-- 
+==========
+
+The story contains all flowable content
+
+==========
+-->
+
+<story>
+<setNextTemplate name="body"/><name id="Title" value="Market performance"/>
+<nextPage/>
+<blockTable style="basic" colWidths="122,45,45,45,45,45,45,45,45,45,45,45,45,45,65">
+	<tr>
+		<td></td>
+		<td>Jan</td>
+		<td>Feb</td>
+		<td>Mar</td>
+		<td>Apr</td>
+		<td>May</td>
+		<td>Jun</td>
+		<td>Jul</td>
+		<td>Aug</td>
+		<td>Sep</td>
+		<td>Oct</td>
+		<td>Nov</td>
+		<td>Dec</td>
+		<td>YTD</td>
+		<td></td>
+	</tr>
+
+<!--
+==========
+
+Dummy data entered for returns in the following table row,
+using the function negRedTd from rml_utils. This function
+accepts a number and an optional format parameter. If set to
+'percent', it will display percentages to 2 decimal places, 
+otherwise, it will show whole numbers with a ',' for the 
+thousands separator.
+
+AR - give example of what it creates, makes explanation clearer...
+
+Negative numbers are given a different colour; red by default,
+but any colour may be given as an argument.
+
+==========
+-->
+
+	<tr>
+		<td>New Movie</td>
+		<td>7.61%</td>
+		<td>5.62%</td>
+		<td>2.31%</td>
+		<td fontColor="red">-6.62%</td>
+		<td fontColor="red">-1.38%</td>
+		<td fontColor="red">-6.47%</td>
+		<td>4.62%</td>
+		<td>0.91%</td>
+		<td>5.75%</td>
+		<td fontColor="red">-1.12%</td>
+		<td fontColor="red">-7.62%</td>
+		<td>3.42%</td>
+		<td>15.41%</td>
+	</tr>
+</blockTable>
+
+<!--
+==========
+
+Below is an instance of a dynamically drawn chart. The <drawing>
+tag is used to import a particular chart (function) from a
+python module (module) as created with the drawing editor. See
+notes in 00README for more on the drawing editor.
+
+AR:  explain drawing editor.
+
+Any parameters of this chart may be dynamically controlled at
+the time of PDF generation; in this case, we are replacing the
+data attribute with our own line chart data, assembled
+previously and passed to this template.
+
+==========
+-->
+
+	<drawing module="project.fundreport.charts.monthperf12mo" function="perfChart">
+		<!--pass in dynamic data as a python list expression with preppy -->
+		<param name="chart.data">[[('20240712', 100.0)], [('20240712', 100.0)]]</param>
+	</drawing>
+
+<name id="Title" value="Market performance"/>
+	<nextPage/>
+	<para style="body" spaceAfter="10">This is fund to shoot the new moviews by young directors</para>
+
+<!--
+==========
+
+Try two - using sparklines within the table
+==========
+-->
+
+
+
+<keepInFrame frame="body" onOverflow="shrink">
+<blockTable align="LEFT" style="small_text" rowHeights="12,12,12,12" colWidths="117,40,40,40,40,40,40,40,40,40,140,117">
+	<tr>
+		<td>Trade</td>
+		<td>Region</td>
+		<td>Country</td>
+		<td>Trade Date</td>
+		<td>Asset Class</td>
+		<td>Profit</td>
+		<td>Limit</td>
+		<td>Stop loss</td>
+		<td>Value at risk</td>
+		<td>cVaR</td>
+		<td>Profit/Loss related to limits</td>
+		<td>Trade</td>
+	</tr>
+	
+	<!--to get a chart header in, we'll have an empty row-->
+	<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td>
+	 <!--now we put an actual chart in the table cell -->
+			<drawing module="reportlab.graphics.shapes" function="Drawing">
+				<param name="height">8</param>
+				<param name="width">130</param>
+				<!--draw a bar chart showing the zero, stop loss and limit -->
+				<widget module="reportlab.graphics.charts.barcharts" function="HorizontalBarChart" name="chart"/> 
+				<!--need at least a data point, so we'll have two series, one for the max and one for the min
+				value.	In this case we know the data tends to be in millions and we don't want a load of
+				zeros, so we'll divide by 1m; we could use a custom formatting function -->
+				<param name="chart.data">[[0.0,3e-06]]</param>
+				<param name="chart.x">0</param>
+				<param name="chart.y">7</param>
+				<param name="chart.width">130</param>
+				<param name="chart.height">20</param>
+				<param name="chart.valueAxis.valueMin">0.0</param>
+				<param name="chart.valueAxis.valueMax">3e-06</param>				
+				<param name="chart.valueAxis.minimumTickSpacing">5</param>				  
+				<!--<param name="chart.valueAxis.labels.angle">90</param>-->
+				
+				<!--put labels to right of tickmark ? -->
+				<param name="chart.valueAxis.labels.dx">2</param>
+				<param name="chart.valueAxis.labels.dy">-4</param>
+				<param name="chart.valueAxis.labels.boxAnchor">w</param>
+				<param name="chart.valueAxis.labels.fontName">Helvetica</param>				   
+				<param name="chart.valueAxis.labels.fontSize">6</param>				   
+				<param name="chart.categoryAxis.visible">False</param>				  
+				<param name="chart.valueAxis.labelTextFormat">%0.1fm</param>
+				
+				<!--make the bars and axis disappear and consume almost zero space -->
+				<param name="chart.barWidth">0</param>				  
+				<param name="chart.barSpacing">0</param>				
+				<param name="chart.bars[0].fillColor">Color(1,1,1)</param>				  
+				<param name="chart.bars[0].strokeColor">None</param>				
+			</drawing>
+		
+		</td>
+		<td></td>
+	</tr>
+	
+	
+	
+	<tr>
+		
+		<td align="LEFT">General</td>
+		<td>Kurdistan</td>
+		<td>Iraq</td>
+
+		<td>Tangible</td>
+		<td>2</td><td>2</td><td>3</td><td>1</td><td>2</td>
+		<td>
+			<drawing module="reportlab.graphics.shapes" function="Drawing">
+				<param name="height">8</param>
+				<param name="width">130</param>
+				<!--draw vertical lines to show the zero, stop-loss and limit -->
+				<widget module="reportlab.graphics.shapes" function="Rect" name="ZERO" initargs="0.0,1,0,6"/>
+
+				<!--configure a shadedrect widget-->
+				<widget module="reportlab.graphics.widgets.grids" function="ShadedRect" name="PROFIT"/>
+				<param name="PROFIT.x">0.0</param>
+				<param name="PROFIT.y">2</param>
+				<param name="PROFIT.width">86.66666666666667</param>
+				<param name="PROFIT.height">4</param>
+				<param name="PROFIT.numShades">100</param>
+				<param name="PROFIT.strokeColor">None</param>
+				
+					<param name="PROFIT.fillColorEnd">Color(0,0,1)</param>
+					<param name="PROFIT.fillColorStart">Color(0.75,0.75,1)</param>
+				
+
+				<!--draw our limits AFTER the profit, in case it has exceeded, and one point higher/lower 
+				- we want to see the line over it -->
+				<widget module="reportlab.graphics.shapes" function="Rect" name="STOPLOSS" initargs="130.0,0,0,8"/>
+				<widget module="reportlab.graphics.shapes" function="Rect" name="LIMIT" initargs="86.66666666666667,0,0,8"/>
+
+			</drawing>
+		
+		
+		</td>
+		<td align="RIGHT">General</td>
+	</tr>
+	
+	<tr>
+		<td>Total</td>
+		<td/><td/><td/><td/><td>2</td><td>2</td><td>3</td><td>1</td><td>2</td>
+	</tr>
+</blockTable>
+
+</keepInFrame>
+
+
+
+
+<name id="deltas" value="Portfolio Deltas"/>
+<nextPage/>
+<para style="body">This page shows a few tips when constructing large and complex tables.  At this
+point people often start thinking about "nested tables".  The data for this page comes ultimately
+from an Excel sheet, which we have saved as tab-delimited text, to avoid the overhead of modelling
+complex data in a database and then querying and reformatting as table cells.  </para>
+<ul>
+	<li><para style="body" spaceBefore="0">Create one table for the header, and one for any final footer</para></li>
+	<li><para style="body" spaceBefore="0">Explicitly set the widths of the columns, and leave no space between, so they all appear to be one table</para></li>
+	<li><para style="body" spaceBefore="0">Create a table for each group of rows, which has special formatting on the LAST row (bold, line above and line below in this case).</para></li>
+</ul>
+<blockTable style="deltas_header" colWidths="10%,6%,6%,6%,6%,6%,6%,6%,6%,6%,6%,6%,6%,6%,6%,6%">
+	<tr>
+		<td></td>
+		<td>National 
+(USD Equiv)</td>
+		<td>Gamma</td>
+		<td>Vega</td>
+		<td>Delta</td>
+		<td>Gamma</td>
+		<td>Vega</td>
+		<td>Delta</td>
+		<td>Gamma</td>
+		<td>Vega</td>
+		<td>Delta</td>
+		<td>Gamma</td>
+		<td>Vega</td>
+		<td>Delta</td>
+		<td>Gamma</td>
+		<td>Vega</td>
+	</tr>
+</blockTable>
+
+<blockTable style="deltas_part" colWidths="10%,6%,6%,6%,6%,6%,6%,6%,6%,6%,6%,6%,6%,6%,6%,6%">
+	<!--Instead of tr/td, you have the option to use our bulkData tag and include delimited data within the RML.
+	
+	When reading from externally prepared files, this can make life much easier, and it saves you from parsing
+	files and then rewriting it all as <tr><td>.  You can get the data in with a Python one-liner like this:
+	
+	open("somefile.txt").read()
+	
+	or write a slightly cleverer function to extract all lines between text markers.
+	
+	In this case, we want to preserve commas within currency values, so we are using tab-delimited data. The data
+	needs to have the same 16 columns we expect.
+	
+	Thw downside is that it's hard to apply cell specific formatting like colouring numbers red, as there are no
+	<td> tags for you to style.
+	-->
+	<bulkData fieldDelim='\t'><![CDATA[
+ARS	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+BRL	44,083,597	972,119	11,069	47,758,427	-2,979,404	-42,815	45,461,208	1,165,039	12,665	42,978,259	692,945	8,416	40,694,890	99,244	1,360
+CLP	-24,929,368	0	0	-24,929,368	0	0	-24,929,368	0	0	-24,929,368	0	0	-24,929,368	0	0
+COP	-208,762	398,577	646	-10,929,545	-4,840,969	-17,967	1,071,013	2,426,712	1,011	-328,919	87,203	1,051	-737,816	34,141	177
+MXN	-16,048,880	948,600	43,509	26,773,686	12,865,649	234,532	-13,287,953	4,035,024	89,417	-15,282,063	-2,690,554	3,534	5,023,584	-4,830,551	-42,843
+LATAM TOTAL	2,896,588	2,319,296	55,223	38,673,201	5,045,276	173,750	8,314,899	7,626,775	103,093	2,437,909	-1,910,405	13,000	20,051,290	-4,697,165	-41,306
+	]]></bulkData>
+</blockTable>
+
+
+<blockTable style="deltas_part" colWidths="10%,6%,6%,6%,6%,6%,6%,6%,6%,6%,6%,6%,6%,6%,6%,6%">
+	<!--Approach number two uses tr/td and Python, to test for negative numbers
+	and generate differently coloured cells.  At some point we can probably add a
+	conditional formatting feature to RML tables for this.
+	-->
+	
+	
+	<tr>
+		
+			
+			<td>IDR</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0
+</td>
+			
+		
+	</tr>
+	
+	<tr>
+		
+			
+			<td>INR</td>
+			
+		
+			
+			<td fontColor="red">-355,274</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td fontColor="red">-355,274</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td fontColor="red">-355,274</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td fontColor="red">-355,274</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td fontColor="red">-355,274</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0
+</td>
+			
+		
+	</tr>
+	
+	<tr>
+		
+			
+			<td>KRW</td>
+			
+		
+			
+			<td fontColor="red">-28,118,287</td>
+			
+		
+			
+			<td fontColor="red">-582,036</td>
+			
+		
+			
+			<td fontColor="red">-55,347</td>
+			
+		
+			
+			<td fontColor="red">-22,392,724</td>
+			
+		
+			
+			<td>517,745</td>
+			
+		
+			
+			<td fontColor="red">-41,778</td>
+			
+		
+			
+			<td fontColor="red">-27,852,805</td>
+			
+		
+			
+			<td>654,561</td>
+			
+		
+			
+			<td fontColor="red">-46,869</td>
+			
+		
+			
+			<td fontColor="red">-32,394,988</td>
+			
+		
+			
+			<td>2,200,170</td>
+			
+		
+			
+			<td fontColor="red">-69,339</td>
+			
+		
+			
+			<td fontColor="red">-24,823,772</td>
+			
+		
+			
+			<td fontColor="red">-4,054,490</td>
+			
+		
+			
+			<td fontColor="red">-102,391
+</td>
+			
+		
+	</tr>
+	
+	<tr>
+		
+			
+			<td>MYR</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0
+</td>
+			
+		
+	</tr>
+	
+	<tr>
+		
+			
+			<td>SGD</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0
+</td>
+			
+		
+	</tr>
+	
+	<tr>
+		
+			
+			<td>TWD</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0
+</td>
+			
+		
+	</tr>
+	
+	<tr>
+		
+			
+			<td>ASIA TOTAL</td>
+			
+		
+			
+			<td fontColor="red">-28,473,561</td>
+			
+		
+			
+			<td fontColor="red">-582,036</td>
+			
+		
+			
+			<td fontColor="red">-55,347</td>
+			
+		
+			
+			<td fontColor="red">-22,747,997</td>
+			
+		
+			
+			<td>517,745</td>
+			
+		
+			
+			<td fontColor="red">-41,778</td>
+			
+		
+			
+			<td fontColor="red">-28,208,078</td>
+			
+		
+			
+			<td>654,561</td>
+			
+		
+			
+			<td fontColor="red">-46,869</td>
+			
+		
+			
+			<td fontColor="red">-32,750,262</td>
+			
+		
+			
+			<td>2,200,170</td>
+			
+		
+			
+			<td fontColor="red">-69,339</td>
+			
+		
+			
+			<td fontColor="red">-25,179,045</td>
+			
+		
+			
+			<td fontColor="red">-4,054,490</td>
+			
+		
+			
+			<td fontColor="red">-102,391
+</td>
+			
+		
+	</tr>
+	
+</blockTable>
+
+
+<blockTable style="deltas_part" colWidths="10%,6%,6%,6%,6%,6%,6%,6%,6%,6%,6%,6%,6%,6%,6%,6%">
+	
+	<tr>
+		
+			
+			<td>BYR</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0
+</td>
+			
+		
+	</tr>
+	
+	<tr>
+		
+			
+			<td>CZK</td>
+			
+		
+			
+			<td fontColor="red">-262,870</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td fontColor="red">-262,870</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td fontColor="red">-262,870</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td fontColor="red">-262,870</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td fontColor="red">-262,870</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0
+</td>
+			
+		
+	</tr>
+	
+	<tr>
+		
+			
+			<td>ILS</td>
+			
+		
+			
+			<td fontColor="red">-40,386,481</td>
+			
+		
+			
+			<td>5,196,378</td>
+			
+		
+			
+			<td>40,377</td>
+			
+		
+			
+			<td fontColor="red">-34,877,557</td>
+			
+		
+			
+			<td fontColor="red">-6,312,099</td>
+			
+		
+			
+			<td fontColor="red">-112,056</td>
+			
+		
+			
+			<td fontColor="red">-35,445,705</td>
+			
+		
+			
+			<td>5,280,713</td>
+			
+		
+			
+			<td>42,405</td>
+			
+		
+			
+			<td fontColor="red">-44,662,861</td>
+			
+		
+			
+			<td>4,291,666</td>
+			
+		
+			
+			<td>19,858</td>
+			
+		
+			
+			<td fontColor="red">-39,068,048</td>
+			
+		
+			
+			<td fontColor="red">-6,424,162</td>
+			
+		
+			
+			<td fontColor="red">-135,954
+</td>
+			
+		
+	</tr>
+	
+	<tr>
+		
+			
+			<td>PLN</td>
+			
+		
+			
+			<td fontColor="red">-471,914</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td fontColor="red">-471,914</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td fontColor="red">-471,914</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td fontColor="red">-471,914</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td fontColor="red">-471,914</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0
+</td>
+			
+		
+	</tr>
+	
+	<tr>
+		
+			
+			<td>RUB</td>
+			
+		
+			
+			<td fontColor="red">-1,352,270</td>
+			
+		
+			
+			<td fontColor="red">-707,946</td>
+			
+		
+			
+			<td fontColor="red">-12,785</td>
+			
+		
+			
+			<td fontColor="red">-19,693,267</td>
+			
+		
+			
+			<td>22,795,838</td>
+			
+		
+			
+			<td fontColor="red">-40,337</td>
+			
+		
+			
+			<td fontColor="red">-2,817,609</td>
+			
+		
+			
+			<td fontColor="red">-2,439,800</td>
+			
+		
+			
+			<td fontColor="red">-19,220</td>
+			
+		
+			
+			<td fontColor="red">-955,611</td>
+			
+		
+			
+			<td fontColor="red">-230,202</td>
+			
+		
+			
+			<td fontColor="red">-8,962</td>
+			
+		
+			
+			<td fontColor="red">-562,098</td>
+			
+		
+			
+			<td fontColor="red">-45,796</td>
+			
+		
+			
+			<td fontColor="red">-2,132
+</td>
+			
+		
+	</tr>
+	
+	<tr>
+		
+			
+			<td>HUF</td>
+			
+		
+			
+			<td>660,559</td>
+			
+		
+			
+			<td>2,534,984</td>
+			
+		
+			
+			<td fontColor="red">-6</td>
+			
+		
+			
+			<td fontColor="red">-16,203,429</td>
+			
+		
+			
+			<td fontColor="red">-23,059,563</td>
+			
+		
+			
+			<td fontColor="red">-18,566</td>
+			
+		
+			
+			<td>3,647,004</td>
+			
+		
+			
+			<td>3,188,186</td>
+			
+		
+			
+			<td fontColor="red">-108</td>
+			
+		
+			
+			<td fontColor="red">-1,652,742</td>
+			
+		
+			
+			<td>1,973,176</td>
+			
+		
+			
+			<td fontColor="red">-0</td>
+			
+		
+			
+			<td fontColor="red">-6,755,425</td>
+			
+		
+			
+			<td>697,065</td>
+			
+		
+			
+			<td>0
+</td>
+			
+		
+	</tr>
+	
+	<tr>
+		
+			
+			<td>NGN</td>
+			
+		
+			
+			<td>35,066,940</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>35,066,940</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>35,066,940</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>35,066,940</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>35,066,940</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0
+</td>
+			
+		
+	</tr>
+	
+	<tr>
+		
+			
+			<td>TRY</td>
+			
+		
+			
+			<td fontColor="red">-521,458</td>
+			
+		
+			
+			<td>833,922</td>
+			
+		
+			
+			<td>78,982</td>
+			
+		
+			
+			<td fontColor="red">-1,725,188</td>
+			
+		
+			
+			<td fontColor="red">-9,634,344</td>
+			
+		
+			
+			<td>113,454</td>
+			
+		
+			
+			<td>455,807</td>
+			
+		
+			
+			<td>1,000,972</td>
+			
+		
+			
+			<td>86,954</td>
+			
+		
+			
+			<td fontColor="red">-1,358,590</td>
+			
+		
+			
+			<td>735,597</td>
+			
+		
+			
+			<td>71,383</td>
+			
+		
+			
+			<td fontColor="red">-3,806,842</td>
+			
+		
+			
+			<td>450,937</td>
+			
+		
+			
+			<td>44,180
+</td>
+			
+		
+	</tr>
+	
+	<tr>
+		
+			
+			<td>UAH</td>
+			
+		
+			
+			<td fontColor="red">-2,595,975</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td fontColor="red">-2,595,975</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td fontColor="red">-2,595,975</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td fontColor="red">-2,595,975</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td fontColor="red">-2,595,975</td>
+			
+		
+			
+			<td>0</td>
+			
+		
+			
+			<td>0
+</td>
+			
+		
+	</tr>
+	
+	<tr>
+		
+			
+			<td>ZAR</td>
+			
+		
+			
+			<td fontColor="red">-3,710,246</td>
+			
+		
+			
+			<td>549,417</td>
+			
+		
+			
+			<td>26,280</td>
+			
+		
+			
+			<td fontColor="red">-10,912,967</td>
+			
+		
+			
+			<td fontColor="red">-14,321,492</td>
+			
+		
+			
+			<td>54,819</td>
+			
+		
+			
+			<td fontColor="red">-2,422,453</td>
+			
+		
+			
+			<td>672,411</td>
+			
+		
+			
+			<td>32,674</td>
+			
+		
+			
+			<td fontColor="red">-4,851,556</td>
+			
+		
+			
+			<td>425,006</td>
+			
+		
+			
+			<td>20,908</td>
+			
+		
+			
+			<td fontColor="red">-8,388,556</td>
+			
+		
+			
+			<td>144,931</td>
+			
+		
+			
+			<td>7,659
+</td>
+			
+		
+	</tr>
+	
+	<tr>
+		
+			
+			<td>CEEMEA TOTAL</td>
+			
+		
+			
+			<td fontColor="red">-13,573,715</td>
+			
+		
+			
+			<td>8,406,755</td>
+			
+		
+			
+			<td>132,848</td>
+			
+		
+			
+			<td fontColor="red">-51,676,227</td>
+			
+		
+			
+			<td fontColor="red">-30,531,660</td>
+			
+		
+			
+			<td fontColor="red">-2,686</td>
+			
+		
+			
+			<td fontColor="red">-4,846,775</td>
+			
+		
+			
+			<td>7,702,482</td>
+			
+		
+			
+			<td>142,705</td>
+			
+		
+			
+			<td fontColor="red">-21,745,180</td>
+			
+		
+			
+			<td>7,195,244</td>
+			
+		
+			
+			<td>103,187</td>
+			
+		
+			
+			<td fontColor="red">-26,844,789</td>
+			
+		
+			
+			<td fontColor="red">-5,177,026</td>
+			
+		
+			
+			<td fontColor="red">-86,247
+</td>
+			
+		
+	</tr>
+	
+</blockTable>
+<blockTable style="deltas_footer" colWidths="10%,6%,6%,6%,6%,6%,6%,6%,6%,6%,6%,6%,6%,6%,6%,6%">
+	
+	<tr>
+		
+			
+			<td>EM TOTAL</td>
+			
+		
+			
+			<td fontColor="red">-39,150,687</td>
+			
+		
+			
+			<td>10,144,015</td>
+			
+		
+			
+			<td>132,724</td>
+			
+		
+			
+			<td fontColor="red">-35,751,024</td>
+			
+		
+			
+			<td fontColor="red">-24,968,639</td>
+			
+		
+			
+			<td>129,285</td>
+			
+		
+			
+			<td fontColor="red">-24,739,954</td>
+			
+		
+			
+			<td>15,983,818</td>
+			
+		
+			
+			<td>198,928</td>
+			
+		
+			
+			<td fontColor="red">-52,057,533</td>
+			
+		
+			
+			<td>7,485,008</td>
+			
+		
+			
+			<td>46,848</td>
+			
+		
+			
+			<td fontColor="red">-31,972,545</td>
+			
+		
+			
+			<td fontColor="red">-13,928,681</td>
+			
+		
+			
+			<td fontColor="red">-229,943
+</td>
+			
+		
+	</tr>
+	
+</blockTable>
+
+
+
+<name id="Title" value="Live Trades"/>
+<nextPage/>
+<blockTable style="basic" colWidths="125,30,450,55">
+	<tr>
+		<td>Theme</td>
+		<td>Action</td>
+		<td>Rationale</td>
+		<td>Date</td>
+	</tr>
+	
+	<tr>
+		<td >General</td>
+	</tr>
+	
+</blockTable>
+
+<name id="Title" value="Profit and loss by asset class and region"/>
+<nextPage/>
+<blockTable style="basic" colWidths="16.66%,16.66%,16.66%,16.66%,16.66%,16.66%">
+	<tr>
+		<td></td>
+
+		
+		<td>Tangible</td>
+		
+
+		<td>Total</td>
+	</tr>
+
+	
+	<tr>
+		<td>Kurdistan</td>
+
+		
+			<td>0.00%</td>
+		
+
+		<td>0.00%</td>
+
+	</tr>
+	
+
+	<tr>
+		<td>Total</td>
+
+		
+			<td>0.00%</td>
+		
+
+		<td>0.00%</td>
+	</tr>
+</blockTable>
+
+<name id="Title" value="This month's returns by trade"/>
+<nextPage/>
+<para style="body">Code snippet shown below for embedding the chart:</para>
+<codesnippet>
+&#60;drawing module="project.fundreport.charts.vchart" function="vchart"&#62;
+	&#160;&#160;&#160;&#160;&#60;param name="chart.data"&gt;[&#123;&#123;attribution.get('data')[1]&#125;&#125;]&#60;/param&#62;
+	&#160;&#160;&#160;&#160;&#60;param name="chart.categoryAxis.categoryNames"&gt;&#123;&#123;attribution.get('data')[0]&#125;&#125;&#60;/param&#62;
+&#60;/drawing&#62;
+</codesnippet>
+
+<drawing module="project.fundreport.charts.vchart" function="Vchart">
+	<param name="title._text">Returns this month on active trades</param>
+	<param name="yAxistitle._text">As % of AUM</param>
+	<param name="chart.data">[[2e-07]]</param>
+	<param name="chart.categoryAxis.categoryNames">['General']</param>
+</drawing>
+
+<!--
+==========
+
+What follows demonstrates how to pull in pre-existing static
+pages. We set a blank template and then use the
+<includePdfPages> tag to pull in an existing PDF. The
+leadingFrame attribute is necessary to prevent a blank page
+appearing; if you omit this, you want to omit the preceding 
+<nextPage/> as well.
+
+==========
+-->
+
+<setNextTemplate name="blank"/>
+<nextPage/>
+<includePdfPages filename="C:\api\hud\src\_utils\rml/advert.pdf" leadingFrame="no"/>
+
+</story>
+</document>

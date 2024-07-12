@@ -27,6 +27,11 @@ elements = [
         'italic': 0, 'underline': 0, 'foreground': 0, 'background': 0, 'align': 'I', 'text': None, 'priority': 3, },
     {'name': 'barcode', 'type': 'BC', 'x1': 20.0, 'y1': 246.5, 'x2': 140.0, 'y2': 254.0, 'font': 'Interleaved 2of5 NT', 'size': 0.75, 'bold': 0,
         'italic': 0, 'underline': 0, 'foreground': 0, 'background': 0, 'align': 'C', 'text': '200000000001000159053338016581200810081', 'priority': 3, },
+
+    # Define table header
+    {'name': 'table_header', 'type': 'T', 'x1': 10.0, 'y1': 50.0, 'x2': 200.0, 'y2': 55.0, 'font': 'Arial', 'size': 12.0,
+     'bold': 1, 'italic': 0, 'underline': 0, 'foreground': 0, 'background': 0, 'align': 'L', 'text': 'Item             Quantity             Price', 'priority': 2, },
+
 ]
 
 title = '20000 Leagues Under the Seas'
@@ -37,13 +42,13 @@ class PDF(FPDF):
         # Logo
         self.image("./images/logo-02.png", 10, 10, 27)
         # Arial bold 15
-        self.set_font('Arial', 'B', 9.21)
+        self.set_font('Times', 'B', 13.21)
 
         self.set_y(37)
         # Move to the right
-        self.cell(80)
+        self.cell(85)
         # Title
-        self.cell(30, -15, 'Tic Company', 0, 0, 'C')
+        self.cell(30, -15, 'Tic Quality Control', 0, 0, 'R')
         # Line break
         self.ln(5)
 
@@ -86,17 +91,21 @@ class PDF(FPDF):
         self.chapter_body(name)
 
 
-def run():
-    # USING FPDF Class
+# Sample table data
+table_data = [
+    ['Item 1', '2', '$10'],
+    ['Item 2', '1', '$20'],
+    ['Item 3', '5', '$5'],
+]
 
-    # Instantiation of inherited class
-    pdf = PDF()
-    pdf.alias_nb_pages()
-    pdf.add_page()
-    pdf.set_font('Times', '', 12)
-    for i in range(1, 25):
-        pdf.cell(0, 8, 'Printing line ' + str(i), 0, 1)
-    pdf.output('template2.pdf', 'F')
+
+def run():
+    f = Template(format="A4", elements=elements,
+                 title="Sample Invoice")
+    f.add_page()
+    f["company_name"] = "Tic Company"
+    f["company_logo"] = "./images/logo-02.png"
+    f.render("./template.pdf")
 
 
 html = """

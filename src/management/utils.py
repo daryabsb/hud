@@ -1,14 +1,107 @@
-import random, string
+import random
+import string
 from django.contrib.auth.models import Group, Permission
 from src.accounts.models import User
 from django.contrib.contenttypes.models import ContentType
 from src.management.const import list_permissions_template, add_actions_to_models
 from copy import deepcopy
 
+from reportlab.lib import colors
+from reportlab.graphics.shapes import (Drawing, Rect, String, Line, Group)
+from reportlab.pdfbase.pdfmetrics import registerFont
+from reportlab.pdfbase.ttfonts import TTFont
+
+import os
+import io
+from src.settings.components import PROJECT_PATH
+from reportlab.pdfgen import canvas
+import preppy
+from src.accounts.models import Region
+from src.finances.models import (
+    Fund, FundValue, IndexValue, AssetClass,
+    Theme
+)
+
+WRITE_RML = True
+RML_DIR = os.path.join(PROJECT_PATH, '_utils', 'rml')
+
+
+def get_line_chart_data(id):
+    # We have some fake time series values in the database.
+    # Grab these and normalise so that start at 100
+
+    fund = Fund.objects.get(pk=id)
+    fundData = FundValue.objects.filter(fund=fund).order_by('date')
+    indexData = IndexValue.objects.all().order_by('date')
+    data1 = []
+    data2 = []
+    categoryNames = []
+    data_scale = fundData[0].value / 100.0
+    index_scale = indexData[0].value / 100.0
+    for x in range(len(fundData)):
+        data1.append((fundData[x].date.strftime(
+            '%Y%m%d'), (fundData[x].value / data_scale)))
+        data2.append((indexData[x].date.strftime(
+            '%Y%m%d'), (indexData[x].value / index_scale)))
+    return [data1, data2]
+
+
+def get_attribution_data(id):
+    # more fake data to drive one of the charts.
+    AUMSCALE = 10000000.0
+    fund = Fund.objects.get(pk=id)
+    context = {}
+    context['data'] = [[], []]
+    context['lookup'] = [[], []]
+    for r in Region.objects.all():
+        context[r.name] = {}
+        for ac in AssetClass.objects.all():
+            context[r.name][ac.name] = 0
+            context[ac.name] = 0
+        context[r.name]['total'] = 0
+        context['lookup'][0].append(r.name)
+    for ac in AssetClass.objects.all():
+        context['lookup'][1].append(ac.name)
+    for ft in Theme.objects.filter(fund=fund).order_by("position__LTD"):
+        context['data'][0].append(ft.name)
+        context['data'][1].append(ft.position.LTD/AUMSCALE)
+        context[ft.region.name][ft.asset_class.name] += ft.position.LTD / AUMSCALE
+        context[ft.region.name]['total'] += ft.position.LTD / AUMSCALE
+        context[ft.asset_class.name] += ft.position.LTD / AUMSCALE
+    return context
+
+
+def generate_invoice(id):
+    template_file = preppy.getModule(os.path.join(RML_DIR, 'fundreport.prep'))
+    fund = Fund.objects.get(pk=id)
+    # fund = Fund.objects.first()
+
+    context = {}
+    context['RML_DIR'] = RML_DIR
+
+    context['fund'] = fund
+    context['live_themes'] = fund.themes.filter(live=True)
+
+    context['line_chart_data'] = get_line_chart_data(fund.pk)
+    context['attribution'] = get_attribution_data(fund.pk)
+    rml = template_file.getOutput(context)
+
+    if WRITE_RML:
+        open(os.path.join(RML_DIR, 'latest.rml'), 'w').write(rml)
+    buf = io.BytesIO()  # io.StringIO()
+
+    # The magic step, converting the RML to PDF
+    p = canvas.Canvas(buf)
+
+    # Return the PDF for the view to return to the user
+    print('We are good to go: ', buf.getvalue())
+
+    return p
+
 
 def generate_barcode():
-    return ''.join(random.choices(string.digits, k=12))  # Generate a 12-digit numeric barcode
-
+    # Generate a 12-digit numeric barcode
+    return ''.join(random.choices(string.digits, k=12))
 
 
 def populate_users_permissions(users=None):
@@ -99,3 +192,96 @@ def populate_groups_permissions(groups=None):
     # groups_permissions['count'] = groups_count
 
     return groups_permissions
+
+
+def generate_pdf():
+    # font
+    registerFont(TTFont("Times", "./Times.ttf"))
+
+    drawing = Drawing(400, 200)
+    # beige rectangle
+    r1 = Rect(0, 0, 400, 200, 0, 0)
+    r1.fillColor = colors.beige
+    drawing.add(r1)
+
+    # logo
+    wave = Group(
+        Line(10, -5, 10, 10),
+        Line(20, -15, 20, 20),
+        Line(30, -5, 30, 10),
+        Line(40, -15, 40, 20),
+        Line(50, -5, 50, 10),
+        Line(60, -15, 60, 20),
+        Line(70, -5, 70, 10),
+        Line(80, -15, 80, 20),
+        Line(90, -5, 90, 10),
+        String(25, -25, "Wave Audio", fontName='Times')
+    )
+    wave.translate(10, 170)
+    drawing.add(wave)
+
+    # name
+    name = Group(
+        String(
+            0,
+            100,
+            "Jane Doe",
+            textAnchor='middle',
+            fontName='Times',
+            fontSize=18,
+            fillColor=colors.black
+        ),
+        Line(
+            -50,
+            85,
+            50,
+            85,
+            strokeColor=colors.grey,
+            strokeLineCap=1,
+            strokeWidth=2
+        ),
+        String(
+            0,
+            60,
+            "Audio Specalist",
+            textAnchor='middle',
+            fontName='Times',
+            fontSize=15,
+            fillColor=colors.black
+        )
+    )
+    name.translate(290, 10)
+    drawing.add(name)
+
+    # contact info
+    info = Group(
+        String(
+            0,
+            30,
+            "T: +447777777777",
+            fontName='Times',
+            fontSize=10,
+            fillColor=colors.black
+        ),
+        String(
+            0,
+            20,
+            "E: jane@audio.com",
+            fontName='Times',
+            fontSize=10,
+            fillColor=colors.black
+        ),
+        String(
+            0,
+            10,
+            "www.waveaudio.com",
+            fontName='Times',
+            fontSize=10,
+            fillColor=colors.black
+        )
+    )
+    info.translate(20, 10)
+    drawing.add(info)
+
+    # save
+    drawing.save(formats=['pdf', 'png'], outDir=".", fnRoot="card")
