@@ -71,7 +71,7 @@ def get_attribution_data(id):
     return context
 
 
-def generate_invoice(id):
+def generate_invoice(id=1):
     template_file = preppy.getModule(os.path.join(RML_DIR, 'fundreport.prep'))
     fund = Fund.objects.get(pk=id)
     # fund = Fund.objects.first()
@@ -84,6 +84,7 @@ def generate_invoice(id):
 
     context['line_chart_data'] = get_line_chart_data(fund.pk)
     context['attribution'] = get_attribution_data(fund.pk)
+    print(context)
     rml = template_file.getOutput(context)
 
     if WRITE_RML:
