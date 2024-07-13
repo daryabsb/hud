@@ -5,3 +5,5 @@ from .model_print_station import PrintStation
 from .model_print_station_printer_selection import PrintStationPosPrinterSelection
 from .model_product_group_print_station import ProductGroupPrintStation
 from .model_product_print_station import ProductPrintStation
+from .model_company_letterhead import CompanyLetterhead
+from .model_company_letterhead_options import CompanyLetterheadOption

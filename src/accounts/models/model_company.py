@@ -66,6 +66,7 @@ class Company(BaseNameModel, BaseModel, BaseAddress):
         "User", default=1, on_delete=models.CASCADE, related_name="companies"
     )
     code = models.CharField(unique=True, max_length=50)
+    ar_name = models.CharField(max_length=100, null=True, blank=True)
     logo = models.OneToOneField(
         "Logo", on_delete=models.SET_NULL, null=True, blank=True, related_name="company"
     )

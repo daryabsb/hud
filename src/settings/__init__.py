@@ -13,6 +13,7 @@ base_settings = [
     # 'components/cors.py',
     'components/redis.py',
     'components/secretes.py',
+    'components/pdf.py',
 ]
 
 include(*base_settings)

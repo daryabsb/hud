@@ -1,3 +1,4 @@
+from fontTools.ttLib import TTFont
 import importlib
 from django.conf import settings
 from django.apps import apps
@@ -80,31 +81,26 @@ def get_list_permissions_template():
     return list_permissions_template
 
 
+def get_font_family(font_path):
+    font = TTFont(font_path)
+    name_records = font['name'].names
+    for record in name_records:
+        if record.nameID == 1:  # Font Family name
+            return record.toUnicode()
+
+
 def run():
-    # users_permissions = populate_users_permissions()
-    # print(users_permissions)
-    list_permissions_template = get_list_permissions_template()
-    # print(list_permissions_template)
-    for app_config in apps.get_app_configs():
-        for model in app_config.get_models():
-            if model._meta.verbose_name:
-                print(model._meta.verbose_name)
-    # for model in apps.all_models:
-    #     print(model._meta)
-    # print(apps.all_models.keys())
+    user = User.objects.first()
+    company = user.companies.first()
+    logo = company.logo
+
+    print("logo_is = ", logo.image.path)
 
 
-user_pers = [
-    {'user': '<User: root@root.com>',
-     'list_permissions': [
-         {
-             'app_label': 'accounts',
-             'models': [
-                 {
-                     'model': 'user', 'add': False, 'change': False, 'view': False, 'delete': False
-                 },
-                 {
-                     'model': 'company', 'add': False, 'change': False, 'view': False, 'delete': False
-                 }
-             ]
-         }, {'app_label': 'finances', 'models': [{'model': 'tax', 'add': False, 'change': True, 'view': True, 'delete': False}, {'model': 'pos_order', 'add': False, 'change': True, 'view': True, 'delete': False}]}]}]
+logo = [
+    'DEFAULT_CHUNK_SIZE',
+    'chunks', 'close', 'closed', 'delete', 'encoding', 'field', 'file',
+    'fileno', 'flush', 'height', 'instance', 'isatty', 'multiple_chunks',
+    'name', 'newlines', 'open', 'path', 'read', 'readable', 'readinto', 'readline',
+    'readlines', 'save', 'seek', 'seekable', 'size', 'storage', 'tell', 'truncate',
+    'url', 'width', 'writable', 'write', 'writelines']
