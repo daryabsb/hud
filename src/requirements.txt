@@ -44,6 +44,8 @@ cryptography==42.0.2
     #   pyhanko-certvalidator
 cssselect2==0.7.0
     # via svglib
+defusedxml==0.7.1
+    # via fpdf2
 dj-database-url==2.1.0
     # via -r src/requirements/requirements.in
 django==5.0.6
@@ -89,7 +91,11 @@ djangorestframework==3.14.0
     # via -r src/requirements/requirements.in
 executing==2.0.1
     # via icecream
+fonttools==4.53.1
+    # via fpdf2
 fpdf==1.7.2
+    # via -r src/requirements/requirements.in
+fpdf2==2.7.9
     # via -r src/requirements/requirements.in
 freetype-py==2.3.0
     # via
@@ -111,6 +117,7 @@ pillow==10.2.0
     # via
     #   -r src/requirements/requirements.in
     #   django-colorfield
+    #   fpdf2
     #   reportlab
     #   xhtml2pdf
 preppy==4.2.3
@@ -185,6 +192,8 @@ tzlocal==5.2
     # via
     #   -r src/requirements/requirements.in
     #   pyhanko
+uharfbuzz==0.39.3
+    # via -r src/requirements/requirements.in
 uritools==4.0.3
     # via pyhanko-certvalidator
 urllib3==2.2.2

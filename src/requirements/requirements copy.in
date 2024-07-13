@@ -40,3 +40,5 @@ icecream
 cryptography
 daphne
 channels_redis
+
+rlextra -i https://www.reportlab.com/pypi/

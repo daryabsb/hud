@@ -28,4 +28,5 @@ xhtml2pdf
 reportlab
 reportlab[pycairo]
 preppy
-rlextra -i https://www.reportlab.com/pypi/
+fpdf2
+uharfbuzz
