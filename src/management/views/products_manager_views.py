@@ -185,6 +185,52 @@ def delete_product(request):
             return render(request, 'mgt/products/partials/products-table.html', context)
 
 
+def mgt_price_tags(request, slug=None):
+    products = Product.objects.all()
+    groups = ProductGroup.objects.all()
+
+    if slug:
+        # if slug != 'products':
+        group = ProductGroup.objects.filter(slug=slug).first()
+        products = products.filter(
+            Q(parent_group=group) | Q(parent_group__parent=group))
+
+    # Pagination logic
+    page_size = request.GET.get('page-size', 8)
+    page_size = int(page_size)
+
+    paginator = Paginator(products, page_size)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    # Determine pagination range
+    num_pages = paginator.num_pages
+    print("page_obj.count = ", page_obj.end_index() - page_obj.start_index() + 1)
+    current_page = page_obj.number
+    if num_pages <= 5:
+        page_range = range(1, num_pages + 1)
+    else:
+        start = max(1, current_page - 2)
+        end = min(num_pages, current_page + 2)
+        if start == 1:
+            end = min(5, num_pages)
+        if end == num_pages:
+            start = max(1, num_pages - 4)
+        page_range = range(start, end + 1)
+
+    # Range of page sizes for the select dropdown
+    page_size_range = range(6, 11)
+    context = {
+        "products": page_obj,
+        "products_count": products.count(),
+        "page_range": page_range,
+        "page_size": page_size,
+        "page_size_range": page_size_range,
+        "groups": groups,
+    }
+    return render(request, 'mgt/products/price-tags.html', context)
+
+
 form_contains = [
     'Meta',
     '__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__',

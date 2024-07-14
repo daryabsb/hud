@@ -42,6 +42,10 @@ dz_array = {
                     f"{app}/plugins/bootstrap-icons/font/bootstrap-icons.css",
 
                 ],
+                "mgt_price_tags": [
+                    # f"{app}/plugins/pdfjs/web/viewer.css",
+
+                ],
                 "mgt_users": [
                     # f"{app}/plugins/tag-it/js/tag-it.min.js",
 
@@ -50,6 +54,8 @@ dz_array = {
             "js": {
                 "pos_home": [
                     f"{app}/js/demo/pos-customer-order.demo.js",
+                ],
+                "mgt_price_tags": [
                 ],
                 "mgt_products": [
                     f"{app}/plugins/iconify/iconify.min.js",

@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div id="content" class="app-content d-flex flex-column">
+	<div class="d-flex align-items-center mb-3">
+		<div>
+			
+			<h1 class="page-header mb-0">Price tags</h1>
+		</div>
+		<div class="ms-auto">
+			{% comment %} _="on click toggle .active" {% endcomment %}
+			{% include 'mgt/buttons/add-product-button.html' %}
+		</div>
+	</div>
+    <div class="card flex-1 m-0 d-flex flex-column overflow-hidden rounded-0">
+		
+		<div class="card-header fw-bold small d-flex">
+				<ul class="breadcrumb flex-grow-1">
+					<li class="breadcrumb-item"><a href="/mgt/">MANAGEMENT</a></li>
+					<li class="breadcrumb-item active">PRODUCTS</li>
+				</ul>
+			<a href="#" data-toggle="card-expand" class="text-white text-opacity-50 text-decoration-none"><i
+				class="fa fa-fw fa-expand"></i> EXPAND</a>
+		</div>
+
+ 
+ 
+ <div class="row gx-4">
+	<div class="col-lg-6">
+		<h1>This is the control panel
+	</div>
+	<div class="col-lg-6">
+		<h1>This is the canvas
+	
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<div class="card-arrow">
+				<div class="card-arrow-top-left"></div>
+				<div class="card-arrow-top-right"></div>
+				<div class="card-arrow-bottom-left"></div>
+				<div class="card-arrow-bottom-right"></div>
+			</div>
+    </div>
+</div>
+
+
+{% endblock content %}

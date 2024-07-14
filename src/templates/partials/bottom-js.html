@@ -1,6 +1,6 @@
-{% load django_htmx %}
-    {% django_htmx_script %}
-{% load static globals %}{% for jsurl in dz_array.app.global_js.top %}
+{% load static globals django_htmx %}
+    {% django_htmx_script %} <script src="{% static 'app/plugins/popper/pdf.min.js' %}"></script>
+{% for jsurl in dz_array.app.global_js.top %}
     <script src="{% static jsurl %}" ></script>{% endfor %}
     {% for jsurl in dz_array.app.page_level.js|getdata:request.path %}
     <script src="{% static jsurl %}"></script>{% endfor %} 

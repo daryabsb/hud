@@ -7,8 +7,6 @@ app_name = 'mgt'
 
 urlpatterns = [
     path('', views.mgt_home, name='mgt-home'),
-    path('products/', views.mgt_products, name='products'),
-    path('products/<slug:slug>/', views.mgt_products, name='filter-products'),
     path('stocks/', views.mgt_stocks, name='stocks'),
     path('users/', views.mgt_users, name='users'),
     path('update-permissions/', views.mgt_update_permissions,
@@ -20,6 +18,16 @@ urlpatterns = [
          name='add-product'),
     path('update-product/<int:product_id>/', views.add_product,
          name='update-product'),
+]
+
+# PRODUCTS RELATED URLS
+
+urlpatterns += [
+    path('products/', views.mgt_products, name='products'),
+    path('products/<slug:slug>/', views.mgt_products, name='filter-products'),
+    path('price-tags/', views.mgt_price_tags, name='price-tags'),
+    path('price-tags/<slug:slug>', views.mgt_price_tags, name='filter-price-tags'),
+
 ]
 
 # MODALS URLS
