@@ -60,8 +60,11 @@
     <i class="bi me-1 bi-trash"></i>
     {% comment %} <input type="hidden" name="group-id" id="delete-group-button-input" /> {% endcomment %}
     Delete Product</button>
-    <button type="button" class="btn border-0" disabled><i class="bi me-1 bi-trash"></i>
-    Delete</button>
+    {% comment %} <form action="{% url 'printers:export-pdf' %}" method="GET"> {% endcomment %}
+    <a href="{% url 'printers:export-pdf' %}" target=_blank class="btn border-0">
+        <i class="me-1 fas fa-lg fa-fw me-2 fa-file-pdf"></i>
+    Export PDF</a>
+    {% comment %} </form> {% endcomment %}
     <button type="button" class="btn border-0" disabled><i
         class="bi me-1 bi-arrow-clockwise"></i> Restore</button>
     <button type="button" class="btn border-0" disabled><i

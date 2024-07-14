@@ -22,6 +22,7 @@ urlpatterns = [
     path('my-accounts/', include('src.accounts.urls'), name="my-accounts"),
     path('settings/', include('src.configurations.urls'), name="settings"),
     path('finance/', include('src.finances.urls'), name="finances"),
+    path('printers/', include('src.printers.urls'), name="printers"),
 
     path('test/', test, name='test')
 ]

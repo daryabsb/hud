@@ -1,14 +1,10 @@
-from django.http import HttpResponse, FileResponse
-from django.shortcuts import render
+
 from src.printers.pdf.fpdf import MyPDF
+from src.accounts.models import User
 from src.products.models import Product
+from src._utils import get_font_family
 
-
-
-
-def export_pdf(request):
-    user = request.user
-    queryset = Product.objects.select_related('parent_group', 'barcode').values_list("id", "name", "parent_group__name", "barcode__value", "price")
+def generate_pdf(user, queryset):
     table_header = [
         {"text": "ID", "align": "left", "width": 10},
         {"text": "NAME", "align": "left", "width": 25},
@@ -23,4 +19,13 @@ def export_pdf(request):
     }
     pdf = MyPDF(user=user, queryset=queryset, table_name=table_name, table_header=table_header, **fpdf_kwargs)
 
-    return HttpResponse(bytes(pdf.output()), content_type="application/pdf")
+    return pdf
+
+
+def run():
+    user = User.objects.first()
+    queryset = Product.objects.select_related('parent_group', 'barcode').values_list("id", "name", "parent_group__name", "barcode__value", "price")
+    pdf = generate_pdf(user, queryset)
+
+    pdf.output('invoice1.pdf')
+    

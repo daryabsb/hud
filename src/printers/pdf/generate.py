@@ -1,9 +1,10 @@
 import csv
-from fpdf import FPDF
+from src.printers.pdf.fpdf import PDF
 from fpdf.fonts import FontFace
 from fpdf.enums import TableCellFillMode
 from src.products.models import Product
-from src.accounts.models import User
+from src.accounts.models import User, Company
+
 
 kwargs = {
     "logo": "./images/logo-02.png",
@@ -20,35 +21,14 @@ options = {
 }
 
 
-class PDF(FPDF):
-    def __init__(self, user=None, queryset=None, table_header=None, *args, **kwargs):
-        self.user = user or User.objects.first()
-        self.company = self.user.companies.first()
-        self.logo = self.user.companies.first().logo
-        self.queryset = queryset
-        self.table_header = table_header
-
-    def header(self):
-        self.image(self.logo.image.path, 10, 8, 27, 27)
-        self.set_text_shaping(True)
-        self.add_font("AdobeArabic", style="",
-                      fname="./fonts/AdobeArabic-Bold.ttf")
-        self.set_font(family="AdobeArabic", style="", size=24)
-        self.cell(85)
-        self.cell(100, 20, "كۆمپانیای لۆكس بۆ كۆنترۆڵی جۆری",
-                  border=0, align="R")
-        self.ln(12)
-        self.cell(85)
-        self.set_font("Times", "B", 17)
-        self.cell(100, 20, "Lox for Quality Control Ltd.", border=0, align="R")
-        self.ln(35)
-
-    def footer(self):
-        self.set_y(-15)
-        self.set_font("Times", "I", 8)
-        # Printing page number:
-        self.cell(0, 10, f"Page {self.page_no()}/{{nb}}", align="C")
 
 
-def generate_pdf(queryset):
-    pass
+
+def generate_pdf(queryset, user=None):
+    if not user:
+        user = User.objects.first()
+
+    active_company = user.companies.filter(is_default=True).first()
+    pdf = PDF(company=active_company)
+    
+    print(pdf.company.name)
