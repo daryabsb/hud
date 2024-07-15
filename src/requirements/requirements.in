@@ -10,6 +10,10 @@ django-widget-tweaks
 django-htmx
 django-components
 django-colorfield
+django-fontawesome-5
+django-split-settings
+django-renderpdf
+django-after-response
 fpdf
 loguru
 psycopg2
@@ -20,10 +24,8 @@ autopep8
 six
 pytz
 tzlocal
-django-split-settings
 icecream
 cryptography
-django-fontawesome-5
 xhtml2pdf
 reportlab
 reportlab[pycairo]
@@ -31,4 +33,4 @@ preppy
 fpdf2
 uharfbuzz
 TTFQuery==2.0.0b1
-django-renderpdf
+html2image

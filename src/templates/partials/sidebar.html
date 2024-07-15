@@ -19,11 +19,7 @@
                             <span class="menu-text">Dashboard</span>
                         </a>
                     </div>
-                    <div class="menu-item">
-                        <a href="{% url 'mgt:products' %}" class="menu-link">
-                            <span class="menu-text">Products</span>
-                        </a>
-                    </div>
+                    
                     <div class="menu-item">
                         <a href="{% url 'mgt:stocks' %}" class="menu-link">
                             <span class="menu-text">Stock</span>
@@ -36,7 +32,32 @@
                     </div>
                 </div>
             </div>
-
+            <div class="menu-item  has-sub">
+                <a href="#" class="menu-link">
+                    <span class="menu-icon">
+                        <i class="bi bi-envelope"></i>
+                    </span>
+                    <span class="menu-text">Products</span>
+                    <span class="menu-caret"><b class="caret"></b></span>
+                </a>
+                <div class="menu-submenu">
+                    <div class="menu-item">
+                        <a href="{% url 'mgt:products' %}" class="menu-link">
+                            <span class="menu-text">Products List</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a href="{% url 'mgt:price-tags' %}" class="menu-link">
+                            <span class="menu-text">Price tags</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a href="{% url 'mgt:invoice-template' %}" class="menu-link">
+                            <span class="menu-text">Invoice Template</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
             <div class="menu-item active">
                 <a href="index.html" class="menu-link">
                     <span class="menu-icon"><i class="bi bi-cpu"></i></span>

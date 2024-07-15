@@ -19,14 +19,15 @@ DJANGO_APPS = [
     'django.contrib.messages',
     'allauth',
     'allauth.account',
+    "django_extensions",
     "django_htmx",
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+    'after_response',
 ]
 
 THIRD_PARTY_APPS = [
     'src._utils',
-    "django_extensions",
     'widget_tweaks',
     'mptt',
     'fontawesome_5',

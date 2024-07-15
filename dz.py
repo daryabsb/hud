@@ -28,6 +28,7 @@ dz_array = {
             "top": [
                 f"{app}/js/vendor.min.js",
                 f"{app}/js/app.min.js",
+                f"{app}/plugins/jscolor/jscolor.min.js",
             ],
             "down": [
                 f"{app}/js/rocket-loader.min.js",
@@ -43,6 +44,7 @@ dz_array = {
 
                 ],
                 "mgt_price_tags": [
+                    # f"{app}/plugins/photoswipe/dist/photoswipe.css",
                     # f"{app}/plugins/pdfjs/web/viewer.css",
 
                 ],
@@ -56,11 +58,14 @@ dz_array = {
                     f"{app}/js/demo/pos-customer-order.demo.js",
                 ],
                 "mgt_price_tags": [
+                    
+                    # f"{app}/plugins/pdfjs/popper.min.js",
+                    # f"{app}/plugins/pdfjs/pdf.min.js",
+                    # f"{app}/plugins/pdfjs/pdf.worker.mjs",
                 ],
                 "mgt_products": [
                     f"{app}/plugins/iconify/iconify.min.js",
                     f"{app}/js/demo/file-manager.demo.js",
-                    f"{app}/plugins/jscolor/jscolor.min.js",
                 ],
                 "mgt_users": [
                     # f"{app}/plugins/jquery-migrate/dist/jquery-migrate.min.js",

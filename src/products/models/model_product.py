@@ -13,7 +13,7 @@ class Product(models.Model):
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="products")
     name = models.CharField(max_length=100)
-    slug2 = models.SlugField(max_length=255, unique=True, null=True)
+    # slug2 = models.SlugField(max_length=255, unique=True, null=True)
     slug = AutoSlugField(populate_from='name', blank=False, unique=True,
                          slugify_function=slugify_function)
     parent_group = TreeForeignKey(

@@ -58,6 +58,7 @@ django==5.0.6
     # via
     #   -r src/requirements/requirements.in
     #   dj-database-url
+    #   django-after-response
     #   django-allauth
     #   django-components
     #   django-cors-headers
@@ -68,6 +69,8 @@ django==5.0.6
     #   django-js-asset
     #   django-renderpdf
     #   djangorestframework
+django-after-response==0.2.2
+    # via -r src/requirements/requirements.in
 django-allauth==0.63.2
     # via -r src/requirements/requirements.in
 django-colorfield==0.11.0
@@ -113,6 +116,8 @@ freetype-py==2.3.0
     # via
     #   reportlab
     #   rlpycairo
+html2image==2.0.4.3
+    # via -r src/requirements/requirements.in
 html5lib==1.1
     # via
     #   weasyprint
@@ -182,6 +187,7 @@ reportlab[pycairo]==4.2.2
     #   xhtml2pdf
 requests==2.32.3
     # via
+    #   html2image
     #   pyhanko
     #   pyhanko-certvalidator
 rlpycairo==0.3.0
@@ -229,6 +235,8 @@ webencodings==0.5.1
     #   cssselect2
     #   html5lib
     #   tinycss2
+websocket-client==1.8.0
+    # via html2image
 win32-setctime==1.1.0
     # via loguru
 xhtml2pdf==0.2.16

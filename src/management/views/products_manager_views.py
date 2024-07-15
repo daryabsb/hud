@@ -1,11 +1,14 @@
 from collections import defaultdict
-
+import os
+from django.conf import settings
+from html2image import Html2Image # Or imgkit
+from django.template.loader import render_to_string
 from django.urls import reverse
 from src.management.utils import generate_barcode
 from django.core.paginator import Paginator
 from django.views.decorators.http import require_GET, require_POST
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404, render, redirect
+from django.shortcuts import get_list_or_404, get_object_or_404, render, redirect
 from django.http import HttpResponseRedirect, JsonResponse
 from src.products.models import Product, ProductGroup, ProductComment, Barcode
 from src.tax.models import ProductTax, Tax
@@ -15,6 +18,7 @@ from src.products.forms import (
     ProductGroupForm, ConfirmPasswordForm, ProductDetailsForm,
     BarcodeForm, ProductCommentForm
 )
+import after_response
 from src.stock.forms import StockControlForm
 from src.tax.forms import ProductTaxForm
 from src.accounts.forms import CustomerForm
@@ -185,7 +189,57 @@ def delete_product(request):
             return render(request, 'mgt/products/partials/products-table.html', context)
 
 
-def mgt_price_tags(request, slug=None):
+def mgt_invoice_template_view(request):
+    return render(request, 'mgt/products/invoice-template.html', {})
+
+def mgt_price_tags3(request):
+    products = Product.objects.all()
+    groups = ProductGroup.objects.all()
+    return render(request, 'mgt/products/price-tags.html', {"products": products, "groups": groups})
+
+@after_response.enable
+def generate_price_tags(products):
+    hti = Html2Image()
+
+    # Ensure the price_tags directory exists
+    price_tags_dir = os.path.join(settings.MEDIA_ROOT, 'price_tags')
+    os.makedirs(price_tags_dir, exist_ok=True)
+    hti.output_path = price_tags_dir
+
+    for product in products:
+        html_content = render_to_string('mgt/products/price-tags/partials/price_tag.html', {
+            'product': product,
+            'margin': '10px',
+            'show_name': True,
+            'show_price': True,
+            'show_sku': True,
+            'show_barcode': True,
+            'name_color': 'black',
+            'price_color': 'red',
+            'sku_color': 'blue',
+            'price_size': 24,
+            'sku_size': 14,
+            'barcode_height': 50,
+        })
+        filename = f'{product.id}_price_tag.png'
+        hti.screenshot(html_str=html_content, save_as=filename)
+
+def mgt_price_tags(request):
+    product_ids = request.GET.getlist('product_ids')
+    if product_ids:
+        products = Product.objects.filter(id__in=product_ids)
+    else:
+        products = Product.objects.all()[:6]
+    
+    groups = ProductGroup.objects.all()
+
+    images = [os.path.join(settings.MEDIA_URL, 'price_tags', f'{product.id}_price_tag.png') for product in products]
+    generate_price_tags.after_response(products)
+
+    context = {'images': images, 'products': products, 'groups': groups}
+    return render(request, 'mgt/products/price-tags/panel.html', context)
+
+def mgt_price_tags2(request, slug=None):
     products = Product.objects.all()
     groups = ProductGroup.objects.all()
 
@@ -205,7 +259,6 @@ def mgt_price_tags(request, slug=None):
 
     # Determine pagination range
     num_pages = paginator.num_pages
-    print("page_obj.count = ", page_obj.end_index() - page_obj.start_index() + 1)
     current_page = page_obj.number
     if num_pages <= 5:
         page_range = range(1, num_pages + 1)
