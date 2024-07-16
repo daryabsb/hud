@@ -1,10 +1,29 @@
 # import stripe
 
+import random
 from src.settings.components.env import config
 
 # STRIPE_SECRET_KEY = config("STRIPE_SECRET_KEY", default=None)
 # stripe.api_key = STRIPE_SECRET_KEY
 
+
+def generate_ean13():
+    from src.products.models import Barcode
+    while True:
+        ean = ''.join([str(random.randint(0, 9)) for _ in range(12)])
+        checksum = calculate_ean13_checksum(ean)
+        ean13 = ean + str(checksum)
+        if not Barcode.objects.filter(value=ean13).exists():
+            print(ean13)
+            return ean13
+
+
+def calculate_ean13_checksum(ean):
+    # Calculate the checksum for the EAN-13 barcode
+    sum_odd = sum(int(ean[i]) for i in range(0, 12, 2))
+    sum_even = sum(int(ean[i]) for i in range(1, 12, 2))
+    checksum = (10 - (sum_odd + sum_even * 3) % 10) % 10
+    return checksum
 
 # def product_sales_pipline(product_name="Test product", product_price=1000):
 #     stripe_product_obj = stripe.Product.create(name=product_name)
@@ -30,6 +49,7 @@ from src.settings.components.env import config
 #         cancel_url=cancel_url
 #     )
 #     print(checkou_session.url)
+
 
 def slugify_function(content):
     return content.replace('_', '-').lower()

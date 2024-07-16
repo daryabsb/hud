@@ -1,7 +1,7 @@
 from collections import defaultdict
 import os
 from django.conf import settings
-from html2image import Html2Image # Or imgkit
+from html2image import Html2Image  # Or imgkit
 from django.template.loader import render_to_string
 from django.urls import reverse
 from src.management.utils import generate_barcode
@@ -16,7 +16,7 @@ from src.stock.models import StockControl
 from django.forms import modelformset_factory
 from src.products.forms import (
     ProductGroupForm, ConfirmPasswordForm, ProductDetailsForm,
-    BarcodeForm, ProductCommentForm
+    BarcodeForm, ProductCommentForm, PriceTagForm
 )
 import after_response
 from src.stock.forms import StockControlForm
@@ -192,10 +192,55 @@ def delete_product(request):
 def mgt_invoice_template_view(request):
     return render(request, 'mgt/products/invoice-template.html', {})
 
+
 def mgt_price_tags3(request):
     products = Product.objects.all()
     groups = ProductGroup.objects.all()
     return render(request, 'mgt/products/price-tags.html', {"products": products, "groups": groups})
+
+
+def render_price_tag(product):
+    return render_to_string('mgt/products/price-tags/partials/price_tag.html', {
+        'product': product,
+        'margin': '10px',
+        'show_name': True,
+        'show_price': True,
+        'show_sku': True,
+        'show_barcode': True,
+        'name_color': 'black',
+        'price_color': 'red',
+        'sku_color': 'blue',
+        'price_size': 24,
+        'sku_size': 14,
+        'barcode_height': 50,
+    })
+
+
+def mgt_price_tags_control(request):
+    product_ids = request.GET.getlist('product_ids')
+
+    if product_ids:
+        # If product_ids are provided, generate tags only for those products
+        products = Product.objects.prefetch_related(
+            'barcode').filter(id__in=product_ids)
+        remaining_products = []
+    else:
+        # Otherwise, get the first 6 products and the rest for background generation
+        all_products = Product.objects.prefetch_related('barcode').all()
+        products = all_products[:6]
+        remaining_products = all_products[6:]
+    groups = ProductGroup.objects.all()
+    images = []
+
+    for product in all_products:
+        images.append(render_price_tag(product))
+
+    form = PriceTagForm()
+
+    context = {'images': images, 'products': all_products,
+               'groups': groups, 'form': form}
+    return render(request, 'mgt/products/price-tags/price-tag-control.html', context)
+
 
 @after_response.enable
 def generate_price_tags(products):
@@ -224,19 +269,21 @@ def generate_price_tags(products):
         filename = f'{product.id}_price_tag.png'
         hti.screenshot(html_str=html_content, save_as=filename)
 
+
 def mgt_price_tags(request):
     product_ids = request.GET.getlist('product_ids')
-    
+
     if product_ids:
         # If product_ids are provided, generate tags only for those products
-        products = Product.objects.prefetch_related('barcode').filter(id__in=product_ids)
+        products = Product.objects.prefetch_related(
+            'barcode').filter(id__in=product_ids)
         remaining_products = []
     else:
         # Otherwise, get the first 6 products and the rest for background generation
         all_products = Product.objects.prefetch_related('barcode').all()
         products = all_products[:6]
         remaining_products = all_products[6:]
-    
+
     groups = ProductGroup.objects.all()
     images = []
 
@@ -271,6 +318,7 @@ def mgt_price_tags(request):
 
     context = {'images': images, 'products': products, 'groups': groups}
     return render(request, 'mgt/products/price-tags/panel.html', context)
+
 
 def mgt_price_tags2(request, slug=None):
     products = Product.objects.all()
@@ -452,16 +500,16 @@ post_data = {
     }
 }
 
-barcode =  [
-    'DEFAULT_CHUNK_SIZE', '__bool__', '__class__', '__delattr__', '__dict__', '__dir__', '__doc__', 
-    '__enter__', '__eq__', '__exit__', '__format__', '__ge__', '__getattribute__', '__getstate__', 
-    '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__len__', '__lt__', 
-    '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', 
-    '__setstate__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', '_committed', '_del_file', 
-    '_file', '_get_file', '_get_image_dimensions', '_require_file', '_set_file', 
-    
-    'chunks', 'close', 'closed', 'delete', 'encoding', 'field', 'file', 'fileno', 'flush', 
-    'height', 'instance', 'isatty', 'multiple_chunks', 'name', 'newlines', 'open', 'path', 
-    'read', 'readable', 'readinto', 'readline', 'readlines', 'save', 'seek', 'seekable', 
+barcode = [
+    'DEFAULT_CHUNK_SIZE', '__bool__', '__class__', '__delattr__', '__dict__', '__dir__', '__doc__',
+    '__enter__', '__eq__', '__exit__', '__format__', '__ge__', '__getattribute__', '__getstate__',
+    '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__len__', '__lt__',
+    '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__',
+    '__setstate__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', '_committed', '_del_file',
+    '_file', '_get_file', '_get_image_dimensions', '_require_file', '_set_file',
+
+    'chunks', 'close', 'closed', 'delete', 'encoding', 'field', 'file', 'fileno', 'flush',
+    'height', 'instance', 'isatty', 'multiple_chunks', 'name', 'newlines', 'open', 'path',
+    'read', 'readable', 'readinto', 'readline', 'readlines', 'save', 'seek', 'seekable',
     'size', 'storage', 'tell', 'truncate', 'url', 'width', 'writable', 'write', 'writelines'
-    ]
+]

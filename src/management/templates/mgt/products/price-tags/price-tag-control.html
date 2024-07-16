@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static widget_tweaks %}
+
+{% block content %}
+<div id="content" class="app-content p-0">
+	<div class="d-block d-md-flex align-items-stretch h-100">
+		<div class="gallery-menu-container" style="min-width: 27.5rem;">
+			<div data-scrollbar="true" data-height="100%" data-skip-mobile="true">
+				<div class="gallery-menu">
+					<div class="p-3 d-flex align-items-center">
+						<a href="javascript:window.history.back();"
+							class="btn btn-outline-default text-nowrap btn-sm px-3 rounded-pill"><i
+								class="fa fa-arrow-left me-1 ms-n1"></i> Back</a>
+					</div>
+					<div class="gallery-menu-header">Main</div>
+					<div class="gallery-menu-item"><a href="#" class="gallery-menu-link active"><i
+								class="fa fa-fw fa-image me-1"></i> Photos</a></div>
+					<div class="gallery-menu-item"><a href="#" class="gallery-menu-link"><i
+								class="fa fa-fw fa-heart me-1"></i> Memories</a></div>
+					<div class="gallery-menu-header">Shared</div>
+					<div class="gallery-menu-item"><a href="#" class="gallery-menu-link"><i
+								class="fa fa-fw fa-cloud me-1"></i> Activity</a></div>
+					<div class="gallery-menu-header">Albums</div>
+					<div class="gallery-menu-item"><a href="#" class="gallery-menu-link"><i
+								class="fa fa-fw fa-camera me-1"></i> All Photos</a></div>
+					<div class="gallery-menu-item"><a href="#" class="gallery-menu-link"><i
+								class="fa fa-fw fa-user me-1"></i> People</a></div>
+					<div class="gallery-menu-item"><a href="#" class="gallery-menu-link"><i
+								class="fa fa-fw fa-map-pin me-1"></i> Places</a></div>
+					<div class="gallery-menu-item"><a href="#" class="gallery-menu-link"><i
+								class="fa fa-fw fa-camera-retro me-1"></i> Selfies</a></div>
+					<div class="gallery-menu-item"><a href="#" class="gallery-menu-link"><i
+								class="fa fa-fw fa-video me-1"></i> Panaromas</a></div>
+					<div class="gallery-menu-item"><a href="#" class="gallery-menu-link"><i
+								class="fa fa-fw fa-star me-1"></i> Depth Effect</a></div>
+					<div class="gallery-menu-item"><a href="#" class="gallery-menu-link"><i
+								class="fa fa-fw fa-mobile me-1"></i> Screenshots</a></div>
+					<div class="gallery-menu-item form-group">
+					{% for field in form %}
+					<label>{{ field.label }}
+						{% render_field field class="form-control" %}
+					{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="gallery-content-container">
+			<div data-scrollbar="true" data-height="100%">
+				<div class="gallery-content">
+				<div class="gallery">
+						<div class="d-flex align-items-center mb-3">
+							<div class="gallery-title mb-0">
+								<a href="#">
+									Price tags <i class="fa fa-chevron-right"></i>
+									<small>{{ products.count }} Products</small>
+								</a>
+							</div>
+							<div class="ms-auto btn-group">
+								<a href="#" class="btn btn-outline-default btn-sm"><i
+										class="fa fa-play"></i></a>
+								<a href="#" class="btn btn-outline-default btn-sm"><i
+										class="fa fa-plus"></i></a>
+								<a href="#" class="btn btn-outline-default btn-sm"><i
+										class="fa fa-upload"></i></a>
+							</div>
+						</div>
+						<div class="row gap-3">
+								{% for image in images %}
+								
+							<div class="col-lg-2">
+								{{ image|safe}} 
+								</div>
+							{% endfor %}
+						
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+{% endblock content %}
+{% block additional_js %}
+
+
+
+{% endblock additional_js %}

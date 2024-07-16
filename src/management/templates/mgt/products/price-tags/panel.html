@@ -76,12 +76,12 @@
 											data-pswp-width="752" data-pswp-height="502"><img
 												src="{{barcode}}" alt="product.name"
 												class="img-portrait"></a></li> 
-								{% for product in group.products.all %}
+								{% comment %} {% for product in group.products.all %}
 								<li><a href="javascript:;" data-pswp-src="{{ product.image.url }}"
 										data-pswp-width="752" data-pswp-height="502"><img
 											src="{{ product.image.url }}" alt="{{ product.name }}"
 											class="img-portrait"></a></li>
-								{% endfor %}
+								{% endfor %} {% endcomment %}
 
 							</ul>
 						</div>

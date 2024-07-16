@@ -35,3 +35,22 @@ class ProductCommentForm(forms.ModelForm):
     class Meta:
         model = ProductComment
         fields = ['comment']
+
+
+class PriceTagForm(forms.Form):
+    # Assuming product is identified by its ID
+    product_id = forms.IntegerField(
+        widget=forms.HiddenInput())
+    margin = forms.CharField(
+        max_length=10, initial='10px', label='margin'
+    )
+    show_name = forms.BooleanField(initial=True, required=False)
+    show_price = forms.BooleanField(initial=True, required=False)
+    show_sku = forms.BooleanField(initial=True, required=False)
+    show_barcode = forms.BooleanField(initial=True, required=False)
+    name_color = forms.CharField(max_length=20, initial='black')
+    price_color = forms.CharField(max_length=20, initial='red')
+    sku_color = forms.CharField(max_length=20, initial='blue')
+    price_size = forms.IntegerField(initial=24)
+    sku_size = forms.IntegerField(initial=14)
+    barcode_height = forms.IntegerField(initial=50)

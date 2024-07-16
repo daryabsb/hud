@@ -52,8 +52,11 @@ class Product(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        ordering = ('parent_group__id',)  # 7822809558444
+
     def __str__(self):
-        return self.name
+        return self.image.name
 
     def img(self):
         from django.urls import reverse
