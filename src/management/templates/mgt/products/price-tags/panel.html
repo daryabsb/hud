@@ -62,14 +62,20 @@
 						</div>
 						<div class="gallery-image">
 							<ul class="gallery-image-list">
+								<li><a href="javascript:;" >
 								{% for image in images %}
+							</a></li>
 								{% comment %} <li><a href="javascript:;" >{{image}}</a></li>
 								<li><a href="javascript:;" >product.name</a></li>{% endcomment %}
 								<li><a href="javascript:;" data-pswp-src="{{image}}"
 									data-pswp-width="752" data-pswp-height="502"><img
 										src="{{image}}" alt="product.name"
 										class="img-portrait"></a></li> 
-								{% endfor %}	
+										{% endfor %}	
+										<li><a href="javascript:;" data-pswp-src="{{barcode}}"
+											data-pswp-width="752" data-pswp-height="502"><img
+												src="{{barcode}}" alt="product.name"
+												class="img-portrait"></a></li> 
 								{% for product in group.products.all %}
 								<li><a href="javascript:;" data-pswp-src="{{ product.image.url }}"
 										data-pswp-width="752" data-pswp-height="502"><img

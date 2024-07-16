@@ -199,7 +199,7 @@ def mgt_price_tags3(request):
 
 @after_response.enable
 def generate_price_tags(products):
-    hti = Html2Image()
+    hti = Html2Image(size=(630, 440))
 
     # Ensure the price_tags directory exists
     price_tags_dir = os.path.join(settings.MEDIA_ROOT, 'price_tags')
@@ -226,15 +226,48 @@ def generate_price_tags(products):
 
 def mgt_price_tags(request):
     product_ids = request.GET.getlist('product_ids')
+    
     if product_ids:
-        products = Product.objects.filter(id__in=product_ids)
+        # If product_ids are provided, generate tags only for those products
+        products = Product.objects.prefetch_related('barcode').filter(id__in=product_ids)
+        remaining_products = []
     else:
-        products = Product.objects.all()[:6]
+        # Otherwise, get the first 6 products and the rest for background generation
+        all_products = Product.objects.prefetch_related('barcode').all()
+        products = all_products[:6]
+        remaining_products = all_products[6:]
     
     groups = ProductGroup.objects.all()
+    images = []
 
-    images = [os.path.join(settings.MEDIA_URL, 'price_tags', f'{product.id}_price_tag.png') for product in products]
-    generate_price_tags.after_response(products)
+    # Generate fresh tags for the selected products
+    hti = Html2Image(size=(630, 440))
+    price_tags_dir = os.path.join(settings.MEDIA_ROOT, 'price_tags')
+    os.makedirs(price_tags_dir, exist_ok=True)
+    hti.output_path = price_tags_dir
+
+    for product in products:
+        html_content = render_to_string('mgt/products/price-tags/partials/price_tag.html', {
+            'product': product,
+            'margin': '10px',
+            'show_name': True,
+            'show_price': True,
+            'show_sku': True,
+            'show_barcode': True,
+            'name_color': 'black',
+            'price_color': 'red',
+            'sku_color': 'blue',
+            'price_size': 72,
+            'sku_size': 48,
+            'barcode_height': 100,
+        })
+        filename = f'{product.id}_price_tag.png'
+        hti.screenshot(html_str=html_content, save_as=filename)
+        images.append(os.path.join(settings.MEDIA_URL, 'price_tags', filename))
+
+    # Generate remaining price tags after response
+    if remaining_products:
+        generate_price_tags.after_response(remaining_products)
 
     context = {'images': images, 'products': products, 'groups': groups}
     return render(request, 'mgt/products/price-tags/panel.html', context)
@@ -418,3 +451,17 @@ post_data = {
         'image': ['']
     }
 }
+
+barcode =  [
+    'DEFAULT_CHUNK_SIZE', '__bool__', '__class__', '__delattr__', '__dict__', '__dir__', '__doc__', 
+    '__enter__', '__eq__', '__exit__', '__format__', '__ge__', '__getattribute__', '__getstate__', 
+    '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__len__', '__lt__', 
+    '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', 
+    '__setstate__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', '_committed', '_del_file', 
+    '_file', '_get_file', '_get_image_dimensions', '_require_file', '_set_file', 
+    
+    'chunks', 'close', 'closed', 'delete', 'encoding', 'field', 'file', 'fileno', 'flush', 
+    'height', 'instance', 'isatty', 'multiple_chunks', 'name', 'newlines', 'open', 'path', 
+    'read', 'readable', 'readinto', 'readline', 'readlines', 'save', 'seek', 'seekable', 
+    'size', 'storage', 'tell', 'truncate', 'url', 'width', 'writable', 'write', 'writelines'
+    ]

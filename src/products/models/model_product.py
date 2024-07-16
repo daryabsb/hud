@@ -42,7 +42,7 @@ class Product(models.Model):
     image = models.ImageField(null=True, blank=True,
                               upload_to=upload_image_file_path)
     color2 = models.CharField(max_length=50, default="Transparent")
-    color = ColorField(default='#FF0000')
+    color = ColorField(default='#FFFFFF')
     is_enabled = models.BooleanField(default=True)
     age_restriction = models.SmallIntegerField(null=True, blank=True)
     last_purchase_price = models.DecimalField(

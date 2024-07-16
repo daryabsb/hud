@@ -19,6 +19,7 @@ loguru
 psycopg2
 dj-database-url
 python-decouple
+python-barcode
 Pillow
 autopep8
 six
