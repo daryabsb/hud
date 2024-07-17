@@ -7,15 +7,15 @@ from src.configurations.forms import ConfigurationForm, ApplicationPropertyForm
 from src.configurations.const import direct_save_fields, indirect_save_fields
 # Create your views here.
 from src.core.decorators import required_security_level
+from src.core.utils import convert_value
 
-
-def convert_value(value):
-    try:
-        # Attempt to evaluate the value to its original type
-        return ast.literal_eval(value)
-    except (ValueError, SyntaxError):
-        # If evaluation fails, return the value as-is (it is a string)
-        return value
+# def convert_value(value):
+#     try:
+#         # Attempt to evaluate the value to its original type
+#         return ast.literal_eval(value)
+#     except (ValueError, SyntaxError):
+#         # If evaluation fails, return the value as-is (it is a string)
+#         return value
 
 
 @required_security_level(3)

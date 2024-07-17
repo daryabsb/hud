@@ -8,6 +8,25 @@ def run():
     user = User.objects.first()
     products = Product.objects.all()
 
+    b_products = set()
+
+    for b in Barcode.objects.all():
+        b_products.add(b.product.id)
+    
+    print(b_products)
+
+    for product in products:
+        print(product.id not in b_products)
+        if product.id in b_products:
+            print('Barcode already exist for ', product.name)
+            continue
+        else:
+            barcode = Barcode(user=user, product=product)
+            barcode.save()
+            b_products.add(barcode.product.id)
+            print(barcode.product.name)
+        
+
     # for product in products:
     #     try:
     #         product.barcode
@@ -22,6 +41,4 @@ def run():
     #             except IntegrityError:
     #                 # Handle duplicate EAN-13 value and retry
     #                 print("Duplicate EAN-13 value generated, retrying...")
-    for barcode in Barcode.objects.all():
-        # barcode.value = ''
-        barcode.save(force_update=True)
+

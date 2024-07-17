@@ -35,11 +35,41 @@
 								class="fa fa-fw fa-star me-1"></i> Depth Effect</a></div>
 					<div class="gallery-menu-item"><a href="#" class="gallery-menu-link"><i
 								class="fa fa-fw fa-mobile me-1"></i> Screenshots</a></div>
-					<div class="gallery-menu-item form-group">
-					{% for field in form %}
-					<label>{{ field.label }}
-						{% render_field field class="form-control" %}
-					{% endfor %}
+					<div class="gallery-menu-item">
+						<div class="list-group list-group-flush">
+							{% for row in option_forms %}
+							<form 
+							hx-post="{% url 'configs:update-settings' row.id %}"
+							hx-target="#value-input-{{row.id}}"
+							hx-swap="innerHTML"
+							class="list-group-item d-flex align-items-center">
+							
+								<div class="flex-1">
+									<dl class="row mb-0 align-items-start py-2">
+										<dd class="col-4">{{ row.title }}</dd>
+										<dd class="col-5" id="value-input-{{row.id}}">
+											{% include 'config/partials/input_type.html' with config=row %}												
+										</dd>
+										<dd class="col-3 text-end">
+											<button type="submit" class="btn btn-outline-theme w-100px">Update</button>
+										</dd>
+									</dl>
+									{% if row.description %}
+									<div class="text-inverse text-opacity-50">
+										{{ row.description }}
+									</div>
+									{% comment %} {% else %}
+									<div class="text-inverse text-opacity-50">
+										<span class="bg-warning-transparent-1 text-warning ms-xl-3 mt-1 d-inline-block mt-xl-0 px-1 rounded-sm">
+											<i class="fa fa-exclamation-circle text-warning fs-12px me-1"></i>
+											<span class="text-warning">Please enable the firewall for your website</span>
+											</span>
+									</div> {% endcomment %}
+									{% endif %}
+								</div>
+							</form>
+							{% endfor %}
+						</div>
 					</div>
 				</div>
 			</div>
@@ -49,9 +79,14 @@
 				<div class="gallery-content">
 				<div class="gallery">
 						<div class="d-flex align-items-center mb-3">
+							<h1 class="display-1">This is the actual editing</h1>
+						</div>
+					</div>
+				<div class="gallery">
+						<div class="d-flex align-items-center mb-3">
 							<div class="gallery-title mb-0">
 								<a href="#">
-									Price tags <i class="fa fa-chevron-right"></i>
+									Price tags for all products <i class="fa fa-chevron-right"></i>
 									<small>{{ products.count }} Products</small>
 								</a>
 							</div>
@@ -67,7 +102,7 @@
 						<div class="row gap-3">
 								{% for image in images %}
 								
-							<div class="col-lg-2">
+							<div class="col-sm">
 								{{ image|safe}} 
 								</div>
 							{% endfor %}

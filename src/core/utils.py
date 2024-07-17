@@ -1,6 +1,7 @@
 # import stripe
 
 import random
+import ast
 from src.settings.components.env import config
 
 # STRIPE_SECRET_KEY = config("STRIPE_SECRET_KEY", default=None)
@@ -17,6 +18,14 @@ def generate_ean13():
             print(ean13)
             return ean13
 
+# For configuration model
+def convert_value(value):
+    try:
+        # Attempt to evaluate the value to its original type
+        return ast.literal_eval(value)
+    except (ValueError, SyntaxError):
+        # If evaluation fails, return the value as-is (it is a string)
+        return value
 
 def calculate_ean13_checksum(ean):
     # Calculate the checksum for the EAN-13 barcode

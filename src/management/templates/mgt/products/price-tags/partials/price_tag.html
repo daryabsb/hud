@@ -1,7 +1,32 @@
-<div class="price-tag" style="background-color: #ffffff;width: 100%;height: 100%;padding: 10px;display: flex;flex-direction: column;align-items: center;box-sizing: border-box;">
-    <div style="font-size: 15px;font-weight: bold;color: black;margin-bottom: 0px;">PRODUCT CODE: {{product.code}}</div>
-    <div style="font-size: 25px;font-weight: bold;color: black;">{{product.price|floatformat:"0"}} IQD</div>
+<div class="price-tag" style="
+    background-color: {{ product.color }};
+    padding: {{ frame_padding }}px;
+    height: {{frame_height}}px;
+    width: {{ frame_width }}px;
+    display: flex;
+    flex-direction:column;
+    align-items: center;
+    box-sizing: border-box;
+    ">
+    <div style="
+        font-size: {{code_font_size}}px;
+        font-weight: {{code_font_weight}};
+        color: {{code_font_color}};
+        margin-bottom: {{code_margin_bottom}}px;"
+        >PRODUCT CODE: {{product.code}}</div>
+    <div style="
+        font-size: {{name_font_size}}px;
+        font-weight: {{name_font_weight}};
+        color: {{ name_font_color }};
+        margin-bottom: {{name_margin_bottom}}px;"
+        >{{product.name}}</div>
+    <div style="
+        font-size: {{price_font_size}}px;
+        font-weight: {{price_font_weight}};
+        color: {{price_font_color}};
+        margin-bottom: {{price_margin_bottom}}px;"
+        >{{product.price|floatformat:"0"}} IQD</div>
     <div class="barcode">
-        <img style="width:95%;" src="{{ product.barcode.image.url }}" alt="Barcode">
+        <img style="width:{{barcode_width}}px;" src="{{ product.barcode.image.url }}" alt="Barcode">
     </div>
 </div>
