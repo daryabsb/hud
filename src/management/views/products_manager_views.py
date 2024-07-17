@@ -32,6 +32,7 @@ from src.configurations.forms import ApplicationPropertyForm
 from src.core.utils import convert_value
 from django.forms import modelformset_factory
 
+
 def mgt_products(request, slug=None):
     products = Product.objects.all()
     groups = ProductGroup.objects.all()
@@ -201,13 +202,14 @@ def mgt_price_tags3(request):
     groups = ProductGroup.objects.all()
     return render(request, 'mgt/products/price-tags.html', {"products": products, "groups": groups})
 
+
 options = {
     'frame_padding': 8,
     'frame_width': 200,
     'frame_height': 125,
 
     'code_font_size': 10,
-    'code_font_weight' : 'bold',
+    'code_font_weight': 'bold',
     'code_font_color': 'black',
     'code_margin_bottom': 3,
     'code_show': True,
@@ -226,35 +228,10 @@ options = {
 
     'barcode_width': 140,
 }
+
+
 def render_price_tag(product, options={}):
-    # f = Outer Frame
-    # f_padding = options.get('frame_padding')
-    # f_width = options.get('frame_width')
-    # f_height = options.get('frame_height')
-    
-    # # c = Code heading
-    # c_font_size = options.get('code_font_size')
-    # c_font_weight = options.get('code_font_weight')
-    # c_font_color = options.get('code_font_color')
-    # c_margin_bottom = options.get('code_margin_bottom')
-    # c_show =  options.get('code_show', True)
-
-    # # n = Name heading
-    # n_font_size = options.get('name_font_size')
-    # n_font_weight = options.get('name_font_weight')
-    # n_font_color = options.get('name_font_color')
-    # n_margin_bottom = options.get('name_margin_bottom')
-    # n_show =  options.get('name_show', True)
-
-    # # p = Price
-    # p_font_size = options.get('price_font_size')
-    # p_font_weight = options.get('price_font_weight')
-    # p_font_color = options.get('price_font_color')
-    # p_margin_bottom = options.get('price_margin_bottom')
-    # p_show =  options.get('price_show', True)
-
-    # b_width = options.get('barcode_width')
-    
+    print('options = ', options)
     return render_to_string('mgt/products/price-tags/partials/price_tag.html', {
         'product': product,
         'margin': '10px',
@@ -274,27 +251,29 @@ def render_price_tag(product, options={}):
 
 def mgt_price_tags_control(request):
     product_ids = request.GET.getlist('product_ids')
-    
-    options_queryset = ApplicationProperty.objects.filter(section__name='price_tags')
-    options = {item['name']: item['value'] for item in options_queryset.values('name','value')}
+
+    options_queryset = ApplicationProperty.objects.filter(
+        section__name='price_tags')
+    options = {item['name']: convert_value(item['value'])
+               for item in options_queryset.values('name', 'value')}
     option_forms = []
 
     for setting in options_queryset:
-        form = None #ApplicationPropertyForm(instance=setting)
+        form = None  # ApplicationPropertyForm(instance=setting)
         option_forms.append({
-        "form": form,
-        "name": setting.name,
-        "id": setting.id,
-        "value": convert_value(setting.value),
-        "title": setting.title,
-        "description": setting.description,
-        "input_type": setting.input_type,
-        "editable": setting.editable,
-        "order": setting.order,
-        "params": setting.params,
-        "created": setting.created,
-        "updated": setting.updated,
-    })
+            "form": form,
+            "name": setting.name,
+            "id": setting.id,
+            "value": convert_value(setting.value),
+            "title": setting.title,
+            "description": setting.description,
+            "input_type": setting.input_type,
+            "editable": setting.editable,
+            "order": setting.order,
+            "params": setting.params,
+            "created": setting.created,
+            "updated": setting.updated,
+        })
     if product_ids:
         # If product_ids are provided, generate tags only for those products
         products = Product.objects.prefetch_related(
@@ -306,15 +285,19 @@ def mgt_price_tags_control(request):
         products = all_products[:6]
         remaining_products = all_products[6:]
     groups = ProductGroup.objects.all()
-    images = []
+    tags = []
 
-    for product in all_products:
-        images.append(render_price_tag(product, options))
+    for product in products:
+        tag = {
+            "product": product,
+            "html": render_price_tag(product, options)
+        }
+        tags.append(tag)
 
     form = PriceTagForm()
 
-    context = {'images': images, 'products': all_products,
-                'groups': groups, 'option_forms': option_forms}
+    context = {'tags': tags, 'products': products,
+               'groups': groups, 'option_forms': option_forms}
     return render(request, 'mgt/products/price-tags/price-tag-control.html', context)
 
 
@@ -589,3 +572,30 @@ barcode = [
     'read', 'readable', 'readinto', 'readline', 'readlines', 'save', 'seek', 'seekable',
     'size', 'storage', 'tell', 'truncate', 'url', 'width', 'writable', 'write', 'writelines'
 ]
+
+
+options = {
+    'frame_padding': 8,
+    'frame_width': 200,
+    'frame_height': 125,
+
+    'code_font_size': 10,
+    'code_font_weight': 'bold',
+    'code_font_color': 'black',
+    'code_margin_bottom': 3,
+    'code_show': True,
+
+    'name_font_size': 10,
+    'name_font_weight': 'bold',
+    'name_font_color': 'black',
+    'name_margin_bottom': 3,
+    'name_show': False,
+
+    'price_font_size': 15,
+    'price_font_weight': 'bold',
+    'price_font_color': 'black',
+    'price_margin_bottom': 3,
+    'price_show': True,
+
+    'barcode_width': 140,
+    'barcode_show': 140}

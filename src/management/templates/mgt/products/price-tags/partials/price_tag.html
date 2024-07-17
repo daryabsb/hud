@@ -8,25 +8,33 @@
     align-items: center;
     box-sizing: border-box;
     ">
+    {% if code_show %}
     <div style="
         font-size: {{code_font_size}}px;
         font-weight: {{code_font_weight}};
         color: {{code_font_color}};
         margin-bottom: {{code_margin_bottom}}px;"
         >PRODUCT CODE: {{product.code}}</div>
+    {% endif %}
+    {% if name_show %}
     <div style="
         font-size: {{name_font_size}}px;
         font-weight: {{name_font_weight}};
         color: {{ name_font_color }};
         margin-bottom: {{name_margin_bottom}}px;"
-        >{{product.name}}</div>
+        >{{name_show}}</div>
+    {% endif %}
+    {% if price_show %}
     <div style="
         font-size: {{price_font_size}}px;
         font-weight: {{price_font_weight}};
         color: {{price_font_color}};
         margin-bottom: {{price_margin_bottom}}px;"
         >{{product.price|floatformat:"0"}} IQD</div>
+    {% endif %}
+    {% if barcode_show %}
     <div class="barcode">
         <img style="width:{{barcode_width}}px;" src="{{ product.barcode.image.url }}" alt="Barcode">
     </div>
+    {% endif %}
 </div>
