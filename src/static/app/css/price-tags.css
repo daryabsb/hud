@@ -1,0 +1,53 @@
+.card-margins {
+    position: relative;
+    width: 250px;
+    height: 150px;
+    margin-inline: auto;
+    border: var(--bs-border-width) solid var(--bs-border-color);
+}
+
+.card-margins .card-margins-arrow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0
+}
+
+.card-margins .card-form-arrow-left,
+.card-margins .card-form-arrow-bottom,
+.card-margins .card-form-arrow-top,
+.card-margins .card-form-arrow-right {
+    position: absolute;
+
+}
+
+.card-margins .card-form-arrow-left,
+.card-margins .card-form-arrow-right {
+    top: 50%
+}
+
+.card-margins .card-form-arrow-top,
+.card-margins .card-form-arrow-bottom {
+    left: 50%
+}
+
+.card-margins .card-form-arrow-left {
+    left: 0;
+    transform: translate(-50%, -50%);
+}
+
+.card-margins .card-form-arrow-top {
+    top: 0;
+    transform: translate(-50%, -50%);
+}
+
+.card-margins .card-form-arrow-bottom {
+    bottom: 0;
+    transform: translate(-50%, 50%);
+}
+
+.card-margins .card-form-arrow-right {
+    right: 0;
+    transform: translate(50%, -50%);
+}

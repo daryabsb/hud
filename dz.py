@@ -48,6 +48,10 @@ dz_array = {
                     # f"{app}/plugins/pdfjs/web/viewer.css",
 
                 ],
+                "mgt_price_tags_control": [
+                    f"{app}/css/price-tags.css",
+
+                ],
                 "mgt_users": [
                     # f"{app}/plugins/tag-it/js/tag-it.min.js",
 
@@ -58,7 +62,7 @@ dz_array = {
                     f"{app}/js/demo/pos-customer-order.demo.js",
                 ],
                 "mgt_price_tags": [
-                    
+
                     # f"{app}/plugins/pdfjs/popper.min.js",
                     # f"{app}/plugins/pdfjs/pdf.min.js",
                     # f"{app}/plugins/pdfjs/pdf.worker.mjs",

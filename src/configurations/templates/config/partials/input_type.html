@@ -11,14 +11,14 @@
             {% endif %}
         </select>
     {% elif config.input_type == 'number' %}
-        <div class="d-flex gap-2 w-150px position-relative">
+        <div class="d-flex gap-2 w-120px position-relative">
             <button id="decrease" role="button" type="button" 
                     class="position-absolute h-100 btn btn-outline-theme rounded-0"
                     _="on click if #numberinput-{{config.id}}.value > 0 decrement #numberinput-{{config.id}}.value">
                 <i class="fa fa-minus"></i>
             </button>
             <input type="number" name="{{ config.name }}" id="numberinput-{{ config.id }}" readonly
-                   class="form-control text-center border-theme border-theme-color"
+                   class="form-control form-control-sm text-center border-theme border-theme-color"
                    value="{{ config.value|default:'' }}" {% if not config.editable %}disabled{% endif %}
                   _="on mousedown
 					halt the event -- prevent text selection... 
@@ -29,7 +29,7 @@
             </button>
         </div>
     {% elif config.input_type == 'text' %}
-        <input type="text" name="{{ config.name }}" class="form-control"
+        <input type="text" name="{{ config.name }}" class="form-control form-control-sm"
                value="{{ config.value|default:'' }}" {% if not config.editable %}disabled{% endif %}>
     {% elif config.input_type == 'textarea' %}
         <textarea name="{{ config.name }}" class="form-control" rows="3" cols="5"

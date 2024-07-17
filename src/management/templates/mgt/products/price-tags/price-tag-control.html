@@ -12,7 +12,7 @@
 							class="btn btn-outline-default text-nowrap btn-sm px-3 rounded-pill"><i
 								class="fa fa-arrow-left me-1 ms-n1"></i> Back</a>
 					</div>
-					<div class="gallery-menu-header">Main</div>
+					{% comment %} <div class="gallery-menu-header">Main</div>
 					<div class="gallery-menu-item"><a href="#" class="gallery-menu-link active"><i
 								class="fa fa-fw fa-image me-1"></i> Photos</a></div>
 					<div class="gallery-menu-item"><a href="#" class="gallery-menu-link"><i
@@ -34,7 +34,59 @@
 					<div class="gallery-menu-item"><a href="#" class="gallery-menu-link"><i
 								class="fa fa-fw fa-star me-1"></i> Depth Effect</a></div>
 					<div class="gallery-menu-item"><a href="#" class="gallery-menu-link"><i
-								class="fa fa-fw fa-mobile me-1"></i> Screenshots</a></div>
+								class="fa fa-fw fa-mobile me-1"></i> Screenshots</a></div> {% endcomment %}
+
+
+
+					<div class="gallery-menu-item">
+							<div class="m-4">
+							<!-- basic usage -->
+							<div class="card-margins">  
+							<!-- arrow -->
+							<div class="card-margins-arrow">
+								<div class="card-form-arrow-left">
+								<div class="form-group ">
+								<label>Padding left</label>
+								<input type="number" class="form-control form-control-sm w-25" />
+								</div>
+								</div>
+								<div class="card-form-arrow-bottom">Right</div>
+								<div class="card-form-arrow-top">Top</div>
+								<div class="card-form-arrow-right">bottom</div>
+							</div>
+							</div>
+							</div>
+
+					</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 					<div class="gallery-menu-item">
 						<div class="list-group list-group-flush">
 							{% for row in option_forms %}
@@ -45,14 +97,14 @@
 							class="list-group-item d-flex align-items-center">
 							
 								<div class="flex-1">
-									<dl class="row mb-0 align-items-start py-2">
-										<dd class="col-4">{{ row.title }}</dd>
-										<dd class="col-5" id="value-input-{{row.id}}">
+									<dl class="row mb-0 align-items-start">
+										<dd class="col-8">{{ row.title }}</dd>
+										<dd class="col-4" id="value-input-{{row.id}}">
 											{% include 'config/partials/input_type.html' with config=row %}												
 										</dd>
-										<dd class="col-3 text-end">
+										{% comment %} <dd class="col-3 text-end">
 											<button type="submit" class="btn btn-outline-theme w-100px">Update</button>
-										</dd>
+										</dd> {% endcomment %}
 									</dl>
 									{% if row.description %}
 									<div class="text-inverse text-opacity-50">
