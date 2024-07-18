@@ -1,9 +1,11 @@
 .card-margins {
     position: relative;
-    width: 250px;
-    height: 150px;
+    width: 200px;
+    height: 120px;
     margin-inline: auto;
-    border: var(--bs-border-width) solid var(--bs-border-color);
+    border: var(--bs-border-width);
+    border-color: var(--bs-border-color);
+    border-style: double;
 }
 
 .card-margins .card-margins-arrow {
@@ -14,6 +16,7 @@
     bottom: 0
 }
 
+.card-margins .card-form-arrow-label,
 .card-margins .card-form-arrow-left,
 .card-margins .card-form-arrow-bottom,
 .card-margins .card-form-arrow-top,
@@ -32,22 +35,29 @@
     left: 50%
 }
 
+.card-margins .card-form-arrow-label {
+    top: 35%;
+    left: 35%;
+}
+
+/* transform: translate(50%, 50%); */
+
 .card-margins .card-form-arrow-left {
     left: 0;
-    transform: translate(-50%, -50%);
+    transform: translate(-45%, -50%);
 }
 
 .card-margins .card-form-arrow-top {
     top: 0;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -125%);
 }
 
 .card-margins .card-form-arrow-bottom {
     bottom: 0;
-    transform: translate(-50%, 50%);
+    transform: translate(-50%, 135%);
 }
 
 .card-margins .card-form-arrow-right {
     right: 0;
-    transform: translate(50%, -50%);
+    transform: translate(76%, -50%);
 }

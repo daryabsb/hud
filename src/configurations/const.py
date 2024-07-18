@@ -137,6 +137,7 @@ SETTINGS_INITIAL_DATA = [
         "input_type": 'text', "params": '', "description": '', 'section': 'customer_display'},
     {"id": 44, "name": "test_display", "value": '', "title": 'Test display',
         "input_type": 'button', "params": '', "description": '', 'section': 'customer_display'},
+    # pricetags_settings
     {"id": 45, "name": "frame_padding", "value": '8', "title": 'Price tag frame padding',
         "input_type": 'number', "params": '', "description": '', 'section': 'price_tags'},
     {"id": 46, "name": "frame_width", "value": '200', "title": 'Price tag frame width',
@@ -177,6 +178,14 @@ SETTINGS_INITIAL_DATA = [
         "input_type": 'number', "params": '', "description": '', 'section': 'price_tags'},
     {"id": 64, "name": "barcode_show", "value": '140', "title": 'Show barcode',
         "input_type": 'checkbox', "params": '', "description": '', 'section': 'price_tags'},
+    {"id": 65, "name": "padding_left", "value": '8', "title": 'Padding left',
+        "input_type": 'number', "params": '', "description": '', 'section': 'price_tags'},
+    {"id": 66, "name": "padding_right", "value": '8', "title": 'Padding right',
+        "input_type": 'number', "params": '', "description": '', 'section': 'price_tags'},
+    {"id": 67, "name": "padding_top", "value": '8', "title": 'Padding top',
+        "input_type": 'number', "params": '', "description": '', 'section': 'price_tags'},
+    {"id": 68, "name": "padding_bottom", "value": '8', "title": 'Padding bottom',
+        "input_type": 'number', "params": '', "description": '', 'section': 'price_tags'},
 ]
 
 '''

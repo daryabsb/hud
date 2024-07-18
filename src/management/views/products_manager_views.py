@@ -231,7 +231,6 @@ options = {
 
 
 def render_price_tag(product, options={}):
-    print('options = ', options)
     return render_to_string('mgt/products/price-tags/partials/price_tag.html', {
         'product': product,
         'margin': '10px',
@@ -249,6 +248,36 @@ def render_price_tag(product, options={}):
     })
 
 
+def prepare_price_tag_forms(queryset):
+    queryset = ApplicationProperty.objects.filter(
+        section__name='price_tags')
+    option_forms = {}
+
+    for setting in queryset:
+        options_dict = {}
+        form = ApplicationPropertyForm(instance=setting)
+
+        options_dict["form"] = form
+        options_dict["name"] = setting.name
+        options_dict["id"] = setting.id
+        options_dict["value"] = convert_value(setting.value)
+        options_dict["title"] = setting.title
+        options_dict["description"] = setting.description
+        options_dict["input_type"] = setting.input_type
+        options_dict["editable"] = setting.editable
+        options_dict["order"] = setting.order
+        options_dict["params"] = setting.params
+        options_dict["created"] = setting.created
+        options_dict["updated"] = setting.updated
+
+        print("value type", type(options_dict["value"]))
+        print("value is", options_dict["value"])
+
+        option_forms[setting.name] = options_dict
+
+    return option_forms
+
+
 def mgt_price_tags_control(request):
     product_ids = request.GET.getlist('product_ids')
 
@@ -256,24 +285,9 @@ def mgt_price_tags_control(request):
         section__name='price_tags')
     options = {item['name']: convert_value(item['value'])
                for item in options_queryset.values('name', 'value')}
-    option_forms = []
 
-    for setting in options_queryset:
-        form = None  # ApplicationPropertyForm(instance=setting)
-        option_forms.append({
-            "form": form,
-            "name": setting.name,
-            "id": setting.id,
-            "value": convert_value(setting.value),
-            "title": setting.title,
-            "description": setting.description,
-            "input_type": setting.input_type,
-            "editable": setting.editable,
-            "order": setting.order,
-            "params": setting.params,
-            "created": setting.created,
-            "updated": setting.updated,
-        })
+    option_forms = prepare_price_tag_forms(options_queryset)
+
     if product_ids:
         # If product_ids are provided, generate tags only for those products
         products = Product.objects.prefetch_related(

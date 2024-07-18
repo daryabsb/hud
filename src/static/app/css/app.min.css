@@ -19528,6 +19528,16 @@ body:not(.app-init) * {
     padding-right: 50px !important
 }
 
+.px-75px {
+    padding-left: 75px !important;
+    padding-right: 75px !important
+}
+
+.px-100px {
+    padding-left: 100px !important;
+    padding-right: 100px !important
+}
+
 .py-1px {
     padding-top: 1px !important;
     padding-bottom: 1px !important

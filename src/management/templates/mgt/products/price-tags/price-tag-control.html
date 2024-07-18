@@ -44,52 +44,50 @@
 							<div class="card-margins">  
 							<!-- arrow -->
 							<div class="card-margins-arrow">
+								<div class="card-form-arrow-label text-center">
+									MARGINS
+								</div>
 								<div class="card-form-arrow-left">
-								<div class="form-group ">
-								<label>Padding left</label>
-								<input type="number" class="form-control form-control-sm w-25" />
+									<div class="form-group text-center px-75px">
+										{% comment %} <label>Padding left</label> {% endcomment %}
+										{% include './forms/number-input.html' with config=option_forms.padding_left %}	
+									</div>
 								</div>
+								<div class="card-form-arrow-bottom">
+									<div class="form-group text-center px-75px">
+										{% comment %} <label>Padding bottom</label> {% endcomment %}
+										{% include './forms/number-input.html' with config=option_forms.padding_bottom %}	
+									</div>
 								</div>
-								<div class="card-form-arrow-bottom">Right</div>
-								<div class="card-form-arrow-top">Top</div>
-								<div class="card-form-arrow-right">bottom</div>
+								<div class="card-form-arrow-top">
+									<div class="form-group text-center px-75px">
+										{% comment %} <label>Padding top</label> {% endcomment %}
+										{% include './forms/number-input.html' with config=option_forms.padding_top %}	
+									</div>
+								</div>
+								<div class="card-form-arrow-right">
+									<div class="form-group text-center px-75px">
+										{% comment %} <label>Padding right</label> {% endcomment %}
+										{% include './forms/number-input.html' with config=option_forms.padding_right %}	
+									</div>
+								</div>
 							</div>
 							</div>
 							</div>
 
 					</div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+					<div class="gallery-menu-item">
+						<div class="list-group list-group-flush">
+							New form
+						</div>
+					</div>
 
 
 
 					<div class="gallery-menu-item">
 						<div class="list-group list-group-flush">
-							{% for row in option_forms %}
+							{% comment %} {% for row in option_forms %}
 							<form 
 							hx-post="{% url 'configs:update-settings' row.id %}"
 							hx-target="#value-input-{{row.id}}"
@@ -102,14 +100,18 @@
 										<dd class="col-4" id="value-input-{{row.id}}">
 											{% include 'config/partials/input_type.html' with config=row %}												
 										</dd>
-										{% comment %} <dd class="col-3 text-end">
-											<button type="submit" class="btn btn-outline-theme w-100px">Update</button>
-										</dd> {% endcomment %}
 									</dl>
 									{% if row.description %}
 									<div class="text-inverse text-opacity-50">
 										{{ row.description }}
 									</div>
+									{% endif %}
+								</div>
+							</form>
+							{% endfor %} {% endcomment %}
+										{% comment %} <dd class="col-3 text-end">
+											<button type="submit" class="btn btn-outline-theme w-100px">Update</button>
+										</dd> {% endcomment %}
 									{% comment %} {% else %}
 									<div class="text-inverse text-opacity-50">
 										<span class="bg-warning-transparent-1 text-warning ms-xl-3 mt-1 d-inline-block mt-xl-0 px-1 rounded-sm">
@@ -117,10 +119,6 @@
 											<span class="text-warning">Please enable the firewall for your website</span>
 											</span>
 									</div> {% endcomment %}
-									{% endif %}
-								</div>
-							</form>
-							{% endfor %}
 						</div>
 					</div>
 				</div>
