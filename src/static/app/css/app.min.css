@@ -2452,6 +2452,13 @@ progress {
     border-top: calc(var(--bs-border-width) * 2) solid currentcolor
 }
 
+.divider {
+    border-top: calc(var(--bs-border-width)) solid currentcolor;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    ;
+}
+
 .caption-top {
     caption-side: top
 }

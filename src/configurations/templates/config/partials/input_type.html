@@ -12,6 +12,9 @@
         </select>
     {% elif config.input_type == 'number' %}
         {% include './number_input.html' %}
+    {% elif config.input_type == 'text' and config.params == 'color' %}
+        <input type="text" name="{{ config.name }}" class="form-control form-control-sm"
+            data-jscolor="" value="{{ config.value|default:'' }}" {% if not config.editable %}disabled{% endif %}>
     {% elif config.input_type == 'text' %}
         <input type="text" name="{{ config.name }}" class="form-control form-control-sm"
                value="{{ config.value|default:'' }}" {% if not config.editable %}disabled{% endif %}>

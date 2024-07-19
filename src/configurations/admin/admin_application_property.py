@@ -26,9 +26,9 @@ class ApplicationPropertySectionAdmin(admin.ModelAdmin):
 
 @admin.register(ApplicationProperty)
 class ApplicationPropertyAdmin(admin.ModelAdmin):
-    list_display = ('id', 'section', 'title', 'value', 'updated')
+    list_display = ('id', 'section', 'name', 'title', 'value', 'updated')
     ordering = ('created', )
-    list_filter = ('name', )
+    list_filter = ('section', )
 
     @staticmethod
     def initial_data():

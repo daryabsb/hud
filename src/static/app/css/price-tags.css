@@ -1,8 +1,8 @@
 .card-margins {
     position: relative;
     width: 200px;
-    height: 120px;
-    margin-inline: auto;
+    height: 100px;
+    margin: 40px auto;
     border: var(--bs-border-width);
     border-color: var(--bs-border-color);
     border-style: double;

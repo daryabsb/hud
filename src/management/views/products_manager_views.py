@@ -230,20 +230,26 @@ options = {
 }
 
 
-def render_price_tag(product, options={}):
+def render_price_tag(product, options={}, times=1):
+
+    options['frame_padding'] = 8 * times
+    options['frame_width'] = 200 * times
+    options['frame_height'] = 125 * times
+    options['code_font_size'] = 10 * times
+    options['code_margin_bottom'] = 3 * times
+    options['name_font_size'] = 10 * times
+    options['name_margin_bottom'] = 3 * times
+    options['price_font_size'] = 15 * times
+    options['price_margin_bottom'] = 3 * times
+    options['barcode_width'] = 140 * times
+    options['barcode_show'] = 140 * times
+    options['padding_left'] = 8 * times
+    options['padding_right'] = 8 * times
+    options['padding_top'] = 8 * times
+    options['padding_bottom'] = 8 * times
+
     return render_to_string('mgt/products/price-tags/partials/price_tag.html', {
         'product': product,
-        'margin': '10px',
-        'show_name': True,
-        'show_price': True,
-        'show_sku': True,
-        'show_barcode': True,
-        'name_color': 'black',
-        'price_color': 'red',
-        'sku_color': 'blue',
-        'price_size': 24,
-        'sku_size': 14,
-        'barcode_height': 50,
         **options
     })
 
@@ -308,9 +314,14 @@ def mgt_price_tags_control(request):
         }
         tags.append(tag)
 
+    main_tag = {
+        "product": products.first(),
+        "html": render_price_tag(product, options, times=3)
+    }
+
     form = PriceTagForm()
 
-    context = {'tags': tags, 'products': products,
+    context = {'tags': tags, 'main_tag': main_tag, 'products': products,
                'groups': groups, 'option_forms': option_forms}
     return render(request, 'mgt/products/price-tags/price-tag-control.html', context)
 
@@ -592,24 +603,25 @@ options = {
     'frame_padding': 8,
     'frame_width': 200,
     'frame_height': 125,
-
     'code_font_size': 10,
     'code_font_weight': 'bold',
-    'code_font_color': 'black',
+    'code_font_color': '#000000',
     'code_margin_bottom': 3,
     'code_show': True,
-
     'name_font_size': 10,
     'name_font_weight': 'bold',
-    'name_font_color': 'black',
+    'name_font_color': '#303030',
     'name_margin_bottom': 3,
     'name_show': False,
-
     'price_font_size': 15,
     'price_font_weight': 'bold',
-    'price_font_color': 'black',
+    'price_font_color': '#000000',
     'price_margin_bottom': 3,
     'price_show': True,
-
     'barcode_width': 140,
-    'barcode_show': 140}
+    'barcode_show': 140,
+    'padding_left': 8,
+    'padding_right': 8,
+    'padding_top': 8,
+    'padding_bottom': 8
+}

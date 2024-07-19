@@ -3,123 +3,210 @@
 
 {% block content %}
 <div id="content" class="app-content p-0">
+<!-- NEW-->
+
+<!-- old-->
 	<div class="d-block d-md-flex align-items-stretch h-100">
 		<div class="gallery-menu-container" style="min-width: 27.5rem;">
-			<div data-scrollbar="true" data-height="100%" data-skip-mobile="true">
-				<div class="gallery-menu">
-					<div class="p-3 d-flex align-items-center">
-						<a href="javascript:window.history.back();"
-							class="btn btn-outline-default text-nowrap btn-sm px-3 rounded-pill"><i
-								class="fa fa-arrow-left me-1 ms-n1"></i> Back</a>
-					</div>
-					{% comment %} <div class="gallery-menu-header">Main</div>
-					<div class="gallery-menu-item"><a href="#" class="gallery-menu-link active"><i
-								class="fa fa-fw fa-image me-1"></i> Photos</a></div>
-					<div class="gallery-menu-item"><a href="#" class="gallery-menu-link"><i
-								class="fa fa-fw fa-heart me-1"></i> Memories</a></div>
-					<div class="gallery-menu-header">Shared</div>
-					<div class="gallery-menu-item"><a href="#" class="gallery-menu-link"><i
-								class="fa fa-fw fa-cloud me-1"></i> Activity</a></div>
-					<div class="gallery-menu-header">Albums</div>
-					<div class="gallery-menu-item"><a href="#" class="gallery-menu-link"><i
-								class="fa fa-fw fa-camera me-1"></i> All Photos</a></div>
-					<div class="gallery-menu-item"><a href="#" class="gallery-menu-link"><i
-								class="fa fa-fw fa-user me-1"></i> People</a></div>
-					<div class="gallery-menu-item"><a href="#" class="gallery-menu-link"><i
-								class="fa fa-fw fa-map-pin me-1"></i> Places</a></div>
-					<div class="gallery-menu-item"><a href="#" class="gallery-menu-link"><i
-								class="fa fa-fw fa-camera-retro me-1"></i> Selfies</a></div>
-					<div class="gallery-menu-item"><a href="#" class="gallery-menu-link"><i
-								class="fa fa-fw fa-video me-1"></i> Panaromas</a></div>
-					<div class="gallery-menu-item"><a href="#" class="gallery-menu-link"><i
-								class="fa fa-fw fa-star me-1"></i> Depth Effect</a></div>
-					<div class="gallery-menu-item"><a href="#" class="gallery-menu-link"><i
-								class="fa fa-fw fa-mobile me-1"></i> Screenshots</a></div> {% endcomment %}
-
-
-
-					<div class="gallery-menu-item">
-							<div class="m-4">
-							<!-- basic usage -->
-							<div class="card-margins">  
-							<!-- arrow -->
-							<div class="card-margins-arrow">
-								<div class="card-form-arrow-label text-center">
-									MARGINS
+			<div class="desktop-sticky-top d-none d-lg-block">
+				<div class="card mb-3">
+					<div class="list-group list-group-flush">
+						<div class="list-group-item fw-bold px-3 d-flex">
+						<div class="d-flex flex-fill align-items-center">
+									<a href="javascript:window.history.back();"
+										class="btn btn-outline-default text-nowrap btn-sm px-3 rounded-pill"><i
+											class="fa fa-arrow-left me-1 ms-n1"></i> Back</a>
 								</div>
-								<div class="card-form-arrow-left">
-									<div class="form-group text-center px-75px">
-										{% comment %} <label>Padding left</label> {% endcomment %}
-										{% include './forms/number-input.html' with config=option_forms.padding_left %}	
-									</div>
-								</div>
-								<div class="card-form-arrow-bottom">
-									<div class="form-group text-center px-75px">
-										{% comment %} <label>Padding bottom</label> {% endcomment %}
-										{% include './forms/number-input.html' with config=option_forms.padding_bottom %}	
-									</div>
-								</div>
-								<div class="card-form-arrow-top">
-									<div class="form-group text-center px-75px">
-										{% comment %} <label>Padding top</label> {% endcomment %}
-										{% include './forms/number-input.html' with config=option_forms.padding_top %}	
-									</div>
-								</div>
-								<div class="card-form-arrow-right">
-									<div class="form-group text-center px-75px">
-										{% comment %} <label>Padding right</label> {% endcomment %}
-										{% include './forms/number-input.html' with config=option_forms.padding_right %}	
-									</div>
-								</div>
-							</div>
-							</div>
-							</div>
-
-					</div>
-
-					<div class="gallery-menu-item">
-						<div class="list-group list-group-flush">
-							New form
-						</div>
-					</div>
-
-
-
-					<div class="gallery-menu-item">
-						<div class="list-group list-group-flush">
-							{% comment %} {% for row in option_forms %}
-							<form 
-							hx-post="{% url 'configs:update-settings' row.id %}"
-							hx-target="#value-input-{{row.id}}"
-							hx-swap="innerHTML"
-							class="list-group-item d-flex align-items-center">
 							
-								<div class="flex-1">
-									<dl class="row mb-0 align-items-start">
-										<dd class="col-8">{{ row.title }}</dd>
-										<dd class="col-4" id="value-input-{{row.id}}">
-											{% include 'config/partials/input_type.html' with config=row %}												
-										</dd>
-									</dl>
-									{% if row.description %}
-									<div class="text-inverse text-opacity-50">
-										{{ row.description }}
-									</div>
-									{% endif %}
-								</div>
-							</form>
-							{% endfor %} {% endcomment %}
-										{% comment %} <dd class="col-3 text-end">
-											<button type="submit" class="btn btn-outline-theme w-100px">Update</button>
-										</dd> {% endcomment %}
-									{% comment %} {% else %}
-									<div class="text-inverse text-opacity-50">
-										<span class="bg-warning-transparent-1 text-warning ms-xl-3 mt-1 d-inline-block mt-xl-0 px-1 rounded-sm">
-											<i class="fa fa-exclamation-circle text-warning fs-12px me-1"></i>
-											<span class="text-warning">Please enable the firewall for your website</span>
-											</span>
-									</div> {% endcomment %}
+							<a href="#" class="text-inverse text-opacity-50"><i class="fa fa-cog"></i></a>
 						</div>
+						<div class="list-group-item px-3">
+							<div class="text-inverse text-opacity-50 mb-2"><small><strong>Update margins</strong></small></div>
+							<a href="#" class="card text-inverse text-decoration-none mb-1">
+								<div class="card-body">
+									<div class="row no-gutters">
+										<div class="col-md-12 px-auto">
+											
+											
+											
+											<div class="card-margins">  
+											<!-- arrow -->
+												<div class="card-margins-arrow">
+													<div class="card-form-arrow-label text-center">
+														MARGINS
+													</div>
+													<div class="card-form-arrow-left">
+														<div class="form-group text-center px-75px">
+															{% comment %} <label>Padding left</label> {% endcomment %}
+															{% include './forms/number-input.html' with config=option_forms.padding_left %}	
+														</div>
+													</div>
+													<div class="card-form-arrow-bottom">
+														<div class="form-group text-center px-75px">
+															{% comment %} <label>Padding bottom</label> {% endcomment %}
+															{% include './forms/number-input.html' with config=option_forms.padding_bottom %}	
+														</div>
+													</div>
+													<div class="card-form-arrow-top">
+														<div class="form-group text-center px-75px">
+															{% comment %} <label>Padding top</label> {% endcomment %}
+															{% include './forms/number-input.html' with config=option_forms.padding_top %}	
+														</div>
+													</div>
+													<div class="card-form-arrow-right">
+														<div class="form-group text-center px-75px">
+															{% comment %} <label>Padding right</label> {% endcomment %}
+															{% include './forms/number-input.html' with config=option_forms.padding_right %}	
+														</div>
+													</div>
+												</div>
+											</div>
+											
+											
+											
+										</div>
+										<div class="col-md-4 d-flex">
+											<div class="h-100 w-100" style="background: url(assets/img/gallery/news-1.jpg) center; background-size: cover;"></div>
+										</div>
+									</div>
+								</div>
+								<div class="card-arrow">
+									<div class="card-arrow-top-left"></div>
+									<div class="card-arrow-top-right"></div>
+									<div class="card-arrow-bottom-left"></div>
+									<div class="card-arrow-bottom-right"></div>
+								</div>
+							</a>
+						</div>
+						<div class="list-group-item px-3">
+							<div class="text-inverse text-opacity-50 mb-1"><small><strong>Show elements</strong></small></div>	
+							<div class="row no-gutters">
+								<div class="col-md-12">
+									<div class="form-group mb-3">
+										<div class="form-check form-switch form-check-inline">
+											{% include './forms/checkbox-input.html' with config=option_forms.code_show %}
+											<label class="form-check-label" for="inlineCheckbox1">Code</label>
+										</div>
+										<div class="form-check form-switch form-check-inline">
+											{% include './forms/checkbox-input.html' with config=option_forms.name_show %}
+											<label class="form-check-label" for="inlineCheckbox2">Name</label>
+										</div>
+										<div class="form-check form-switch form-check-inline">
+											{% include './forms/checkbox-input.html' with config=option_forms.price_show %}
+											<label class="form-check-label" for="inlineCheckbox3">Price</label>
+										</div>
+										<div class="form-check form-switch form-check-inline">
+											{% include './forms/checkbox-input.html' with config=option_forms.barcode_show %}
+											<label class="form-check-label" for="inlineCheckbox4">Barcode</label>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-4 d-flex">
+									<div class="h-100 w-100" style="background: url(assets/img/gallery/news-1.jpg) center; background-size: cover;"></div>
+								</div>
+							</div>
+						</div>
+						<div class="list-group-item px-3">
+							<div class="text-inverse text-opacity-75 mb-1 text-theme"><small><strong class="text-theme">Product code formats</strong></small></div>
+							<div class="form-group d-flex gap-3 mb-1">
+								<div>
+									<label class="form-label" for="exampleFormControlInput1">
+										<small class="text-inverse text-opacity-50">Font size</small>
+									</label>
+									{% include './forms/number-input.html' with config=option_forms.code_font_size %}
+								</div>
+								<div>
+									<label class="form-label" for="exampleFormControlInput1">
+									<small class="text-inverse text-opacity-50">Font color</small>
+									</label>
+									{% include './forms/text-input.html' with config=option_forms.code_font_color %}
+								</div>
+								<div>
+									<label class="form-label" for="exampleFormControlInput1">
+									<small class="text-inverse text-opacity-50">Font weight</small>
+									</label>
+									{% include './forms/select-input.html' with config=option_forms.code_font_weight %}
+								</div>
+							</div>
+							<div class="text-inverse text-opacity-75 mb-1 text-theme"><small><strong class="text-theme">Product name formats</strong></small></div>
+							<div class="form-group d-flex gap-3 mb-1">
+								<div>
+									<label class="form-label" for="exampleFormControlInput1">
+										<small class="text-inverse text-opacity-50">Font size</small>
+									</label>
+									{% include './forms/number-input.html' with config=option_forms.name_font_size %}
+								</div>
+								<div>
+									<label class="form-label" for="exampleFormControlInput1">
+									<small class="text-inverse text-opacity-50">Font color</small>
+									</label>
+									{% include './forms/text-input.html' with config=option_forms.name_font_color %}
+								</div>
+								<div>
+									<label class="form-label" for="exampleFormControlInput1">
+									<small class="text-inverse text-opacity-50">Font weight</small>
+									</label>
+									{% include './forms/select-input.html' with config=option_forms.name_font_weight %}
+								</div>
+							</div>
+							<div class="text-inverse text-opacity-75 mb-1 text-theme"><small><strong class="text-theme">Product price formats</strong></small></div>
+							<div class="form-group d-flex gap-3 mb-1">
+								<div>
+									<label class="form-label" for="exampleFormControlInput1">
+										<small class="text-inverse text-opacity-50">Font size</small>
+									</label>
+									{% include './forms/number-input.html' with config=option_forms.price_font_size %}
+								</div>
+								<div>
+									<label class="form-label" for="exampleFormControlInput1">
+									<small class="text-inverse text-opacity-50">Font color</small>
+									</label>
+									{% include './forms/text-input.html' with config=option_forms.price_font_color %}
+								</div>
+								<div>
+									<label class="form-label" for="exampleFormControlInput1">
+									<small class="text-inverse text-opacity-50">Font weight</small>
+									</label>
+									{% include './forms/select-input.html' with config=option_forms.price_font_weight %}
+								</div>
+							</div>
+							<div class="text-inverse text-opacity-75 mb-1 text-theme"><small><strong class="text-theme">Product code formats</strong></small></div>
+							<div class="form-group d-flex gap-3 mb-1">
+								<div>
+									<label class="form-label" for="exampleFormControlInput1">
+										<small class="text-inverse text-opacity-50">Font size</small>
+									</label>
+									{% include './forms/number-input.html' with config=option_forms.code_font_size %}
+								</div>
+								<div>
+									<label class="form-label" for="exampleFormControlInput1">
+									<small class="text-inverse text-opacity-50">Font color</small>
+									</label>
+									{% include './forms/text-input.html' with config=option_forms.code_font_color %}
+								</div>
+								<div>
+									<label class="form-label" for="exampleFormControlInput1">
+									<small class="text-inverse text-opacity-50">Font weight</small>
+									</label>
+									{% include './forms/select-input.html' with config=option_forms.code_font_weight %}
+								</div>
+							</div>
+						</div>
+						
+						<div class="list-group-item text-center d-flex gap-3">
+							<button class="btn btn-sm btn-outline-theme list-group-action">
+								Print preview
+							</button>
+							<button class="btn btn-sm btn-outline-theme list-group-action">
+								Update
+							</button>
+						</div>
+					</div>
+					<div class="card-arrow">
+						<div class="card-arrow-top-left"></div>
+						<div class="card-arrow-top-right"></div>
+						<div class="card-arrow-bottom-left"></div>
+						<div class="card-arrow-bottom-right"></div>
 					</div>
 				</div>
 			</div>
@@ -128,8 +215,16 @@
 			<div data-scrollbar="true" data-height="100%">
 				<div class="gallery-content">
 				<div class="gallery">
-						<div class="d-flex align-items-center mb-3">
-							<h1 class="display-1">This is the actual editing</h1>
+						<div class="mb-3 ">
+							<div class="text-center">
+								
+									<div class="m-5" id="price-tag-sample">
+										{{ main_tag.html|safe}} 
+									</div>
+									<!-- card-arrow -->
+								
+							</div>
+
 						</div>
 					</div>
 				<div class="gallery">

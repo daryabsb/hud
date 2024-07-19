@@ -11,7 +11,7 @@
     align-items: center;
     box-sizing: border-box;
     ">
-    {% if code_show %}
+    {% if code_show and product.code %}
     <div style="
         font-size: {{code_font_size}}px;
         font-weight: {{code_font_weight}};
@@ -25,7 +25,7 @@
         font-weight: {{name_font_weight}};
         color: {{ name_font_color }};
         margin-bottom: {{name_margin_bottom}}px;"
-        >{{name_show}}</div>
+        >{{ product.name }}</div>
     {% endif %}
     {% if price_show %}
     <div style="
