@@ -11575,6 +11575,11 @@ fieldset:disabled .btn {
     padding-left: 3rem !important
 }
 
+.px-auto {
+    padding-right: auto !important;
+    padding-left: auto !important
+}
+
 .py-0 {
     padding-top: 0 !important;
     padding-bottom: 0 !important

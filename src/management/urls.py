@@ -73,4 +73,7 @@ urlpatterns += [
     path('delete-product-tax/', views.delete_product_tax,
          name='delete-product-tax'),
     # path('filter-products/<slug:slug>/', mgt_products, name='filter-products'),
+
+    path('price-tag-preview/', views.mgt_price_tags_preview,
+         name="price-tag-preview")
 ]

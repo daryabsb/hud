@@ -230,26 +230,39 @@ options = {
 }
 
 
-def render_price_tag(product, options={}, times=1):
+def render_price_tag(product, options={}, is_preview=False):
+    '''
+    predicted numbers:
 
-    options['frame_padding'] = 8 * times
-    options['frame_width'] = 200 * times
-    options['frame_height'] = 125 * times
-    options['code_font_size'] = 10 * times
-    options['code_margin_bottom'] = 3 * times
-    options['name_font_size'] = 10 * times
-    options['name_margin_bottom'] = 3 * times
-    options['price_font_size'] = 15 * times
-    options['price_margin_bottom'] = 3 * times
-    options['barcode_width'] = 140 * times
-    options['barcode_show'] = 140 * times
-    options['padding_left'] = 8 * times
-    options['padding_right'] = 8 * times
-    options['padding_top'] = 8 * times
-    options['padding_bottom'] = 8 * times
+    '''
+
+    if is_preview:
+        for key, value in options.items():
+            if type(value) == int:
+                options[key] = options[key] * 3
+
+        # options['frame_width'] = options['frame_width'] * 3
+        # options['frame_height'] = options['frame_height'] * 3
+
+        # options['barcode_width'] = options['barcode_width'] * 3
+        # options['barcode_height'] = options['barcode_height'] * 3
+
+        # options['padding_left'] = options['padding_left'] * 3
+        # options['padding_right'] = options['padding_right'] * 3
+        # options['padding_top'] = options['padding_top'] * 3
+        # options['padding_bottom'] = options['padding_bottom'] * 3
+
+        # options['code_font_size'] = options['code_font_size'] * 3
+        # options['name_font_size'] = options['name_font_size'] * 3
+        # options['price_font_size'] = options['price_font_size'] * 3
+
+        # options['code_margin_bottom'] = options['code_margin_bottom'] * 3
+        # options['name_margin_bottom'] = options['name_margin_bottom'] * 3
+        # options['price_margin_bottom'] = options['price_margin_bottom'] * 3
 
     return render_to_string('mgt/products/price-tags/partials/price_tag.html', {
         'product': product,
+        'is_preview': is_preview,
         **options
     })
 
@@ -275,9 +288,6 @@ def prepare_price_tag_forms(queryset):
         options_dict["params"] = setting.params
         options_dict["created"] = setting.created
         options_dict["updated"] = setting.updated
-
-        print("value type", type(options_dict["value"]))
-        print("value is", options_dict["value"])
 
         option_forms[setting.name] = options_dict
 
@@ -313,10 +323,10 @@ def mgt_price_tags_control(request):
             "html": render_price_tag(product, options)
         }
         tags.append(tag)
-
+    first_product = all_products.first()
     main_tag = {
-        "product": products.first(),
-        "html": render_price_tag(product, options, times=3)
+        "product": first_product,
+        "html": render_price_tag(first_product, options, is_preview=True)
     }
 
     form = PriceTagForm()
@@ -324,6 +334,30 @@ def mgt_price_tags_control(request):
     context = {'tags': tags, 'main_tag': main_tag, 'products': products,
                'groups': groups, 'option_forms': option_forms}
     return render(request, 'mgt/products/price-tags/price-tag-control.html', context)
+
+
+def mgt_price_tags_preview(request):
+    from django.forms import formset_factory
+    data = request.GET
+
+    options_queryset = ApplicationProperty.objects.filter(
+        section__name='price_tags')
+
+    options_dict = {}
+    for option in options_queryset:
+        option_value = request.GET.get(option.name, None)
+        if option_value:
+            # if option_value == 'on'
+            options_dict[option.name] = convert_value(option_value)
+    template = 'mgt/products/price-tags/partials/main-tag.html'
+
+    product = Product.objects.first()
+
+    main_tag = {
+        "product": product,
+        "html": render_price_tag(product, options_dict, is_preview=True)
+    }
+    return render(request, template, {'main_tag': main_tag})
 
 
 @after_response.enable
@@ -625,3 +659,69 @@ options = {
     'padding_top': 8,
     'padding_bottom': 8
 }
+
+
+request_includes = {
+    'padding_left': ['6'],
+    'padding_bottom': ['8'],
+    'padding_top': ['8'],
+    'padding_right': ['6'],
+    'code_show': ['on'],
+    'name_show': ['on'],
+    'price_show': ['on'],
+    'barcode_show': ['on'],
+    'code_font_size': ['10', '10'],
+    'code_font_color': ['#FF49C2', '#000000'],
+    'code_font_weight': ['bold', 'normal'],
+    'name_font_size': ['14'],
+    'name_font_color': ['#303030'],
+    'name_font_weight': ['bold'],
+    'price_font_size': ['15'],
+    'price_font_color': ['#000000'],
+    'price_font_weight': ['bold']
+}
+
+options_dict = {
+    'code_font_size': '10',
+    'code_font_weight': 'normal',
+    'code_font_color': '#FFB4E8',
+    'code_show': 'on',
+    'name_font_size': '10',
+    'name_font_weight': 'normal',
+    'name_font_color': '#301120',
+    'name_show': 'on',
+    'price_font_size': '12',
+    'price_font_weight': 'bold',
+    'price_font_color': '#FF7A2D',
+    'price_show': 'on',
+    'barcode_show': 'on',
+    'padding_left': '4',
+    'padding_right': '11',
+    'padding_top': '14',
+    'padding_bottom': '12'
+}
+
+options_dict = {
+    'code_font_size': 10,
+    'code_font_weight': 'bold',
+    'code_font_color': '#000000',
+    'code_show': 'on',
+    'name_font_size': 10,
+    'name_font_weight': 'bold',
+    'name_font_color': '#303030',
+    'price_font_size': 17,
+    'price_font_weight': 'bold',
+    'price_font_color': '#7E1A2E',
+    'price_show': 'on',
+    'barcode_show': 'on',
+    'padding_left': 8,  # 32
+    'padding_right': 8,
+    'padding_top': 25,
+    'padding_bottom': 8
+}
+
+
+options_before = {'frame_padding': 8, 'frame_width': 200, 'frame_height': 125, 'code_font_size': 10, 'code_font_weight': 'bold', 'code_font_color': '#000000', 'code_margin_bottom': 3, 'code_show': True, 'name_font_size': 10, 'name_font_weight': 'bold', 'name_font_color': '#303030',
+                  'name_margin_bottom': 3, 'name_show': True, 'price_font_size': 15, 'price_font_weight': 'bold', 'price_font_color': '#000000', 'price_margin_bottom': 3, 'price_show': True, 'barcode_width': 135, 'barcode_show': 140, 'padding_left': 8, 'padding_right': 8, 'padding_top': 6, 'padding_bottom': 8}
+options_after = {'frame_padding': 8, 'frame_width': 600, 'frame_height': 375, 'code_font_size': 30, 'code_font_weight': 'bold', 'code_font_color': '#000000', 'code_margin_bottom': 9,
+                 'code_show': True, 'name_font_size': 30, 'name_font_weight': 'bold', 'name_font_color': '#303030', 'name_margin_bottom': 9, 'name_show': True, 'price_font_size': 45, 'price_font_weight': 'bold', 'price_font_color': '#000000', 'price_margin_bottom': 9, 'price_show': True, 'barcode_width': 405, 'barcode_show': 140, 'padding_left': 72, 'padding_right': 72, 'padding_top': 54, 'padding_bottom': 72}
