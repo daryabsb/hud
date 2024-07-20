@@ -1,4 +1,5 @@
-import os, csv
+import os
+import csv
 from django.conf import settings
 from html2image import Html2Image  # Or imgkit
 from django.template.loader import render_to_string
@@ -37,7 +38,8 @@ def mgt_products(request, slug=None):
 
     products = Product.objects.all()
     fields = [field for field in Product._meta.get_fields()]
-    product_row = [field.name for field in fields if not (field.many_to_many or field.one_to_many)]
+    product_row = [field.name for field in fields if not (
+        field.many_to_many or field.one_to_many)]
 
     if slug:
         # if slug != 'products':
@@ -255,7 +257,7 @@ def mgt_price_tags_control(request):
     options_queryset = ApplicationProperty.objects.filter(
         section__name='price_tags')
     options = {item['name']: convert_value(item['value'])
-                for item in options_queryset.values('name', 'value')}
+               for item in options_queryset.values('name', 'value')}
 
     option_forms = prepare_price_tag_forms(options_queryset)
 
@@ -288,7 +290,7 @@ def mgt_price_tags_control(request):
     form = PriceTagForm()
 
     context = {'tags': tags, 'main_tag': main_tag, 'products': products,
-                'groups': groups, 'option_forms': option_forms}
+               'groups': groups, 'option_forms': option_forms}
     return render(request, 'mgt/products/price-tags/price-tag-control.html', context)
 
 
@@ -344,7 +346,8 @@ def mgt_price_tags_print_selected(request):
     selected_products = request.GET.getlist('price-tag-products', [])
 
     fields = [field for field in Product._meta.get_fields()]
-    header_row = [field.name for field in fields if not (field.many_to_many or field.one_to_many)]
+    header_row = [field.name for field in fields if not (
+        field.many_to_many or field.one_to_many)]
 
     print("header_row = ", header_row)
 
@@ -356,35 +359,35 @@ def mgt_price_tags_print_selected(request):
 
     return HttpResponse("The selected product printed successfully!")
 
-fields =[
-    'document_items','comments','order_items','product_print_stations','productTaxes',
+
+fields = [
+    'document_items', 'comments', 'order_items', 'product_print_stations', 'productTaxes',
     'stock_controls',
-    'barcode','stocks',  
-    'id','user','name','slug','parent_group','code','description','plu','measurement_unit', 
-    'price','currency','is_tax_inclusive_price','is_price_change_allowed','is_service',
-    'is_using_default_quantity','is_product','cost','margin','image', 
-    'color2','color','is_enabled','age_restriction','last_purchase_price','rank','created','updated'
-    ] 
+    'barcode', 'stocks',
+    'id', 'user', 'name', 'slug', 'parent_group', 'code', 'description', 'plu', 'measurement_unit',
+    'price', 'currency', 'is_tax_inclusive_price', 'is_price_change_allowed', 'is_service',
+    'is_using_default_quantity', 'is_product', 'cost', 'margin', 'image',
+    'color2', 'color', 'is_enabled', 'age_restriction', 'last_purchase_price', 'rank', 'created', 'updated'
+]
 fields2 = [
-    'barcode', 'id', 'user', 'name', 'slug', 'parent_group', 'code', 'description', 'plu', 'measurement_unit', 
-    'price', 'currency', 'is_tax_inclusive_price', 'is_price_change_allowed', 'is_service', 
-    'is_using_default_quantity', 'is_product', 'cost', 'margin', 'image', 'color2', 'color', 
+    'barcode', 'id', 'user', 'name', 'slug', 'parent_group', 'code', 'description', 'plu', 'measurement_unit',
+    'price', 'currency', 'is_tax_inclusive_price', 'is_price_change_allowed', 'is_service',
+    'is_using_default_quantity', 'is_product', 'cost', 'margin', 'image', 'color2', 'color',
     'is_enabled', 'age_restriction', 'last_purchase_price', 'rank', 'created', 'updated'
-    ]
+]
 
 
-
-
-def export_products_to_csv(request):
+def mgt_export_products_to_csv(request):
     # Create the HttpResponse object with the appropriate CSV header.
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="products.csv"'
 
     # Create a CSV writer object
     writer = csv.writer(response)
-    
+
     # Write the headers
-    writer.writerow(['ID', 'User', 'Name', 'Parent Group', 'Price', 'Currency', 'Description'])
+    writer.writerow(['ID', 'User', 'Name', 'Parent Group',
+                    'Price', 'Currency', 'Description'])
 
     # Fetch the products from the database
     products = Product.objects.all()
@@ -393,17 +396,16 @@ def export_products_to_csv(request):
     for product in products:
         writer.writerow([
             product.id,
-            product.user.username,  # assuming you have a related user model
+            product.user.email,  # assuming you have a related user model
             product.name,
-            product.parent_group.name if product.parent_group else '',  # assuming parent_group is a related field
+            # assuming parent_group is a related field
+            product.parent_group.name if product.parent_group else '',
             product.price,
             product.currency,
             product.description,
         ])
 
     return response
-
-
 
 
 @after_response.enable

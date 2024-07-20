@@ -82,4 +82,6 @@ urlpatterns += [
          name="price-tag-set-default"),
     path('price-tag-print-selected/', views.mgt_price_tags_print_selected,
          name="price-tag-print-selected"),
+    path('export-products-to-csv/', views.mgt_export_products_to_csv,
+         name="export-products-to-csv"),
 ]

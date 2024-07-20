@@ -6,9 +6,10 @@
 			<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 		</div>
 		<form
-			hx-post="{% url 'mgt:delete-product' %}"
-			hx-target="#mgt-products-table"
+			action="{% url 'mgt:export-products-to-csv' %}"
+			method="post"
 			class="modal-body">
+			{% csrf_token %}
 			<div class="row mb-5">
 				<div class="col-md-12 mb-3">
 					<div class="row">
@@ -23,10 +24,9 @@
 				</div>
 				<div class="col-md-12">
 					<button 
-						type="submit" 
-						class="btn btn-outline-theme btn-lg btn-block" 
-						id="confirm-delete-product-button"
-						data-bs-dismiss="modal"
+					type="submit"
+					class="btn btn-outline-theme btn-lg btn-block" 
+					data-bs-dismiss="modal"
 					>Confirm</button>
 				</div>
 			</div>
