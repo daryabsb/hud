@@ -260,6 +260,7 @@ def render_price_tag(product, options={}, is_preview=False):
         # options['name_margin_bottom'] = options['name_margin_bottom'] * 3
         # options['price_margin_bottom'] = options['price_margin_bottom'] * 3
 
+
     return render_to_string('mgt/products/price-tags/partials/price_tag.html', {
         'product': product,
         'is_preview': is_preview,
@@ -320,7 +321,8 @@ def mgt_price_tags_control(request):
     for product in products:
         tag = {
             "product": product,
-            "html": render_price_tag(product, options)
+            "html": render_price_tag(product, options),
+            **options
         }
         tags.append(tag)
     first_product = all_products.first()

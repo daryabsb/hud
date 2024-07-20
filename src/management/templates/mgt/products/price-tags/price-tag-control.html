@@ -6,10 +6,10 @@
 <!-- NEW-->
 
 <!-- old-->
-	<div class="row h-100">
+	<div class="row">
 		<div class=" col-md-4">
 			<div class="desktop-sticky-top d-none d-lg-block">
-				<div class="card mb-3">
+				<div class="card mb-3 h-100">
 					{% include 'mgt/products/price-tags/partials/price-tag-form.html' %}
 					<div class="card-arrow">
 						<div class="card-arrow-top-left"></div>
@@ -50,11 +50,11 @@
 										class="fa fa-upload"></i></a>
 							</div>
 						</div>
-						<div class="row flex-1 gap-3">
+						<div class="d-flex flex-wrap gap-2">
 							{% for tag in tags %}
-							<div class="col text-center">
-								<div class="card">
-									<div class="m-1 bg-inverse bg-opacity-15">
+							<div class="text-center">
+								<div class="card" style="max-width: {{ tag.frame_width|add:tag.padding_left|add:tag.padding_right}}px">
+									<div class="m-1 px-1 bg-inverse bg-opacity-15">
 										<div class="card-header fw-bold border-0">{{ tag.product.name }}</div>
 										{{ tag.html|safe}} 
 										<div class="list-group list-group-flush">

@@ -1,5 +1,6 @@
 {% load globals %}
-<select name="{{ config.name }}" class="form-select" {% if not config.editable %}disabled{% endif %}>
+<select name="{{ config.name }}" class="form-select form-select-sm" style="min-width: 5rem;" 
+{% if not config.editable %}disabled{% endif %}>
     {% if config.params %}
         {% for item in config.params|split:"," %}
             <option value="{{ item }}" {% if config.value == item %}selected{% endif %}>{{ item }}</option>
