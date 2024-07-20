@@ -1,3 +1,5 @@
+import openpyxl
+from django.http import HttpResponse
 import os
 import csv
 from django.conf import settings
@@ -405,6 +407,44 @@ def mgt_export_products_to_csv(request):
             product.description,
         ])
 
+    return response
+
+
+def mgt_export_products_to_excel(request):
+    # Create an in-memory workbook and worksheet
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = 'Products'
+
+    # Write the headers
+    headers = ['ID', 'User', 'Name', 'Parent Group',
+               'Price', 'Currency', 'Description']
+    ws.append(headers)
+
+    # Fetch the products from the database
+    products = Product.objects.all()
+
+    # Write the product data
+    for product in products:
+        row = [
+            product.id,
+            product.user.email,  # assuming you have a related user model
+            product.name,
+            # assuming parent_group is a related field
+            product.parent_group.name if product.parent_group else '',
+            product.price,
+            product.currency.name,
+            product.description,
+        ]
+        ws.append(row)
+
+    # Create a response object with the appropriate Excel header
+    response = HttpResponse(
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename="products.xlsx"'
+
+    # Save the workbook to the response
+    wb.save(response)
     return response
 
 

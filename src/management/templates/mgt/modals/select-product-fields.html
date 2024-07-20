@@ -6,7 +6,11 @@
 			<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 		</div>
 		<form
+			{% if target == 'csv' %}
 			action="{% url 'mgt:export-products-to-csv' %}"
+			{% elif target == 'excel' %}
+			action="{% url 'mgt:export-products-to-excel' %}"
+			{% endif %}
 			method="post"
 			class="modal-body">
 			{% csrf_token %}

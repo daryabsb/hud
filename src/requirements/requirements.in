@@ -35,3 +35,4 @@ fpdf2
 uharfbuzz
 TTFQuery==2.0.0b1
 html2image
+openpyxl

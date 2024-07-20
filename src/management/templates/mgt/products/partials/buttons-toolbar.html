@@ -81,12 +81,21 @@
     <div class="dropdown-menu" style="" id="export-menu">
         <a 
         hx-get="{% url 'mgt:modal-select-product-fields' %}" 
-        hx-target="#select-product-fields-modal" 
+        hx-target="#select-product-fields-modal"
+        hx-vals='{"target":"csv"}'
         hx-trigger="click"
         data-bs-target="#select-product-fields-modal" data-bs-toggle="modal"
         
         class="dropdown-item" href="#">CSV</a>
-        <a class="dropdown-item" href="#">Excel</a>
+
+        <a class="dropdown-item" href="#"
+            hx-get="{% url 'mgt:modal-select-product-fields' %}" 
+            hx-target="#select-product-fields-modal"
+            hx-vals='{"target":"excel"}'
+            hx-trigger="click"
+            data-bs-target="#select-product-fields-modal" 
+            data-bs-toggle="modal"
+        >Excel</a>
         <a class="dropdown-item" href="#">Text</a>
         <div role="separator" class="dropdown-divider"></div>
         <a class="dropdown-item" href="#">Reset to default</a>
