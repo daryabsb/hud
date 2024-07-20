@@ -65,10 +65,33 @@
         <i class="me-1 fas fa-lg fa-fw me-2 fa-file-pdf"></i>
     Export PDF</a>
     {% comment %} </form> {% endcomment %}
-    <a href="{% url 'mgt:price-tags' %}" class="btn border-0">
+    <a href="{% url 'mgt:mgt-price-tags-control' %}" class="btn border-0">
         <i class="me-1 fas fa-lg fa-fw me-2 fa-hashtag"></i> Price Tags</a>
-    <button type="button" class="btn border-0" disabled><i
-        class="bi me-1 bi-file-earmark-text"></i> Rename</button>
+    
+    <button type="button" class="btn border-0" data-bs-toggle="dropdown" data-bs-target="#sorting-menu"><i
+        class="me-1 fas fa-lg fa-fw me-2 fa-sort"></i> Sorting</button>
+    <div class="dropdown-menu" style="" id="sorting-menu">
+        <a class="dropdown-item" href="#">Name</a>
+        <a class="dropdown-item" href="#">Product group</a>
+        <div role="separator" class="dropdown-divider"></div>
+        <a class="dropdown-item" href="#">Reset to default</a>
+    </div>
+    <button type="button" class="btn border-0" data-bs-toggle="dropdown" data-bs-target="#export-menu"><i
+        class="me-1 fas fa-lg fa-fw me-2 fa-sort"></i> Export</button>
+    <div class="dropdown-menu" style="" id="export-menu">
+        <a 
+        hx-get="{% url 'mgt:modal-select-product-fields' %}" 
+        hx-target="#select-product-fields-modal" 
+        hx-trigger="click"
+        data-bs-target="#select-product-fields-modal" data-bs-toggle="modal"
+        
+        class="dropdown-item" href="#">CSV</a>
+        <a class="dropdown-item" href="#">Excel</a>
+        <a class="dropdown-item" href="#">Text</a>
+        <div role="separator" class="dropdown-divider"></div>
+        <a class="dropdown-item" href="#">Reset to default</a>
+    </div>
+    
     <button type="button" class="btn border-0" disabled><i class="bi me-1 bi-pen"></i>
     Edit</button>
     <button type="button" class="btn border-0" disabled><i class="bi me-1 bi-pencil-square"></i>

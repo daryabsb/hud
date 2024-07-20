@@ -49,6 +49,8 @@ urlpatterns += [
          name='modal-delete-product'),
     path('modal-delete-product-group/', views.modal_delete_product_group,
          name='modal-delete-product-group'),
+    path('modal-select-product-fields/', views.select_product_fields_to_export,
+         name='modal-select-product-fields'),
 ]
 
 # HTMX URLS
@@ -75,5 +77,9 @@ urlpatterns += [
     # path('filter-products/<slug:slug>/', mgt_products, name='filter-products'),
 
     path('price-tag-preview/', views.mgt_price_tags_preview,
-         name="price-tag-preview")
+         name="price-tag-preview"),
+    path('price-tag-set-default/', views.mgt_price_tags_set_default,
+         name="price-tag-set-default"),
+    path('price-tag-print-selected/', views.mgt_price_tags_print_selected,
+         name="price-tag-print-selected"),
 ]

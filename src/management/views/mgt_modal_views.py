@@ -243,3 +243,12 @@ def generate_barcode_for_product(request):
     barcode_form = BarcodeForm(initial={"value": barcode})
     context = {"barcode_form": barcode_form}
     return render(request, template, context)
+
+
+def select_product_fields_to_export(request):
+    fields = [field for field in Product._meta.get_fields()]
+    product_row = [field.name for field in fields if not (field.many_to_many or field.one_to_many)]
+    context = {
+        'fields': product_row
+    }
+    return render(request, 'mgt/modals/select-product-fields.html', context)

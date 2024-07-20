@@ -1,5 +1,4 @@
-from collections import defaultdict
-import os
+import os, csv
 from django.conf import settings
 from html2image import Html2Image  # Or imgkit
 from django.template.loader import render_to_string
@@ -9,7 +8,7 @@ from django.core.paginator import Paginator
 from django.views.decorators.http import require_GET, require_POST
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_list_or_404, get_object_or_404, render, redirect
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from src.products.models import Product, ProductGroup, ProductComment, Barcode
 from src.tax.models import ProductTax, Tax
 from src.stock.models import StockControl
@@ -34,8 +33,11 @@ from django.forms import modelformset_factory
 
 
 def mgt_products(request, slug=None):
-    products = Product.objects.all()
     groups = ProductGroup.objects.all()
+
+    products = Product.objects.all()
+    fields = [field for field in Product._meta.get_fields()]
+    product_row = [field.name for field in fields if not (field.many_to_many or field.one_to_many)]
 
     if slug:
         # if slug != 'products':
@@ -203,33 +205,6 @@ def mgt_price_tags3(request):
     return render(request, 'mgt/products/price-tags.html', {"products": products, "groups": groups})
 
 
-options = {
-    'frame_padding': 8,
-    'frame_width': 200,
-    'frame_height': 125,
-
-    'code_font_size': 10,
-    'code_font_weight': 'bold',
-    'code_font_color': 'black',
-    'code_margin_bottom': 3,
-    'code_show': True,
-
-    'name_font_size': 10,
-    'name_font_weight': 'bold',
-    'name_font_color': 'black',
-    'name_margin_bottom': 3,
-    'name_show': True,
-
-    'price_font_size': 15,
-    'price_font_weight': 'bold',
-    'price_font_color': 'black',
-    'price_margin_bottom': 3,
-    'price_show': True,
-
-    'barcode_width': 140,
-}
-
-
 def render_price_tag(product, options={}, is_preview=False):
     '''
     predicted numbers:
@@ -240,27 +215,6 @@ def render_price_tag(product, options={}, is_preview=False):
         for key, value in options.items():
             if type(value) == int:
                 options[key] = options[key] * 3
-
-        # options['frame_width'] = options['frame_width'] * 3
-        # options['frame_height'] = options['frame_height'] * 3
-
-        # options['barcode_width'] = options['barcode_width'] * 3
-        # options['barcode_height'] = options['barcode_height'] * 3
-
-        # options['padding_left'] = options['padding_left'] * 3
-        # options['padding_right'] = options['padding_right'] * 3
-        # options['padding_top'] = options['padding_top'] * 3
-        # options['padding_bottom'] = options['padding_bottom'] * 3
-
-        # options['code_font_size'] = options['code_font_size'] * 3
-        # options['name_font_size'] = options['name_font_size'] * 3
-        # options['price_font_size'] = options['price_font_size'] * 3
-
-        # options['code_margin_bottom'] = options['code_margin_bottom'] * 3
-        # options['name_margin_bottom'] = options['name_margin_bottom'] * 3
-        # options['price_margin_bottom'] = options['price_margin_bottom'] * 3
-
-
     return render_to_string('mgt/products/price-tags/partials/price_tag.html', {
         'product': product,
         'is_preview': is_preview,
@@ -301,7 +255,7 @@ def mgt_price_tags_control(request):
     options_queryset = ApplicationProperty.objects.filter(
         section__name='price_tags')
     options = {item['name']: convert_value(item['value'])
-               for item in options_queryset.values('name', 'value')}
+                for item in options_queryset.values('name', 'value')}
 
     option_forms = prepare_price_tag_forms(options_queryset)
 
@@ -334,13 +288,11 @@ def mgt_price_tags_control(request):
     form = PriceTagForm()
 
     context = {'tags': tags, 'main_tag': main_tag, 'products': products,
-               'groups': groups, 'option_forms': option_forms}
+                'groups': groups, 'option_forms': option_forms}
     return render(request, 'mgt/products/price-tags/price-tag-control.html', context)
 
 
 def mgt_price_tags_preview(request):
-    from django.forms import formset_factory
-    data = request.GET
 
     options_queryset = ApplicationProperty.objects.filter(
         section__name='price_tags')
@@ -360,6 +312,98 @@ def mgt_price_tags_preview(request):
         "html": render_price_tag(product, options_dict, is_preview=True)
     }
     return render(request, template, {'main_tag': main_tag})
+
+
+def mgt_price_tags_set_default(request):
+
+    options_queryset = ApplicationProperty.objects.filter(
+        section__name='price_tags')
+
+    options_dict = {}
+    for option in options_queryset:
+        option_value = request.GET.get(option.name, None)
+
+        if option_value:
+            # if option_value == 'on'
+            option.value = convert_value(option_value)
+            option.save(force_update=True)
+            options_dict[option.name] = convert_value(option_value)
+    template = 'mgt/products/price-tags/partials/main-tag.html'
+
+    product = Product.objects.first()
+
+    main_tag = {
+        "product": product,
+        "html": render_price_tag(product, options_dict, is_preview=True)
+    }
+    return render(request, template, {'main_tag': main_tag})
+
+
+# TODO: add printing to the price tags
+def mgt_price_tags_print_selected(request):
+    selected_products = request.GET.getlist('price-tag-products', [])
+
+    fields = [field for field in Product._meta.get_fields()]
+    header_row = [field.name for field in fields if not (field.many_to_many or field.one_to_many)]
+
+    print("header_row = ", header_row)
+
+    if selected_products:
+        for id in selected_products:
+            product = get_object_or_404(Product, id=id)
+            html = render_price_tag(product, options_dict, is_preview=True)
+            print('product_html = ', html)
+
+    return HttpResponse("The selected product printed successfully!")
+
+fields =[
+    'document_items','comments','order_items','product_print_stations','productTaxes',
+    'stock_controls',
+    'barcode','stocks',  
+    'id','user','name','slug','parent_group','code','description','plu','measurement_unit', 
+    'price','currency','is_tax_inclusive_price','is_price_change_allowed','is_service',
+    'is_using_default_quantity','is_product','cost','margin','image', 
+    'color2','color','is_enabled','age_restriction','last_purchase_price','rank','created','updated'
+    ] 
+fields2 = [
+    'barcode', 'id', 'user', 'name', 'slug', 'parent_group', 'code', 'description', 'plu', 'measurement_unit', 
+    'price', 'currency', 'is_tax_inclusive_price', 'is_price_change_allowed', 'is_service', 
+    'is_using_default_quantity', 'is_product', 'cost', 'margin', 'image', 'color2', 'color', 
+    'is_enabled', 'age_restriction', 'last_purchase_price', 'rank', 'created', 'updated'
+    ]
+
+
+
+
+def export_products_to_csv(request):
+    # Create the HttpResponse object with the appropriate CSV header.
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="products.csv"'
+
+    # Create a CSV writer object
+    writer = csv.writer(response)
+    
+    # Write the headers
+    writer.writerow(['ID', 'User', 'Name', 'Parent Group', 'Price', 'Currency', 'Description'])
+
+    # Fetch the products from the database
+    products = Product.objects.all()
+
+    # Write the product data
+    for product in products:
+        writer.writerow([
+            product.id,
+            product.user.username,  # assuming you have a related user model
+            product.name,
+            product.parent_group.name if product.parent_group else '',  # assuming parent_group is a related field
+            product.price,
+            product.currency,
+            product.description,
+        ])
+
+    return response
+
+
 
 
 @after_response.enable

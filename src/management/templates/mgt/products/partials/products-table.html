@@ -1,16 +1,27 @@
+<div class="table-responsive h-100">
 <table
-class="table table-sm m-0 text-nowrap small"
+class="table table-sm m-0 small"
 id="mgt-products-table"
 >
 <thead>
-    <tr class="border-bottom">
+    <tr class="border-bottom align-items-center">
         <th class="pt-0 pb-2"></th>
         <th class="border-top-0 pt-0 pb-2">ID</th>
-        <th class="px-10px">Name</th>
-        <th class="px-10px w-100px">Size</th>
-        <th class="px-10px w-200px">Last Modified</th>
-        <th class="px-10px w-200px">Type</th>
-        <th class="px-10px w-100px">Permission</th>
+        <th class="px-10px h-100">Name</th>
+        <th class="px-10px">Group</th>
+        <th class="px-10px">Price</th>
+        <th class="px-10px">Barcode</th>
+        <th class="px-10px">Code</th>
+        <th class="px-10px">Cost</th>
+        <th class="px-10px">Currency</th>
+        <th class="px-10px">Measurement Unit</th>
+        <th class="px-10px">Tax included</th>
+        <th class="px-10px">Price change allowed</th>
+        <th class="px-10px">Is service</th>
+        <th class="px-10px">Using default quantity</th>
+        <th class="px-10px">Age restriction</th>
+        <th class="px-10px">Last purchase price</th>
+        <th class="px-10px">Rank</th>
     </tr>
 </thead>
 <tbody>
@@ -41,7 +52,7 @@ id="mgt-products-table"
         <td class="px-10px">
             <div class="d-flex align-items-center">
                 <div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
-                    <img alt="" class="mw-100 mh-100" src="{{ product.img }}">
+                    <img alt="" class="mw-100 mh-100" src="/media/{{ product.image }}">
                 </div>
                 <div class="ms-3">
                     <a 
@@ -61,10 +72,21 @@ id="mgt-products-table"
                 </div>
             </div>
         </td>
-        <td class="px-10px">4 KB</td>
-        <td class="px-10px">Jun 11, 2024, 10:35PM</td>
-        <td class="px-10px">http:/unix-directory</td>
-        <td class="px-10px">0755</td>
+        <td class="px-10px">{{ product.parent_group.name}}</td>
+        <td class="px-10px">{{ product.price }}</td>
+        <td class="px-10px">{{ product.barcode.value }}</td>
+        <td class="px-10px">{{ product.code }}</td>
+        <td class="px-10px">{{ product.cost }}</td>
+        <td class="px-10px">{{ product.currency.name }}</td>
+        <td class="px-10px">{{ product.measurement_unit }}</td>
+        <td class="px-10px">{{ product.is_tax_inclusive_price }}</td>
+        <td class="px-10px">{{ product.is_price_change_allowed }}</td>
+        <td class="px-10px">{{ product.is_service }}</td>
+        <td class="px-10px">{{ product.is_using_default_quantity }}</td>
+        <td class="px-10px">{{ product.age_restriction }}</td>
+        <td class="px-10px">{{ product.last_purchase_price }}</td>
+        <td class="px-10px">{{ product.rank }}</td>
+
     </tr>
     {% endfor %}
     {% else %}
@@ -74,3 +96,4 @@ id="mgt-products-table"
     {% endif %}
 </tbody>
 </table>
+</div>

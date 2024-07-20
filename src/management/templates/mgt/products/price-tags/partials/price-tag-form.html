@@ -193,14 +193,39 @@
             hx-get="{% url 'mgt:price-tag-preview' %}"
             hx-target="#price-tag-sample"
             hx-include="#price-tag-forms"
+            hx-swap="innerHTML"
             class="btn btn-sm btn-outline-theme list-group-action">
             Print preview
         </button>
-        <button class="btn btn-sm btn-outline-theme list-group-action">
-            Update defaults
-        </button>
-        <button class="btn btn-sm btn-outline-theme list-group-action">
+        <button 
+        hx-get="{% url 'mgt:price-tag-set-default' %}"
+        hx-target="#price-tag-sample"
+        hx-include="#price-tag-forms"
+        hx-swap="innerHTML"
+        class="btn btn-sm btn-outline-theme list-group-action">
+        Update defaults
+    </button>
+    <button 
+        hx-get="{% url 'mgt:price-tag-print-selected' %}"
+        hx-target="#success-response"
+        hx-include="#selected-products-form"
+        hx-include="#price-tag-forms"
+        hx-on="
+            htmx:afterOnLoad:
+                Toastify({
+                text: event.detail.xhr.responseText,
+                duration: 5000,
+                position: 'center',
+                className: 'bg-success',
+                close: true
+                }).showToast();"
+            class="btn btn-sm btn-outline-theme list-group-action">
             Print selected products
         </button>
+        
+        
+        
+        {% comment %} <a href="#" class="btn btn-outline-theme me-2" data-toggle="toast" data-target="#toast-1">Show toast 1</a> {% endcomment %}
     </div>
 </form>
+<input type="hidden" id="success-response" />

@@ -23,12 +23,14 @@ dz_array = {
         "global_css": [
             f"{app}/css/vendor.min.css",
             f"{app}/css/app.min.css",
+            f"{app}/plugins/toastify/toastify.min.css",
         ],
         "global_js": {
             "top": [
                 f"{app}/js/vendor.min.js",
                 f"{app}/js/app.min.js",
                 f"{app}/plugins/jscolor/jscolor.min.js",
+                f"{app}/plugins/toastify/toastify-js.js",
             ],
             "down": [
                 f"{app}/js/rocket-loader.min.js",
@@ -50,6 +52,7 @@ dz_array = {
                 ],
                 "mgt_price_tags_control": [
                     f"{app}/css/price-tags.css",
+                    
 
                 ],
                 "mgt_users": [
@@ -66,6 +69,9 @@ dz_array = {
                     # f"{app}/plugins/pdfjs/popper.min.js",
                     # f"{app}/plugins/pdfjs/pdf.min.js",
                     # f"{app}/plugins/pdfjs/pdf.worker.mjs",
+                ],
+                "mgt_price_tags_control": [
+                    
                 ],
                 "mgt_products": [
                     f"{app}/plugins/iconify/iconify.min.js",
