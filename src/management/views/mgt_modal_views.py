@@ -247,11 +247,13 @@ def generate_barcode_for_product(request):
 
 def select_product_fields_to_export(request):
     target = request.GET.get('target', 'csv')
+    product_ids = request.GET.getlist('product-row', None)
     fields = [field for field in Product._meta.get_fields()]
     product_row = [field.name for field in fields if not (
         field.many_to_many or field.one_to_many)]
     context = {
         'fields': product_row,
         'target': target,
+        'product_ids': product_ids
     }
     return render(request, 'mgt/modals/select-product-fields.html', context)

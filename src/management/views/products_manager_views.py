@@ -379,9 +379,23 @@ fields2 = [
     'is_enabled', 'age_restriction', 'last_purchase_price', 'rank', 'created', 'updated'
 ]
 
+import ast
 
 def mgt_export_products_to_csv(request):
     # Create the HttpResponse object with the appropriate CSV header.
+    product_ids = request.POST.get('product-ids', None)
+    if product_ids:
+        try:
+            # Convert the string representation of the list to an actual list
+            product_ids = ast.literal_eval(product_ids)
+            # Convert list of string IDs to list of integers
+            product_ids = [int(id) for id in product_ids]
+        except (ValueError, SyntaxError):
+            product_ids = []
+        
+        products = Product.objects.filter(id__in=product_ids)
+    else:
+        products = Product.objects.all()
     filename = generate_filename('Products', products.count())
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = f'attachment; filename="{filename}.csv"'
@@ -404,7 +418,6 @@ def mgt_export_products_to_csv(request):
     writer.writerow(headers)
 
     # Fetch the products from the database
-    products = Product.objects.all()
 
     # Write the product data dynamically
     for product in products:
@@ -425,6 +438,8 @@ def mgt_export_products_to_csv(request):
                     value = str(value)
                 elif field == 'image':
                     value = value.url if value else ''
+                elif field in ['created','updated']:
+                    value = value.strftime('%Y %m %d - %I:%M:%S %p')
                 elif not isinstance(value, (str, int, float, bool, type(None))):
                     value = str(value)
             row.append(value)
@@ -435,6 +450,20 @@ def mgt_export_products_to_csv(request):
 
 def mgt_export_products_to_excel(request):
     # Create an in-memory workbook and worksheet
+    product_ids = request.POST.get('product-ids', None)
+    if product_ids:
+        try:
+            # Convert the string representation of the list to an actual list
+            product_ids = ast.literal_eval(product_ids)
+            # Convert list of string IDs to list of integers
+            product_ids = [int(id) for id in product_ids]
+        except (ValueError, SyntaxError):
+            product_ids = []
+        
+        products = Product.objects.filter(id__in=product_ids)
+    else:
+        products = Product.objects.all()
+
     wb = openpyxl.Workbook()
     ws = wb.active
     ws.title = 'Products'
@@ -453,8 +482,6 @@ def mgt_export_products_to_excel(request):
     headers = [field.replace('_', ' ').capitalize() for field in selected_fields_sorted]
     ws.append(headers)
 
-    # Fetch the products from the database
-    products = Product.objects.all()
 
     # Write the product data dynamically
     for product in products:
@@ -475,6 +502,8 @@ def mgt_export_products_to_excel(request):
                     value = str(value)
                 elif field == 'image':
                     value = value.url if value else ''
+                elif field in ['created','updated']:
+                    value = value.strftime('%Y %m %d - %I:%M:%S %p')
                 elif not isinstance(value, (str, int, float, bool, type(None))):
                     value = str(value)
             row.append(value)

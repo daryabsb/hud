@@ -83,6 +83,7 @@
         hx-get="{% url 'mgt:modal-select-product-fields' %}" 
         hx-target="#select-product-fields-modal"
         hx-vals='{"target":"csv"}'
+        hx-include="#mgt-products-table"
         hx-trigger="click"
         data-bs-target="#select-product-fields-modal" data-bs-toggle="modal"
         
@@ -92,6 +93,7 @@
             hx-get="{% url 'mgt:modal-select-product-fields' %}" 
             hx-target="#select-product-fields-modal"
             hx-vals='{"target":"excel"}'
+            hx-include="#mgt-products-table"
             hx-trigger="click"
             data-bs-target="#select-product-fields-modal" 
             data-bs-toggle="modal"
