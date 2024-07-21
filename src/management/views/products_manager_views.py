@@ -15,6 +15,7 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from src.products.models import Product, ProductGroup, ProductComment, Barcode
 from src.tax.models import ProductTax, Tax
 from src.stock.models import StockControl
+from src.management.const import PRODUCTS_DESIRED_ORDER, generate_filename
 from django.forms import modelformset_factory
 from src.products.forms import (
     ProductGroupForm, ConfirmPasswordForm, ProductDetailsForm,
@@ -381,31 +382,53 @@ fields2 = [
 
 def mgt_export_products_to_csv(request):
     # Create the HttpResponse object with the appropriate CSV header.
+    filename = generate_filename('Products', products.count())
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="products.csv"'
+    response['Content-Disposition'] = f'attachment; filename="{filename}.csv"'
+
+    # Get the selected fields from the POST request
+    selected_fields = request.POST.getlist('selected-fields', [])
+
+    # Sort selected fields based on the desired order
+    selected_fields_sorted = sorted(
+        selected_fields, key=lambda x: PRODUCTS_DESIRED_ORDER.index(x) 
+            if x in PRODUCTS_DESIRED_ORDER 
+            else len(PRODUCTS_DESIRED_ORDER)
+        )
 
     # Create a CSV writer object
     writer = csv.writer(response)
 
-    # Write the headers
-    writer.writerow(['ID', 'User', 'Name', 'Parent Group',
-                    'Price', 'Currency', 'Description'])
+    # Write the headers dynamically
+    headers = [field.replace('_', ' ').capitalize() for field in selected_fields_sorted]
+    writer.writerow(headers)
 
     # Fetch the products from the database
     products = Product.objects.all()
 
-    # Write the product data
+    # Write the product data dynamically
     for product in products:
-        writer.writerow([
-            product.id,
-            product.user.email,  # assuming you have a related user model
-            product.name,
-            # assuming parent_group is a related field
-            product.parent_group.name if product.parent_group else '',
-            product.price,
-            product.currency,
-            product.description,
-        ])
+        row = []
+        for field in selected_fields_sorted:
+            # Handle related fields and special cases
+            if '__' in field:
+                related_field_parts = field.split('__')
+                value = product
+                for part in related_field_parts:
+                    value = getattr(value, part, '')
+                    if not isinstance(value, (str, int, float, bool, type(None))):
+                        value = str(value)
+            else:
+                value = getattr(product, field, '')
+                # Handle special cases for non-string values
+                if field == 'currency':
+                    value = str(value)
+                elif field == 'image':
+                    value = value.url if value else ''
+                elif not isinstance(value, (str, int, float, bool, type(None))):
+                    value = str(value)
+            row.append(value)
+        writer.writerow(row)
 
     return response
 
@@ -416,32 +439,51 @@ def mgt_export_products_to_excel(request):
     ws = wb.active
     ws.title = 'Products'
 
-    # Write the headers
-    headers = ['ID', 'User', 'Name', 'Parent Group',
-               'Price', 'Currency', 'Description']
+    # Get the selected fields from the POST request
+    selected_fields = request.POST.getlist('selected-fields', [])
+
+    # Sort selected fields based on the desired order
+    selected_fields_sorted = sorted(
+        selected_fields, key=lambda x: PRODUCTS_DESIRED_ORDER.index(x) 
+            if x in PRODUCTS_DESIRED_ORDER 
+            else len(PRODUCTS_DESIRED_ORDER)
+        )
+
+    # Write the headers dynamically
+    headers = [field.replace('_', ' ').capitalize() for field in selected_fields_sorted]
     ws.append(headers)
 
     # Fetch the products from the database
     products = Product.objects.all()
 
-    # Write the product data
+    # Write the product data dynamically
     for product in products:
-        row = [
-            product.id,
-            product.user.email,  # assuming you have a related user model
-            product.name,
-            # assuming parent_group is a related field
-            product.parent_group.name if product.parent_group else '',
-            product.price,
-            product.currency.name,
-            product.description,
-        ]
+        row = []
+        for field in selected_fields_sorted:
+            # Handle related fields and special cases
+            if '__' in field:
+                related_field_parts = field.split('__')
+                value = product
+                for part in related_field_parts:
+                    value = getattr(value, part, '')
+                    if not isinstance(value, (str, int, float, bool, type(None))):
+                        value = str(value)
+            else:
+                value = getattr(product, field, '')
+                # Handle special cases for non-string values
+                if field == 'currency':
+                    value = str(value)
+                elif field == 'image':
+                    value = value.url if value else ''
+                elif not isinstance(value, (str, int, float, bool, type(None))):
+                    value = str(value)
+            row.append(value)
         ws.append(row)
-
+    filename = generate_filename('Products', products.count())
     # Create a response object with the appropriate Excel header
     response = HttpResponse(
         content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-    response['Content-Disposition'] = 'attachment; filename="products.xlsx"'
+    response['Content-Disposition'] = f'attachment; filename="{filename}.xlsx"'
 
     # Save the workbook to the response
     wb.save(response)
