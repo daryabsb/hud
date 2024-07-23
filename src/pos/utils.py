@@ -1,6 +1,14 @@
+import platform
+import uuid
 from django.db import transaction
 from src.orders.models import PosOrder
 from src.accounts.models import Customer
+
+
+def get_computer_info():
+    computer_name = platform.node()
+    machine_id = uuid.UUID(int=uuid.getnode()).hex[-12:]
+    return computer_name, machine_id
 
 
 def get_active_order(active_order=None):

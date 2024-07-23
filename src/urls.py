@@ -12,6 +12,7 @@ def test(request):
 
 
 urlpatterns = [
+    path("select2/", include("django_select2.urls")),
     path('accounts/', include('allauth.urls')),
 
     path('admin/', admin.site.urls),

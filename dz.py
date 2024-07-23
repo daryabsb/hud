@@ -29,6 +29,7 @@ dz_array = {
             "top": [
                 f"{app}/js/vendor.min.js",
                 f"{app}/js/app.min.js",
+                f"{app}/plugins/jquery/jquery.min.js",
                 f"{app}/plugins/jscolor/jscolor.min.js",
                 f"{app}/plugins/toastify/toastify-js.js",
             ],
@@ -52,8 +53,12 @@ dz_array = {
                 ],
                 "mgt_price_tags_control": [
                     f"{app}/css/price-tags.css",
-                    
 
+
+                ],
+                "mgt_documents": [
+                    # f"{app}/plugins/select2/dist/select2.min.css",
+                    # f"{app}/plugins/bootstrap-daterangepicker/bootstrap-datepicker.min.css",
                 ],
                 "mgt_users": [
                     # f"{app}/plugins/tag-it/js/tag-it.min.js",
@@ -64,6 +69,16 @@ dz_array = {
                 "pos_home": [
                     f"{app}/js/demo/pos-customer-order.demo.js",
                 ],
+                "mgt_documents": [
+                    # f"{app}/plugins/select2/dist/select2.min.js",
+                    # f"{app}/plugins/moment/moment.js",
+                    # f"{app}/plugins/bootstrap-daterangepicker/bootstrap-datepicker.min.js",
+                    # f"{app}/js/demo/daterange.js",
+                    # f"{app}/plugins/jquery-migrate/dist/jquery-migrate.min.js",
+                    # f"{app}/plugins/moment/min/moment.min.js",
+                    # f"{app}/plugins/select-picker/dist/picker.min.js",
+                    # f"{app}/js/demo/form-plugins.demo.js",
+                ],
                 "mgt_price_tags": [
 
                     # f"{app}/plugins/pdfjs/popper.min.js",
@@ -71,7 +86,7 @@ dz_array = {
                     # f"{app}/plugins/pdfjs/pdf.worker.mjs",
                 ],
                 "mgt_price_tags_control": [
-                    
+
                 ],
                 "mgt_products": [
                     f"{app}/plugins/iconify/iconify.min.js",

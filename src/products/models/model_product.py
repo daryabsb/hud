@@ -56,7 +56,7 @@ class Product(models.Model):
         ordering = ('parent_group__id',)  # 7822809558444
 
     def __str__(self):
-        return self.image.name
+        return self.name
 
     def img(self):
         from django.urls import reverse

@@ -34,6 +34,12 @@ urlpatterns += [
 
 ]
 
+# DOCUMENTS RELATED URLS
+
+urlpatterns += [
+    path('documents/', views.mgt_documents, name='documents'),
+]
+
 # MODALS URLS
 urlpatterns += [
     path('modal-add-group/', views.modal_add_group, name='modal-add-group'),

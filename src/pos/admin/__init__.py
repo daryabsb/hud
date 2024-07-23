@@ -1,0 +1,1 @@
+from .admin_cash_register import CashRegisterAdmin
