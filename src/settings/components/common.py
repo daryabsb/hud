@@ -24,7 +24,6 @@ DJANGO_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'after_response',
-    'django_select2',
 ]
 
 THIRD_PARTY_APPS = [
@@ -33,7 +32,6 @@ THIRD_PARTY_APPS = [
     'mptt',
     'fontawesome_5',
     'colorfield',
-    "bootstrap_datepicker_plus",
 ]
 
 LOCAL_APPS = [

@@ -14,8 +14,6 @@ django-fontawesome-5
 django-split-settings
 django-renderpdf
 django-after-response
-django-select2
-django-bootstrap-datepicker-plus
 fpdf
 loguru
 psycopg2

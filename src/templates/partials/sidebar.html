@@ -37,6 +37,37 @@
                     <span class="menu-icon">
                         <i class="bi bi-envelope"></i>
                     </span>
+                    <span class="menu-text">Documents</span>
+                    <span class="menu-caret"><b class="caret"></b></span>
+                </a>
+                <div class="menu-submenu">
+                    <div class="menu-item">
+                        <a href="{% url 'mgt:documents' %}" class="menu-link">
+                            <span class="menu-text">Documents List</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a href="{% url 'mgt:mgt-price-tags-control' %}" class="menu-link">
+                            <span class="menu-text">Price tags</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a href="{% url 'mgt:price-tags' %}" class="menu-link">
+                            <span class="menu-text">Price tags images</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a href="{% url 'mgt:invoice-template' %}" class="menu-link">
+                            <span class="menu-text">Invoice Template</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="menu-item  has-sub">
+                <a href="#" class="menu-link">
+                    <span class="menu-icon">
+                        <i class="bi bi-envelope"></i>
+                    </span>
                     <span class="menu-text">Products</span>
                     <span class="menu-caret"><b class="caret"></b></span>
                 </a>

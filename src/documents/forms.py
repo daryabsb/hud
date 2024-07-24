@@ -4,11 +4,6 @@ from src.products.models import Product
 from src.accounts.models import User, Customer
 from src.pos.models import CashRegister
 from src.documents.models import DocumentType
-from bootstrap_datepicker_plus.widgets import DateTimePickerInput
-
-
-def get_product_names():
-    return Product.objects.values('id', 'name')
 
 
 SET_ENDDATE_MIN_AND_VALUE = f'''
@@ -25,7 +20,7 @@ class DocumentFilterForm(forms.Form):
         required=False, label='Product',
         to_field_name='id',
         widget=forms.Select(
-            attrs={'class': 'form-select form-select-sm mb-3'}
+            attrs={'class': 'form-select form-select-sm'}
         )
     )
     customer = forms.ModelChoiceField(
@@ -33,7 +28,7 @@ class DocumentFilterForm(forms.Form):
         required=False, label='Customer',
         to_field_name='id',
         widget=forms.Select(
-            attrs={'class': 'form-select form-select-sm mb-3'}
+            attrs={'class': 'form-select form-select-sm'}
         )
     )
     cash_register = forms.ModelChoiceField(
@@ -41,7 +36,7 @@ class DocumentFilterForm(forms.Form):
         required=False, label='Cash register',
         to_field_name='number',
         widget=forms.Select(
-            attrs={'class': 'form-select form-select-sm mb-3'}
+            attrs={'class': 'form-select form-select-sm'}
         )
     )
     user = forms.ModelChoiceField(
@@ -49,7 +44,7 @@ class DocumentFilterForm(forms.Form):
         required=False, label='User',
         to_field_name='id',
         widget=forms.Select(
-            attrs={'class': 'form-select form-select-sm mb-3'}
+            attrs={'class': 'form-select form-select-sm'}
         )
     )
     document_type = forms.ModelChoiceField(
@@ -57,7 +52,7 @@ class DocumentFilterForm(forms.Form):
         required=False, label='Document type',
         to_field_name='id',
         widget=forms.Select(
-            attrs={'class': 'form-select form-select-sm mb-3'}
+            attrs={'class': 'form-select form-select-sm'}
         )
     )
     reference_document_number = forms.CharField(
@@ -70,16 +65,13 @@ class DocumentFilterForm(forms.Form):
         required=False, label='Paid Status',
         choices=[('', '----'), (True, 'Paid'), (False, 'Unpaid')],
         coerce=lambda x: x == 'True',
-        widget=forms.Select(attrs={'class': 'form-select form-select-sm mb-3'})
-    )
-    date_range = forms.DateTimeField(
-        widget=DateTimePickerInput()
+        widget=forms.Select(attrs={'class': 'form-select form-select-sm'})
     )
     start_date = forms.DateField(
         required=False, widget=forms.DateInput(
             attrs={
                 'type': 'date',
-                'class': 'form-control form-control-sm mb-3',
+                'class': 'form-control form-control-sm',
                 '_': SET_ENDDATE_MIN_AND_VALUE
 
             }),
@@ -89,7 +81,7 @@ class DocumentFilterForm(forms.Form):
         required=False, widget=forms.DateInput(
             attrs={
                 'type': 'date',
-                'class': 'form-control form-control-sm mb-3',
+                'class': 'form-control form-control-sm',
                 #   '_': 'on change set the max of previous <input/> to my value'
             }),
         label='End Date'
