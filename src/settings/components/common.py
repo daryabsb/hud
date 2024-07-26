@@ -24,6 +24,8 @@ DJANGO_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'after_response',
+    'rest_framework',
+
 ]
 
 THIRD_PARTY_APPS = [

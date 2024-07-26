@@ -14,5 +14,9 @@ var handleRenderTableData = function () {
         }]
     };
     if ($(window).width() < 767) { options.fixedColumns = { left: 2 }; }
-    $('#datatable').DataTable(options); $('[data-id="table"]').removeClass('d-none'); handelTooltipPopoverActivation(); $(window).trigger('resize');
+    $('#datatable').DataTable(options);
+    $('[data-id="table"]').removeClass('d-none');
+    handelTooltipPopoverActivation();
+    $(window).trigger('resize');
+
 }; $(document).ready(function () { handleRenderTableData(); });

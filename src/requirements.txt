@@ -4,8 +4,6 @@
 #
 #    pip-compile --output-file=src/requirements.txt src/requirements/requirements.in
 #
-annotated-types==0.7.0
-    # via pydantic
 arabic-reshaper==3.0.0
     # via xhtml2pdf
 asgiref==3.7.2
@@ -62,8 +60,6 @@ django==5.0.6
     #   dj-database-url
     #   django-after-response
     #   django-allauth
-    #   django-appconf
-    #   django-bootstrap-datepicker-plus
     #   django-components
     #   django-cors-headers
     #   django-extensions
@@ -72,15 +68,10 @@ django==5.0.6
     #   django-htmx
     #   django-js-asset
     #   django-renderpdf
-    #   django-select2
     #   djangorestframework
 django-after-response==0.2.2
     # via -r src/requirements/requirements.in
 django-allauth==0.63.2
-    # via -r src/requirements/requirements.in
-django-appconf==1.0.6
-    # via django-select2
-django-bootstrap-datepicker-plus==5.0.5
     # via -r src/requirements/requirements.in
 django-colorfield==0.11.0
     # via -r src/requirements/requirements.in
@@ -103,8 +94,6 @@ django-js-asset==2.2.0
 django-mptt==0.16.0
     # via -r src/requirements/requirements.in
 django-renderpdf==4.0.0
-    # via -r src/requirements/requirements.in
-django-select2==8.2.0
     # via -r src/requirements/requirements.in
 django-split-settings==1.2.0
     # via -r src/requirements/requirements.in
@@ -167,10 +156,6 @@ pycodestyle==2.11.1
     # via autopep8
 pycparser==2.21
     # via cffi
-pydantic==2.8.2
-    # via django-bootstrap-datepicker-plus
-pydantic-core==2.20.1
-    # via pydantic
 pydyf==0.11.0
     # via weasyprint
 pygments==2.17.2
@@ -233,10 +218,7 @@ ttfquery==2.0.0b1
 typing-extensions==4.9.0
     # via
     #   dj-database-url
-    #   django-bootstrap-datepicker-plus
     #   django-countries
-    #   pydantic
-    #   pydantic-core
     #   qrcode
 tzdata==2023.4
     # via

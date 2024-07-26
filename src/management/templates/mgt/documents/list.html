@@ -27,6 +27,7 @@
                 
 				
 				<div class="file-manager-container">
+				{% comment %} <table id="documents-table" class="display" width="100%"></table> {% endcomment %}
 					{% include 'mgt/documents/partials/documents-table.html' %}
                 </div>
             </div>
@@ -38,22 +39,85 @@
 			<div class="card-arrow-bottom-right"></div>
 		</div>
     </div>
+	<input type="hidden" id="documents-dist" value="{{ documents_dict }}" />
 	<script>
-		document.addEventListener("DOMContentLoaded", (event) => {
-	
-			
-			new DataTable('#datatable', {
-				scrollX: 1300,
-				scrollY: 200,
-				deferRender:    true,
+	/*
+	fetch('/mgt/api/documents/')
+		.then(res => res.json())
+		.then(data => {
+			var formattedData = data.map(function(item) {
+                    return [
+                        item.number,
+                        item.cash_register,
+                        new Date(item.date).toLocaleString(),
+                        item.reference_document_number,
+                        new Date(item.due_date).toLocaleString(),
+                        item.paid_status ? 'Paid' : 'Unpaid'
+                    ];
+                });
+				// Initialize the DataTable
+                new DataTable('#documents-table', {
+                    columns: [
+                        { title: 'Number' },
+                        { title: 'Cash Register' },
+                        { title: 'Date' },
+                        { title: 'Reference Document Number' },
+                        { title: 'Due Date' },
+                        { title: 'Paid Status' }
+                    ],
+                    data: formattedData
+                });
+		})
+		*/
+	var table = document.getElementById('documents-table')
+	var resizeBody = function() {
+		handleDataTable()
+		document.getElementsByClassName('dataTable')[0].style.width = `${window.innerWidth}px`;
+		console.log(document.getElementsByClassName('dataTable')[0].style.width)
+	}
+	var handleDataTable = function(){
+			var header = document.getElementById('header')
+			var height = window.innerHeight - header.offsetHeight - 25;
+			var width = window.innerWidth ;
+			var options = {
+				scrollX: width - 100,
+				// scroller: true,
+				//scrollY: height,
+				//responsive: true,
+				//deferRender:    true,
+				autoEidth: true,
 				select: true,
 				fixedHeader: true,
-				fixedColumns: {
-					start: 3
-				},
+				fixedColumns: { left: 3 },
+				//order: [[1, 'asc']],
+				//columnDefs: [{ targets: 'no-sort', orderable: false }],
+				/*
+				columns: [
+                    { "data": "number" },
+                    { "data": "cash_register" },
+                    { "data": "date", "render": function(data) {
+                        return new Date(data).toLocaleString();
+                    }},
+                    { "data": "reference_document_number" },
+                    { "data": "due_date", "render": function(data) {
+                        return new Date(data).toLocaleString();
+                    }},
+                    { "data": "paid_status", "render": function(data) {
+                        return data ? 'Paid' : 'Unpaid';
+                    }}
+                ] */
 				
-			});
+			}
+
+			var table = new DataTable('#documents-table', options);
+			console.log(table)
+        	};
+
+	
+		document.addEventListener("DOMContentLoaded", (event) => {
+		handleDataTable()
 		});
+		
 	</script>
 </div>
 {% endblock content %}

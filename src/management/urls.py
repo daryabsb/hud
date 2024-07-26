@@ -93,3 +93,11 @@ urlpatterns += [
     path('export-products-to-excel/', views.mgt_export_products_to_excel,
          name="export-products-to-excel"),
 ]
+
+
+# API VIEWS
+urlpatterns += [
+    path('api/documents/', views.DocumentListView.as_view(),
+         name='document-list-api'),
+    # other routes
+]

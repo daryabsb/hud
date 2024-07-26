@@ -4,7 +4,6 @@
     <script src="{% static jsurl %}" ></script>{% endfor %}
     {% for jsurl in dz_array.app.page_level.js|getdata:request.path %}
     <script src="{% static jsurl %}" type="77ecc1d76f1645016a41c540-text/javascript"></script>{% endfor %}
-    <script src="{% static 'app/plugins/datatable/datatables.min.js' %}"></script>
     {% comment %} <script src="{% static 'app/js/demo/page-gallery.demo.js' %}" type="de4cd373448da7bf94968f3c-module"></script>  {% endcomment %}
     {% for jsurl in dz_array.app.global_js.down %}
     <script src="{% static jsurl %}" type="de022c8bfd3ece291ff7169e-text/javascript"></script>{% endfor %}

@@ -3,6 +3,11 @@ from src.accounts.models import User, Warehouse, Customer
 from src.pos.models import CashRegister
 from src.orders.models import PosOrder
 
+TRUE_FALSE_CHOICES = (
+    (True, 'Paid'),
+    (False, 'Unpaid')
+)
+
 
 class Document(models.Model):
     number = models.CharField(max_length=30, unique=True)
@@ -34,7 +39,8 @@ class Document(models.Model):
     discount = models.SmallIntegerField(default=0)
     discount_type = models.SmallIntegerField(default=0)
     discount_apply_rule = models.SmallIntegerField(default=0)
-    paid_status = models.BooleanField(default=False)
+    paid_status = models.BooleanField(
+        default=False, choices=TRUE_FALSE_CHOICES)
     stock_date = models.DateTimeField(auto_now_add=True)
     total = models.FloatField(default=0)
     is_clocked_out = models.BooleanField(default=False)
@@ -43,4 +49,4 @@ class Document(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.language}: {self.name}"
+        return f"{self.document_type.stock_direction} | {self.total}  | {self.number} | Pay status: {'Paid' if self.paid_status else 'Not Paid'}"

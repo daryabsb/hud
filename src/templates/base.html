@@ -16,6 +16,7 @@ HUD | Dashboard
 </head>
 
 <body
+onresize="resizeBody()"
 hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' 
 hx-on="htmx:load: jscolor.install();"
 class="theme-success"

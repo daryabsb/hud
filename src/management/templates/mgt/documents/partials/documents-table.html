@@ -1,5 +1,9 @@
-<div class="data-management" data-id="table">
-    <table class="table table-bordered table-xs w-100 fw-semibold text-nowrap mb-3" id="datatable">
+<div class="p-2" data-id="table">
+    <table 
+    class="table table-bordered table-xs w-100 fw-semibold text-nowrap mb-3" 
+
+    data-page-length='50' 
+    id="documents-table">
         <thead>
             <tr>
                 <th class="no-sort"></th>
@@ -22,16 +26,19 @@
             </tr>
         </thead>
         <tbody class="text-body">
+            {% for document in documents %}
             <tr>
                 <td><a href="#" data-bs-toggle="modal" data-bs-target="#modalDetail"><i class="fa fa-search fa-fw"></i></a></td>
-                <td>1.</td>
-                <td>Mobile Phone</td>
-                <td>iPhone 14 Pro Max - 256gb - Deep Purple</td>
+                <td>{{ document.number }}</td>
+                <td>{{ document.user.name }}</td>
+                <td>{{ document.customer.name }}</td>
                 <td class="text-success"><i class="bi-check-circle-fill"></i></td>
-                <td>25</td>
-                <td>$999</td>
-                <td>$899</td>
-                <td>5 sold</td>
+                <td>{{ document.warehouse.name }}</td>
+                <td>{{ document.document_type }}</td>
+                <td>{{ document.cash_register.name }}</td>
+                <td class="py-1 align-middle">
+                    <span class="badge border border-success text-success px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center">
+                    <i class="fa fa-circle fs-9px fa-fw me-5px"></i> {{ document.get_paid_status_display  }}</span></td>
                 <td>6 sold</td>
                 <td>10 sold</td>
                 <td>4 sold</td>
@@ -41,6 +48,7 @@
                 <td>$44,950</td>
                 <td class="text-success">$5,000</td>
             </tr>
+            {% endfor %}
             <tr>
                 <td><a href="#" data-bs-toggle="modal" data-bs-target="#modalDetail"><i class="fa fa-search fa-fw"></i></a></td>
                 <td>2.</td>
@@ -649,7 +657,7 @@
                 <td class="text-success">$320</td>
             </tr>
         </tbody>
-        <tfoot>
+        {% comment %} <tfoot>
             <tr>
                 <th></th>
                 <th></th>
@@ -669,6 +677,7 @@
                 <th>$751,792</th>
                 <th class="text-success">$171670</th>
             </tr>
-        </tfoot>
+        </tfoot> {% endcomment %}
     </table>
 </div>
+
