@@ -71,7 +71,7 @@
 		*/
 	var table = document.getElementById('documents-table')
 	var resizeBody = function() {
-		handleDataTable()
+		// handleDataTable()
 		document.getElementsByClassName('dataTable')[0].style.width = `${window.innerWidth}px`;
 		console.log(document.getElementsByClassName('dataTable')[0].style.width)
 	}
@@ -79,16 +79,24 @@
 			var header = document.getElementById('header')
 			var height = window.innerHeight - header.offsetHeight - 25;
 			var width = window.innerWidth ;
+			
 			var options = {
+				//dom: "-sm-12 col-md-5 fs-12px'i><'col-sm-12 col-md-7 fs-12px'p>>",
 				scrollX: width - 100,
-				// scroller: true,
+				pageLength: 10,
+				//scrollX: true,
+				//lengthMenu: [10, 20, 50, 75, 100]
+				//scrollY: 500,
 				//scrollY: height,
+				//scroller: true,
 				//responsive: true,
 				//deferRender:    true,
-				autoEidth: true,
+				autoWidth: true,
 				select: true,
 				fixedHeader: true,
 				fixedColumns: { left: 3 },
+				order: [[1, 'asc']],
+				
 				//order: [[1, 'asc']],
 				//columnDefs: [{ targets: 'no-sort', orderable: false }],
 				/*
@@ -105,8 +113,9 @@
                     { "data": "paid_status", "render": function(data) {
                         return data ? 'Paid' : 'Unpaid';
                     }}
-                ] */
+                ] 
 				
+				*/
 			}
 
 			var table = new DataTable('#documents-table', options);
