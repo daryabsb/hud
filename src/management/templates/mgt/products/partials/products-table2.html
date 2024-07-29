@@ -1,0 +1,104 @@
+<div class="table-responsive h-100">
+<table
+class="table table-sm m-0 small"
+id="mgt-products-table"
+>
+<thead>
+    <tr class="border-bottom align-items-center">
+        <th class="pt-0 pb-2"></th>
+        <th class="border-top-0 pt-0 pb-2">ID</th>
+        <th class="px-10px h-100">Name</th>
+        <th class="px-10px">Group</th>
+        <th class="px-10px">Price</th>
+        <th class="px-10px">Barcode</th>
+        <th class="px-10px">Code</th>
+        <th class="px-10px">Cost</th>
+        <th class="px-10px">Currency</th>
+        <th class="px-10px" data-bs-toggle="tooltip" data-bs-title="Measurement unit">Unit</th>
+        <th class="px-10px" data-bs-toggle="tooltip" data-bs-title="Tax included">Tax</th>
+        <th class="px-10px" data-bs-toggle="tooltip" data-bs-title="Tax included">PCA</th>
+        <th class="px-10px" data-bs-toggle="tooltip" data-bs-title="Stock will not be affected">Is service</th>
+        <th class="px-10px">Default quantity</th>
+        <th class="px-10px">Age restriction</th>
+        <th class="px-10px">Last purchase price</th>
+        <th class="px-10px">Rank</th>
+    </tr>
+</thead>
+<tbody
+
+>
+    {% if products %}
+    {% for product in products %}
+    <tr class="" id="produts-row-{{ product.id }}">
+        <td class="ps-2 w-10px align-middle">
+            <div class="form-check">
+                <input 
+                type="checkbox" name="product-row" value="{{ product.id }}"
+                class="form-check-input product-select-checkbox" 
+                id="checkbox-product-{{ product.id }}"
+                _="on click 
+                    if me.checked add .table-dark to closest <tr /> 
+                    else remove .table-dark from closest <tr />
+                end
+                "
+                >
+                <label class="form-check-label" for="product1"></label>
+            </div>
+        </td>
+        <td class="align-middle" style="width:2.5rem;">
+            <a
+            hx-get="{% url 'mgt:modal-update-product' %}"
+            hx-vals='{"product-id":"{{ product.id }}"}'
+			hx-target="#modalAddProduct" 
+			hx-trigger="click"
+            hx-include="#selected-group"
+			href="#modalAddProduct" data-bs-toggle="modal"
+            >#{{ product.id }}</a></td>
+        <td class="px-10px">
+            <div class="d-flex align-items-center">
+                <div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                    <img alt="" class="mw-100 mh-100" src="/media/{{ product.image }}">
+                </div>
+                <div class="ms-3">
+                    <a 
+                    href="javascript:void()"
+                    class="text-inverse text-opacity-75 text-decoration-none"
+                    _=" on click 
+                        remove .table-active from <tr/>
+                        remove @checked from .product-select-checkbox
+                        add .table-active to #produts-row-{{ product.id }}
+                        add @checked to #radio-product-{{ product.id }}
+                        set #selected-product.value to {{ product.id }}
+                        remove @disabled from #edit-product-button
+                        remove @disabled from #delete-product-button
+                    end
+                    "
+                    >{{ product.name }}</a>
+                </div>
+            </div>
+        </td>
+        <td class="px-10px">{{ product.parent_group.name}}</td>
+        <td class="px-10px">{{ product.price }}</td>
+        <td class="px-10px">{{ product.barcode.value }}</td>
+        <td class="px-10px">{{ product.code }}</td>
+        <td class="px-10px">{{ product.cost }}</td>
+        <td class="px-10px">{{ product.currency.name }}</td>
+        <td class="px-10px">{{ product.measurement_unit }}</td>
+        <td class="px-10px">{{ product.is_tax_inclusive_price }}</td>
+        <td class="px-10px">{{ product.is_price_change_allowed }}</td>
+        <td class="px-10px">{{ product.is_service }}</td>
+        <td class="px-10px">{{ product.is_using_default_quantity }}</td>
+        <td class="px-10px">{{ product.age_restriction }}</td>
+        <td class="px-10px">{{ product.last_purchase_price }}</td>
+        <td class="px-10px">{{ product.rank }}</td>
+
+    </tr>
+    {% endfor %}
+    {% else %}
+    <tr>
+    <td colspan="6">Want to add products to this category? {% include 'mgt/buttons/add-product-button.html' with type='btn' %}</td>
+    </tr>
+    {% endif %}
+</tbody>
+</table>
+</div>

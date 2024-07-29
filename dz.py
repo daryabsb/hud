@@ -33,6 +33,8 @@ dz_array = {
                 # f"{app}/plugins/jquery/jquery.min.js",
                 f"{app}/plugins/jscolor/jscolor.min.js",
                 f"{app}/plugins/toastify/toastify-js.js",
+                f"{app}/js/render-datatable.js",
+
             ],
             "down": [
                 f"{app}/js/rocket-loader.min.js",
@@ -58,14 +60,7 @@ dz_array = {
 
                 ],
                 "mgt_documents": [
-                    # f"{app}/plugins/select2/dist/select2.min.css",
-                    f"{app}/plugins/datatable/datatables.min.css",
-                    f"{app}/plugins/datatables.net-bs5/css/dataTables.bootstrap5.min.css",
-                    f"{app}/plugins/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css",
-                    f"{app}/plugins/datatables.net-fixedcolumns-bs5/css/fixedColumns.bootstrap5.min.css",
-                    # f"{app}/plugins/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css",
-                    # f"{app}/plugins/select2/dist/select2.min.css",
-                    # f"{app}/plugins/bootstrap-daterangepicker/bootstrap-datepicker.min.css",
+
                 ],
                 "mgt_users": [
                     # f"{app}/plugins/tag-it/js/tag-it.min.js",
@@ -77,29 +72,6 @@ dz_array = {
                     f"{app}/js/demo/pos-customer-order.demo.js",
                 ],
                 "mgt_documents": [
-                    f"{app}/plugins/datatables.net/js/dataTables.min.js",
-                    # f"{app}/plugins/datatables.net-bs5/js/dataTables.bootstrap5.min.js",
-                    # f"{app}/plugins/datatables.net-buttons/js/dataTables.buttons.min.js",
-                    # f"{app}/plugins/jszip/dist/jszip.min.js",
-                    # f"{app}/plugins/pdfmake/build/pdfmake.min.js",
-                    # f"{app}/plugins/pdfmake/build/vfs_fonts.js",
-                    # f"{app}/plugins/datatables.net-buttons/js/buttons.colVis.min.js",
-                    # f"{app}/plugins/datatables.net-buttons/js/buttons.html5.min.js",
-                    # f"{app}/plugins/datatables.net-buttons/js/buttons.print.min.js",
-                    # f"{app}/plugins/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js",
-                    # f"{app}/plugins/datatables.net-responsive/js/dataTables.responsive.min.js",
-                    # f"{app}/plugins/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js",
-                    # f"{app}/plugins/datatables.net-fixedcolumns/js/dataTables.fixedColumns.min.js",
-                    # f"{app}/plugins/datatables.net-fixedcolumns-bs5/js/fixedColumns.bootstrap5.min.js",
-                    # f"{app}/js/demo/page-data-management.demo.js",
-                    # f"{app}/plugins/select2/dist/select2.min.js",
-                    # f"{app}/plugins/moment/moment.js",
-                    # f"{app}/plugins/bootstrap-daterangepicker/bootstrap-datepicker.min.js",
-                    # f"{app}/js/demo/daterange.js",
-                    # f"{app}/plugins/jquery-migrate/dist/jquery-migrate.min.js",
-                    # f"{app}/plugins/moment/min/moment.min.js",
-                    # f"{app}/plugins/select-picker/dist/picker.min.js",
-                    # f"{app}/js/demo/form-plugins.demo.js",
                 ],
                 "mgt_price_tags": [
 

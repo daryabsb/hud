@@ -656,7 +656,7 @@
                 <td class="text-success">$320</td>
             </tr>
         </tbody>
-        {% comment %} <tfoot>
+        <tfoot>
             <tr>
                 <th></th>
                 <th></th>
@@ -676,7 +676,29 @@
                 <th>$751,792</th>
                 <th class="text-success">$171670</th>
             </tr>
-        </tfoot> {% endcomment %}
+        </tfoot> 
     </table>
 </div>
 
+{% block additional_js%}
+	<script>
+		var header = document.getElementById('header')
+		//var height = window.innerHeight - header.offsetHeight - 25;
+		var width = window.innerWidth ;
+
+		document.addEventListener("DOMContentLoaded", (event) => {
+		renderDataTable('documents-table', {
+			scrollX: width - 165,
+			pageLength: 20,
+			lengthMenu: [10, 20, 50, 75, 100],
+			//scrollY: height,
+			autoWidth: true,
+			select: true,
+			//fixedHeader: true,
+			fixedColumns: { left: 3 },
+			order: [[1, 'asc']],
+			})
+		});
+		
+	</script>
+{% endblock additional_js%}

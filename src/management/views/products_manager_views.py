@@ -1,3 +1,4 @@
+import ast
 import openpyxl
 from django.http import HttpResponse
 import os
@@ -43,11 +44,11 @@ def mgt_products(request, slug=None):
     fields = [field for field in Product._meta.get_fields()]
     product_row = [field.name for field in fields if not (
         field.many_to_many or field.one_to_many)]
-
+    all_products = products
     if slug:
         # if slug != 'products':
         group = ProductGroup.objects.filter(slug=slug).first()
-        products = products.filter(
+        products = all_products.filter(
             Q(parent_group=group) | Q(parent_group__parent=group))
 
     # Pagination logic
@@ -77,6 +78,7 @@ def mgt_products(request, slug=None):
     page_size_range = range(6, 11)
     context = {
         "products": page_obj,
+        "all_products": all_products,
         "products_count": products.count(),
         "page_range": page_range,
         "page_size": page_size,
@@ -379,7 +381,6 @@ fields2 = [
     'is_enabled', 'age_restriction', 'last_purchase_price', 'rank', 'created', 'updated'
 ]
 
-import ast
 
 def mgt_export_products_to_csv(request):
     # Create the HttpResponse object with the appropriate CSV header.
@@ -392,7 +393,7 @@ def mgt_export_products_to_csv(request):
             product_ids = [int(id) for id in product_ids]
         except (ValueError, SyntaxError):
             product_ids = []
-        
+
         products = Product.objects.filter(id__in=product_ids)
     else:
         products = Product.objects.all()
@@ -405,16 +406,17 @@ def mgt_export_products_to_csv(request):
 
     # Sort selected fields based on the desired order
     selected_fields_sorted = sorted(
-        selected_fields, key=lambda x: PRODUCTS_DESIRED_ORDER.index(x) 
-            if x in PRODUCTS_DESIRED_ORDER 
-            else len(PRODUCTS_DESIRED_ORDER)
-        )
+        selected_fields, key=lambda x: PRODUCTS_DESIRED_ORDER.index(x)
+        if x in PRODUCTS_DESIRED_ORDER
+        else len(PRODUCTS_DESIRED_ORDER)
+    )
 
     # Create a CSV writer object
     writer = csv.writer(response)
 
     # Write the headers dynamically
-    headers = [field.replace('_', ' ').capitalize() for field in selected_fields_sorted]
+    headers = [field.replace('_', ' ').capitalize()
+               for field in selected_fields_sorted]
     writer.writerow(headers)
 
     # Fetch the products from the database
@@ -438,7 +440,7 @@ def mgt_export_products_to_csv(request):
                     value = str(value)
                 elif field == 'image':
                     value = value.url if value else ''
-                elif field in ['created','updated']:
+                elif field in ['created', 'updated']:
                     value = value.strftime('%Y %m %d - %I:%M:%S %p')
                 elif not isinstance(value, (str, int, float, bool, type(None))):
                     value = str(value)
@@ -459,7 +461,7 @@ def mgt_export_products_to_excel(request):
             product_ids = [int(id) for id in product_ids]
         except (ValueError, SyntaxError):
             product_ids = []
-        
+
         products = Product.objects.filter(id__in=product_ids)
     else:
         products = Product.objects.all()
@@ -473,15 +475,15 @@ def mgt_export_products_to_excel(request):
 
     # Sort selected fields based on the desired order
     selected_fields_sorted = sorted(
-        selected_fields, key=lambda x: PRODUCTS_DESIRED_ORDER.index(x) 
-            if x in PRODUCTS_DESIRED_ORDER 
-            else len(PRODUCTS_DESIRED_ORDER)
-        )
+        selected_fields, key=lambda x: PRODUCTS_DESIRED_ORDER.index(x)
+        if x in PRODUCTS_DESIRED_ORDER
+        else len(PRODUCTS_DESIRED_ORDER)
+    )
 
     # Write the headers dynamically
-    headers = [field.replace('_', ' ').capitalize() for field in selected_fields_sorted]
+    headers = [field.replace('_', ' ').capitalize()
+               for field in selected_fields_sorted]
     ws.append(headers)
-
 
     # Write the product data dynamically
     for product in products:
@@ -502,7 +504,7 @@ def mgt_export_products_to_excel(request):
                     value = str(value)
                 elif field == 'image':
                     value = value.url if value else ''
-                elif field in ['created','updated']:
+                elif field in ['created', 'updated']:
                     value = value.strftime('%Y %m %d - %I:%M:%S %p')
                 elif not isinstance(value, (str, int, float, bool, type(None))):
                     value = str(value)
