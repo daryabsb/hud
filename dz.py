@@ -24,6 +24,8 @@ dz_array = {
             f"{app}/css/vendor.min.css",
             f"{app}/css/app.min.css",
             f"{app}/plugins/toastify/toastify.min.css",
+            f"{app}/plugins/datatable/datatables.min.css",
+            f"{app}/plugins/datatable/data-tables.css",
         ],
         "global_js": {
             "top": [

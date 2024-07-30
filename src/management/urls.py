@@ -100,5 +100,12 @@ urlpatterns += [
 urlpatterns += [
     path('api/documents/', views.DocumentListView.as_view(),
          name='document-list-api'),
+    path('api/documents/data', views.get_document_data,
+         name='document-data'),
     # other routes
+    path(
+        "item_datatable/",
+        views.ItemListView.as_view(),
+        name="item_datatable",
+    ),
 ]

@@ -1,0 +1,41 @@
+<style>
+.f32 .flag {
+        vertical-align: middle;
+        margin: -8px 0;
+    }
+ 
+    progress {
+        width: 100%;
+    }
+</style>
+<table id='table' class='table'></table>
+    
+{% block additional_js%}
+	<script>
+    var url = '{% url 'mgt:item_datatable' %}'
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  var table = document.getElementById('table');
+
+  new DataTable(table, {
+    ordering: false,
+    ajax: {
+      url: '{% url 'mgt:item_datatable' %}?datatables=1',
+      dataSrc: ''
+    },
+    serverSide: true,
+    columns: [
+      { data: 'number', title: 'Number' },
+      //{ data: 'name', title: 'Name' },
+      { data: 'customer', title: 'Customer' },
+      { data: 'document_type', title: 'Document type' },
+      { data: 'warehouse', title: 'Warehouse' }
+    ],
+
+  });
+});
+
+
+	</script>
+{% endblock additional_js%}
