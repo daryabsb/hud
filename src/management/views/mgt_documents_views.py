@@ -7,6 +7,10 @@ from src.documents.models import Document
 from src.documents.forms import DocumentFilterForm
 
 
+def mgt_documents_example(request):
+    return render(request, 'mgt/documents/list3.html')
+
+
 def mgt_documents(request):
     form = DocumentFilterForm
     documents = Document.objects.all()

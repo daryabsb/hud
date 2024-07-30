@@ -38,6 +38,7 @@ urlpatterns += [
 
 urlpatterns += [
     path('documents/', views.mgt_documents, name='documents'),
+    path('documents/test/', views.mgt_documents_example, name='documents-example'),
 ]
 
 # MODALS URLS
