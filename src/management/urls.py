@@ -32,6 +32,9 @@ urlpatterns += [
     path('mgt-price-tags-control/', views.mgt_price_tags_control,
          name='mgt-price-tags-control'),
 
+    path('products-list/', views.ProductListView.as_view(),
+         name='products-list'),
+
 ]
 
 # DOCUMENTS RELATED URLS
@@ -107,5 +110,10 @@ urlpatterns += [
         "item_datatable/",
         views.ItemListView.as_view(),
         name="item_datatable",
+    ),
+    path(
+        "products-datatable-data/",
+        views.product_datatable_view,
+        name="products-datatable-data",
     ),
 ]

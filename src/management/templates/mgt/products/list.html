@@ -35,17 +35,17 @@
 						{% include 'mgt/products/partials/sidebar.html' %}
 					</div>
 					<div class="file-manager-content d-flex flex-column overflow-x-auto">
-						{% include 'mgt/products/partials/table-header.html' %}
+						{% comment %} {% include 'mgt/products/partials/table-header.html' %} {% endcomment %}
 						<div class="flex-1 h-100">
 							<div id="mgt-products-table" data-scrollbar="true" data-skip-mobile="true" class="p-0"  >
-							{% include 'mgt/products/partials/products-table.html' %}
+							{% include 'mgt/products/partials/products-table3.html' %}
 							</div>
 						</div>
-						<div class="border-top p-2">
+						{% comment %} <div class="border-top p-2">
 							<div class="d-md-flex align-items-center" style="height:2.8rem;"  id="mgt-products-table-pagination">
 								{% include 'mgt/products/partials/pagination.html' %}
 							</div>
-						</div>
+						</div> {% endcomment %}
 					</div>
 				</div>
 			</div>

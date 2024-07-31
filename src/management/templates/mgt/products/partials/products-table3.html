@@ -1,0 +1,9 @@
+<div class="table-responsive h-100">
+    <table id='products-table' class='table table-bordered table-xs w-100 fw-semibold text-nowrap mb-3 display compact stripe'></table>
+</div>
+<script>
+    var productListUrl = '{% url "mgt:products-datatable-data" %}?datatables=1'
+    var topToolbar = `{% include 'mgt/products/partials/table-header.html' %}` 
+</script>
+{% comment %} lox-tic@outlook.com
+Welcome@cosqc24 {% endcomment %}
