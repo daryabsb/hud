@@ -10,11 +10,8 @@
 </style>
 <table id='table' class='table'></table>
     
-{% block additional_js%}
-	<script>
-    var url = '{% url 'mgt:item_datatable' %}'
-
-
+{% block additional_js %}
+<script>
 document.addEventListener('DOMContentLoaded', function() {
   var table = document.getElementById('table');
 
@@ -22,20 +19,16 @@ document.addEventListener('DOMContentLoaded', function() {
     ordering: false,
     ajax: {
       url: '{% url 'mgt:item_datatable' %}?datatables=1',
-      dataSrc: ''
+      dataSrc: 'data'  // Ensure this matches the key in the JSON response.
     },
     serverSide: true,
     columns: [
       { data: 'number', title: 'Number' },
-      //{ data: 'name', title: 'Name' },
-      { data: 'customer', title: 'Customer' },
-      { data: 'document_type', title: 'Document type' },
-      { data: 'warehouse', title: 'Warehouse' }
+      { data: 'customer__name', title: 'Customer' },  // Match these keys with the JSON response.
+      { data: 'document_type__name', title: 'Document Type' },
+      { data: 'warehouse__name', title: 'Warehouse' }
     ],
-
   });
 });
-
-
-	</script>
-{% endblock additional_js%}
+</script>
+{% endblock additional_js %}

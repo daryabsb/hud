@@ -41,12 +41,19 @@ class ItemListView(ListView):
             filtered_count = qs.count()
             qs = qs[start: start + length]
 
+            data = list(qs.values(
+                'number', 
+                'customer__name', 
+                'document_type__name', 
+                'warehouse__name'
+            ))
+
             return JsonResponse(
                 {
                     "recordsTotal": self.get_queryset().count(),
                     "recordsFiltered": filtered_count,
                     "draw": draw,
-                    "data": list(qs.values()),
+                    "data": data,
                 },
                 safe=False,
             )
