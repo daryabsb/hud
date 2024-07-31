@@ -1,4 +1,5 @@
 console.log(productListUrl);
+
 var width = window.innerWidth;
 document.addEventListener('DOMContentLoaded', function () {
     var table = document.getElementById('products-table');
@@ -28,6 +29,12 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Error fetching data:', error);
         });
 });
+function getImage(data) {
+    return `
+        <div class="w-40px h-40px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+            <img alt="" class="mw-100 mh-100" src="/media/${data}">
+        </div>`
+}
 // Function to format columns
 function formatColumns(columns) {
     return columns.map(column => {
@@ -51,6 +58,16 @@ function formatColumns(columns) {
                         return date.toLocaleString(); // Format the date
                     }
                     return data;
+                }
+            };
+        }
+        if (column.data === 'image') {
+            return {
+                ...column,
+                render: function (data, type) {
+                    if (type === 'display') {
+                        return getImage(data);
+                    }
                 }
             };
         }

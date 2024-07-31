@@ -40,168 +40,6 @@ from django.db.models import Q, F, Value
 from django.http import JsonResponse
 from django.views.generic import ListView
 
-class ProductListView(ListView):
-    model = Product
-    template_name = 'mgt/products/list.html'
-
-    def get_context_data(self, **kwargs):
-        # Call the base implementation first to get a context
-        context = super().get_context_data(**kwargs)
-        slug = kwargs.get('slug', None)
-        groups = ProductGroup.objects.all()
-
-        products = Product.objects.all()
-        fields = [field for field in Product._meta.get_fields()]
-        product_row = [field.name for field in fields if not (
-            field.many_to_many or field.one_to_many)]
-        all_products = products
-        if slug:
-            # if slug != 'products':
-            group = ProductGroup.objects.filter(slug=slug).first()
-            products = all_products.filter(
-                Q(parent_group=group) | Q(parent_group__parent=group))
-
-        # Pagination logic
-        page_size = 10 # request.GET.get('page-size', 8)
-        page_size = int(page_size)
-
-        paginator = Paginator(products, page_size)
-        page_number = 1 # request.GET.get('page')
-        page_obj = paginator.get_page(page_number)
-
-        # Determine pagination range
-        num_pages = paginator.num_pages
-        print("page_obj.count = ", page_obj.end_index() - page_obj.start_index() + 1)
-        current_page = page_obj.number
-        if num_pages <= 5:
-            page_range = range(1, num_pages + 1)
-        else:
-            start = max(1, current_page - 2)
-            end = min(num_pages, current_page + 2)
-            if start == 1:
-                end = min(5, num_pages)
-            if end == num_pages:
-                start = max(1, num_pages - 4)
-            page_range = range(start, end + 1)
-
-        # Range of page sizes for the select dropdown
-        page_size_range = range(6, 11)
-
-
-
-
-        context["products"] = page_obj
-        context["all_products"] = all_products
-        context["products_count"] = products.count()
-        context["page_range"] = page_range
-        context["page_size"] = page_size
-        context["page_size_range"] = page_size_range
-        context["groups"] = groups
-
-
-        context["book_list"] = Product.objects.all()
-        return context
-
-    def render_to_response(self, context, **response_kwargs):
-        print('context = ', context)
-        if self.request.GET.get("datatables"):
-            draw = int(self.request.GET.get("draw", "1"))
-            length = int(self.request.GET.get("length", "10"))
-            start = int(self.request.GET.get("start", "0"))
-            sv = self.request.GET.get("search[value]", None)
-            
-            qs = self.get_queryset().select_related('currency').annotate(
-                currency_name=F('currency__name')
-            ).order_by("id")
-            if sv:
-                qs = qs.filter(
-                    Q(name__icontains=sv)
-                    | Q(code__icontains=sv)
-                    | Q(description__icontains=sv)
-                )
-            filtered_count = qs.count()
-            qs = qs[start: start + length]
-
-            data = list(qs.values('id', 'name', 'code', 'description', 'price', 'currency_name', 
-                                'is_tax_inclusive_price', 'is_enabled', 'created', 'updated'))
-
-
-            columns = [
-                { "data": "id", "title": "ID" },
-                { "data": "name", "title": "Name" },
-                { "data": "code", "title": "Code" },
-                # { "data": "description", "title": "Description" },
-                { "data": "price", "title": "Price" },
-                { "data": "currency_name", "title": "Currency" },
-                { "data": "is_tax_inclusive_price", "title": "Tax Inclusive" },
-                { "data": "is_enabled", "title": "Enabled" },
-                { "data": "created", "title": "Created" },
-                { "data": "updated", "title": "Updated" },
-            ]
-
-            return JsonResponse({
-                "recordsTotal": self.get_queryset().count(),
-                "recordsFiltered": filtered_count,
-                "draw": draw,
-                "data": list(qs.values()),
-                "columns": columns
-            }, safe=False)
-
-        return super().render_to_response(context, **response_kwargs)
-
-
-
-
-
-
-
-
-
-
-
-def product_list_view(request, slug=None):
-    groups = ProductGroup.objects.all()
-
-    products = Product.objects.all()
-    if slug:
-        group = ProductGroup.objects.filter(slug=slug).first()
-        products = products.filter(
-            Q(parent_group=group) | Q(parent_group__parent=group)
-        )
-
-    # Pagination
-    page_size = int(request.GET.get('page-size', 10))
-    paginator = Paginator(products, page_size)
-    page_number = int(request.GET.get('page', 1))
-    page_obj = paginator.get_page(page_number)
-
-    # Pagination range
-    num_pages = paginator.num_pages
-    current_page = page_obj.number
-    if num_pages <= 5:
-        page_range = range(1, num_pages + 1)
-    else:
-        start = max(1, current_page - 2)
-        end = min(num_pages, current_page + 2)
-        if start == 1:
-            end = min(5, num_pages)
-        if end == num_pages:
-            start = max(1, num_pages - 4)
-        page_range = range(start, end + 1)
-
-    page_size_range = range(6, 11)
-
-    context = {
-        "products": page_obj,
-        "all_products": products,
-        "products_count": products.count(),
-        "page_range": page_range,
-        "page_size": page_size,
-        "page_size_range": page_size_range,
-        "groups": groups,
-    }
-
-    return render(request, 'mgt/products/list.html', context)
 
 def product_datatable_view(request):
     draw = int(request.GET.get("draw", "1"))
@@ -210,7 +48,8 @@ def product_datatable_view(request):
     search_value = request.GET.get("search[value]", None)
 
     qs = Product.objects.select_related('currency').annotate(
-        currency_name=F('currency__name')
+        currency_name=F('currency__name'),
+        # image_url=F('image__url'),
     ).order_by("id")
 
     if search_value:
@@ -223,24 +62,23 @@ def product_datatable_view(request):
     filtered_count = qs.count()
     qs = qs[start: start + length]
 
-    data = list(qs.values('id', 'name', 'code', 'description', 'price', 'currency_name',
+    data = list(qs.values('id', 'image', 'name', 'code', 'description', 'price', 'currency_name',
                           'is_tax_inclusive_price', 'is_enabled', 'created', 'updated',
-                          'is_price_change_allowed', 'is_service'
-                          ))
+                          'is_price_change_allowed', 'is_service'))
 
     columns = [
-        # { "data": '', "className": "mycheckbox", "defaultContent":'<input type="checkbox",value="">'},
-        { "data": "id", "title": "ID" },
-        { "data": "name", "title": "Name" },
-        { "data": "code", "title": "Code" },
-        { "data": "price", "title": "Price" },
-        { "data": "currency_name", "title": "Currency" },
-        { "data": "is_tax_inclusive_price", "title": "Tax Inclusive" },
-        { "data": "is_enabled", "title": "Enabled" },
-        { "data": "is_price_change_allowed", "title": "Price change allowed" },
-        { "data": "is_service", "title": "Is service" },
-        { "data": "created", "title": "Created" },
-        { "data": "updated", "title": "Updated" },
+        {"data": "id", "title": "ID"},
+        {"data": "image", "title": "Image"},
+        {"data": "name", "title": "Name"},
+        {"data": "code", "title": "Code"},
+        {"data": "price", "title": "Price"},
+        {"data": "currency_name", "title": "Currency"},
+        {"data": "is_tax_inclusive_price", "title": "Tax Inclusive"},
+        {"data": "is_enabled", "title": "Enabled"},
+        {"data": "is_price_change_allowed", "title": "Price Change Allowed"},
+        {"data": "is_service", "title": "Is Service"},
+        {"data": "created", "title": "Created"},
+        {"data": "updated", "title": "Updated"},
     ]
 
     return JsonResponse({
@@ -250,24 +88,6 @@ def product_datatable_view(request):
         "data": data,
         "columns": columns
     }, safe=False)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 def mgt_products(request, slug=None):
