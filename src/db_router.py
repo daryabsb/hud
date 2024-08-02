@@ -6,8 +6,10 @@ ap.objects.all()
 
 class ConfigurationsRouter:
     route_app_labels = {"src.configurations", "configurations"}
-    route_model_lebels = {"ApplicationProperty", "ApplicationPropertySection"}
-    route_modelnames = {"applicationproperty", "applicationpropertysection"}
+    route_model_lebels = {"ApplicationProperty",
+                          "ApplicationPropertySection", "AppTable", "AppTableColumn"}
+    route_modelnames = {"applicationproperty",
+                        "applicationpropertysection", "apptable", "apptablecolumn"}
 
     def db_for_read(self, model, **hints):
         if model._meta.app_label in self.route_app_labels:

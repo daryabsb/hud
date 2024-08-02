@@ -1,1 +1,2 @@
 from .admin_application_property import ApplicationPropertyAdmin, ApplicationPropertySectionAdmin
+from .admin_table_columns import AppTableAdmin, AppTableColumnAdmin

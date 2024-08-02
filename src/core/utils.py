@@ -8,6 +8,27 @@ from src.settings.components.env import config
 # stripe.api_key = STRIPE_SECRET_KEY
 
 
+def get_columns(app_name):
+    from src.configurations.models import AppTableColumn
+    queryset = AppTableColumn.objects.filter(
+        is_enabled=True, app__name=app_name
+    )
+    return [
+        {
+            "name": column.related_value if column.is_related else column.name,
+            "title": column.title
+        } for column in queryset
+    ]
+
+
+def get_fields(app_name):
+    from src.configurations.models import AppTableColumn
+    queryset = AppTableColumn.objects.filter(
+        is_enabled=True, app__name=app_name
+    )
+    return [column.related_value if column.is_related else column.name for column in queryset]
+
+
 def generate_ean13():
     from src.products.models import Barcode
     while True:
@@ -19,6 +40,8 @@ def generate_ean13():
             return ean13
 
 # For configuration model
+
+
 def convert_value(value):
     try:
         # Attempt to evaluate the value to its original type
@@ -26,6 +49,7 @@ def convert_value(value):
     except (ValueError, SyntaxError):
         # If evaluation fails, return the value as-is (it is a string)
         return value
+
 
 def calculate_ean13_checksum(ean):
     # Calculate the checksum for the EAN-13 barcode

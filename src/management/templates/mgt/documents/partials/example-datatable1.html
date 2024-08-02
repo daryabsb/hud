@@ -1,34 +1,35 @@
-<style>
-.f32 .flag {
-        vertical-align: middle;
-        margin: -8px 0;
-    }
- 
-    progress {
-        width: 100%;
-    }
-</style>
-<table id='table' class='table'></table>
-    
+{% load columns %}
+{% include 'mgt/buttons/columns.html' with app_name='products' model_name='Product' %}
+<table id="example" class="display" style="width:100%"></table>
+</div>
+</div>
+{% with app_name='products' model_name='Product' %}
+<input type="hidden" value="{{ app_name|get_columns:model_name }}" id="columns-content" />
+{% endwith %}
+{% with app_name='products' model_name='Product' %}
 {% block additional_js %}
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  var table = document.getElementById('table');
 
-  new DataTable(table, {
-    ordering: false,
-    ajax: {
-      url: '{% url 'mgt:item_datatable' %}?datatables=1',
-      dataSrc: 'data'  // Ensure this matches the key in the JSON response.
-    },
-    serverSide: true,
-    columns: [
-      { data: 'number', title: 'Number' },
-      { data: 'customer__name', title: 'Customer' },  // Match these keys with the JSON response.
-      { data: 'document_type__name', title: 'Document Type' },
-      { data: 'warehouse__name', title: 'Warehouse' }
-    ],
-  });
+var columns = document.getElementById('columns-content').value
+console.log(columns)
+
+// Initialize checkboxes to match the initial visibility of the columns
+document.addEventListener('DOMContentLoaded', function () {
+const table = new DataTable('#example', {
+    paging: false,
+    scrollY: '200px',
+    data: [],
+	columns: columns,
+});
+document.querySelectorAll('input[name="columns-checkbox"]').forEach((checkbox) => {
+    checkbox.addEventListener('click', function(e){
+		let val = e.target.value
+        let column = table.column(val);
+        column.visible(!column.visible());
+	});
+});
+  
 });
 </script>
 {% endblock additional_js %}
+{% endwith %}

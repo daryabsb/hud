@@ -91,9 +91,9 @@ dz_array = {
 
                 ],
                 "view": [
-                    f"{app}/plugins/iconify/iconify.min.js",
-                    f"{app}/js/demo/file-manager.demo.js",
-                    f"{app}/js/mgt/products-client.js",
+                    # f"{app}/plugins/iconify/iconify.min.js",
+                    # f"{app}/js/demo/file-manager.demo.js",
+                    # f"{app}/js/mgt/products-client.js",
 
                 ],
                 "mgt_users": [

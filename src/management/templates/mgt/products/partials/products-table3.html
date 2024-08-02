@@ -1,9 +1,19 @@
+{% load columns %}
 <div class="table-responsive h-100">
     <table id='products-table' class='table table-bordered table-xs w-100 fw-semibold text-nowrap mb-3 display compact stripe'></table>
 </div>
+
+{% with app_name='products' model_name='Product' %}
+   {{ app_name|get_columns:model_name|json_script:"columns-data" }}
+
+<input type="hidden" value="{{ app_name|get_columns:model_name }}" id="columns-content" />
+{% endwith %}
 <script>
     var productListUrl = '{% url "mgt:products-datatable-data" %}?datatables=1'
     var topToolbar = `{% include 'mgt/products/partials/table-header.html' %}` 
+
+       var columns = JSON.parse(document.getElementById("columns-data").textContent);
+    
 </script>
 {% comment %} lox-tic@outlook.com
 Welcome@cosqc24 {% endcomment %}

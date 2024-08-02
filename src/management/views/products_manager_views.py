@@ -35,10 +35,9 @@ from src.configurations.models import ApplicationProperty
 from src.configurations.forms import ApplicationPropertyForm
 from src.core.utils import convert_value
 from django.forms import modelformset_factory
-from django.db.models import Q, F, Value
-
+from django.db.models import Q, F
+from src.core.utils import get_fields
 from django.http import JsonResponse
-from django.views.generic import ListView
 
 
 def product_datatable_view(request):
@@ -47,8 +46,11 @@ def product_datatable_view(request):
     start = int(request.GET.get("start", "0"))
     search_value = request.GET.get("search[value]", None)
 
-    qs = Product.objects.select_related('currency').annotate(
-        currency_name=F('currency__name'),
+    qs = Product.objects.select_related('currency', 'barcode').annotate(
+        user__name=F('user__name'),
+        barcode__value=F('barcode__value'),
+        parent_group__name=F('parent_group__name'),
+        currency__name=F('currency__name'),
         # image_url=F('image__url'),
     ).order_by("id")
 
@@ -62,31 +64,13 @@ def product_datatable_view(request):
     filtered_count = qs.count()
     qs = qs[start: start + length]
 
-    data = list(qs.values('id', 'image', 'name', 'code', 'description', 'price', 'currency_name',
-                          'is_tax_inclusive_price', 'is_enabled', 'created', 'updated',
-                          'is_price_change_allowed', 'is_service'))
-
-    columns = [
-        {"data": "id", "title": "ID"},
-        {"data": "image", "title": "Image"},
-        {"data": "name", "title": "Name"},
-        {"data": "code", "title": "Code"},
-        {"data": "price", "title": "Price"},
-        {"data": "currency_name", "title": "Currency"},
-        {"data": "is_tax_inclusive_price", "title": "Tax Inclusive"},
-        {"data": "is_enabled", "title": "Enabled"},
-        {"data": "is_price_change_allowed", "title": "Price Change Allowed"},
-        {"data": "is_service", "title": "Is Service"},
-        {"data": "created", "title": "Created"},
-        {"data": "updated", "title": "Updated"},
-    ]
+    data = list(qs.values(*get_fields('products')))
 
     return JsonResponse({
         "recordsTotal": Product.objects.count(),
         "recordsFiltered": filtered_count,
         "draw": draw,
         "data": data,
-        "columns": columns
     }, safe=False)
 
 
@@ -126,6 +110,8 @@ def mgt_products(request, slug=None):
         if end == num_pages:
             start = max(1, num_pages - 4)
         page_range = range(start, end + 1)
+
+    print('This view is called')
 
     # Range of page sizes for the select dropdown
     page_size_range = range(6, 11)
@@ -425,12 +411,12 @@ fields = [
     'id', 'user', 'name', 'slug', 'parent_group', 'code', 'description', 'plu', 'measurement_unit',
     'price', 'currency', 'is_tax_inclusive_price', 'is_price_change_allowed', 'is_service',
     'is_using_default_quantity', 'is_product', 'cost', 'margin', 'image',
-    'color2', 'color', 'is_enabled', 'age_restriction', 'last_purchase_price', 'rank', 'created', 'updated'
+    'color', 'is_enabled', 'age_restriction', 'last_purchase_price', 'rank', 'created', 'updated'
 ]
 fields2 = [
     'barcode', 'id', 'user', 'name', 'slug', 'parent_group', 'code', 'description', 'plu', 'measurement_unit',
     'price', 'currency', 'is_tax_inclusive_price', 'is_price_change_allowed', 'is_service',
-    'is_using_default_quantity', 'is_product', 'cost', 'margin', 'image', 'color2', 'color',
+    'is_using_default_quantity', 'is_product', 'cost', 'margin', 'image', 'color',
     'is_enabled', 'age_restriction', 'last_purchase_price', 'rank', 'created', 'updated'
 ]
 
