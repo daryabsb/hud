@@ -1,22 +1,21 @@
-
-
-
-
-
 function renderDataTable(elId, ajaxUrl, options = {}) {
     var width = window.innerWidth;
     var table = document.getElementById(elId);
     fetch(ajaxUrl)
         .then(response => response.json())
         .then(data => {
-
             data.columns.unshift(
+                {
+                    data: null,
+                    render: DataTable.render.select()
+                },
                 {
                     data: 'id',
                     title: '<i class="fa fa-search fa-fw"></i>',
                 }
             )
 
+            console.log(data.columns);
             var formattedColumns = formatColumns(data.columns);
 
             table = new DataTable(table, {
@@ -30,7 +29,19 @@ function renderDataTable(elId, ajaxUrl, options = {}) {
                 processing: true,
                 columns: formattedColumns,
                 serverSide: true,
-                select: true,
+                rowId: 'extn',
+                columnDefs: [
+                    {
+                        orderable: false,
+                        render: DataTable.render.select(),
+                        targets: 0
+                    }
+                ],
+                select: {
+                    style: 'os',
+                    selector: 'td:first-child',
+                    headerCheckbox: true
+                },
                 layout: {
                     //top: toolbar,
                     topEnd: null,
@@ -52,8 +63,21 @@ function renderDataTable(elId, ajaxUrl, options = {}) {
             console.error('Error fetching data:', error);
         });
     var searchInput = document.getElementById('top-search')
+    var selectAllButton = document.getElementById('select-all')
+    var deSelectAllButton = document.getElementById('deselect-all')
+    var reloadTableDataButton = document.getElementById('reload-table')
+
     searchInput.addEventListener('keyup', function (e) {
         table.search(this.value).draw();
+    });
+    selectAllButton.addEventListener('click', function (e) {
+        table.rows().select();
+    });
+    deSelectAllButton.addEventListener('click', function (e) {
+        table.rows().deselect();
+    });
+    reloadTableDataButton.addEventListener('click', function (e) {
+        table.ajax.reload();
     });
 }
 

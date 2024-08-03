@@ -35,7 +35,8 @@ dz_array = {
                 # f"{app}/plugins/jquery/jquery.min.js",
                 f"{app}/plugins/jscolor/jscolor.min.js",
                 f"{app}/plugins/toastify/toastify-js.js",
-                f"{app}/js/render-datatable.js",
+                f"{app}/js/scripts.js",
+                # f"{app}/js/render-datatable.js",
 
             ],
             "down": [
@@ -87,7 +88,7 @@ dz_array = {
                 "mgt_products": [
                     f"{app}/plugins/iconify/iconify.min.js",
                     f"{app}/js/demo/file-manager.demo.js",
-                    f"{app}/js/mgt/products-client.js",
+                    # f"{app}/js/mgt/products-client.js",
 
                 ],
                 "view": [

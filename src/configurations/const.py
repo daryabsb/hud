@@ -246,8 +246,84 @@ APP_TABLES_COLUMNS = [
     {"id": 26, "app": "products", "name": "created", "title": "Created",
         "is_enabled": True, "is_related": False, "related_value": ""},
     {"id": 27, "app": "products", "name": "updated", "title": "Updated",
-        "is_enabled": True, "is_related": False, "related_value": ""}
+        "is_enabled": True, "is_related": False, "related_value": ""},
+
+    {"id": 28, "app": "documents", "name": "id", "title": "Id",
+        "is_enabled": True, "is_related": False, "related_value": ""},
+
+    {"id": 29, "app": "documents", "name": "number", "title": "Number",
+        "is_enabled": True, "is_related": False, "related_value": ""},
+
+    {"id": 30, "app": "documents", "name": "customer", "title": "Customer",
+        "is_enabled": True, "is_related": True, "related_value": "customer__name"},
+
+    {"id": 31, "app": "documents", "name": "cash_register", "title": "Cash Register",
+        "is_enabled": True, "is_related": True, "related_value": "cash_register__name"},
+
+    {"id": 32, "app": "documents", "name": "order", "title": "Order",
+        "is_enabled": True, "is_related": True, "related_value": "order__id"},
+
+    {"id": 33, "app": "documents", "name": "document_type", "title": "Type",
+        "is_enabled": True, "is_related": True, "related_value": "document_type__name"},
+
+    {"id": 34, "app": "documents", "name": "warehouse", "title": "Warehouse",
+        "is_enabled": True, "is_related": True, "related_value": "warehouse__name"},
+
+    {"id": 35, "app": "documents", "name": "date", "title": "Issued Date",
+        "is_enabled": True, "is_related": False, "related_value": ""},
+
+    {"id": 36, "app": "documents", "name": "user", "title": "User",
+        "is_enabled": True, "is_related": True, "user__name": ""},
+
+    {"id": 37, "app": "documents", "name": "reference_document_number", "title": "Ref #",
+        "is_enabled": True, "is_related": False, "related_value": ""},
+
+    {"id": 38, "app": "documents", "name": "internal_note", "title": "Internal Note",
+        "is_enabled": True, "is_related": False, "related_value": ""},
+
+    {"id": 39, "app": "documents", "name": "note", "title": "Note",
+        "is_enabled": True, "is_related": False, "related_value": ""},
+
+    {"id": 40, "app": "documents", "name": "due_date", "title": "Due Date",
+        "is_enabled": True, "is_related": False, "related_value": ""},
+
+    {"id": 41, "app": "documents", "name": "discount", "title": "Discount",
+        "is_enabled": True, "is_related": False, "related_value": ""},
+
+    {"id": 42, "app": "documents", "name": "discount_type", "title": "Discount Type",
+        "is_enabled": True, "is_related": False, "related_value": ""},
+
+    {"id": 43, "app": "documents", "name": "discount_apply_rule", "title": "Discount Rule",
+        "is_enabled": True, "is_related": False, "related_value": ""},
+
+    {"id": 44, "app": "documents", "name": "paid_status", "title": "Paid Status",
+        "is_enabled": True, "is_related": False, "related_value": ""},
+
+    {"id": 45, "app": "documents", "name": "stock_date", "title": "Stock Date",
+        "is_enabled": True, "is_related": False, "related_value": ""},
+
+    {"id": 46, "app": "documents", "name": "total", "title": "Total",
+        "is_enabled": True, "is_related": False, "related_value": ""},
+
+    {"id": 47, "app": "documents", "name": "is_clocked_out", "title": "Is Clocked Out",
+        "is_enabled": True, "is_related": False, "related_value": ""},
+
+    {"id": 48, "app": "documents", "name": "created", "title": "Created",
+        "is_enabled": True, "is_related": False, "related_value": ""},
+
+    {"id": 49, "app": "documents", "name": "updated", "title": "Updated",
+        "is_enabled": True, "is_related": False, "related_value": ""},
 ]
+'''
+['id', 'number', 'user', 'customer', 'cash_register', 'order', 'document_type', 'warehouse', 
+'date', 'reference_document_number', 'internal_note', 'note', 'due_date', 'discount', 
+'discount_type', 'discount_apply_rule', 'paid_status', 'stock_date', 'total', 'is_clocked_out', 
+'created', 'updated']
+'''
+
+
+
+
 
 
 '''

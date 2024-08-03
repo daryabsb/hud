@@ -15,7 +15,7 @@ def get_columns(app_name):
     )
     return [
         {
-            "name": column.related_value if column.is_related else column.name,
+            "data": column.related_value if column.is_related else column.name,
             "title": column.title
         } for column in queryset
     ]

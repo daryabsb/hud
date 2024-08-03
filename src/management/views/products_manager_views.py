@@ -36,7 +36,7 @@ from src.configurations.forms import ApplicationPropertyForm
 from src.core.utils import convert_value
 from django.forms import modelformset_factory
 from django.db.models import Q, F
-from src.core.utils import get_fields
+from src.core.utils import get_fields, get_columns
 from django.http import JsonResponse
 
 
@@ -65,12 +65,13 @@ def product_datatable_view(request):
     qs = qs[start: start + length]
 
     data = list(qs.values(*get_fields('products')))
-
+    columns = get_columns('products')
     return JsonResponse({
         "recordsTotal": Product.objects.count(),
         "recordsFiltered": filtered_count,
         "draw": draw,
         "data": data,
+        "columns": columns,
     }, safe=False)
 
 
@@ -393,8 +394,6 @@ def mgt_price_tags_print_selected(request):
     header_row = [field.name for field in fields if not (
         field.many_to_many or field.one_to_many)]
 
-    print("header_row = ", header_row)
-
     if selected_products:
         for id in selected_products:
             product = get_object_or_404(Product, id=id)
@@ -402,23 +401,6 @@ def mgt_price_tags_print_selected(request):
             print('product_html = ', html)
 
     return HttpResponse("The selected product printed successfully!")
-
-
-fields = [
-    'document_items', 'comments', 'order_items', 'product_print_stations', 'productTaxes',
-    'stock_controls',
-    'barcode', 'stocks',
-    'id', 'user', 'name', 'slug', 'parent_group', 'code', 'description', 'plu', 'measurement_unit',
-    'price', 'currency', 'is_tax_inclusive_price', 'is_price_change_allowed', 'is_service',
-    'is_using_default_quantity', 'is_product', 'cost', 'margin', 'image',
-    'color', 'is_enabled', 'age_restriction', 'last_purchase_price', 'rank', 'created', 'updated'
-]
-fields2 = [
-    'barcode', 'id', 'user', 'name', 'slug', 'parent_group', 'code', 'description', 'plu', 'measurement_unit',
-    'price', 'currency', 'is_tax_inclusive_price', 'is_price_change_allowed', 'is_service',
-    'is_using_default_quantity', 'is_product', 'cost', 'margin', 'image', 'color',
-    'is_enabled', 'age_restriction', 'last_purchase_price', 'rank', 'created', 'updated'
-]
 
 
 def mgt_export_products_to_csv(request):

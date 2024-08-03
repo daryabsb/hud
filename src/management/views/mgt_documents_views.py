@@ -1,4 +1,4 @@
-from django.db.models import Q
+from django.db.models import Q, F
 from django.views.generic import ListView
 import json
 from django.http import JsonResponse
@@ -9,7 +9,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from src.documents.models import Document
 from src.documents.forms import DocumentFilterForm
-
+from src.core.utils import get_fields, get_columns
 
 class DocumentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -162,6 +162,55 @@ def mgt_documents_example(request):
     print(request.GET)
 
     return render(request, 'mgt/documents/list3.html', context)
+
+
+def documents_datatable_view(request):
+    draw = int(request.GET.get("draw", "1"))
+    length = int(request.GET.get("length", "10"))
+    start = int(request.GET.get("start", "0"))
+    search_value = request.GET.get("search[value]", None)
+
+    qs = Document.objects.select_related(
+        'user', 'customer','cash_register','order','document_type','warehouse'
+        ).annotate(
+        user__name=F('user__name'),
+        customer__name=F('customer__name'),
+        cash_register__name=F('cash_register__name'),
+        order__id=F('order__id'),
+        document_type__name=F('document_type__name'),
+        warehouse__name=F('warehouse__name'),
+        # image_url=F('image__url'),
+    ).order_by("id")
+
+    if search_value:
+        qs = qs.filter(
+            Q(name__icontains=search_value)
+            | Q(number__icontains=search_value)
+            | Q(reference_document_number__icontains=search_value)
+            | Q(internal_note__icontains=search_value)
+            | Q(paid_status__icontains=search_value)
+            | Q(stock_date__icontains=search_value)
+            | Q(created__icontains=search_value)
+            | Q(order__name__icontains=search_value)
+            | Q(customer__name__icontains=search_value)
+            | Q(cash_register__name__icontains=search_value)
+            | Q(document_type__name__icontains=search_value)
+            | Q(warehouse__name__icontains=search_value)
+            
+        )
+
+    filtered_count = qs.count()
+    qs = qs[start: start + length]
+
+    data = list(qs.values(*get_fields('documents')))
+    columns = get_columns('documents')
+    return JsonResponse({
+        "recordsTotal": Document.objects.count(),
+        "recordsFiltered": filtered_count,
+        "draw": draw,
+        "data": data,
+        "columns": columns,
+    }, safe=False)
 
 
 def mgt_documents(request):

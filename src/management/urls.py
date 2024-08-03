@@ -32,6 +32,11 @@ urlpatterns += [
     path('mgt-price-tags-control/', views.mgt_price_tags_control,
          name='mgt-price-tags-control'),
 
+    path(
+        "products-datatable-data/",
+        views.product_datatable_view,
+        name="products-datatable-data",
+    ),
     #     path('products-list/', views.ProductListView.as_view(),
     #          name='products-list'),
 
@@ -42,6 +47,7 @@ urlpatterns += [
 urlpatterns += [
     path('documents/', views.mgt_documents, name='documents'),
     path('documents/test/', views.mgt_documents_example, name='documents-example'),
+    path('documents-datatable-data/', views.documents_datatable_view, name='documents-datatable-data'),
 ]
 
 # MODALS URLS
@@ -110,10 +116,5 @@ urlpatterns += [
         "item_datatable/",
         views.ItemListView.as_view(),
         name="item_datatable",
-    ),
-    path(
-        "products-datatable-data/",
-        views.product_datatable_view,
-        name="products-datatable-data",
     ),
 ]

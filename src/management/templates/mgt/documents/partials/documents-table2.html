@@ -1,0 +1,12 @@
+<div class="table-responsive h-100">
+    <table id='documents-table' class='table table-bordered table-xs w-100 fw-semibold text-nowrap mb-3 display compact stripe'></table>
+</div>
+{% block additional_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        renderDataTable('documents-table', '{% url "mgt:documents-datatable-data" %}?datatables=1', {
+            scrollY: 200,
+        })
+    });
+</script>
+{% endblock additional_js %}

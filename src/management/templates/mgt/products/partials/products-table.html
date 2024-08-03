@@ -1,95 +1,10 @@
-<div class="p-2" data-id="table">
-    <table 
-    class="table table-bordered table-xs w-100 fw-semibold text-nowrap mb-3" 
-    
-    id="documents-table">
-        <thead>
-            <tr>
-                <th class="no-sort"></th>
-                <th>No.</th>
-                <th>Category</th>
-                <th>Name</th>
-                <th>Status</th>
-                <th>Price</th>
-                <th>Last price</th>
-                <th>Barcode</th>
-                <th>Cost/unit</th>
-                <th>Code</th>
-                <th>Currency</th>
-                <th>Tax inclusive</th>
-                <th>Price change allowed</th>
-                <th>Is Ser4vice</th>
-                <th>Default Quantity</th>
-                <th>Age restriction</th>
-                <th>Rank</th>
-            </tr>
-        </thead>
-        <tbody class="text-body">
-            {% for product in all_products %}
-            <tr>
-                <td><a href="#" data-bs-toggle="modal" data-bs-target="#modalDetail"><i class="fa fa-search fa-fw"></i></a></td>
-                <td>{{ product.id }}</td>
-                <td>{{ product.parent_group.name }}</td>
-                <td>{{ product.name }}</td>
-                <td class="text-{% if product.is_enabled %}success{% else %}danger{% endif %}"><i class="bi-check-circle-fill"></i></td>                
-                <td class="px-10px">{{ product.price }}</td>
-                <td class="px-10px">{{ product.last_purchase_price }}</td>
-                <td class="px-10px">{{ product.barcode.value }}</td>
-                <td class="px-10px">{{ product.cost }}/{{ product.measurement_unit }}</td>
-                <td class="px-10px">{{ product.code }}</td>
-                <td class="px-10px">{{ product.currency.name }}</td>
-                <td class="text-{% if product.is_tax_inclusive_price %}success{% else %}danger{% endif %}"><i class="bi-check-circle-fill"></i></td>                
-                <td class="text-{% if product.is_price_change_allowed %}success{% else %}danger{% endif %}"><i class="bi-check-circle-fill"></i></td>                
-                <td class="text-{% if product.is_service %}success{% else %}danger{% endif %}"><i class="bi-check-circle-fill"></i></td>                
-                <td class="text-{% if product.is_using_default_quantity %}success{% else %}danger{% endif %}"><i class="bi-check-circle-fill"></i></td>                
-                <td class="px-10px">{{ product.age_restriction }}</td>
-                <td class="px-10px">{{ product.rank }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-        <tfoot>
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th>309 sold</th>
-                <th>241 sold</th>
-                <th>271 sold</th>
-                <th>304 sold</th>
-                <th>241 sold</th>
-                <th>457 sold</th>
-                <th>$923,462</th>
-                <th>$751,792</th>
-                <th class="text-success">$171670</th>
-            </tr>
-        </tfoot> 
-    </table>
+<div class="table-responsive h-100">
+    <table id='products-table' class='table table-bordered table-xs w-100 fw-semibold text-nowrap mb-3 display compact stripe'></table>
 </div>
-
-{% block additional_js%}
-	<script>
-		var header = document.getElementById('header')
-		//var height = window.innerHeight - header.offsetHeight - 25;
-		var width = window.innerWidth ;
-
-		document.addEventListener("DOMContentLoaded", (event) => {
-		renderDataTable('documents-table', {
-			scrollX: width - 300,
-			pageLength: 20,
-			lengthMenu: [10, 20, 50, 75, 100],
-			//scrollY: height,
-			autoWidth: true,
-			select: true,
-			//fixedHeader: true,
-			fixedColumns: { left: 3 },
-			order: [[1, 'asc']],
-			})
-		});
-		
-	</script>
-{% endblock additional_js%}
+{% block additional_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        renderDataTable('products-table', '{% url "mgt:products-datatable-data" %}?datatables=1')
+    });
+</script>
+{% endblock additional_js %}
