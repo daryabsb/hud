@@ -44,21 +44,22 @@ function renderDataTable(elId, ajaxUrl, options = {}) {
                 select: {
                     style: 'os',
                     selector: 'td:first-child',
-                    headerCheckbox: true
+                    headerCheckbox: true,
+                    //style: 'single',
                 },
                 layout: {
                     //top: toolbar,
                     topEnd: null,
                     topStart: null,
-                    topStart: {
-                        buttons: [
-                            {
-                                extend: 'collection',
-                                text: 'Export',
-                                buttons: ['csv', 'excel', 'pdf']
-                            }
-                        ]
-                    }
+                    // topStart: {
+                    //     buttons: [
+                    //         {
+                    //             extend: 'collection',
+                    //             text: 'Export',
+                    //             buttons: ['csv', 'excel', 'pdf']
+                    //         }
+                    //     ]
+                    // }
                 },
                 ...options,
             });
@@ -74,6 +75,17 @@ function renderDataTable(elId, ajaxUrl, options = {}) {
             tablePageSizeButton.addEventListener('change', function () {
                 const value = parseInt(this.value, 10);
                 table.page.len(value).draw();
+            });
+
+            table.on('select', function (e, dt, type, indexes) {
+                if (type === 'row') {
+                    var data = table
+                        .rows(indexes)
+                        .data()
+                        .pluck('id');
+                    console.log("on-select = ", data[0]);
+                    // do something with the ID of the selected items
+                }
             });
 
 

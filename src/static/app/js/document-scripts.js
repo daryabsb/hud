@@ -1,5 +1,6 @@
 function renderDocumentsDataTable(elId, ajaxUrl, options = {}) {
     var width = window.innerWidth;
+    console.log(elId);
     var table = document.getElementById(elId);
     var tablePageSizeButton = document.getElementById('page-size')
 
@@ -48,6 +49,8 @@ function renderDocumentsDataTable(elId, ajaxUrl, options = {}) {
                 },
                 layout: {
                     //top: toolbar,
+                    bottomStart: null,
+                    bottomEnd: null,
                     topEnd: null,
                     topStart: null,
                     topStart: {
@@ -71,10 +74,10 @@ function renderDocumentsDataTable(elId, ajaxUrl, options = {}) {
                 option.text = value;
                 tablePageSizeButton.appendChild(option);
             });
-            tablePageSizeButton.addEventListener('change', function () {
-                const value = parseInt(this.value, 10);
-                table.page.len(value).draw();
-            });
+            // tablePageSizeButton.addEventListener('change', function () {
+            //     const value = parseInt(this.value, 10);
+            //     table.page.len(value).draw();
+            // });
 
 
             //console.log(table.settings().init().lengthMenu);
@@ -82,34 +85,34 @@ function renderDocumentsDataTable(elId, ajaxUrl, options = {}) {
         .catch(error => {
             console.error('Error fetching data:', error);
         });
-    var searchInput = document.getElementById('top-search')
-    var selectAllButton = document.getElementById('select-all')
-    var deSelectAllButton = document.getElementById('deselect-all')
-    var reloadTableDataButton = document.getElementById('reload-table')
-    var tablePageBackButton = document.getElementById('table-page-back')
-    var tablePageNextButton = document.getElementById('table-page-next')
+    // var searchInput = document.getElementById('top-search')
+    // var selectAllButton = document.getElementById('select-all')
+    // var deSelectAllButton = document.getElementById('deselect-all')
+    // var reloadTableDataButton = document.getElementById('reload-table')
+    // var tablePageBackButton = document.getElementById('table-page-back')
+    // var tablePageNextButton = document.getElementById('table-page-next')
 
 
 
 
-    searchInput.addEventListener('keyup', function (e) {
-        table.search(this.value).draw();
-    });
-    selectAllButton.addEventListener('click', function (e) {
-        table.rows().select();
-    });
-    deSelectAllButton.addEventListener('click', function (e) {
-        table.rows().deselect();
-    });
-    reloadTableDataButton.addEventListener('click', function (e) {
-        table.ajax.reload();
-    });
-    tablePageBackButton.addEventListener('click', function (e) {
-        table.page('previous').draw(false);
-    });
-    tablePageNextButton.addEventListener('click', function (e) {
-        table.page('next').draw(false);
-    });
+    // searchInput.addEventListener('keyup', function (e) {
+    //     table.search(this.value).draw();
+    // });
+    // selectAllButton.addEventListener('click', function (e) {
+    //     table.rows().select();
+    // });
+    // deSelectAllButton.addEventListener('click', function (e) {
+    //     table.rows().deselect();
+    // });
+    // reloadTableDataButton.addEventListener('click', function (e) {
+    //     table.ajax.reload();
+    // });
+    // tablePageBackButton.addEventListener('click', function (e) {
+    //     table.page('previous').draw(false);
+    // });
+    // tablePageNextButton.addEventListener('click', function (e) {
+    //     table.page('next').draw(false);
+    // });
 
 }
 
