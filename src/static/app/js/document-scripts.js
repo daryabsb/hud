@@ -1,9 +1,6 @@
 function renderDocumentsDataTable(elId, ajaxUrl, options = {}) {
-    var width = window.innerWidth;
     console.log(elId);
     var table = document.getElementById(elId);
-    var tablePageSizeButton = document.getElementById('page-size')
-
     fetch(ajaxUrl)
         .then(response => response.json())
         .then(data => {
@@ -33,7 +30,7 @@ function renderDocumentsDataTable(elId, ajaxUrl, options = {}) {
                 columns: formattedColumns,
                 serverSide: true,
                 rowId: 'extn',
-                pageLength: 10,
+                pageLength: 5,
                 lengthMenu: [10, 25, 50, 100],
                 columnDefs: [
                     {
@@ -66,21 +63,7 @@ function renderDocumentsDataTable(elId, ajaxUrl, options = {}) {
                 ...options,
             });
 
-            pageLengthOptions = table.settings().init().lengthMenu;
-
-            pageLengthOptions.forEach(value => {
-                const option = document.createElement('option');
-                option.value = value;
-                option.text = value;
-                tablePageSizeButton.appendChild(option);
-            });
-            // tablePageSizeButton.addEventListener('change', function () {
-            //     const value = parseInt(this.value, 10);
-            //     table.page.len(value).draw();
-            // });
-
-
-            //console.log(table.settings().init().lengthMenu);
+            return table
         })
         .catch(error => {
             console.error('Error fetching data:', error);
@@ -113,6 +96,8 @@ function renderDocumentsDataTable(elId, ajaxUrl, options = {}) {
     // tablePageNextButton.addEventListener('click', function (e) {
     //     table.page('next').draw(false);
     // });
+
+
 
 }
 

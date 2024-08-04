@@ -23,15 +23,21 @@
 		</div>
         <div class="card-body p-0 flex-1">
             <div class="file-manager h-100" id="fileManager">
+				<div class="row border">
                 {% include 'mgt/documents/partials/buttons-toolbar.html' %}
-                
-				
-				<div class="file-manager-container overflow-auto">
-					
-				{% comment %} <table id="documents-table" class="display" width="100%"></table> {% endcomment %}
+                {% include 'mgt/documents/partials/filter-form.html' %}
+				</div>
+				<div class="file-manager-container overflow-auto">	
+					{% comment %} <table id="documents-table" class="display" width="100%"></table> {% endcomment %}
 					{% include 'mgt/documents/partials/documents-table2.html' %}
-                </div>
-            </div>
+				</div>
+			</div>
+            <div class="file-manager h-100 border-top" id="fileManager">
+				<div class="file-manager-container overflow-auto">	
+					{% comment %} <table id="documents-table" class="display" width="100%"></table> {% endcomment %}
+					{% include 'mgt/documents/partials/documents-table3.html' %}
+				</div>
+			</div>
         </div>
 		<div class="card-arrow">
 			<div class="card-arrow-top-left"></div>
@@ -44,3 +50,25 @@
 </div>
 {% endblock content %}
 
+{% block additional_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    var documentTable = renderDocumentsDataTable('documents-table', '{% url "mgt:documents-datatable-data" %}?datatables=1');
+	var documentItemsTable = renderDocumentsDataTable('document-items-table', '{% url "mgt:document-items-datatable" %}?document-id=&datatables=1');
+
+	documentTable.on('select', function (e, dt, type, indexes) {
+                if (type === 'row') {
+                    var data = table
+                        .rows(indexes)
+                        .data()
+                        .pluck('id');
+                    console.log("on-select = ", data[0]);
+                    // do something with the ID of the selected items
+					documentItemsTable.ajax.url() = `{% url "mgt:document-items-datatable" %}?document-id=${data[0]}&datatables=1`
+					console.log(documentItemsTable.ajax.url())
+					documentItemsTable.draw()
+                }
+            });
+    });
+</script>
+{% endblock additional_js %}

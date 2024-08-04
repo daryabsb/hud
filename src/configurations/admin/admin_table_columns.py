@@ -29,17 +29,16 @@ class AppTableColumnAdmin(admin.ModelAdmin):
     list_display = ('id', 'app', 'name', 'title', 'is_enabled',
                     'is_related', 'related_value')
     ordering = ('id', )
-    list_filter = ('name', )
+    list_filter = ('app', 'is_related',)
 
     @staticmethod
     def initial_data():
         for index, col in enumerate(APP_TABLES_COLUMNS):
-            column = AppTableColumn.objects.filter(
-                name=col['name']).first()
+            column = AppTableColumn.objects.filter(id=col['id']).first()
             if not column:
                 app_name = AppTable.objects.filter(name=col['app']).first()
                 col['app'] = app_name
-
+                print(col)
                 column = AppTableColumn(**col)
                 column.save(force_insert=True)
             else:

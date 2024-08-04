@@ -190,7 +190,7 @@ SETTINGS_INITIAL_DATA = [
         "input_type": 'number', "params": '', "description": '', 'section': 'price_tags'},
 ]
 
-APP_TABLES = ['products', 'documents']
+APP_TABLES = ['products', 'documents', 'document_items']
 APP_TABLES_COLUMNS = [
     {"id": 1, "app": "products", "name": "id", "title": "Id",
         "is_enabled": True, "is_related": False, "related_value": ""},
@@ -273,7 +273,7 @@ APP_TABLES_COLUMNS = [
         "is_enabled": True, "is_related": False, "related_value": ""},
 
     {"id": 36, "app": "documents", "name": "user", "title": "User",
-        "is_enabled": True, "is_related": True, "user__name": ""},
+        "is_enabled": True, "is_related": True, "related_value": "user__name"},
 
     {"id": 37, "app": "documents", "name": "reference_document_number", "title": "Ref #",
         "is_enabled": True, "is_related": False, "related_value": ""},
@@ -310,9 +310,66 @@ APP_TABLES_COLUMNS = [
 
     {"id": 48, "app": "documents", "name": "created", "title": "Created",
         "is_enabled": True, "is_related": False, "related_value": ""},
+    {"id": 49, "app": "documents", "name": "updated", "title": "Updated",
+        "is_enabled": True, "is_related": False, "related_value": ""},
+
+
+
+    {"id": 50, "app": "document_items", "name": "id", "title": "Id",
+        "is_enabled": True, "is_related": False, "related_value": ""},
+
+    {"id": 51, "app": "document_items", "name": "user", "title": "User",
+        "is_enabled": True, "is_related": True, "related_value": "user__name"},
+
+    {"id": 52, "app": "document_items", "name": "document", "title": "Document",
+        "is_enabled": False, "is_related": True, "related_value": "document__id"},
+
+    {"id": 53, "app": "document_items", "name": "product", "title": "Product",
+        "is_enabled": True, "is_related": True, "related_value": "product__name"},
+
+    {"id": 54, "app": "document_items", "name": "quantity", "title": "Quantity",
+        "is_enabled": True, "is_related": False, "related_value": ""},
+
+    {"id": 55, "app": "document_items", "name": "expected_quantity", "title": "Expected Quantity",
+        "is_enabled": True, "is_related": False, "related_value": ""},
+    {"id": 56, "app": "document_items", "name": "price", "title": "Price",
+        "is_enabled": True, "is_related": False, "related_value": ""},
+    {"id": 57, "app": "document_items", "name": "discount", "title": "Discount",
+        "is_enabled": True, "is_related": False, "related_value": ""},
+    {"id": 58, "app": "document_items", "name": "discount_type", "title": "Discount Type",
+        "is_enabled": True, "is_related": False, "related_value": ""},
+    {"id": 59, "app": "document_items", "name": "product_cost", "title": "Product Cost",
+        "is_enabled": True, "is_related": False, "related_value": ""},
+    {"id": 60, "app": "document_items", "name": "price_before_tax", "title": "Price Before Tax",
+        "is_enabled": True, "is_related": False, "related_value": ""},
+    {"id": 61, "app": "document_items", "name": "price_before_tax_after_discount", "title": "Price BeforeTax After Discount",
+        "is_enabled": True, "is_related": False, "related_value": ""},
+    {"id": 62, "app": "document_items", "name": "price_after_discount", "title": "Price After Discount",
+        "is_enabled": True, "is_related": False, "related_value": ""},
+    {"id": 63, "app": "document_items", "name": "total_after_document_discount", "title": "Total After Document Discount",
+        "is_enabled": True, "is_related": False, "related_value": ""},
+    {"id": 64, "app": "document_items", "name": "total", "title": "Total",
+        "is_enabled": True, "is_related": False, "related_value": ""},
+    {"id": 65, "app": "document_items", "name": "discount_apply_rule", "title": "Discount Apply Rule",
+        "is_enabled": True, "is_related": False, "related_value": ""},
+    {"id": 66, "app": "document_items", "name": "returned", "title": "Returned",
+        "is_enabled": True, "is_related": False, "related_value": ""},
+
+
+
+
+    {"id": 48, "app": "documents", "name": "created", "title": "Created",
+        "is_enabled": True, "is_related": False, "related_value": ""},
 
     {"id": 49, "app": "documents", "name": "updated", "title": "Updated",
         "is_enabled": True, "is_related": False, "related_value": ""},
+
+]
+
+[
+    'id', 'user', 'document', 'product', 'quantity', 'expected_quantity', 'price_before_tax', 'price',
+    'discount', 'discount_type', 'product_cost', 'price_before_tax_after_discount', 'price_after_descount',
+    'total', 'total_after_document_discount', 'discount_apply_rule', 'returned', 'created', 'updated'
 ]
 '''
 ['id', 'number', 'user', 'customer', 'cash_register', 'order', 'document_type', 'warehouse', 
@@ -320,10 +377,6 @@ APP_TABLES_COLUMNS = [
 'discount_type', 'discount_apply_rule', 'paid_status', 'stock_date', 'total', 'is_clocked_out', 
 'created', 'updated']
 '''
-
-
-
-
 
 
 '''

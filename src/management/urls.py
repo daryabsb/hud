@@ -47,8 +47,19 @@ urlpatterns += [
 urlpatterns += [
     path('documents/', views.mgt_documents, name='documents'),
     path('documents/test/', views.mgt_documents_example, name='documents-example'),
-    path('documents-datatable-data/', views.documents_datatable_view, name='documents-datatable-data'),
+    path('documents-datatable-data/', views.documents_datatable_view,
+         name='documents-datatable-data'),
 ]
+
+# DOCUMENTS RELATED URLS
+urlpatterns += [
+    path('document-items-datatable/',
+         views.document_items_datatable_view, name='document-items-datatable'),
+    path('documents/test/', views.mgt_documents_example, name='documents-example'),
+    path('documents-datatable-data/', views.documents_datatable_view,
+         name='documents-datatable-data'),
+]
+
 
 # MODALS URLS
 urlpatterns += [

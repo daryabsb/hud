@@ -11,6 +11,7 @@ from src.documents.models import Document
 from src.documents.forms import DocumentFilterForm
 from src.core.utils import get_fields, get_columns
 
+
 class DocumentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Document
@@ -42,9 +43,9 @@ class ItemListView(ListView):
             qs = qs[start: start + length]
 
             data = list(qs.values(
-                'number', 
-                'customer__name', 
-                'document_type__name', 
+                'number',
+                'customer__name',
+                'document_type__name',
                 'warehouse__name'
             ))
 
@@ -171,8 +172,8 @@ def documents_datatable_view(request):
     search_value = request.GET.get("search[value]", None)
 
     qs = Document.objects.select_related(
-        'user', 'customer','cash_register','order','document_type','warehouse'
-        ).annotate(
+        'user', 'customer', 'cash_register', 'order', 'document_type', 'warehouse'
+    ).annotate(
         user__name=F('user__name'),
         customer__name=F('customer__name'),
         cash_register__name=F('cash_register__name'),
@@ -186,6 +187,7 @@ def documents_datatable_view(request):
         qs = qs.filter(
             Q(name__icontains=search_value)
             | Q(number__icontains=search_value)
+            | Q(user__name__icontains=search_value)
             | Q(reference_document_number__icontains=search_value)
             | Q(internal_note__icontains=search_value)
             | Q(paid_status__icontains=search_value)
@@ -196,7 +198,7 @@ def documents_datatable_view(request):
             | Q(cash_register__name__icontains=search_value)
             | Q(document_type__name__icontains=search_value)
             | Q(warehouse__name__icontains=search_value)
-            
+
         )
 
     filtered_count = qs.count()

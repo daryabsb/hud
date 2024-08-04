@@ -25,7 +25,7 @@ class DocumentItem(models.Model):
     discount_type = models.FloatField(default=0)
     product_cost = models.FloatField(default=0)
     price_before_tax_after_discount = models.FloatField(default=0)
-    price_after_descount = models.FloatField(default=0)
+    price_after_discount = models.FloatField(default=0)
     total = models.FloatField(default=0)
     total_after_document_discount = models.FloatField(default=0)
     discount_apply_rule = models.SmallIntegerField(default=0)

@@ -6,3 +6,4 @@ from .stock_manager_views import *
 from .permissions_views import *
 from .mgt_modal_views import *
 from .mgt_documents_views import *
+from .mgt_document_items_views import *
