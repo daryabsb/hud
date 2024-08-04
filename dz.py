@@ -75,6 +75,7 @@ dz_array = {
                     f"{app}/js/demo/pos-customer-order.demo.js",
                 ],
                 "mgt_documents": [
+                    f"{app}/js/document-scripts.js",
                 ],
                 "mgt_price_tags": [
 

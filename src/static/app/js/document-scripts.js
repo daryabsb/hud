@@ -1,4 +1,4 @@
-function renderDataTable(elId, ajaxUrl, options = {}) {
+function renderDocumentsDataTable(elId, ajaxUrl, options = {}) {
     var width = window.innerWidth;
     var table = document.getElementById(elId);
     var tablePageSizeButton = document.getElementById('page-size')
