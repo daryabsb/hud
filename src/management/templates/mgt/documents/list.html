@@ -53,22 +53,17 @@
 {% block additional_js %}
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-    var documentTable = renderDocumentsDataTable('documents-table', '{% url "mgt:documents-datatable-data" %}?datatables=1');
-	var documentItemsTable = renderDocumentsDataTable('document-items-table', '{% url "mgt:document-items-datatable" %}?document-id=&datatables=1');
+    
+	renderDocumentsDataTable(
+		['documents-table','document-items-table'],
+		[
+			'{% url "mgt:documents-datatable-data" %}?datatables=1',
+			'{% url "mgt:document-items-datatable" %}?document-id=1&datatables=1'
+		]
+		);
+	
 
-	documentTable.on('select', function (e, dt, type, indexes) {
-                if (type === 'row') {
-                    var data = table
-                        .rows(indexes)
-                        .data()
-                        .pluck('id');
-                    console.log("on-select = ", data[0]);
-                    // do something with the ID of the selected items
-					documentItemsTable.ajax.url() = `{% url "mgt:document-items-datatable" %}?document-id=${data[0]}&datatables=1`
-					console.log(documentItemsTable.ajax.url())
-					documentItemsTable.draw()
-                }
-            });
+	
     });
 </script>
 {% endblock additional_js %}

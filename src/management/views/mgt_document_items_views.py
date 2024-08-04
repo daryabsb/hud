@@ -14,7 +14,9 @@ def document_items_datatable_view(request):
 
     document = None
     if document_id:
-        document = get_object_or_404(Document, id=document_id)
+        document = get_object_or_404(Document, id=int(document_id))
+
+    print('doc_id = ', document_id)
 
     qs = DocumentItem.objects.filter(
         document=document

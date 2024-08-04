@@ -1,10 +1,19 @@
-function renderDocumentsDataTable(elId, ajaxUrl, options = {}) {
+async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
     console.log(elId);
-    var table = document.getElementById(elId);
-    fetch(ajaxUrl)
+    console.log(ajaxUrl);
+    var table1 = document.getElementById(elId[0]);
+    var table2 = document.getElementById(elId[1]);
+
+    var columns1;
+    var columns2;
+
+    await fetch(ajaxUrl[0])
         .then(response => response.json())
         .then(data => {
-            data.columns.unshift(
+            columns1 = data.columns;
+            console.log('column1 = ', columns1);
+
+            columns1.unshift(
                 {
                     data: null,
                     render: DataTable.render.select()
@@ -14,89 +23,103 @@ function renderDocumentsDataTable(elId, ajaxUrl, options = {}) {
                     title: '<i class="fa fa-search fa-fw"></i>',
                 }
             )
-
-            //console.log(data.columns);
-            var formattedColumns = formatColumns(data.columns);
-
-            table = new DataTable(table, {
-                ordering: false,
-                ajax: {
-                    url: ajaxUrl,
-                    dataSrc: 'data',
-                },
-                scrollX: true, // width - 335,
-                fixedHeader: true,
-                processing: true,
-                columns: formattedColumns,
-                serverSide: true,
-                rowId: 'extn',
-                pageLength: 5,
-                lengthMenu: [10, 25, 50, 100],
-                columnDefs: [
-                    {
-                        orderable: false,
-                        render: DataTable.render.select(),
-                        targets: 0
-                    }
-                ],
-                select: {
-                    style: 'os',
-                    selector: 'td:first-child',
-                    headerCheckbox: true
-                },
-                layout: {
-                    //top: toolbar,
-                    bottomStart: null,
-                    bottomEnd: null,
-                    topEnd: null,
-                    topStart: null,
-                    topStart: {
-                        buttons: [
-                            {
-                                extend: 'collection',
-                                text: 'Export',
-                                buttons: ['csv', 'excel', 'pdf']
-                            }
-                        ]
-                    }
-                },
-                ...options,
-            });
-
-            return table
         })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
-    // var searchInput = document.getElementById('top-search')
-    // var selectAllButton = document.getElementById('select-all')
-    // var deSelectAllButton = document.getElementById('deselect-all')
-    // var reloadTableDataButton = document.getElementById('reload-table')
-    // var tablePageBackButton = document.getElementById('table-page-back')
-    // var tablePageNextButton = document.getElementById('table-page-next')
+        .catch(err => console.error('Error fetching data:', err))
 
+    await fetch(ajaxUrl[1])
+        .then(response => response.json())
+        .then(data => {
+            columns2 = data.columns
+            console.log(columns2);
 
+            columns2.unshift(
+                {
+                    data: null,
+                    render: DataTable.render.select()
+                },
+                {
+                    data: 'id',
+                    title: '<i class="fa fa-search fa-fw"></i>',
+                }
+            )
+        })
+        .catch(err => console.error('Error fetching data:', err))
 
+    var opts = {
+        ordering: false,
+        scrollX: true, // width - 335,
+        fixedHeader: true,
+        processing: true,
+        serverSide: true,
+        rowId: 'extn',
+        pageLength: 5,
+        lengthMenu: [10, 25, 50, 100],
+        columnDefs: [
+            {
+                orderable: false,
+                render: DataTable.render.select(),
+                targets: 0
+            }
+        ],
+        select: {
+            style: 'os',
+            selector: 'td:first-child',
+            headerCheckbox: true
+        },
+        layout: {
+            //top: toolbar,
+            bottomStart: null,
+            bottomEnd: null,
+            topEnd: null,
+            topStart: null,
+            topStart: {
+                buttons: [
+                    {
+                        extend: 'collection',
+                        text: 'Export',
+                        buttons: ['csv', 'excel', 'pdf']
+                    }
+                ]
+            }
+        },
+        ...options,
+    }
 
-    // searchInput.addEventListener('keyup', function (e) {
-    //     table.search(this.value).draw();
-    // });
-    // selectAllButton.addEventListener('click', function (e) {
-    //     table.rows().select();
-    // });
-    // deSelectAllButton.addEventListener('click', function (e) {
-    //     table.rows().deselect();
-    // });
-    // reloadTableDataButton.addEventListener('click', function (e) {
-    //     table.ajax.reload();
-    // });
-    // tablePageBackButton.addEventListener('click', function (e) {
-    //     table.page('previous').draw(false);
-    // });
-    // tablePageNextButton.addEventListener('click', function (e) {
-    //     table.page('next').draw(false);
-    // });
+    var formattedColumns1 = formatColumns(columns1);
+    var formattedColumns2 = formatColumns(columns2);
 
+    table1 = new DataTable(table1, {
+        ...opts,
+        ajax: {
+            url: ajaxUrl[0],
+            dataSrc: 'data',
+        },
+        columns: formattedColumns1,
+    });
+    table2 = new DataTable(table2, {
+        ...opts,
+        ajax: {
+            url: ajaxUrl[1],
+            dataSrc: 'data',
+        },
+        columns: formattedColumns2,
+    });
+
+    table1.on('select', function (e, dt, type, indexes) {
+        if (type === 'row') {
+            var data = table1
+                .rows(indexes)
+                .data()
+                .pluck('id');
+            console.log("on-select = ", data[0]);
+            // do something with the ID of the selected items
+            table2.ajax.url(
+                `{% url "mgt:document-items-datatable" %}?document-id=${data[0]}&datatables=1`
+            ).draw() //= `{% url "mgt:document-items-datatable" %}?document-id=${data[0]}&datatables=1`
+            console.log(table2.ajax.url())
+
+        }
+    });
 
 
 }
