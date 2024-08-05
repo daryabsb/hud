@@ -1,4 +1,4 @@
-from django.db.models import Q, F
+from django.db.models import Q, F, Subquery, OuterRef
 from django.views.generic import ListView
 import json
 from django.http import JsonResponse
@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 from rest_framework import serializers
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from src.documents.models import Document
+from src.documents.models import Document, DocumentItem
 from src.documents.forms import DocumentFilterForm
 from src.core.utils import get_fields, get_columns
 
@@ -184,9 +184,17 @@ def documents_datatable_view(request):
     ).order_by("id")
 
     if search_value:
+        # Create a subquery to filter DocumentItem based on product name
+        qs = Q
+        document_items_subquery = DocumentItem.objects.filter(
+            document=OuterRef('pk'),
+            product__iexact=int(search_value)
+        ).values('document')
+
         qs = qs.filter(
-            Q(name__icontains=search_value)
-            | Q(number__icontains=search_value)
+            # Q(name__icontains=search_value)
+            # Q(document_items__product__name__icontains=search_value)
+            Q(number__icontains=search_value)
             | Q(user__name__icontains=search_value)
             | Q(reference_document_number__icontains=search_value)
             | Q(internal_note__icontains=search_value)
@@ -198,6 +206,7 @@ def documents_datatable_view(request):
             | Q(cash_register__name__icontains=search_value)
             | Q(document_type__name__icontains=search_value)
             | Q(warehouse__name__icontains=search_value)
+            | Q(id__in=Subquery(document_items_subquery))
 
         )
 

@@ -134,7 +134,14 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
 
     const minEl = document.querySelector('#start-date');
     const maxEl = document.querySelector('#end-date');
+    const documentProductFilter = document.querySelector('#id_product');
 
+    documentProductFilter.addEventListener('change', function (e) {
+        console.log(e);
+
+        table1.search(this.value).draw();
+        table2.search(this.value).draw();
+    });
     // table1.on('search.dt', function (searchStr, data) {
     //     console.log('searchStr = ', new Date(searchStr.timeStamp));
     //     console.log('data = ', new Date(data.api.data()[0].created));
