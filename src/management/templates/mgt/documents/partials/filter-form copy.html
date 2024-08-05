@@ -36,22 +36,11 @@
                 </div>
                 <div class="w-400px form-group row ">
                     <label for="documents-products" class="ps-4 col-sm-5 col-form-label">
-                    Period</label>
+                    {{ form.start_date.label }}</label>
                     <div class="col-sm-7 d-flex gap-1">
-                        <div>
-                            <input type="date" name="start_date" class="form-control form-control-sm" 
-                            _="on change
-                                set the min of next <input/> to my value
-                                set the value of next <input/> to my value
-                            end
-                            " 
-                            id="start-date">
-                        </div>
+                        <div>{{ form.start_date }}</div>
                         <div>-</div>
-                        <div>
-                            <input type="date" name="end_date" class="form-control form-control-sm" 
-                            id="end-date">
-                        </div>
+                        <div>{{ form.end_date }}</div>
                     </div>
                 </div>
         </div>

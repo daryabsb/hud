@@ -11,18 +11,16 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
         .then(response => response.json())
         .then(data => {
             columns1 = data.columns;
-            console.log('column1 = ', columns1);
-
-            columns1.unshift(
-                {
-                    data: null,
-                    render: DataTable.render.select()
-                },
-                {
-                    data: 'id',
-                    title: '<i class="fa fa-search fa-fw"></i>',
-                }
-            )
+            // columns1.unshift(
+            //     {
+            //         data: null,
+            //         render: DataTable.render.select()
+            //     },
+            //     {
+            //         data: 'id',
+            //         title: '<i class="fa fa-search fa-fw"></i>',
+            //     }
+            // )
         })
         .catch(err => console.error('Error fetching data:', err))
 
@@ -30,18 +28,16 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
         .then(response => response.json())
         .then(data => {
             columns2 = data.columns
-            console.log(columns2);
-
-            columns2.unshift(
-                {
-                    data: null,
-                    render: DataTable.render.select()
-                },
-                {
-                    data: 'id',
-                    title: '<i class="fa fa-search fa-fw"></i>',
-                }
-            )
+            // columns2.unshift(
+            //     {
+            //         data: null,
+            //         render: DataTable.render.select()
+            //     },
+            //     {
+            //         data: 'id',
+            //         title: '<i class="fa fa-search fa-fw"></i>',
+            //     }
+            // )
         })
         .catch(err => console.error('Error fetching data:', err))
 
@@ -52,6 +48,9 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
         processing: true,
         serverSide: true,
         rowId: 'extn',
+        language: {
+            infoEmpty: 'No records to show!'
+        },
         pageLength: 5,
         lengthMenu: [10, 25, 50, 100],
         columnDefs: [
@@ -63,8 +62,8 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
         ],
         select: {
             style: 'os',
-            selector: 'td:first-child',
-            headerCheckbox: true
+            //selector: 'td:first-child',
+            //headerCheckbox: true
         },
         layout: {
             //top: toolbar,
@@ -72,7 +71,7 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
             bottomEnd: null,
             topEnd: null,
             topStart: null,
-            topStart: {
+            bottomStart: {
                 buttons: [
                     {
                         extend: 'collection',
@@ -105,20 +104,87 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
         columns: formattedColumns2,
     });
 
-    table1.on('select', function (e, dt, type, indexes) {
-        if (type === 'row') {
-            var data = table1
-                .rows(indexes)
-                .data()
-                .pluck('id');
-            console.log("on-select = ", data[0]);
-            // do something with the ID of the selected items
-            table2.ajax.url(
-                `{% url "mgt:document-items-datatable" %}?document-id=${data[0]}&datatables=1`
-            ).draw() //= `{% url "mgt:document-items-datatable" %}?document-id=${data[0]}&datatables=1`
-            console.log(table2.ajax.url())
+    table1
+        .on('select', function (e, dt, type, indexes) {
+            if (type === 'row') {
+                var data = table1
+                    .rows(indexes)
+                    .data()
+                    .pluck('id');
+                // do something with the ID of the selected items
+                table2.ajax.url(
+                    `/mgt/document-items-datatable/?document-id=${data[0]}&datatables=1`
+                ).load() //= `{% url "mgt:document-items-datatable" %}?document-id=${data[0]}&datatables=1`
+            }
+        })
+        .on('deselect', function (e, dt, type, indexes) {
+            if (type === 'row') {
+                var data = table1
+                    .rows(indexes)
+                    .data()
+                    .pluck('id');
+                // do something with the ID of the selected items
+                table2.ajax.url(
+                    `/mgt/document-items-datatable/?document-id=&datatables=1`
+                ).load() //= `{% url "mgt:document-items-datatable" %}?document-id=${data[0]}&datatables=1`
+            }
+        });
 
-        }
+
+
+    const minEl = document.querySelector('#start-date');
+    const maxEl = document.querySelector('#end-date');
+
+    // table1.on('search.dt', function (searchStr, data) {
+    //     console.log('searchStr = ', new Date(searchStr.timeStamp));
+    //     console.log('data = ', new Date(data.api.data()[0].created));
+    //     var min = new Date(minEl.value, 10);
+    //     var max = new Date(maxEl.value, 10);
+    //     var created = new Date(data.api.data()[0].created)
+    //     if (
+    //         (isNaN(min) && isNaN(max)) ||
+    //         (isNaN(min) && created <= max) ||
+    //         (min <= created && isNaN(max)) ||
+    //         (min <= created && created <= max)
+    //     ) {
+    //         return true;
+    //     }
+
+    //     return false;
+
+
+
+    // });
+
+    table1.search.fixed('range', function (searchStr, data, index) {
+        console.log(data);
+        var age = parseFloat(data[20]) || 0; // use data for the age column
+
+    });
+
+    //Changes to the inputs will trigger a redraw to update the table
+    minEl.addEventListener('input', function (e, d) {
+        table1.search.fixed('range', function (e, d, index) {
+            var min = parseInt(minEl.value, 10);
+            var max = parseInt(maxEl.value, 10);
+            var age = parseFloat(d[20]) || 0; // use data for the age column
+
+            if (
+                (isNaN(min) && isNaN(max)) ||
+                (isNaN(min) && age <= max) ||
+                (min <= age && isNaN(max)) ||
+                (min <= age && age <= max)
+            ) {
+                return true;
+            }
+
+            return false;
+        });
+
+    });
+    maxEl.addEventListener('input', function (e, d) {
+        table1
+            .search(e, d)
     });
 
 
@@ -200,6 +266,7 @@ function formatColumns(columns) {
             || column.data === 'is_price_change_allowed'
             || column.data === 'is_service'
             || column.data === 'is_using_default_quantity'
+            || column.data === 'returned'
         ) {
             return {
                 ...column,

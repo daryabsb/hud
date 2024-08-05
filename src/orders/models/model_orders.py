@@ -82,6 +82,9 @@ class PosOrder(models.Model):
     class Meta:
         ordering = ['-created']
 
+    def __str__(self):
+        return f"{self.customer}: {self.total}"
+
     def save(self, *args, **kwargs):
         # if not self.pk:  # If the object is being created
         self.set_tax_fields()
