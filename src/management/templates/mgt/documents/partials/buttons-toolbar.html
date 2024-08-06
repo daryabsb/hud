@@ -8,12 +8,15 @@
                 ></i> Reload</button>
             <!-- both buttons below will use the group-id input as hx-include -->
             {% comment %} <form action="{% url 'printers:export-pdf' %}" method="GET"> {% endcomment %}
-        <a href="{% url 'printers:export-pdf' %}" target=_blank class="btn border-0">
+        <a href="{% url 'printers:export-pdf' %}" target=_blank class="btn border-0" >
             <i class="me-1 fas fa-lg fa-fw me-2 fa-file-pdf"></i>
             Export PDF</a>
             {% comment %} </form> {% endcomment %}
         <a href="{% url 'mgt:mgt-price-tags-control' %}" class="btn border-0">
             <i class="me-1 fas fa-lg fa-fw me-2 fa-hashtag"></i> Price Tags</a>
+        
+        <a href="#" data-toggle="card-expand" class="btn border-0"><i
+            class="me-1 fa fa-fw fa-expand"></i> EXPAND</a>
         
         <button type="button" class="btn border-0" data-bs-toggle="dropdown" data-bs-target="#sorting-menu"><i
             class="me-1 fas fa-lg fa-fw me-2 fa-sort"></i> Sorting</button>
@@ -45,14 +48,14 @@
                 data-bs-target="#select-product-fields-modal" 
                 data-bs-toggle="modal"
             >Excel</a>
-            <a class="dropdown-item" href="#">Text</a>
+            <a class="dropdown-item" href="#" id="export-pdf">PDF</a>
             <div role="separator" class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Reset to default</a>
         </div>
     </div>
-    <div class="d-flex gap-3 ms-auto">
+    {% comment %} <div class="d-flex gap-3 ms-auto">
         <button class="btn btn-outline-theme btn-sm">search</button>
         <button class="btn btn-outline-theme btn-sm">Clear</button>
-    </div>
+    </div> {% endcomment %}
 </div>
 

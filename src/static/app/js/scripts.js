@@ -1,3 +1,17 @@
+Object.assign(DataTable.defaults, {
+    ordering: false,
+    scrollX: true, // width - 335,
+    scrollY: 320,
+    fixedHeader: true,
+    processing: true,
+    compact: true,
+    serverSide: true,
+    rowId: 'extn',
+    select: {
+        style: 'os',
+    },
+});
+
 function renderDataTable(elId, ajaxUrl, options = {}) {
     var width = window.innerWidth;
     var table = document.getElementById(elId);
@@ -17,21 +31,15 @@ function renderDataTable(elId, ajaxUrl, options = {}) {
                 }
             )
 
-            //console.log(data.columns);
             var formattedColumns = formatColumns(data.columns);
 
             table = new DataTable(table, {
-                ordering: false,
+
                 ajax: {
                     url: ajaxUrl,
                     dataSrc: 'data',
                 },
-                scrollX: true, // width - 335,
-                fixedHeader: true,
-                processing: true,
                 columns: formattedColumns,
-                serverSide: true,
-                rowId: 'extn',
                 pageLength: 10,
                 lengthMenu: [10, 25, 50, 100],
                 columnDefs: [
@@ -42,7 +50,6 @@ function renderDataTable(elId, ajaxUrl, options = {}) {
                     }
                 ],
                 select: {
-                    style: 'os',
                     selector: 'td:first-child',
                     headerCheckbox: true,
                     //style: 'single',

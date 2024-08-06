@@ -30,17 +30,17 @@ def document_items_datatable_view(request):
     ).order_by("id")
 
     if search_value:
-        print("search_value = ", search_value)
         qs = qs.filter(
-            Q(user__name__icontains=search_value)
-            | Q(document__id__icontains=search_value)
+            Q(Q(product__exact=int(search_value)))
+            # | Q(document__in=search_value)
             | Q(product__name__icontains=search_value)
-            | Q(product__icontains=search_value)
-            | Q(product__parent_group__name__icontains=search_value)
-            | Q(price__icontains=search_value)
-            | Q(returned__icontains=search_value)
-            | Q(created__gte=search_value)
-            | Q(created__lte=search_value)
+            # | Q(product__exact=int(search_value))
+            # | Q(product__parent_group__name__icontains=search_value)
+            # | Q(product__parent_group__exact=int(search_value))
+            # | Q(price__icontains=search_value)
+            # | Q(returned__icontains=search_value)
+            # | Q(created__gte=search_value)
+            # | Q(created__lte=search_value)
         )
 
     filtered_count = qs.count()

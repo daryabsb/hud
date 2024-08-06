@@ -1,26 +1,35 @@
-async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
-    console.log(elId);
-    console.log(ajaxUrl);
-    var table1 = document.getElementById(elId[0]);
-    var table2 = document.getElementById(elId[1]);
+Object.assign(DataTable.defaults, {
+    ordering: false,
+    scrollX: true, // width - 335,
+    scrollY: 200,
+    fixedHeader: true,
+    processing: true,
+    compact: true,
+    serverSide: true,
+    rowId: 'extn',
+    select: {
+        style: 'os',
+    },
+    pageLength: 5,
+    lengthMenu: [10, 25, 50, 100],
+    layout: {
+        //top: toolbar,
+        bottomStart: null,
+        bottomEnd: null,
+        topEnd: null,
+        topStart: null,
+        topEnd: null,
+    },
+});
 
-    var columns1;
-    var columns2;
+async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
+    var table1 = document.getElementById(elId[0]); var table2 = document.getElementById(elId[1]); var columns1; var columns2;
 
     await fetch(ajaxUrl[0])
         .then(response => response.json())
         .then(data => {
             columns1 = data.columns;
-            // columns1.unshift(
-            //     {
-            //         data: null,
-            //         render: DataTable.render.select()
-            //     },
-            //     {
-            //         data: 'id',
-            //         title: '<i class="fa fa-search fa-fw"></i>',
-            //     }
-            // )
+
         })
         .catch(err => console.error('Error fetching data:', err))
 
@@ -28,67 +37,14 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
         .then(response => response.json())
         .then(data => {
             columns2 = data.columns
-            // columns2.unshift(
-            //     {
-            //         data: null,
-            //         render: DataTable.render.select()
-            //     },
-            //     {
-            //         data: 'id',
-            //         title: '<i class="fa fa-search fa-fw"></i>',
-            //     }
-            // )
         })
         .catch(err => console.error('Error fetching data:', err))
-
-    var opts = {
-        ordering: false,
-        scrollX: true, // width - 335,
-        fixedHeader: true,
-        processing: true,
-        serverSide: true,
-        rowId: 'extn',
-        language: {
-            infoEmpty: 'No records to show!'
-        },
-        pageLength: 5,
-        lengthMenu: [10, 25, 50, 100],
-        columnDefs: [
-            {
-                orderable: false,
-                render: DataTable.render.select(),
-                targets: 0
-            }
-        ],
-        select: {
-            style: 'os',
-            //selector: 'td:first-child',
-            //headerCheckbox: true
-        },
-        layout: {
-            //top: toolbar,
-            bottomStart: null,
-            bottomEnd: null,
-            topEnd: null,
-            topStart: null,
-            bottomStart: {
-                buttons: [
-                    {
-                        extend: 'collection',
-                        text: 'Export',
-                        buttons: ['csv', 'excel', 'pdf']
-                    }
-                ]
-            }
-        },
-        ...options,
-    }
 
     var formattedColumns1 = formatColumns(columns1);
     var formattedColumns2 = formatColumns(columns2);
 
     table1 = new DataTable(table1, {
-        ...opts,
+        ...options,
         ajax: {
             url: ajaxUrl[0],
             dataSrc: 'data',
@@ -96,7 +52,7 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
         columns: formattedColumns1,
     });
     table2 = new DataTable(table2, {
-        ...opts,
+        ...options,
         ajax: {
             url: ajaxUrl[1],
             dataSrc: 'data',
@@ -134,34 +90,19 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
 
     const minEl = document.querySelector('#start-date');
     const maxEl = document.querySelector('#end-date');
+
     const documentProductFilter = document.querySelector('#id_product');
+    const documentUserFilter = document.querySelector('#id_user');
+
+
 
     documentProductFilter.addEventListener('change', function (e) {
-        console.log(e);
-
-        table1.search(this.value).draw();
         table2.search(this.value).draw();
     });
-    // table1.on('search.dt', function (searchStr, data) {
-    //     console.log('searchStr = ', new Date(searchStr.timeStamp));
-    //     console.log('data = ', new Date(data.api.data()[0].created));
-    //     var min = new Date(minEl.value, 10);
-    //     var max = new Date(maxEl.value, 10);
-    //     var created = new Date(data.api.data()[0].created)
-    //     if (
-    //         (isNaN(min) && isNaN(max)) ||
-    //         (isNaN(min) && created <= max) ||
-    //         (min <= created && isNaN(max)) ||
-    //         (min <= created && created <= max)
-    //     ) {
-    //         return true;
-    //     }
+    documentUserFilter.addEventListener('change', function (e) {
+        table2.search(this.value).draw();
+    });
 
-    //     return false;
-
-
-
-    // });
 
     table1.search.fixed('range', function (searchStr, data, index) {
         console.log(data);
@@ -193,17 +134,24 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
         table1
             .search(e, d)
     });
+    // const documentPdfButton = document.querySelector('#export-pdf');
+    // documentPdfButton.addEventListener('click', function () {
+    //     table1.button('.buttons-pdf').trigger(); // Open the collection
+    //     setTimeout(() => {
+    //         table1.buttons([2, 2]).trigger(); // Trigger the PDF button
+    //     }, 100);
+    // });
 
 
 }
 
 function getImage(data) {
     return `
-        <div 
-        _="on click alert 'my *width' end"
-        class="w-20px h-20px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
-            <img alt="" class="mw-100 mh-100" src="/media/${data}">
-        </div>`
+    <div 
+    _="on click alert 'my *width' end"
+    class="w-20px h-20px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+    <img alt="" class="mw-100 mh-100" src="/media/${data}">
+    </div>`
 }
 // Function to format columns
 function formatColumns(columns) {
@@ -215,8 +163,8 @@ function formatColumns(columns) {
                 render: function (data, type) {
                     if (type === 'display') {
                         return `<a href="#" data-bs-toggle="modal" data-bs-target="#modalDetail" id="${data}">
-                                    <i class="fa fa-search fa-fw"></i>
-                                </a>` // Remove trailing zeros
+                        <i class="fa fa-search fa-fw"></i>
+                        </a>` // Remove trailing zeros
                     }
                     return data;
                 }
@@ -294,3 +242,73 @@ function formatColumns(columns) {
     });
 }
 
+
+// columnDefs: [
+//     {
+//         orderable: false,
+//         render: DataTable.render.select(),
+//         targets: 0
+//     }
+// ],
+
+// columns1.unshift(
+//     {
+//         data: null,
+//         render: DataTable.render.select()
+//     },
+//     {
+//         data: 'id',
+//         title: '<i class="fa fa-search fa-fw"></i>',
+//     }
+// )
+
+// table1.on('search.dt', function (searchStr, data) {
+//     console.log('searchStr = ', new Date(searchStr.timeStamp));
+//     console.log('data = ', new Date(data.api.data()[0].created));
+//     var min = new Date(minEl.value, 10);
+//     var max = new Date(maxEl.value, 10);
+//     var created = new Date(data.api.data()[0].created)
+//     if (
+//         (isNaN(min) && isNaN(max)) ||
+//         (isNaN(min) && created <= max) ||
+//         (min <= created && isNaN(max)) ||
+//         (min <= created && created <= max)
+//     ) {
+//         return true;
+//     }
+
+//     return false;
+
+
+
+// });
+
+
+
+
+// topEnd: {
+//     buttons: [
+//         {
+//             extend: 'collection',
+//             text: 'Export',
+//             buttons: [
+//                 'csv',
+//                 'excel',
+//                 {
+//                     extend: 'pdf',
+//                     text: 'Save PDF',
+//                     title: 'Documents',
+//                     filename: `Documents-${new Date()}`,
+//                     orientation: 'landscape',
+//                     pageSize: 'A3',
+//                     exportOptions: {
+//                         modifier: {
+//                             //page: 'current',
+//                             columns: 'all'
+//                         },
+//                     }
+//                 },
+//             ]
+//         }
+//     ]
+// }

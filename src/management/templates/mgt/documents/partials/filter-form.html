@@ -1,6 +1,6 @@
     {% load widget_tweaks static %}
-    <div class="col-12 row mt-3 p-3 border-top">
-        <div class="col-xl-11 d-flex flex-wrap gap-1">
+    <div class="col-12 mt-3 p-3 border-top">
+        <div class="d-flex flex-wrap gap-1">
             
                 <div class="w-400px form-group row mb-0">
                     <label for="documents-products" class="ps-4 col-sm-5 col-form-label">{{ form.product.label }}</label>
@@ -55,7 +55,7 @@
                     </div>
                 </div>
         </div>
-        <div class="col-xl-1">
+        {% comment %} <div class="col-xl-1">
             <div class="col-xl-2 d-flex align-items-center align-content-center">
                 <div>
                     <button type="button" class="btn border-0">
@@ -63,5 +63,5 @@
                     </button>
                 </div>
             </div>
-        </div>
+        </div> {% endcomment %}
     </div>
