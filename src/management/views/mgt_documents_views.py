@@ -185,11 +185,11 @@ def documents_datatable_view(request):
     ).order_by("id")
 
     if search_value:
-        try:
-        # Convert the string 'True' or 'False' to a boolean
-            paid_dtatus_query = ast.literal_eval(search_value)
-        except (ValueError, SyntaxError):
-            paid_dtatus_query = None
+        # try:
+        # # Convert the string 'True' or 'False' to a boolean
+        #     paid_dtatus_query = ast.literal_eval(search_value)
+        # except (ValueError, SyntaxError):
+        #     paid_dtatus_query = None
         # Create a subquery to filter DocumentItem based on product name
         # qs = Q
         # document_items_subquery = DocumentItem.objects.filter(
@@ -201,8 +201,9 @@ def documents_datatable_view(request):
             # Q(name__icontains=search_value)
             # Q(document_items__product__name__icontains=search_value)
             # Q(number__icontains=search_value)
-            Q(document_type__id__exact=int(search_value))
-            | Q(paid_status__exact=paid_dtatus_query)
+            Q(document_type__id__iexact=int(search_value))
+            | Q(customer__id__iexact=int(search_value))
+            # | Q(paid_status__exact=paid_dtatus_query)
             # | Q(document_type__name__icontains=search_value)
             # | Q(user__name__icontains=search_value)
             # | Q(reference_document_number__icontains=search_value)

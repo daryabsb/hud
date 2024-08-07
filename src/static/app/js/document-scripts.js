@@ -197,6 +197,7 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
     const documentUserFilter = document.querySelector('#id_user');
     const documentTypeFilter = document.querySelector('#id_document_type');
     const documentPaidStatusFilter = document.querySelector('#id_paid_status');
+    const documentCustomerFilter = document.querySelector('#id_customer');
 
 
 
@@ -210,6 +211,9 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
         table1.search(this.value).draw();
     });
     documentPaidStatusFilter.addEventListener('change', function (e) {
+        table1.search(this.value).draw();
+    });
+    documentCustomerFilter.addEventListener('change', function (e) {
         table1.search(this.value).draw();
     });
 
