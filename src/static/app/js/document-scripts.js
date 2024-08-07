@@ -193,29 +193,45 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
     const minEl = document.querySelector('#start-date');
     const maxEl = document.querySelector('#end-date');
 
-    const documentProductFilter = document.querySelector('#id_product');
-    const documentUserFilter = document.querySelector('#id_user');
-    const documentTypeFilter = document.querySelector('#id_document_type');
-    const documentPaidStatusFilter = document.querySelector('#id_paid_status');
-    const documentCustomerFilter = document.querySelector('#id_customer');
+
+
+    var document_filter_forms_buttons = [
+        document.querySelector('#id_product'),
+        document.querySelector('#id_user'),
+        document.querySelector('#id_document_type'),
+        document.querySelector('#id_paid_status'),
+        document.querySelector('#id_customer'),
+    ]
+    document_filter_forms_buttons.forEach(button => {
+        if (button) { // Check if the element exists
+            button.addEventListener('change', function (e) {
+                table1.search(this.value).draw(); // Ensure table2 is defined and accessible
+            });
+        }
+    });
 
 
 
-    documentProductFilter.addEventListener('change', function (e) {
-        table2.search(this.value).draw();
-    });
-    documentUserFilter.addEventListener('change', function (e) {
-        table2.search(this.value).draw();
-    });
-    documentTypeFilter.addEventListener('change', function (e) {
-        table1.search(this.value).draw();
-    });
-    documentPaidStatusFilter.addEventListener('change', function (e) {
-        table1.search(this.value).draw();
-    });
-    documentCustomerFilter.addEventListener('change', function (e) {
-        table1.search(this.value).draw();
-    });
+    // const documentProductFilter = document.querySelector('#id_product');
+    // const documentUserFilter = document.querySelector('#id_user');
+    // const documentTypeFilter = document.querySelector('#id_document_type');
+    // const documentPaidStatusFilter = document.querySelector('#id_paid_status');
+    // const documentCustomerFilter = document.querySelector('#id_customer');
+    // documentProductFilter.addEventListener('change', function (e) {
+    //     table2.search(this.value).draw();
+    // });
+    // documentUserFilter.addEventListener('change', function (e) {
+    //     table2.search(this.value).draw();
+    // });
+    // documentTypeFilter.addEventListener('change', function (e) {
+    //     table1.search(this.value).draw();
+    // });
+    // documentPaidStatusFilter.addEventListener('change', function (e) {
+    //     table1.search(this.value).draw();
+    // });
+    // documentCustomerFilter.addEventListener('change', function (e) {
+    //     table1.search(this.value).draw();
+    // });
 
 
     table1.search.fixed('range', function (searchStr, data, index) {
