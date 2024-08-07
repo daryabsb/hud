@@ -41,7 +41,7 @@ class DocumentAdmin(admin.ModelAdmin):
         from django.forms import model_to_dict
         doc_item = obj.document_items.all().first()
         if doc_item:
-            item_name = obj.document_items.first().name
+            item_name = obj.document_items.first().product.name
         #     if item:
         #         item_name = item.plan.subscription.name
         #         return item_name if item_name else ""

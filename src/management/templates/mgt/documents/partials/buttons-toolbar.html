@@ -12,8 +12,6 @@
             <i class="me-1 fas fa-lg fa-fw me-2 fa-file-pdf"></i>
             Export PDF</a>
             {% comment %} </form> {% endcomment %}
-        <a href="{% url 'mgt:mgt-price-tags-control' %}" class="btn border-0">
-            <i class="me-1 fas fa-lg fa-fw me-2 fa-hashtag"></i> Price Tags</a>
         
         <a href="#" data-toggle="card-expand" class="btn border-0"><i
             class="me-1 fa fa-fw fa-expand"></i> EXPAND</a>
@@ -29,7 +27,7 @@
         <button type="button" class="btn border-0" data-bs-toggle="dropdown" data-bs-target="#export-menu"><i
             class="me-1 fas fa-lg fa-fw me-2 fa-sort"></i> Export</button>
         <div class="dropdown-menu" style="" id="export-menu">
-            <a 
+            {% comment %} <a 
             hx-get="{% url 'mgt:modal-select-product-fields' %}" 
             hx-target="#select-product-fields-modal"
             hx-vals='{"target":"csv"}'
@@ -47,7 +45,10 @@
                 hx-trigger="click"
                 data-bs-target="#select-product-fields-modal" 
                 data-bs-toggle="modal"
-            >Excel</a>
+            >Excel</a> {% endcomment %}
+            
+            <a class="dropdown-item" href="#" id="export-csv">CSV</a>
+            <a class="dropdown-item" href="#" id="export-excel">Excel</a>
             <a class="dropdown-item" href="#" id="export-pdf">PDF</a>
             <div role="separator" class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Reset to default</a>

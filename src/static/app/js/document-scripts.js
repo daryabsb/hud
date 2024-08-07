@@ -1,7 +1,66 @@
+function getButtons() {
+    return [
+        {
+            extend: 'csv',
+            text: `Save csv`,
+            title: 'Documents',
+            filename: `Documents-${new Date()}`,
+            orientation: 'landscape',
+            pageSize: 'A3',
+            exportOptions: {
+                modifier: {
+                    //page: 'current',
+                    columns: 'all'
+                },
+            }
+        },
+        {
+            extend: 'excel',
+            text: `Save Excel`,
+            title: 'Documents',
+            filename: `Documents-${new Date()}`,
+            orientation: 'landscape',
+            pageSize: 'A3',
+            exportOptions: {
+                modifier: {
+                    //page: 'current',
+                    columns: 'all'
+                },
+            }
+        },
+        {
+            extend: 'pdf',
+            text: `Save PDF`,
+            title: 'Documents',
+            filename: `Documents-${new Date()}`,
+            orientation: 'landscape',
+            pageSize: 'A3',
+            exportOptions: {
+                modifier: {
+                    //page: 'current',
+                    columns: 'all'
+                },
+            }
+        },
+    ]
+
+}
+
+function format(d) {
+    return (
+        'Internal Note: ' +
+        d.internal_note +
+        '<br>' +
+        'Note: ' +
+        d.note +
+        '<br>' +
+        'The child row can contain any data you wish, including links, images, inner tables etc.'
+    );
+}
 Object.assign(DataTable.defaults, {
     ordering: false,
     scrollX: true, // width - 335,
-    scrollY: 200,
+    scrollY: 180,
     fixedHeader: true,
     processing: true,
     compact: true,
@@ -10,6 +69,7 @@ Object.assign(DataTable.defaults, {
     select: {
         style: 'os',
     },
+    buttons: getButtons(),
     pageLength: 5,
     lengthMenu: [10, 25, 50, 100],
     layout: {
@@ -29,6 +89,15 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
         .then(response => response.json())
         .then(data => {
             columns1 = data.columns;
+            columns1.unshift(
+                {
+                    class: 'dt-control',
+                    orderable: false,
+                    data: null,
+                    defaultContent: '',
+                    //render: DataTable.render.select()
+                },
+            )
 
         })
         .catch(err => console.error('Error fetching data:', err))
@@ -60,6 +129,9 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
         columns: formattedColumns2,
     });
 
+    // Array to track the ids of the details displayed rows
+    const detailRows = [];
+
     table1
         .on('select', function (e, dt, type, indexes) {
             if (type === 'row') {
@@ -84,6 +156,36 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
                     `/mgt/document-items-datatable/?document-id=&datatables=1`
                 ).load() //= `{% url "mgt:document-items-datatable" %}?document-id=${data[0]}&datatables=1`
             }
+        })
+        .on('click', 'tbody td.dt-control', function (event) {
+            let tr = event.target.closest('tr');
+            let row = table1.row(tr);
+            let idx = detailRows.indexOf(tr.id);
+
+            if (row.child.isShown()) {
+                tr.classList.remove('details');
+                row.child.hide();
+
+                // Remove from the 'open' array
+                detailRows.splice(idx, 1);
+            }
+            else {
+                tr.classList.add('details');
+                row.child(format(row.data())).show();
+
+                // Add to the 'open' array
+                if (idx === -1) {
+                    detailRows.push(tr.id);
+                }
+            }
+        })
+        .on('draw', () => {
+            detailRows.forEach((id, i) => {
+                let el = document.querySelector('#' + id + ' td.dt-control');
+                if (el) {
+                    el.dispatchEvent(new Event('click', { bubbles: true }));
+                }
+            });
         });
 
 
@@ -93,6 +195,8 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
 
     const documentProductFilter = document.querySelector('#id_product');
     const documentUserFilter = document.querySelector('#id_user');
+    const documentTypeFilter = document.querySelector('#id_document_type');
+    const documentPaidStatusFilter = document.querySelector('#id_paid_status');
 
 
 
@@ -101,6 +205,12 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
     });
     documentUserFilter.addEventListener('change', function (e) {
         table2.search(this.value).draw();
+    });
+    documentTypeFilter.addEventListener('change', function (e) {
+        table1.search(this.value).draw();
+    });
+    documentPaidStatusFilter.addEventListener('change', function (e) {
+        table1.search(this.value).draw();
     });
 
 
@@ -134,13 +244,19 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
         table1
             .search(e, d)
     });
-    // const documentPdfButton = document.querySelector('#export-pdf');
-    // documentPdfButton.addEventListener('click', function () {
-    //     table1.button('.buttons-pdf').trigger(); // Open the collection
-    //     setTimeout(() => {
-    //         table1.buttons([2, 2]).trigger(); // Trigger the PDF button
-    //     }, 100);
-    // });
+    const documentCSVButton = document.querySelector('#export-csv');
+    const documentExcelButton = document.querySelector('#export-excel');
+    const documentPdfButton = document.querySelector('#export-pdf');
+    documentCSVButton.addEventListener('click', function (e, d) {
+        table1.button(0).trigger();
+    });
+    documentExcelButton.addEventListener('click', function (e, d) {
+        table1.button(1).trigger();
+    });
+    documentPdfButton.addEventListener('click', function (e, d) {
+        console.log('PDF Triggered', table1.button(0).text());
+        table1.button(2).trigger();
+    });
 
 
 }

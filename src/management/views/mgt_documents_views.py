@@ -1,3 +1,4 @@
+import ast
 from django.db.models import Q, F, Subquery, OuterRef
 from django.views.generic import ListView
 import json
@@ -184,29 +185,35 @@ def documents_datatable_view(request):
     ).order_by("id")
 
     if search_value:
+        try:
+        # Convert the string 'True' or 'False' to a boolean
+            paid_dtatus_query = ast.literal_eval(search_value)
+        except (ValueError, SyntaxError):
+            paid_dtatus_query = None
         # Create a subquery to filter DocumentItem based on product name
-        qs = Q
-        document_items_subquery = DocumentItem.objects.filter(
-            document=OuterRef('pk'),
-            product__iexact=int(search_value)
-        ).values('document')
-
+        # qs = Q
+        # document_items_subquery = DocumentItem.objects.filter(
+        #     document=OuterRef('pk'),
+        #     product__iexact=int(search_value)
+        # ).values('document')
+        print('doc_type is: ', search_value)
         qs = qs.filter(
             # Q(name__icontains=search_value)
             # Q(document_items__product__name__icontains=search_value)
-            Q(number__icontains=search_value)
-            | Q(user__name__icontains=search_value)
-            | Q(reference_document_number__icontains=search_value)
-            | Q(internal_note__icontains=search_value)
-            | Q(paid_status__icontains=search_value)
-            | Q(stock_date__icontains=search_value)
-            | Q(created__icontains=search_value)
-            | Q(order__name__icontains=search_value)
-            | Q(customer__name__icontains=search_value)
-            | Q(cash_register__name__icontains=search_value)
-            | Q(document_type__name__icontains=search_value)
-            | Q(warehouse__name__icontains=search_value)
-            | Q(id__in=Subquery(document_items_subquery))
+            # Q(number__icontains=search_value)
+            Q(document_type__id__exact=int(search_value))
+            | Q(paid_status__exact=paid_dtatus_query)
+            # | Q(document_type__name__icontains=search_value)
+            # | Q(user__name__icontains=search_value)
+            # | Q(reference_document_number__icontains=search_value)
+            # | Q(internal_note__icontains=search_value)
+            # | Q(stock_date__icontains=search_value)
+            # | Q(created__icontains=search_value)
+            # | Q(order__name__icontains=search_value)
+            # | Q(customer__name__icontains=search_value)
+            # | Q(cash_register__name__icontains=search_value)
+            # | Q(warehouse__name__icontains=search_value)
+            # | Q(id__in=Subquery(document_items_subquery))
 
         )
 
