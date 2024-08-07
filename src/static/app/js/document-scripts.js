@@ -193,7 +193,7 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
     const minEl = document.querySelector('#start-date');
     const maxEl = document.querySelector('#end-date');
 
-
+    var filter_elements = ['product', 'user', 'document_type', 'paid_status', 'icustomer',]
 
     var document_filter_forms_buttons = [
         document.querySelector('#id_product'),
