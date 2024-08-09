@@ -42,5 +42,5 @@ class AppTableColumnAdmin(admin.ModelAdmin):
                 column = AppTableColumn(**col)
                 column.save(force_insert=True)
             else:
-                column.is_enabled = col['is_enabled']
+                column.searchable = col['searchable']
                 column.save(force_update=True)

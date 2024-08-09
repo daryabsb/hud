@@ -15,9 +15,13 @@ def get_columns(app_name):
     )
     return [
         {
+            "id": index + 1,
             "data": column.related_value if column.is_related else column.name,
-            "title": column.title
-        } for column in queryset
+            "name": column.name,
+            "title": column.title,
+            "searchable": column.searchable,
+            "orderable": column.orderable,
+        } for index, column in enumerate(queryset)
     ]
 
 

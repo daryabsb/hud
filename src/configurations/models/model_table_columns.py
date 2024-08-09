@@ -15,6 +15,8 @@ class AppTableColumn(models.Model):
     is_enabled = models.BooleanField(default=True)
     is_related = models.BooleanField(default=False)
     related_value = models.CharField(max_length=50, null=True, blank=True)
+    searchable = models.BooleanField(default=False)
+    orderable = models.BooleanField(default=True)
 
     def __str__(self):
         return self.title

@@ -82,6 +82,64 @@ Object.assign(DataTable.defaults, {
     },
 });
 
+function createFormElement(column) {
+
+    // Create the outer div with classes
+    const outerDiv = document.createElement('div');
+    outerDiv.className = 'w-400px form-group row mb-0';
+    // Create the label element
+    const label = document.createElement('label');
+    const title = column.title().charAt(0).toUpperCase() + column.title().slice(1);
+    label.setAttribute('for', `documents-${title}`);
+    label.className = 'ps-4 col-sm-5 col-form-label';
+    label.textContent = title;
+
+    // Create the inner div with class col-sm-7
+    const innerDiv = document.createElement('div');
+    innerDiv.className = 'col-sm-7';
+
+    const selectWrapper = document.createElement('div');
+
+    // Create the select element
+    //const select = document.createElement('select');
+    let select = document.createElement('select');
+
+    select.name = title.toLowerCase();
+    select.className = 'form-select form-select-sm';
+    select.id = `id_${title.toLowerCase()}`;
+
+    // Create the first empty option
+    const emptyOption = select.add(new Option('---------'));
+    //emptyOption.selected = true;
+
+    column
+        .data()
+        .unique()
+        .sort()
+        .each(function (d, j) {
+            select.add(new Option(d));
+        });
+
+    select.addEventListener("change", function () {
+        console.log('called');
+        column.search(this.value).draw()
+    })
+
+    selectWrapper.appendChild(select);
+    // Append the inner div with the select to the outer div
+    innerDiv.appendChild(selectWrapper);
+
+    // Append the label and inner div to the outer div
+    outerDiv.appendChild(label);
+    outerDiv.appendChild(innerDiv);
+
+
+
+
+    return { "el": outerDiv, "input": select }
+
+}
+
 async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
     var table1 = document.getElementById(elId[0]); var table2 = document.getElementById(elId[1]); var columns1; var columns2;
 
@@ -112,6 +170,13 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
     var formattedColumns1 = formatColumns(columns1);
     var formattedColumns2 = formatColumns(columns2);
 
+    const tableForms = document.getElementById('table-forms')
+    const tableForm = document.getElementById('my-form')
+    tableForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        console.log(e);
+    })
+
     table1 = new DataTable(table1, {
         ...options,
         ajax: {
@@ -119,6 +184,48 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
             dataSrc: 'data',
         },
         columns: formattedColumns1,
+        initComplete: function () {
+            this.api()
+                .columns()
+                .every(function () {
+                    let column = this;
+                    let col = columns1.find(col => col.id === column.index())
+                    if (col != undefined) {
+                        // .name
+                        var element = document.getElementById(`id_${col.name}`)
+                        if (element) {
+                            element.addEventListener("change", function () {
+                            })
+                            // console.log(column.index(), element);
+                        } else {
+                            console.log(column.index(), col.name);
+
+                        }
+
+                    }
+
+
+                    // var selectElement = 
+                    //             const docTypeSelect = document.querySelector('#id_document_type');
+                    //             const docQueryForm = document.querySelector('#datatable-filter-form');
+                    //             // Create select element
+                    //             let select = document.createElement('select');
+
+                    //             // console.log("columnDef = ", column[0][0]);
+                    //             let columnDef = columns1.find(col => col.id === column[0][0])
+                    //             let searchable = false;
+                    //             if (columnDef !== undefined) {
+                    //                 searchable = columnDef.searchable;
+                    //                 console.log(columnDef.data);
+                    //             }
+
+                    //             if (searchable) {
+                    //                 let formDiv = createFormElement(column, columnDef)
+                    //                 tableForms.appendChild(formDiv.el)
+                    //             }
+                    //             // console.log(formDiv);
+                });
+        }
     });
     table2 = new DataTable(table2, {
         ...options,
@@ -190,25 +297,25 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
 
 
 
-    const minEl = document.querySelector('#start-date');
-    const maxEl = document.querySelector('#end-date');
+    // const minEl = document.querySelector('#start-date');
+    // const maxEl = document.querySelector('#end-date');
 
-    var filter_elements = ['product', 'user', 'document_type', 'paid_status', 'icustomer',]
+    // var filter_elements = ['product', 'user', 'document_type', 'paid_status', 'icustomer',]
 
-    var document_filter_forms_buttons = [
-        document.querySelector('#id_product'),
-        document.querySelector('#id_user'),
-        document.querySelector('#id_document_type'),
-        document.querySelector('#id_paid_status'),
-        document.querySelector('#id_customer'),
-    ]
-    document_filter_forms_buttons.forEach(button => {
-        if (button) { // Check if the element exists
-            button.addEventListener('change', function (e) {
-                table1.search(this.value).draw(); // Ensure table2 is defined and accessible
-            });
-        }
-    });
+    // var document_filter_forms_buttons = [
+    //     document.querySelector('#id_product'),
+    //     document.querySelector('#id_user'),
+    //     document.querySelector('#id_document_type'),
+    //     document.querySelector('#id_paid_status'),
+    //     document.querySelector('#id_customer'),
+    // ]
+    // document_filter_forms_buttons.forEach(button => {
+    //     if (button) { // Check if the element exists
+    //         button.addEventListener('change', function (e) {
+    //             table1.search(this.value).draw(); // Ensure table2 is defined and accessible
+    //         });
+    //     }
+    // });
 
 
 
@@ -234,49 +341,49 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
     // });
 
 
-    table1.search.fixed('range', function (searchStr, data, index) {
-        console.log(data);
-        var age = parseFloat(data[20]) || 0; // use data for the age column
+    // table1.search.fixed('range', function (searchStr, data, index) {
+    //     console.log(data);
+    //     var age = parseFloat(data[20]) || 0; // use data for the age column
 
-    });
+    // });
 
     //Changes to the inputs will trigger a redraw to update the table
-    minEl.addEventListener('input', function (e, d) {
-        table1.search.fixed('range', function (e, d, index) {
-            var min = parseInt(minEl.value, 10);
-            var max = parseInt(maxEl.value, 10);
-            var age = parseFloat(d[20]) || 0; // use data for the age column
+    // minEl.addEventListener('input', function (e, d) {
+    //     table1.search.fixed('range', function (e, d, index) {
+    //         var min = parseInt(minEl.value, 10);
+    //         var max = parseInt(maxEl.value, 10);
+    //         var age = parseFloat(d[20]) || 0; // use data for the age column
 
-            if (
-                (isNaN(min) && isNaN(max)) ||
-                (isNaN(min) && age <= max) ||
-                (min <= age && isNaN(max)) ||
-                (min <= age && age <= max)
-            ) {
-                return true;
-            }
+    //         if (
+    //             (isNaN(min) && isNaN(max)) ||
+    //             (isNaN(min) && age <= max) ||
+    //             (min <= age && isNaN(max)) ||
+    //             (min <= age && age <= max)
+    //         ) {
+    //             return true;
+    //         }
 
-            return false;
-        });
+    //         return false;
+    //     });
 
-    });
-    maxEl.addEventListener('input', function (e, d) {
-        table1
-            .search(e, d)
-    });
-    const documentCSVButton = document.querySelector('#export-csv');
-    const documentExcelButton = document.querySelector('#export-excel');
-    const documentPdfButton = document.querySelector('#export-pdf');
-    documentCSVButton.addEventListener('click', function (e, d) {
-        table1.button(0).trigger();
-    });
-    documentExcelButton.addEventListener('click', function (e, d) {
-        table1.button(1).trigger();
-    });
-    documentPdfButton.addEventListener('click', function (e, d) {
-        console.log('PDF Triggered', table1.button(0).text());
-        table1.button(2).trigger();
-    });
+    // });
+    // maxEl.addEventListener('input', function (e, d) {
+    //     table1
+    //         .search(e, d)
+    // });
+    // const documentCSVButton = document.querySelector('#export-csv');
+    // const documentExcelButton = document.querySelector('#export-excel');
+    // const documentPdfButton = document.querySelector('#export-pdf');
+    // documentCSVButton.addEventListener('click', function (e, d) {
+    //     table1.button(0).trigger();
+    // });
+    // documentExcelButton.addEventListener('click', function (e, d) {
+    //     table1.button(1).trigger();
+    // });
+    // documentPdfButton.addEventListener('click', function (e, d) {
+    //     console.log('PDF Triggered', table1.button(0).text());
+    //     table1.button(2).trigger();
+    // });
 
 
 }

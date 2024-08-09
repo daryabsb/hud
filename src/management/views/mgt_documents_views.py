@@ -172,6 +172,20 @@ def documents_datatable_view(request):
     start = int(request.GET.get("start", "0"))
     search_value = request.GET.get("search[value]", None)
 
+    columns = get_columns('documents')
+    col_search_vals = []
+    for index, name in enumerate(columns):
+        print(f"col {index + 1}: {name}")
+        col_search_data = request.GET.get(
+            f"columns[{ index + 1 }][data]")
+        col_search_value = request.GET.get(
+            f"columns[{ index + 1 }][search][value]")
+        col_search_vals.append({col_search_data: col_search_value})
+
+    print("col_search_vals = ", col_search_vals)
+
+    # print(request.GET)
+
     qs = Document.objects.select_related(
         'user', 'customer', 'cash_register', 'order', 'document_type', 'warehouse'
     ).annotate(
@@ -200,9 +214,9 @@ def documents_datatable_view(request):
         qs = qs.filter(
             # Q(name__icontains=search_value)
             # Q(document_items__product__name__icontains=search_value)
-            # Q(number__icontains=search_value)
-            Q(document_type__id__iexact=int(search_value))
-            | Q(customer__id__iexact=int(search_value))
+            Q(document_type__name__icontains=search_value)
+            | Q(customer__name__icontains=search_value)
+            | Q(number__exact=search_value)
             # | Q(paid_status__exact=paid_dtatus_query)
             # | Q(document_type__name__icontains=search_value)
             # | Q(user__name__icontains=search_value)
@@ -222,7 +236,6 @@ def documents_datatable_view(request):
     qs = qs[start: start + length]
 
     data = list(qs.values(*get_fields('documents')))
-    columns = get_columns('documents')
     return JsonResponse({
         "recordsTotal": Document.objects.count(),
         "recordsFiltered": filtered_count,
@@ -266,3 +279,152 @@ class DocumentListView(APIView):
 
 def get_document_dict(request):
     pass
+
+
+QueryDict = {
+    'datatables': ['1'],
+    'draw': ['1'],
+    'columns[0][data]': [''],
+    'columns[0][name]': [''],
+    'columns[0][searchable]': ['true'],
+    'columns[0][orderable]': ['false'],
+    'columns[0][search][value]': [''],
+    'columns[0][search][regex]': ['false'],
+    'columns[1][data]': ['id'],
+    'columns[1][name]': [''],
+    'columns[1][searchable]': ['true'],
+    'columns[1][orderable]': ['false'],
+    'columns[1][search][value]': [''],
+    'columns[1][search][regex]': ['false'],
+    'columns[2][data]': ['number'],
+    'columns[2][name]': [''],
+    'columns[2][searchable]': ['true'],
+    'columns[2][orderable]': ['false'],
+    'columns[2][search][value]': [''],
+    'columns[2][search][regex]': ['false'],
+    'columns[3][data]': ['customer__name'],
+    'columns[3][name]': [''],
+    'columns[3][searchable]': ['true'],
+    'columns[3][orderable]': ['false'],
+    'columns[3][search][value]': [''],
+    'columns[3][search][regex]': ['false'],
+    'columns[4][data]': ['cash_register__name'],
+    'columns[4][name]': [''],
+    'columns[4][searchable]': ['true'],
+    'columns[4][orderable]': ['false'],
+    'columns[4][search][value]': [''],
+    'columns[4][search][regex]': ['false'],
+    'columns[5][data]': ['order__id'],
+    'columns[5][name]': [''],
+    'columns[5][searchable]': ['true'],
+    'columns[5][orderable]': ['false'],
+    'columns[5][search][value]': [''],
+    'columns[5][search][regex]': ['false'],
+    'columns[6][data]': ['document_type__name'],
+    'columns[6][name]': [''],
+    'columns[6][searchable]': ['true'],
+    'columns[6][orderable]': ['false'],
+    'columns[6][search][value]': [''],
+    'columns[6][search][regex]': ['false'],
+    'columns[7][data]': ['warehouse__name'],
+    'columns[7][name]': [''],
+    'columns[7][searchable]': ['true'],
+    'columns[7][orderable]': ['false'],
+    'columns[7][search][value]': [''],
+    'columns[7][search][regex]': ['false'],
+    'columns[8][data]': ['date'],
+    'columns[8][name]': [''],
+    'columns[8][searchable]': ['true'],
+    'columns[8][orderable]': ['false'],
+    'columns[8][search][value]': [''],
+    'columns[8][search][regex]': ['false'],
+    'columns[9][data]': ['user__name'],
+    'columns[9][name]': [''],
+    'columns[9][searchable]': ['true'],
+    'columns[9][orderable]': ['false'],
+    'columns[9][search][value]': [''],
+    'columns[9][search][regex]': ['false'],
+    'columns[10][data]': ['reference_document_number'],
+    'columns[10][name]': [''],
+    'columns[10][searchable]': ['true'],
+    'columns[10][orderable]': ['false'],
+    'columns[10][search][value]': [''],
+    'columns[10][search][regex]': ['false'],
+    'columns[11][data]': ['internal_note'],
+    'columns[11][name]': [''],
+    'columns[11][searchable]': ['true'],
+    'columns[11][orderable]': ['false'],
+    'columns[11][search][value]': [''],
+    'columns[11][search][regex]': ['false'],
+    'columns[12][data]': ['note'],
+    'columns[12][name]': [''],
+    'columns[12][searchable]': ['true'],
+    'columns[12][orderable]': ['false'],
+    'columns[12][search][value]': [''],
+    'columns[12][search][regex]': ['false'],
+    'columns[13][data]': ['due_date'],
+    'columns[13][name]': [''],
+    'columns[13][searchable]': ['true'],
+    'columns[13][orderable]': ['false'],
+    'columns[13][search][value]': [''],
+    'columns[13][search][regex]': ['false'],
+    'columns[14][data]': ['discount'],
+    'columns[14][name]': [''],
+    'columns[14][searchable]': ['true'],
+    'columns[14][orderable]': ['false'],
+    'columns[14][search][value]': [''],
+    'columns[14][search][regex]': ['false'],
+    'columns[15][data]': ['discount_type'],
+    'columns[15][name]': [''],
+    'columns[15][searchable]': ['true'],
+    'columns[15][orderable]': ['false'],
+    'columns[15][search][value]': [''],
+    'columns[15][search][regex]': ['false'],
+    'columns[16][data]': ['discount_apply_rule'],
+    'columns[16][name]': [''],
+    'columns[16][searchable]': ['true'],
+    'columns[16][orderable]': ['false'],
+    'columns[16][search][value]': [''],
+    'columns[16][search][regex]': ['false'],
+    'columns[17][data]': ['paid_status'],
+    'columns[17][name]': [''],
+    'columns[17][searchable]': ['true'],
+    'columns[17][orderable]': ['false'],
+    'columns[17][search][value]': [''],
+    'columns[17][search][regex]': ['false'],
+    'columns[18][data]': ['stock_date'],
+    'columns[18][name]': [''],
+    'columns[18][searchable]': ['true'],
+    'columns[18][orderable]': ['false'],
+    'columns[18][search][value]': [''],
+    'columns[18][search][regex]': ['false'],
+    'columns[19][data]': ['total'],
+    'columns[19][name]': [''],
+    'columns[19][searchable]': ['true'],
+    'columns[19][orderable]': ['false'],
+    'columns[19][search][value]': [''],
+    'columns[19][search][regex]': ['false'],
+    'columns[20][data]': ['is_clocked_out'],
+    'columns[20][name]': [''],
+    'columns[20][searchable]': ['true'],
+    'columns[20][orderable]': ['false'],
+    'columns[20][search][value]': [''],
+    'columns[20][search][regex]': ['false'],
+    'columns[21][data]': ['created'],
+    'columns[21][name]': [''],
+    'columns[21][searchable]': ['true'],
+    'columns[21][orderable]': ['false'],
+    'columns[21][search][value]': [''],
+    'columns[21][search][regex]': ['false'],
+    'columns[22][data]': ['updated'],
+    'columns[22][name]': [''],
+    'columns[22][searchable]': ['true'],
+    'columns[22][orderable]': ['false'],
+    'columns[22][search][value]': [''],
+    'columns[22][search][regex]': ['false'],
+    'start': ['0'],
+    'length': ['5'],
+    'search[value]': [''],
+    'search[regex]': ['false'],
+    '_': ['1723182873596']
+}
