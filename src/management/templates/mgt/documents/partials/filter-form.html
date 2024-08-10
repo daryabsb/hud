@@ -1,6 +1,6 @@
     {% load widget_tweaks static %}
     <div class="col-12 mt-3 p-3 border-top">
-        <form class="d-flex flex-wrap gap-1" id="my-form">
+        <div class="d-flex flex-wrap gap-1" id="my-form">
             
                 <div class="w-400px form-group row mb-0">
                     <label for="documents-products" class="ps-4 col-sm-5 col-form-label">{{ form.product.label }}</label>
@@ -54,8 +54,8 @@
                         </div>
                     </div>
                 </div>
-                <input type="submit" value="Submit">
-        </form>
+            
+        </div>
         {% comment %} <div class="col-xl-1">
             <div class="col-xl-2 d-flex align-items-center align-content-center">
                 <div>

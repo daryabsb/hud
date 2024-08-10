@@ -50,3 +50,4 @@ class Document(models.Model):
 
     def __str__(self):
         return f"{self.document_type.stock_direction} | {self.total}  | {self.number} | Pay status: {'Paid' if self.paid_status else 'Not Paid'}"
+

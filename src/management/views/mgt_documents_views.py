@@ -9,6 +9,7 @@ from rest_framework import serializers
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from src.documents.models import Document, DocumentItem
+from src.documents.views import DocumentsTable
 from src.documents.forms import DocumentFilterForm
 from src.core.utils import get_fields, get_columns
 
@@ -166,6 +167,31 @@ def mgt_documents_example(request):
     return render(request, 'mgt/documents/list3.html', context)
 
 
+def documents_datatable(request):
+    documents = DocumentsTable()
+    return render(request, "index.html", {'documents': documents})
+
+
+def apply_column_filters(request, qs, columns, fields):
+    for index, column in enumerate(columns):
+        col_search_value = request.GET.get(f"columns[{index}][search][value]", None)
+        col_search_data = column['data']
+
+        # Debug: Print the values to check what's being used
+        print(f"Column Index: {index}")
+        print(f"Column Data: {col_search_data}")
+        print(f"Search Value: {col_search_value}")
+
+        if col_search_value and col_search_data in fields:
+            filter_key = f"{col_search_data}__icontains"
+            # print(f"Applying Filter: {filter_key} = {col_search_value}")
+            qs = qs.filter(filter_key=col_search_value)
+            # print(f"QuerySet after filter: {qs.query}")
+
+    return qs
+
+
+
 def documents_datatable_view(request):
     draw = int(request.GET.get("draw", "1"))
     length = int(request.GET.get("length", "10"))
@@ -173,19 +199,17 @@ def documents_datatable_view(request):
     search_value = request.GET.get("search[value]", None)
 
     columns = get_columns('documents')
+    fields = get_fields('documents')
+
     col_search_vals = []
     for index, name in enumerate(columns):
-        print(f"col {index + 1}: {name}")
-        col_search_data = request.GET.get(
-            f"columns[{ index + 1 }][data]")
-        col_search_value = request.GET.get(
-            f"columns[{ index + 1 }][search][value]")
-        col_search_vals.append({col_search_data: col_search_value})
+        # print(f"col {index + 1}: {name}")
+        col_search_data = request.GET.get(f"columns[{index}][data]")  # Index starts from 0
+        col_search_value = request.GET.get(f"columns[{index}][search][value]")
+        if col_search_data and col_search_value:  # Ensure both data and value are valid
+            col_search_vals.append({col_search_data: col_search_value})
 
-    print("col_search_vals = ", col_search_vals)
-
-    # print(request.GET)
-
+    # Prepare the initial queryset
     qs = Document.objects.select_related(
         'user', 'customer', 'cash_register', 'order', 'document_type', 'warehouse'
     ).annotate(
@@ -195,9 +219,11 @@ def documents_datatable_view(request):
         order__id=F('order__id'),
         document_type__name=F('document_type__name'),
         warehouse__name=F('warehouse__name'),
-        # image_url=F('image__url'),
     ).order_by("id")
 
+    qs = apply_column_filters(request, qs, columns, fields)
+
+    # Apply global search filter
     if search_value:
         # try:
         # # Convert the string 'True' or 'False' to a boolean
@@ -210,7 +236,7 @@ def documents_datatable_view(request):
         #     document=OuterRef('pk'),
         #     product__iexact=int(search_value)
         # ).values('document')
-        print('doc_type is: ', search_value)
+        # print('doc_type is: ', search_value)
         qs = qs.filter(
             # Q(name__icontains=search_value)
             # Q(document_items__product__name__icontains=search_value)
@@ -232,10 +258,12 @@ def documents_datatable_view(request):
 
         )
 
+
     filtered_count = qs.count()
     qs = qs[start: start + length]
 
     data = list(qs.values(*get_fields('documents')))
+    
     return JsonResponse({
         "recordsTotal": Document.objects.count(),
         "recordsFiltered": filtered_count,
@@ -245,7 +273,10 @@ def documents_datatable_view(request):
     }, safe=False)
 
 
+    
+
 def mgt_documents(request):
+    documents_table = DocumentsTable()
     form = DocumentFilterForm
     documents = Document.objects.all()
 
@@ -253,6 +284,7 @@ def mgt_documents(request):
 
     context = {
         'form': form,
+        'documents_table': documents_table,
         'documents_dict': documents_dict,
     }
     return render(request, 'mgt/documents/list.html', context)

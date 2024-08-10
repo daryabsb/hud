@@ -34,6 +34,7 @@ THIRD_PARTY_APPS = [
     'mptt',
     'fontawesome_5',
     'colorfield',
+    'table',
 ]
 
 LOCAL_APPS = [

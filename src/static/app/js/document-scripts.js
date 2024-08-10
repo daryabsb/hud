@@ -171,11 +171,6 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
     var formattedColumns2 = formatColumns(columns2);
 
     const tableForms = document.getElementById('table-forms')
-    const tableForm = document.getElementById('my-form')
-    tableForm.addEventListener("submit", function (e) {
-        e.preventDefault();
-        console.log(e);
-    })
 
     table1 = new DataTable(table1, {
         ...options,
@@ -190,40 +185,43 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
                 .every(function () {
                     let column = this;
                     let col = columns1.find(col => col.id === column.index())
-                    if (col != undefined) {
-                        // .name
-                        var element = document.getElementById(`id_${col.name}`)
-                        if (element) {
-                            element.addEventListener("change", function () {
-                            })
-                            // console.log(column.index(), element);
-                        } else {
-                            console.log(column.index(), col.name);
+                    // if (col != undefined) {
+                    //     // .name
+                    //     var element = document.getElementById(`id_${col.name}`)
+                    //     if (element) {
+                    //         console.log("Element: ", element);
+                    //         element.addEventListener("change", function () {
+                    //             column.search(this.value).draw()
+                    //         })
+                    //         // console.log(column.index(), element);
+                    //     } else {
+                    //         console.log(column.index(), col.name);
 
-                        }
+                    //     }
 
+                    // }
+
+
+                    var selectElement = createFormElement(column)
+                    // const docTypeSelect = document.querySelector('#id_document_type');
+                    // const docQueryForm = document.querySelector('#datatable-filter-form');
+                    // Create select element
+                    let select = document.createElement('select');
+
+                    // console.log("columnDef = ", column[0][0]);
+                    let columnDef = columns1.find(col => col.id === column[0][0])
+                    let searchable = false;
+                    if (columnDef !== undefined) {
+                        searchable = columnDef.searchable;
+                        console.log(columnDef.data);
                     }
 
+                    if (searchable) {
+                        let formDiv = createFormElement(column, columnDef)
 
-                    // var selectElement = 
-                    //             const docTypeSelect = document.querySelector('#id_document_type');
-                    //             const docQueryForm = document.querySelector('#datatable-filter-form');
-                    //             // Create select element
-                    //             let select = document.createElement('select');
-
-                    //             // console.log("columnDef = ", column[0][0]);
-                    //             let columnDef = columns1.find(col => col.id === column[0][0])
-                    //             let searchable = false;
-                    //             if (columnDef !== undefined) {
-                    //                 searchable = columnDef.searchable;
-                    //                 console.log(columnDef.data);
-                    //             }
-
-                    //             if (searchable) {
-                    //                 let formDiv = createFormElement(column, columnDef)
-                    //                 tableForms.appendChild(formDiv.el)
-                    //             }
-                    //             // console.log(formDiv);
+                        console.log(formDiv);
+                        tableForms.appendChild(formDiv.el)
+                    }
                 });
         }
     });

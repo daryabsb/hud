@@ -1,6 +1,7 @@
 
 from django.urls import path
 from src.management import views
+from src.documents.views import MyDataView
 
 
 app_name = 'mgt'
@@ -58,6 +59,7 @@ urlpatterns += [
     path('documents/test/', views.mgt_documents_example, name='documents-example'),
     path('documents-datatable-data/', views.documents_datatable_view,
          name='documents-datatable-data'),
+    path('table/data/documents/', MyDataView.as_view(), name='document_table_data_load'),
 ]
 
 
