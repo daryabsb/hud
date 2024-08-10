@@ -35,6 +35,7 @@ THIRD_PARTY_APPS = [
     'fontawesome_5',
     'colorfield',
     'table',
+    "django_tables2",
 ]
 
 LOCAL_APPS = [

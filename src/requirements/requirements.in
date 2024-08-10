@@ -15,6 +15,7 @@ django-split-settings
 django-renderpdf
 django-after-response
 django-datatable
+django-tables2
 fpdf
 loguru
 psycopg2

@@ -69,6 +69,7 @@ django==5.0.6
     #   django-htmx
     #   django-js-asset
     #   django-renderpdf
+    #   django-tables2
     #   djangorestframework
 django-after-response==0.2.2
     # via -r src/requirements/requirements.in
@@ -99,6 +100,8 @@ django-mptt==0.16.0
 django-renderpdf==4.0.0
     # via -r src/requirements/requirements.in
 django-split-settings==1.2.0
+    # via -r src/requirements/requirements.in
+django-tables2==2.7.0
     # via -r src/requirements/requirements.in
 django-widget-tweaks==1.5.0
     # via -r src/requirements/requirements.in
