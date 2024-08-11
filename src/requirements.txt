@@ -62,7 +62,7 @@ django==5.0.6
     #   django-allauth
     #   django-components
     #   django-cors-headers
-    #   django-datatable
+    #   django-datatable-view
     #   django-extensions
     #   django-filter
     #   django-fontawesome-5
@@ -83,7 +83,7 @@ django-cors-headers==4.3.1
     # via -r src/requirements/requirements.in
 django-countries==7.5.1
     # via -r src/requirements/requirements.in
-django-datatable==0.3.1
+django-datatable-view==2.1.6
     # via -r src/requirements/requirements.in
 django-extensions==3.2.3
     # via -r src/requirements/requirements.in
@@ -182,6 +182,8 @@ python-barcode==0.15.1
     # via -r src/requirements/requirements.in
 python-bidi==0.4.2
     # via xhtml2pdf
+python-dateutil==2.9.0.post0
+    # via django-datatable-view
 python-decouple==3.8
     # via -r src/requirements/requirements.in
 pytz==2024.1
@@ -210,6 +212,7 @@ six==1.16.0
     #   asttokens
     #   html5lib
     #   python-bidi
+    #   python-dateutil
 sqlparse==0.4.4
     # via django
 svglib==1.5.1

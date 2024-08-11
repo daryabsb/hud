@@ -14,8 +14,8 @@ django-fontawesome-5
 django-split-settings
 django-renderpdf
 django-after-response
-django-datatable
 django-tables2
+django-datatable-view
 fpdf
 loguru
 psycopg2

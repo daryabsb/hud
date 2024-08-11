@@ -77,6 +77,9 @@ dz_array = {
                 "mgt_documents": [
                     f"{app}/js/document-scripts.js",
                 ],
+                "document_list_view": [
+                    f"{app}/js/document-scripts.js",
+                ],
                 "mgt_price_tags": [
 
                     # f"{app}/plugins/pdfjs/popper.min.js",

@@ -34,8 +34,9 @@ THIRD_PARTY_APPS = [
     'mptt',
     'fontawesome_5',
     'colorfield',
-    'table',
+    # 'table',
     "django_tables2",
+    'datatableview',
 ]
 
 LOCAL_APPS = [
@@ -93,6 +94,7 @@ TEMPLATES = [
             PROJECT_PATH + "\\management\\templates",
             PROJECT_PATH + "\\configurations\\templates",
             PROJECT_PATH + "\\finances\\templates",
+            PROJECT_PATH + "\\documents\\templates",
 
         ],
         'APP_DIRS': True,

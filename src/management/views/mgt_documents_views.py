@@ -9,7 +9,7 @@ from rest_framework import serializers
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from src.documents.models import Document, DocumentItem
-from src.documents.views import DocumentsTable
+# from src.documents.views import DocumentsTable
 from src.documents.forms import DocumentFilterForm
 from src.core.utils import get_fields, get_columns
 
@@ -166,11 +166,7 @@ def mgt_documents_example(request):
 
     return render(request, 'mgt/documents/list3.html', context)
 
-
-def documents_datatable(request):
-    documents = DocumentsTable()
-    return render(request, "index.html", {'documents': documents})
-
+import ast
 
 def apply_column_filters(request, qs, columns, fields):
     for index, column in enumerate(columns):
@@ -181,11 +177,16 @@ def apply_column_filters(request, qs, columns, fields):
         print(f"Column Index: {index}")
         print(f"Column Data: {col_search_data}")
         print(f"Search Value: {col_search_value}")
-
+        
         if col_search_value and col_search_data in fields:
             filter_key = f"{col_search_data}__icontains"
             # print(f"Applying Filter: {filter_key} = {col_search_value}")
-            qs = qs.filter(filter_key=col_search_value)
+            qs = qs.filter(
+                Q(customer__name__icontains=col_search_value)
+                | Q(document_type__name__icontains=col_search_value)
+                | Q(id=col_search_value)
+                | Q(paid_status=ast.literal_eval(col_search_value))
+                )
             # print(f"QuerySet after filter: {qs.query}")
 
     return qs
@@ -276,7 +277,6 @@ def documents_datatable_view(request):
     
 
 def mgt_documents(request):
-    documents_table = DocumentsTable()
     form = DocumentFilterForm
     documents = Document.objects.all()
 
@@ -284,7 +284,6 @@ def mgt_documents(request):
 
     context = {
         'form': form,
-        'documents_table': documents_table,
         'documents_dict': documents_dict,
     }
     return render(request, 'mgt/documents/list.html', context)
