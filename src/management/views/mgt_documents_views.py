@@ -166,31 +166,37 @@ def mgt_documents_example(request):
 
     return render(request, 'mgt/documents/list3.html', context)
 
-import ast
 
 def apply_column_filters(request, qs, columns, fields):
     for index, column in enumerate(columns):
-        col_search_value = request.GET.get(f"columns[{index}][search][value]", None)
+        col_search_value = request.GET.get(
+            f"columns[{index + 1}][search][value]", None)
         col_search_data = column['data']
 
         # Debug: Print the values to check what's being used
-        print(f"Column Index: {index}")
-        print(f"Column Data: {col_search_data}")
-        print(f"Search Value: {col_search_value}")
-        
+        # print(f"Column Index: {index + 1}")
+        # print(f"Column Data: {col_search_data}")
+        # print(f"Search Value: {col_search_value}")
+
         if col_search_value and col_search_data in fields:
-            filter_key = f"{col_search_data}__icontains"
+
+            filter_key = col_search_data
+            filter_dict = {filter_key: col_search_value}
             # print(f"Applying Filter: {filter_key} = {col_search_value}")
-            qs = qs.filter(
-                Q(customer__name__icontains=col_search_value)
-                | Q(document_type__name__icontains=col_search_value)
-                | Q(id=col_search_value)
-                | Q(paid_status=ast.literal_eval(col_search_value))
-                )
+            if col_search_value == 'false':
+                col_search_value = False
+            else:
+                col_search_value = True
+
+            qs = qs.filter(**filter_dict
+                           # Q(customer__name__icontains=col_search_value)
+                           # | Q(document_type__name__icontains=col_search_value)
+                           # | Q(id=col_search_value)
+                           # | Q(paid_status=bool(col_search_value))
+                           )
             # print(f"QuerySet after filter: {qs.query}")
 
     return qs
-
 
 
 def documents_datatable_view(request):
@@ -205,7 +211,8 @@ def documents_datatable_view(request):
     col_search_vals = []
     for index, name in enumerate(columns):
         # print(f"col {index + 1}: {name}")
-        col_search_data = request.GET.get(f"columns[{index}][data]")  # Index starts from 0
+        col_search_data = request.GET.get(
+            f"columns[{index}][data]")  # Index starts from 0
         col_search_value = request.GET.get(f"columns[{index}][search][value]")
         if col_search_data and col_search_value:  # Ensure both data and value are valid
             col_search_vals.append({col_search_data: col_search_value})
@@ -259,12 +266,11 @@ def documents_datatable_view(request):
 
         )
 
-
     filtered_count = qs.count()
     qs = qs[start: start + length]
 
     data = list(qs.values(*get_fields('documents')))
-    
+
     return JsonResponse({
         "recordsTotal": Document.objects.count(),
         "recordsFiltered": filtered_count,
@@ -273,8 +279,6 @@ def documents_datatable_view(request):
         "columns": columns,
     }, safe=False)
 
-
-    
 
 def mgt_documents(request):
     form = DocumentFilterForm
