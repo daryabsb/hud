@@ -462,6 +462,8 @@ function formatColumns(columns) {
             || column.data === 'is_service'
             || column.data === 'is_using_default_quantity'
             || column.data === 'returned'
+            || column.data === 'paid_status'
+            || column.data === 'is_clocked_out'
         ) {
             return {
                 ...column,
