@@ -82,12 +82,13 @@
 {% block additional_js %}
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-			$( '#basic-usage' ).select2( {
-				theme: "classic"
+			//$( '#id_product' ).select2( {
+				//theme: "light"
 				//theme: "bootstrap-5",
+				//dropdownCssClass: 'dropdown-menu'
 				//width: $( this ).data( 'width' ) ? $( this ).data( 'width' ) : $( this ).hasClass( 'w-100' ) ? '100%' : 'style',
 				//placeholder: $( this ).data( 'placeholder' ),
-			} );
+			//} );
 			
 	renderDocumentsDataTable(
 		['documents-table','document-items-table'],

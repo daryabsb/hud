@@ -174,51 +174,7 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
             // },
             topStart: null,
         },
-        initComplete: function () {
-            this.api()
-                .columns()
-                .every(function () {
-                    let column = this;
-                    let col = columns1.find(col => col.id === column.index())
-                    // if (col != undefined) {
-                    //     // .name
-                    //     var element = document.getElementById(`id_${col.name}`)
-                    //     if (element) {
-                    //         console.log("Element: ", element);
-                    //         element.addEventListener("change", function () {
-                    //             column.search(this.value).draw()
-                    //         })
-                    //         // console.log(column.index(), element);
-                    //     } else {
-                    //         console.log(column.index(), col.name);
 
-                    //     }
-
-                    // }
-
-
-                    //var selectElement = createFormElement(column)
-                    // const docTypeSelect = document.querySelector('#id_document_type');
-                    // const docQueryForm = document.querySelector('#datatable-filter-form');
-                    // Create select element
-                    let select = document.createElement('select');
-
-                    // console.log("columnDef = ", column[0][0]);
-                    let columnDef = columns1.find(col => col.id === column[0][0])
-                    let searchable = false;
-                    if (columnDef !== undefined) {
-                        searchable = columnDef.searchable;
-                        console.log(columnDef.data);
-                    }
-
-                    if (searchable) {
-                        //let formDiv = createFormElement(column, columnDef)
-
-                        //console.log(formDiv);
-                        //tableForms.appendChild(formDiv.el)
-                    }
-                });
-        }
     });
     table2 = new DataTable(table2, {
         ...options,
@@ -240,6 +196,7 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
                     .data()
                     .pluck('id');
                 // do something with the ID of the selected items
+                console.log(table1.rows(indexes).data());
                 table2.ajax.url(
                     `/mgt/document-items-datatable/?document-id=${data[0]}&datatables=1`
                 ).load() //= `{% url "mgt:document-items-datatable" %}?document-id=${data[0]}&datatables=1`
@@ -314,27 +271,37 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
 
     // var filter_elements = ['product', 'user', 'document_type', 'paid_status', 'icustomer',]
 
-    // var document_filter_forms_buttons = [
-    //     document.querySelector('#id_product'),
-    //     document.querySelector('#id_user'),
-    //     document.querySelector('#id_document_type'),
-    //     document.querySelector('#id_paid_status'),
-    //     document.querySelector('#id_customer'),
-    // ]
-    // document_filter_forms_buttons.forEach(button => {
-    //     if (button) { // Check if the element exists
-    //         button.addEventListener('change', function (e) {
-    //             table1.search(this.value).draw(); // Ensure table2 is defined and accessible
-    //         });
-    //     }
-    // });
+    var customerSearchSelect = document.querySelector('#id_customer')
+    var documentTypeSearchSelect = document.querySelector('#id_document_type')
+    const documentPaidStatusFilter = document.querySelector('#id_paid_status');
+
+    var document_filter_forms_buttons = [
+        document.querySelector('#id_user'),
+        document.querySelector('#id_paid_status'),
+    ]
+    document_filter_forms_buttons.forEach(button => {
+        if (button) { // Check if the element exists
+            button.addEventListener('change', function (e) {
+                table1.column.search(this.value).draw(); // Ensure table2 is defined and accessible
+            });
+        }
+    });
+    customerSearchSelect.addEventListener('change', function (e) {
+        table1.column(3).search(this.value).draw(); // Ensure table2 is defined and accessible
+    });
+    documentTypeSearchSelect.addEventListener('change', function (e) {
+        table1.column(6).search(this.value).draw(); // Ensure table2 is defined and accessible
+    });
+    documentPaidStatusFilter.addEventListener('change', function (e) {
+        table1.column(17).search(this.value).draw(); // Ensure table2 is defined and accessible
+    });
+
 
 
 
     // const documentProductFilter = document.querySelector('#id_product');
     // const documentUserFilter = document.querySelector('#id_user');
     // const documentTypeFilter = document.querySelector('#id_document_type');
-    // const documentPaidStatusFilter = document.querySelector('#id_paid_status');
     // const documentCustomerFilter = document.querySelector('#id_customer');
     // documentProductFilter.addEventListener('change', function (e) {
     //     table2.search(this.value).draw();

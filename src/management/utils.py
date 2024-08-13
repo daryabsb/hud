@@ -286,3 +286,35 @@ def generate_pdf():
 
     # save
     drawing.save(formats=['pdf', 'png'], outDir=".", fnRoot="card")
+
+
+def apply_document_filters(request, qs):
+    from django.db.models import Q
+    from src.accounts.models import Customer
+    from src.documents.models import DocumentType
+
+
+    # Customer
+    customer_search_value = request.GET.get(
+        f"columns[3][search][value]", None)
+    if customer_search_value:
+        customer = Customer.objects.get(id=int(customer_search_value))
+        qs = qs.filter(Q(customer=customer))
+
+    # Document Type
+    document_type_search_value = request.GET.get(
+        f"columns[6][search][value]", None)
+    
+    if document_type_search_value:
+        print('document_type_search_value = ', document_type_search_value)
+        document_type = DocumentType.objects.get(id=int(document_type_search_value))
+        qs = qs.filter(Q(document_type=document_type))
+
+    # Paid status
+    paid_status_search_value = request.GET.get(
+        f"columns[17][search][value]", None)
+    
+    if paid_status_search_value:
+        qs = qs.filter(Q(paid_status=paid_status_search_value))
+    
+    return qs

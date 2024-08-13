@@ -6,12 +6,15 @@ from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import serializers
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.decorators import login_required
 from src.documents.models import Document, DocumentItem
+from src.accounts.models import Customer
 # from src.documents.views import DocumentsTable
 from src.documents.forms import DocumentFilterForm
 from src.core.utils import get_fields, get_columns
+
+from src.management.utils import apply_document_filters
 
 
 class DocumentSerializer(serializers.ModelSerializer):
@@ -173,11 +176,18 @@ def apply_column_filters(request, qs, columns, fields):
             f"columns[{index + 1}][search][value]", None)
         col_search_data = column['data']
 
-        # Debug: Print the values to check what's being used
-        # print(f"Column Index: {index + 1}")
-        # print(f"Column Data: {col_search_data}")
-        # print(f"Search Value: {col_search_value}")
 
+        
+
+        # Debug: Print the values to check what's being used
+        print(f"Column Index: {index}")
+        print(f"Column Data: {col_search_data}")
+        print(f"Search Value: {col_search_value}")
+
+
+
+            
+        
         if col_search_value and col_search_data in fields:
 
             filter_key = col_search_data
@@ -188,12 +198,13 @@ def apply_column_filters(request, qs, columns, fields):
             else:
                 col_search_value = True
 
-            qs = qs.filter(**filter_dict
-                           # Q(customer__name__icontains=col_search_value)
-                           # | Q(document_type__name__icontains=col_search_value)
-                           # | Q(id=col_search_value)
-                           # | Q(paid_status=bool(col_search_value))
-                           )
+            qs = qs.filter(
+                # **filter_dict
+                # Q(customer=customer)
+                Q(document_type__id=int(col_search_value))
+                # | Q(id=col_search_value)
+                # | Q(paid_status=bool(col_search_value))
+                )
             # print(f"QuerySet after filter: {qs.query}")
 
     return qs
@@ -204,18 +215,14 @@ def documents_datatable_view(request):
     length = int(request.GET.get("length", "10"))
     start = int(request.GET.get("start", "0"))
     search_value = request.GET.get("search[value]", None)
+    # customer_search = request.GET['columns[3][search][value]']
+
+    
+
 
     columns = get_columns('documents')
     fields = get_fields('documents')
 
-    col_search_vals = []
-    for index, name in enumerate(columns):
-        # print(f"col {index + 1}: {name}")
-        col_search_data = request.GET.get(
-            f"columns[{index}][data]")  # Index starts from 0
-        col_search_value = request.GET.get(f"columns[{index}][search][value]")
-        if col_search_data and col_search_value:  # Ensure both data and value are valid
-            col_search_vals.append({col_search_data: col_search_value})
 
     # Prepare the initial queryset
     qs = Document.objects.select_related(
@@ -229,42 +236,7 @@ def documents_datatable_view(request):
         warehouse__name=F('warehouse__name'),
     ).order_by("id")
 
-    qs = apply_column_filters(request, qs, columns, fields)
-
-    # Apply global search filter
-    if search_value:
-        # try:
-        # # Convert the string 'True' or 'False' to a boolean
-        #     paid_dtatus_query = ast.literal_eval(search_value)
-        # except (ValueError, SyntaxError):
-        #     paid_dtatus_query = None
-        # Create a subquery to filter DocumentItem based on product name
-        # qs = Q
-        # document_items_subquery = DocumentItem.objects.filter(
-        #     document=OuterRef('pk'),
-        #     product__iexact=int(search_value)
-        # ).values('document')
-        # print('doc_type is: ', search_value)
-        qs = qs.filter(
-            # Q(name__icontains=search_value)
-            # Q(document_items__product__name__icontains=search_value)
-            Q(document_type__name__icontains=search_value)
-            | Q(customer__name__icontains=search_value)
-            | Q(number__exact=search_value)
-            # | Q(paid_status__exact=paid_dtatus_query)
-            # | Q(document_type__name__icontains=search_value)
-            # | Q(user__name__icontains=search_value)
-            # | Q(reference_document_number__icontains=search_value)
-            # | Q(internal_note__icontains=search_value)
-            # | Q(stock_date__icontains=search_value)
-            # | Q(created__icontains=search_value)
-            # | Q(order__name__icontains=search_value)
-            # | Q(customer__name__icontains=search_value)
-            # | Q(cash_register__name__icontains=search_value)
-            # | Q(warehouse__name__icontains=search_value)
-            # | Q(id__in=Subquery(document_items_subquery))
-
-        )
+    qs = apply_document_filters(request, qs)
 
     filtered_count = qs.count()
     qs = qs[start: start + length]
