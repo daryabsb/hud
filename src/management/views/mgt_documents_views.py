@@ -170,60 +170,14 @@ def mgt_documents_example(request):
     return render(request, 'mgt/documents/list3.html', context)
 
 
-def apply_column_filters(request, qs, columns, fields):
-    for index, column in enumerate(columns):
-        col_search_value = request.GET.get(
-            f"columns[{index + 1}][search][value]", None)
-        col_search_data = column['data']
-
-
-        
-
-        # Debug: Print the values to check what's being used
-        print(f"Column Index: {index}")
-        print(f"Column Data: {col_search_data}")
-        print(f"Search Value: {col_search_value}")
-
-
-
-            
-        
-        if col_search_value and col_search_data in fields:
-
-            filter_key = col_search_data
-            filter_dict = {filter_key: col_search_value}
-            # print(f"Applying Filter: {filter_key} = {col_search_value}")
-            if col_search_value == 'false':
-                col_search_value = False
-            else:
-                col_search_value = True
-
-            qs = qs.filter(
-                # **filter_dict
-                # Q(customer=customer)
-                Q(document_type__id=int(col_search_value))
-                # | Q(id=col_search_value)
-                # | Q(paid_status=bool(col_search_value))
-                )
-            # print(f"QuerySet after filter: {qs.query}")
-
-    return qs
-
-
 def documents_datatable_view(request):
     draw = int(request.GET.get("draw", "1"))
     length = int(request.GET.get("length", "10"))
     start = int(request.GET.get("start", "0"))
     search_value = request.GET.get("search[value]", None)
     # customer_search = request.GET['columns[3][search][value]']
-
-    
-
-
     columns = get_columns('documents')
     fields = get_fields('documents')
-
-
     # Prepare the initial queryset
     qs = Document.objects.select_related(
         'user', 'customer', 'cash_register', 'order', 'document_type', 'warehouse'

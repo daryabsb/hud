@@ -271,20 +271,21 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
 
     // var filter_elements = ['product', 'user', 'document_type', 'paid_status', 'icustomer',]
 
+    const documentProductSelect = document.querySelector('#id_product');
     var customerSearchSelect = document.querySelector('#id_customer')
     var documentTypeSearchSelect = document.querySelector('#id_document_type')
-    const documentPaidStatusFilter = document.querySelector('#id_paid_status');
+    const documentPaidStatusSelect = document.querySelector('#id_paid_status');
+    const documentCashRegisterSelect = document.querySelector('#id_cash_register');
+    const documentWarehouseSelect = document.querySelector('#id_warehouse');
+    const documentRefDocNumSelect = document.querySelector('#id_reference_document_number');
 
-    var document_filter_forms_buttons = [
-        document.querySelector('#id_user'),
-        document.querySelector('#id_paid_status'),
-    ]
-    document_filter_forms_buttons.forEach(button => {
-        if (button) { // Check if the element exists
-            button.addEventListener('change', function (e) {
-                table1.column.search(this.value).draw(); // Ensure table2 is defined and accessible
-            });
-        }
+    const documentCreatedMin = document.querySelector('#start-date');
+    const documentCreatedMax = document.querySelector('#end-date');
+
+
+
+    documentProductSelect.addEventListener('change', function (e) {
+        table1.column(0).search(this.value).draw(); // Ensure table2 is defined and accessible
     });
     customerSearchSelect.addEventListener('change', function (e) {
         table1.column(3).search(this.value).draw(); // Ensure table2 is defined and accessible
@@ -292,14 +293,31 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
     documentTypeSearchSelect.addEventListener('change', function (e) {
         table1.column(6).search(this.value).draw(); // Ensure table2 is defined and accessible
     });
-    documentPaidStatusFilter.addEventListener('change', function (e) {
-        table1.column(17).search(this.value).draw(); // Ensure table2 is defined and accessible
+    documentPaidStatusSelect.addEventListener('change', function (e) {
+        table1.column(16).search(this.value).draw(); // Ensure table2 is defined and accessible
+    });
+    documentRefDocNumSelect.addEventListener('keyup', function (e) {
+        table1.column(9).search(this.value).draw(); // Ensure table2 is defined and accessible
+    });
+    documentCashRegisterSelect.addEventListener('change', function (e) {
+        table1.column(4).search(this.value).draw(); // Ensure table2 is defined and accessible
+    });
+    documentWarehouseSelect.addEventListener('change', function (e) {
+        table1.column(6).search(this.value).draw(); // Ensure table2 is defined and accessible
+    });
+
+
+    // Changes to the inputs will trigger a redraw to update the table
+    documentCreatedMin.addEventListener('input', function () {
+        table1.search.fixed('range', `${documentCreatedMin.value}-${documentCreatedMax.value}`).draw();
+    });
+    documentCreatedMax.addEventListener('input', function () {
+        table1.search.fixed('range', `${documentCreatedMin.value}-${documentCreatedMax.value}`).draw();
     });
 
 
 
 
-    // const documentProductFilter = document.querySelector('#id_product');
     // const documentUserFilter = document.querySelector('#id_user');
     // const documentTypeFilter = document.querySelector('#id_document_type');
     // const documentCustomerFilter = document.querySelector('#id_customer');

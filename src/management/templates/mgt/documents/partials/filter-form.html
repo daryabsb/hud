@@ -15,8 +15,8 @@
                     <div class="col-sm-7"><div>{{ form.cash_register }}</div></div>
                 </div>
                 <div class="w-400px form-group row">
-                    <label for="documents-products" class="ps-4 col-sm-5 col-form-label">{{ form.user.label }}</label>
-                    <div class="col-sm-7"><div>{{ form.user }}</div></div>
+                    <label for="documents-products" class="ps-4 col-sm-5 col-form-label">{{ form.warehouse.label }}</label>
+                    <div class="col-sm-7"><div>{{ form.warehouse }}</div></div>
                 </div>
                 <div class="w-400px form-group row">
                     <label for="documents-products" class="ps-4 col-sm-5 col-form-label">{{ form.document_type.label }}</label>
@@ -38,6 +38,7 @@
                             <input type="date" name="start_date" class="form-control form-control-sm" 
                             _="on change
                                 set the min of next <input/> to my value
+                                remove @disabled from #end-date
                                 set the value of next <input/> to my value
                             end
                             " 
@@ -46,7 +47,7 @@
                         <div>-</div>
                         <div>
                             <input type="date" name="end_date" class="form-control form-control-sm" 
-                            id="end-date">
+                            id="end-date" disabled>
                         </div>
                     </div>
                 </div>

@@ -1,7 +1,7 @@
 from django import forms
 
 from src.products.models import Product
-from src.accounts.models import User, Customer
+from src.accounts.models import User, Customer, Warehouse
 from src.pos.models import CashRegister
 from src.documents.models import DocumentType
 
@@ -35,6 +35,15 @@ class DocumentFilterForm(forms.Form):
         queryset=CashRegister.objects.all(),
         required=False, label='Cash register',
         to_field_name='number',
+        widget=forms.Select(
+            attrs={'class': 'form-select form-select-sm'}
+        )
+    )
+
+    warehouse = forms.ModelChoiceField(
+        queryset=Warehouse.objects.all(),
+        required=False, label='Warehouse',
+        to_field_name='id',
         widget=forms.Select(
             attrs={'class': 'form-select form-select-sm'}
         )

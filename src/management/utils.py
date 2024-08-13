@@ -289,10 +289,19 @@ def generate_pdf():
 
 
 def apply_document_filters(request, qs):
+    import ast
     from django.db.models import Q
-    from src.accounts.models import Customer
-    from src.documents.models import DocumentType
+    from src.accounts.models import Customer, Warehouse
+    from src.documents.models import DocumentType, Document, DocumentItem
+    from src.pos.models import CashRegister
+    from src.products.models import Product
 
+    # Customer
+    product_search_value = request.GET.get(
+        f"columns[0][search][value]", None)
+    if product_search_value:
+        product = Product.objects.get(id=int(product_search_value))
+        qs = qs.filter(document_items__product=product).distinct()
 
     # Customer
     customer_search_value = request.GET.get(
@@ -304,17 +313,84 @@ def apply_document_filters(request, qs):
     # Document Type
     document_type_search_value = request.GET.get(
         f"columns[6][search][value]", None)
-    
+
     if document_type_search_value:
-        print('document_type_search_value = ', document_type_search_value)
-        document_type = DocumentType.objects.get(id=int(document_type_search_value))
+        document_type = DocumentType.objects.get(
+            id=int(document_type_search_value))
         qs = qs.filter(Q(document_type=document_type))
+
+    # Cash Register
+    cash_register_search_value = request.GET.get(
+        f"columns[4][search][value]", None)
+
+    if cash_register_search_value:
+        cash_register = CashRegister.objects.get(
+            number=cash_register_search_value)
+        qs = qs.filter(Q(cash_register=cash_register))
+
+    # Cash Register
+    warehouse_search_value = request.GET.get(
+        f"columns[6][search][value]", None)
+    if warehouse_search_value:
+        warehouse = Warehouse.objects.get(
+            id=int(warehouse_search_value))
+        qs = qs.filter(Q(warehouse=warehouse))
 
     # Paid status
     paid_status_search_value = request.GET.get(
-        f"columns[17][search][value]", None)
-    
+        f"columns[16][search][value]", None)
+
     if paid_status_search_value:
         qs = qs.filter(Q(paid_status=paid_status_search_value))
-    
+
+    # Document Reference Number
+    doc_ref_num_search_value = request.GET.get(
+        f"columns[9][search][value]", None)
+
+    if doc_ref_num_search_value:
+        qs = qs.filter(
+            Q(reference_document_number__icontains=doc_ref_num_search_value))
+
+    # Created range
+    created_range_search_value = request.GET.get(
+        f"search[fixed][0][name]", None)
+
+    if created_range_search_value:
+        print("created_search = ", created_range_search_value)
+        # qs = qs.filter(
+        #     Q(created__gte=created_range_search_value))
+
+    return qs
+
+
+def apply_column_filters(request, qs, columns, fields):
+    for index, column in enumerate(columns):
+        col_search_value = request.GET.get(
+            f"columns[{index + 1}][search][value]", None)
+        col_search_data = column['data']
+
+        # Debug: Print the values to check what's being used
+        print(f"Column Index: {index}")
+        print(f"Column Data: {col_search_data}")
+        print(f"Search Value: {col_search_value}")
+
+        if col_search_value and col_search_data in fields:
+
+            filter_key = col_search_data
+            filter_dict = {filter_key: col_search_value}
+            # print(f"Applying Filter: {filter_key} = {col_search_value}")
+            if col_search_value == 'false':
+                col_search_value = False
+            else:
+                col_search_value = True
+
+            qs = qs.filter(
+                # **filter_dict
+                # Q(customer=customer)
+                Q(document_type__id=int(col_search_value))
+                # | Q(id=col_search_value)
+                # | Q(paid_status=bool(col_search_value))
+            )
+            # print(f"QuerySet after filter: {qs.query}")
+
     return qs

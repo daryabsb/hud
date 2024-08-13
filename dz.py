@@ -65,9 +65,9 @@ dz_array = {
 
 
                 "mgt_documents": [
-                    f"{app}/plugins/select2/dist/css/select2.min.css",
-                    f"{app}/plugins/select2-bootstrap-5-theme/select2-bootstrap-5-theme.min.css",
-                    f"{app}/plugins/select2-bootstrap-5-theme/select2-bootstrap-5-theme.rtl.min.css",
+                    # f"{app}/plugins/select2/dist/css/select2.min.css",
+                    # f"{app}/plugins/select2-bootstrap-5-theme/select2-bootstrap-5-theme.min.css",
+                    # f"{app}/plugins/select2-bootstrap-5-theme/select2-bootstrap-5-theme.rtl.min.css",
 
                 ],
                 "mgt_users": [
@@ -80,8 +80,8 @@ dz_array = {
                     f"{app}/js/demo/pos-customer-order.demo.js",
                 ],
                 "mgt_documents": [
-                    f"{app}/plugins/jquery-slim/jquery.slim.min.js",
-                    f"{app}/plugins/select2//dist/js/select2.full.min.js",
+                    # f"{app}/plugins/jquery-slim/jquery.slim.min.js",
+                    # f"{app}/plugins/select2/dist/js/select2.full.min.js",
                     f"{app}/js/document-scripts.js",
                 ],
                 "document_list_view": [
