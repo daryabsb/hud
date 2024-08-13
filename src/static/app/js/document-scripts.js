@@ -76,7 +76,7 @@ Object.assign(DataTable.defaults, {
         //top: toolbar,
         bottomStart: null,
         bottomEnd: null,
-        topEnd: null,
+        topEnd: 'paging',
         topStart: null,
         topEnd: null,
     },
@@ -86,19 +86,9 @@ function createFormElement(column) {
 
     // Create the outer div with classes
     const outerDiv = document.createElement('div');
-    outerDiv.className = 'w-400px form-group row mb-0';
+    outerDiv.className = 'w-200px form-group mb-0';
     // Create the label element
-    const label = document.createElement('label');
     const title = column.title().charAt(0).toUpperCase() + column.title().slice(1);
-    label.setAttribute('for', `documents-${title}`);
-    label.className = 'ps-4 col-sm-5 col-form-label';
-    label.textContent = title;
-
-    // Create the inner div with class col-sm-7
-    const innerDiv = document.createElement('div');
-    innerDiv.className = 'col-sm-7';
-
-    const selectWrapper = document.createElement('div');
 
     // Create the select element
     //const select = document.createElement('select');
@@ -109,7 +99,7 @@ function createFormElement(column) {
     select.id = `id_${title.toLowerCase()}`;
 
     // Create the first empty option
-    const emptyOption = select.add(new Option('---------'));
+    select.add(new Option(title));
     //emptyOption.selected = true;
 
     column
@@ -124,14 +114,8 @@ function createFormElement(column) {
         console.log('called');
         column.search(this.value).draw()
     })
-
-    selectWrapper.appendChild(select);
-    // Append the inner div with the select to the outer div
-    innerDiv.appendChild(selectWrapper);
-
     // Append the label and inner div to the outer div
-    outerDiv.appendChild(label);
-    outerDiv.appendChild(innerDiv);
+    //outerDiv.appendChild(select);
 
 
 
@@ -179,6 +163,17 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
             dataSrc: 'data',
         },
         columns: formattedColumns1,
+        layout: {
+            //top: toolbar,
+            bottomStart: null,
+            bottomEnd: null,
+            // topEnd: {
+            //     paging: {
+            //         numbers: false
+            //     }
+            // },
+            topStart: null,
+        },
         initComplete: function () {
             this.api()
                 .columns()
@@ -202,7 +197,7 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
                     // }
 
 
-                    var selectElement = createFormElement(column)
+                    //var selectElement = createFormElement(column)
                     // const docTypeSelect = document.querySelector('#id_document_type');
                     // const docQueryForm = document.querySelector('#datatable-filter-form');
                     // Create select element
@@ -217,10 +212,10 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
                     }
 
                     if (searchable) {
-                        let formDiv = createFormElement(column, columnDef)
+                        //let formDiv = createFormElement(column, columnDef)
 
-                        console.log(formDiv);
-                        tableForms.appendChild(formDiv.el)
+                        //console.log(formDiv);
+                        //tableForms.appendChild(formDiv.el)
                     }
                 });
         }
@@ -293,6 +288,25 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
             });
         });
 
+    const documentPagingNextButton = document.querySelector('#documents-table-paging-next');
+    const documentPagingPreviousButton = document.querySelector('#documents-table-paging-previous');
+    const documentSelectAllButton = document.querySelector('#documents-table-select-all');
+    const documentDeselectAllButton = document.querySelector('#documents-table-deselect-all');
+
+    documentSelectAllButton.addEventListener('click', function (e) {
+        table1.rows().select();
+    });
+
+    documentDeselectAllButton.addEventListener('click', function (e) {
+        table1.rows().deselect();
+    });
+
+    documentPagingNextButton.addEventListener('click', function (e) {
+        table1.page('next').draw(false);
+    });
+    documentPagingPreviousButton.addEventListener('click', function (e) {
+        table1.page('previous').draw(false);
+    });
 
 
     // const minEl = document.querySelector('#start-date');

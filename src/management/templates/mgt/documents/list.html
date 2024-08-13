@@ -25,14 +25,38 @@
             <div class="file-manager h-100" id="fileManager">
 				<div class="row border">
                 {% include 'mgt/documents/partials/buttons-toolbar.html' %}
-                {% comment %} {% include 'mgt/documents/partials/filter-form.html' %}  {% endcomment %}
-				    <div class="col-12 row mt-3 p-3 border-top">
-        <div class="col-xl-11 d-flex flex-wrap gap-1" id="table-forms">
-		</div>
+                {% include 'mgt/documents/partials/filter-form.html' %} 
+				    {% comment %}<div class="col-12 row mt-2 px-2 border-top">
+						<div class="h-100 text-center">
+						 <h6 class="mt-2 ms-2">Filter Documents</h6>
+						<select class="form-select form-select-sm" id="basic-usage" data-placeholder="Choose one thing">
+							<option></option>
+							<option>Reactive</option>
+							<option>Solution</option>
+							<option>Conglomeration</option>
+							<option>Algoritm</option>
+							<option>Holistic</option>
+						</select> 
+						
+						<div class="col-xl-12 d-flex flex-wrap gap-2 ms-2 p-2" id="table-forms">
+						</div>
+					</div>{% endcomment %}
 		</div>
 				</div>
-					<div class="d-flex gap-3" id="datatable-filter-form">Hii</div>
-				<div class="file-manager-container overflow-auto">	
+				<div class="file-manager-content d-flex flex-column">	
+					<div class="mb-0 d-flex flex-wrap text-nowrap px-10px pt-10px pb-0 border-bottom">
+						<button type="button" class="btn btn-sm btn-default me-2 mb-10px px-2"><i class="fa fa-fw fa-home"></i></button>
+						<button type="button" class="btn btn-sm btn-default me-2 mb-10px" disabled=""><i class="fa fa-fw fa-arrow-turn-up ms-n1"></i> Up One Level</button>
+						<div class="btn-group me-2 mb-10px">
+							<button type="button" class="btn btn-sm btn-default" id="documents-table-paging-previous"><i class="fa me-1 fa-arrow-left"></i> Back</button>
+							<button type="button" class="btn btn-sm btn-default" id="documents-table-paging-next"><i class="fa me-1 fa-arrow-right"></i> Forward</button>
+						</div>
+						<button type="button" class="btn btn-sm btn-default me-2 mb-10px px-2"><i class="fa fa-fw fa-arrows-rotate"></i></button>
+						<div class="btn-group me-2 mb-10px">
+							<button type="button" class="btn btn-sm btn-default" id="documents-table-select-all"><i class="fa fa-fw fa-check ms-n1"></i> Select All</button>
+							<button type="button" class="btn btn-sm btn-default" id="documents-table-deselect-all"><i class="far fa-fw fa-square ms-n1"></i> Unselect All</button>
+						</div>
+					</div>
 					{% comment %} <table id="documents-table" class="display" width="100%"></table> {% endcomment %}
 					{% include 'mgt/documents/partials/documents-table2.html' %}
 				</div>
@@ -58,7 +82,13 @@
 {% block additional_js %}
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-    
+			$( '#basic-usage' ).select2( {
+				theme: "classic"
+				//theme: "bootstrap-5",
+				//width: $( this ).data( 'width' ) ? $( this ).data( 'width' ) : $( this ).hasClass( 'w-100' ) ? '100%' : 'style',
+				//placeholder: $( this ).data( 'placeholder' ),
+			} );
+			
 	renderDocumentsDataTable(
 		['documents-table','document-items-table'],
 		[
