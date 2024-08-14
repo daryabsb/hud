@@ -12,7 +12,7 @@ from src.documents.models import Document, DocumentItem
 from src.accounts.models import Customer
 # from src.documents.views import DocumentsTable
 from src.documents.forms import DocumentFilterForm
-from src.core.utils import get_fields, get_columns
+from src.core.utils import get_fields, get_columns, get_indexes
 
 from src.management.utils import apply_document_filters
 
@@ -178,6 +178,7 @@ def documents_datatable_view(request):
     # customer_search = request.GET['columns[3][search][value]']
     columns = get_columns('documents')
     fields = get_fields('documents')
+    indexes = get_indexes('documents')
     # Prepare the initial queryset
     qs = Document.objects.select_related(
         'user', 'customer', 'cash_register', 'order', 'document_type', 'warehouse'
@@ -203,6 +204,7 @@ def documents_datatable_view(request):
         "draw": draw,
         "data": data,
         "columns": columns,
+        "indexes": indexes,
     }, safe=False)
 
 

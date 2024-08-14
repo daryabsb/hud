@@ -288,32 +288,39 @@ def generate_pdf():
     drawing.save(formats=['pdf', 'png'], outDir=".", fnRoot="card")
 
 
+index_dict = {
+    'product': '0',
+    'customer': '3',
+    'document_type': '5',
+}
+
 def apply_document_filters(request, qs):
-    import ast
+    from src.core.utils import get_indexes
     from django.db.models import Q
     from src.accounts.models import Customer, Warehouse
     from src.documents.models import DocumentType, Document, DocumentItem
     from src.pos.models import CashRegister
     from src.products.models import Product
 
+    indexes = get_indexes('documents')
+
     # Customer
     product_search_value = request.GET.get(
-        f"columns[0][search][value]", None)
+        f"columns[{indexes['product']}][search][value]", None)
     if product_search_value:
         product = Product.objects.get(id=int(product_search_value))
         qs = qs.filter(document_items__product=product).distinct()
 
     # Customer
     customer_search_value = request.GET.get(
-        f"columns[3][search][value]", None)
+        f"columns[{indexes['customer']}][search][value]", None)
     if customer_search_value:
         customer = Customer.objects.get(id=int(customer_search_value))
         qs = qs.filter(Q(customer=customer))
 
     # Document Type
     document_type_search_value = request.GET.get(
-        f"columns[6][search][value]", None)
-
+        f"columns[{indexes['document_type']}][search][value]", None)
     if document_type_search_value:
         document_type = DocumentType.objects.get(
             id=int(document_type_search_value))
@@ -321,8 +328,7 @@ def apply_document_filters(request, qs):
 
     # Cash Register
     cash_register_search_value = request.GET.get(
-        f"columns[4][search][value]", None)
-
+        f"columns[{indexes['cash_register']}][search][value]", None)
     if cash_register_search_value:
         cash_register = CashRegister.objects.get(
             number=cash_register_search_value)
@@ -330,7 +336,7 @@ def apply_document_filters(request, qs):
 
     # Cash Register
     warehouse_search_value = request.GET.get(
-        f"columns[6][search][value]", None)
+        f"columns[{indexes['warehouse']}][search][value]", None)
     if warehouse_search_value:
         warehouse = Warehouse.objects.get(
             id=int(warehouse_search_value))
@@ -338,15 +344,12 @@ def apply_document_filters(request, qs):
 
     # Paid status
     paid_status_search_value = request.GET.get(
-        f"columns[16][search][value]", None)
-
+        f"columns[{indexes['paid_status']}][search][value]", None)
     if paid_status_search_value:
         qs = qs.filter(Q(paid_status=paid_status_search_value))
-
     # Document Reference Number
     doc_ref_num_search_value = request.GET.get(
-        f"columns[9][search][value]", None)
-
+        f"columns[{indexes['reference_document_number']}][search][value]", None)
     if doc_ref_num_search_value:
         qs = qs.filter(
             Q(reference_document_number__icontains=doc_ref_num_search_value))
@@ -354,7 +357,6 @@ def apply_document_filters(request, qs):
     # Created range
     created_range_search_value = request.GET.get(
         f"search[fixed][0][name]", None)
-
     if created_range_search_value:
         print("created_search = ", created_range_search_value)
         # qs = qs.filter(

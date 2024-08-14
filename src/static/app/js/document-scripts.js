@@ -125,21 +125,20 @@ function createFormElement(column) {
 }
 
 async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
-    var table1 = document.getElementById(elId[0]); var table2 = document.getElementById(elId[1]); var columns1; var columns2;
+    var table1 = document.getElementById(elId[0]); var table2 = document.getElementById(elId[1]);
+    var columns1; var columns2; var indexes1; var indexes2;
 
     await fetch(ajaxUrl[0])
         .then(response => response.json())
         .then(data => {
             columns1 = data.columns;
-            columns1.unshift(
-                {
-                    class: 'dt-control',
-                    orderable: false,
-                    data: null,
-                    defaultContent: '',
-                    //render: DataTable.render.select()
-                },
-            )
+            columns1[0].class = 'btn btn-outline-theme text-success'
+            indexes1 = data.indexes
+            columns1.push({
+                data: 'product',
+                defaultContent: '',
+                visible: false
+            })
 
         })
         .catch(err => console.error('Error fetching data:', err))
@@ -164,7 +163,7 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
         },
         columns: formattedColumns1,
         layout: {
-            //top: toolbar,
+            topStart: documentsTopButtons,
             bottomStart: null,
             bottomEnd: null,
             // topEnd: {
@@ -172,7 +171,6 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
             //         numbers: false
             //     }
             // },
-            topStart: null,
         },
 
     });
@@ -183,6 +181,15 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
             dataSrc: 'data',
         },
         columns: formattedColumns2,
+        scrollY: 250,
+        pageLength: 25,
+        // layout: {
+        //     bottom: {
+        //         paging: {
+        //             numbers: false
+        //         },
+        //     }
+        // }
     });
 
     // Array to track the ids of the details displayed rows
@@ -214,7 +221,7 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
                 ).load() //= `{% url "mgt:document-items-datatable" %}?document-id=${data[0]}&datatables=1`
             }
         })
-        .on('click', 'tbody td.dt-control', function (event) {
+        .on('click', 'tbody td.btn', function (event) {
             let tr = event.target.closest('tr');
             let row = table1.row(tr);
             let idx = detailRows.indexOf(tr.id);
@@ -285,25 +292,25 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
 
 
     documentProductSelect.addEventListener('change', function (e) {
-        table1.column(0).search(this.value).draw(); // Ensure table2 is defined and accessible
+        table1.column(indexes1.product).search(this.value).draw(); // Ensure table2 is defined and accessible
     });
     customerSearchSelect.addEventListener('change', function (e) {
-        table1.column(3).search(this.value).draw(); // Ensure table2 is defined and accessible
+        table1.column(indexes1.customer).search(this.value).draw(); // Ensure table2 is defined and accessible
     });
     documentTypeSearchSelect.addEventListener('change', function (e) {
-        table1.column(6).search(this.value).draw(); // Ensure table2 is defined and accessible
+        table1.column(indexes1.document_type).search(this.value).draw(); // Ensure table2 is defined and accessible
     });
     documentPaidStatusSelect.addEventListener('change', function (e) {
-        table1.column(16).search(this.value).draw(); // Ensure table2 is defined and accessible
+        table1.column(indexes1.paid_status).search(this.value).draw(); // Ensure table2 is defined and accessible
     });
     documentRefDocNumSelect.addEventListener('keyup', function (e) {
-        table1.column(9).search(this.value).draw(); // Ensure table2 is defined and accessible
+        table1.column(indexes1.reference_document_number).search(this.value).draw(); // Ensure table2 is defined and accessible
     });
     documentCashRegisterSelect.addEventListener('change', function (e) {
-        table1.column(4).search(this.value).draw(); // Ensure table2 is defined and accessible
+        table1.column(indexes1.cash_register).search(this.value).draw(); // Ensure table2 is defined and accessible
     });
     documentWarehouseSelect.addEventListener('change', function (e) {
-        table1.column(6).search(this.value).draw(); // Ensure table2 is defined and accessible
+        table1.column(indexes1.warehouse).search(this.value).draw(); // Ensure table2 is defined and accessible
     });
 
 

@@ -15,7 +15,7 @@ def get_columns(app_name):
     )
     return [
         {
-            "id": index + 1,
+            "id": index,
             "data": column.related_value if column.is_related else column.name,
             "name": column.name,
             "title": column.title,
@@ -23,6 +23,16 @@ def get_columns(app_name):
             "orderable": column.orderable,
         } for index, column in enumerate(queryset)
     ]
+
+def get_indexes(app_name):
+    from src.configurations.models import AppTableColumn
+    queryset = AppTableColumn.objects.filter(
+        is_enabled=True, app__name=app_name
+    )
+    indexes = {column.name: index for index, column in enumerate(queryset)}
+    if app_name == 'documents':
+        indexes['product'] = len(indexes)
+    return indexes
 
 
 def get_fields(app_name):

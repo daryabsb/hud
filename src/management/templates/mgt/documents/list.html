@@ -44,7 +44,7 @@
 		</div>
 				</div>
 				<div class="file-manager-content d-flex flex-column">	
-					<div class="mb-0 d-flex flex-wrap text-nowrap px-10px pt-10px pb-0 border-bottom">
+					{% comment %} <div class="mb-0 d-flex flex-wrap text-nowrap px-10px pt-10px pb-0 border-bottom">
 						<button type="button" class="btn btn-sm btn-default me-2 mb-10px px-2"><i class="fa fa-fw fa-home"></i></button>
 						<button type="button" class="btn btn-sm btn-default me-2 mb-10px" disabled=""><i class="fa fa-fw fa-arrow-turn-up ms-n1"></i> Up One Level</button>
 						<div class="btn-group me-2 mb-10px">
@@ -56,7 +56,7 @@
 							<button type="button" class="btn btn-sm btn-default" id="documents-table-select-all"><i class="fa fa-fw fa-check ms-n1"></i> Select All</button>
 							<button type="button" class="btn btn-sm btn-default" id="documents-table-deselect-all"><i class="far fa-fw fa-square ms-n1"></i> Unselect All</button>
 						</div>
-					</div>
+					</div> {% endcomment %}
 					{% comment %} <table id="documents-table" class="display" width="100%"></table> {% endcomment %}
 					{% include 'mgt/documents/partials/documents-table2.html' %}
 				</div>
@@ -81,6 +81,9 @@
 
 {% block additional_js %}
 <script>
+	var documentsTopButtons = document.createElement('div');
+	documentsTopButtons.innerHTML = `{% include 'mgt/documents/partials/top-buttons.html' %}`;
+
     document.addEventListener('DOMContentLoaded', function () {
 			//$( '#id_product' ).select2( {
 				//theme: "light"
