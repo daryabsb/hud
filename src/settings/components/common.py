@@ -37,6 +37,7 @@ THIRD_PARTY_APPS = [
     # 'table',
     "django_tables2",
     'datatableview',
+    'src.games',
 ]
 
 LOCAL_APPS = [
@@ -95,6 +96,7 @@ TEMPLATES = [
             PROJECT_PATH + "\\configurations\\templates",
             PROJECT_PATH + "\\finances\\templates",
             PROJECT_PATH + "\\documents\\templates",
+            PROJECT_PATH + "\\games\\templates",
 
         ],
         'APP_DIRS': True,

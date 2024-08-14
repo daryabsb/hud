@@ -24,6 +24,7 @@ urlpatterns = [
     path('finance/', include('src.finances.urls'), name="finances"),
     path('printers/', include('src.printers.urls'), name="printers"),
     path('documents/', include('src.documents.urls'), name="documents"),
+    path('game/', include('src.games.urls'), name="games"),
 
     path('test/', test, name='test')
 ]

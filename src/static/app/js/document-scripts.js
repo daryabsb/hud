@@ -181,7 +181,7 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
             dataSrc: 'data',
         },
         columns: formattedColumns2,
-        scrollY: 250,
+        scrollY: 230,
         pageLength: 25,
         // layout: {
         //     bottom: {

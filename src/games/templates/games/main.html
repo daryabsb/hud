@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+<div id="content" class="app-content py-3">
+	<div class="d-flex align-items-center mb-2">
+		<div>
+			
+			<h1 class="page-header mb-0">Gussing Words For Nare gian</h1>
+		</div>
+		<div class="ms-auto">
+			{% comment %} _="on click toggle .active" {% endcomment %}
+			{% include 'mgt/buttons/add-product-button.html' %}
+		</div>
+	</div>
+    <div class="card flex-1 m-0 d-flex flex-column rounded-0">
+        <div class="card-body p-0 flex-1">
+            <div id="game-area">
+                <p>Word: <span id="word-display">{{ word_display }}</span></p>
+                <p>Guessed characters: <span id="guessed-chars">{{ guessed_chars|join:", " }}</span></p>
+                <p>Wrong guesses: <span id="wrong-guesses">{{ wrong_guesses|join:", " }}</span></p>
+                <p>Guesses left: <span id="max-wrong-guesses">{{ max_wrong_guesses }}</span></p>
+            </div>
+        
+            <form hx-post="{% url 'guess_letter' %}" hx-target="#game-area">
+                <label for="guess">Enter a letter:</label>
+                <input type="text" id="guess" name="guess" maxlength="1" required>
+                <button type="submit">Guess</button>
+            </form>
+            
+            <p id="message">{{ message }}</p>
+        </div>
+    <div class="card-arrow">
+        <div class="card-arrow-top-left"></div>
+        <div class="card-arrow-top-right"></div>
+        <div class="card-arrow-bottom-left"></div>
+        <div class="card-arrow-bottom-right"></div>
+    </div>
+</div>
+{% endblock content %}
