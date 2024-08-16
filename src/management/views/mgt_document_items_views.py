@@ -16,8 +16,6 @@ def document_items_datatable_view(request):
     if document_id:
         document = get_object_or_404(Document, id=int(document_id))
 
-    print('doc_id = ', document_id)
-
     qs = DocumentItem.objects.filter(
         document=document
     ).select_related(

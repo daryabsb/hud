@@ -292,15 +292,19 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
 
 
     documentProductSelect.addEventListener('change', function (e) {
+
+        table1.search({ "product": this.value })
         table1.column(indexes1.product).search(this.value).draw(); // Ensure table2 is defined and accessible
     });
     customerSearchSelect.addEventListener('change', function (e) {
+        table1.search({ "customer": this.value })
         table1.column(indexes1.customer).search(this.value).draw(); // Ensure table2 is defined and accessible
     });
     documentTypeSearchSelect.addEventListener('change', function (e) {
         table1.column(indexes1.document_type).search(this.value).draw(); // Ensure table2 is defined and accessible
     });
     documentPaidStatusSelect.addEventListener('change', function (e) {
+        table1.search({ "paid_status": this.value })
         table1.column(indexes1.paid_status).search(this.value).draw(); // Ensure table2 is defined and accessible
     });
     documentRefDocNumSelect.addEventListener('keyup', function (e) {
@@ -316,11 +320,15 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
 
     // Changes to the inputs will trigger a redraw to update the table
     documentCreatedMin.addEventListener('input', function () {
-        table1.search.fixed('range', `${documentCreatedMin.value}-${documentCreatedMax.value}`).draw();
+        table1.column(indexes1.start_date).search(this.value).draw(); // Ensure table2 is defined and accessible
     });
     documentCreatedMax.addEventListener('input', function () {
-        table1.search.fixed('range', `${documentCreatedMin.value}-${documentCreatedMax.value}`).draw();
+        table1.column(indexes1.end_date).search(this.value).draw(); // Ensure table2 is defined and accessible
     });
+
+
+
+
 
 
 

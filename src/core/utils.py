@@ -24,12 +24,15 @@ def get_columns(app_name):
         } for index, column in enumerate(queryset)
     ]
 
+
 def get_indexes(app_name):
     from src.configurations.models import AppTableColumn
     queryset = AppTableColumn.objects.filter(
         is_enabled=True, app__name=app_name
     )
     indexes = {column.name: index for index, column in enumerate(queryset)}
+    indexes['start_date'] = len(indexes)
+    indexes['end_date'] = len(indexes)
     if app_name == 'documents':
         indexes['product'] = len(indexes)
     return indexes

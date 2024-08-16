@@ -1,34 +1,33 @@
     {% load widget_tweaks static %}
     <div class="col-12 mt-3 p-3 border-top">
         <div class="d-flex flex-wrap gap-1" id="my-form">
-            
                 <div class="w-400px form-group row mb-0">
-                    <label for="documents-products" class="ps-4 col-sm-5 col-form-label">{{ form.product.label }}</label>
-                    <div class="col-sm-7"><div>{{ form.product }}</div></div>
-                </div>
-                <div class="w-400px form-group row mb-0">
-                    <label for="documents-products" class="ps-4 col-sm-5 col-form-label">{{ form.customer.label }}</label>
-                    <div class="col-sm-7"><div>{{ form.customer }}</div></div>
+                    <label for="documents-products" class="ps-4 col-sm-5 col-form-label">{{ filter.form.product.label }}</label>
+                    <div class="col-sm-7"><div>{{ filter.form.product }}</div></div>
                 </div>
                 <div class="w-400px form-group row mb-0">
-                    <label for="documents-products" class="ps-4 col-sm-5 col-form-label">{{ form.cash_register.label }}</label>
-                    <div class="col-sm-7"><div>{{ form.cash_register }}</div></div>
+                    <label for="documents-products" class="ps-4 col-sm-5 col-form-label">{{ filter.form.customer.label }}</label>
+                    <div class="col-sm-7"><div>{{ filter.form.customer }}</div></div>
+                </div>
+                <div class="w-400px form-group row mb-0">
+                    <label for="documents-products" class="ps-4 col-sm-5 col-form-label">{{ filter.form.cash_register.label }}</label>
+                    <div class="col-sm-7"><div>{{ filter.form.cash_register }}</div></div>
                 </div>
                 <div class="w-400px form-group row">
-                    <label for="documents-products" class="ps-4 col-sm-5 col-form-label">{{ form.warehouse.label }}</label>
-                    <div class="col-sm-7"><div>{{ form.warehouse }}</div></div>
+                    <label for="documents-products" class="ps-4 col-sm-5 col-form-label">{{ filter.form.warehouse.label }}</label>
+                    <div class="col-sm-7"><div>{{ filter.form.warehouse }}</div></div>
                 </div>
                 <div class="w-400px form-group row">
-                    <label for="documents-products" class="ps-4 col-sm-5 col-form-label">{{ form.document_type.label }}</label>
-                    <div class="col-sm-7"><div>{{ form.document_type }}</div></div>
+                    <label for="documents-products" class="ps-4 col-sm-5 col-form-label">{{ filter.form.document_type.label }}</label>
+                    <div class="col-sm-7"><div>{{ filter.form.document_type }}</div></div>
                 </div>
                 <div class="w-400px form-group row">
-                    <label for="documents-products" class="ps-4 col-sm-5 col-form-label">{{ form.reference_document_number.label }}</label>
-                    <div class="col-sm-7"><div>{{ form.reference_document_number }}</div></div>
+                    <label for="documents-products" class="ps-4 col-sm-5 col-form-label">{{ filter.form.reference_document_number.label }}</label>
+                    <div class="col-sm-7"><div>{{ filter.form.reference_document_number }}</div></div>
                 </div>
                 <div class="w-400px form-group row">
-                    <label for="documents-products" class="ps-4 col-sm-5 col-form-label">{{ form.paid_status.label }}</label>
-                    <div class="col-sm-7"><div>{{ form.paid_status }}</div></div>
+                    <label for="documents-products" class="ps-4 col-sm-5 col-form-label">{{ filter.form.paid_status.label }}</label>
+                    <div class="col-sm-7"><div>{{ filter.form.paid_status }}</div></div>
                 </div>
                 <div class="w-400px form-group row ">
                     <label for="documents-products" class="ps-4 col-sm-5 col-form-label">

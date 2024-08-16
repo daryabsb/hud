@@ -1,6 +1,7 @@
 import random
 import string
 from django.contrib.auth.models import Group, Permission
+from pytz import timezone
 from src.accounts.models import User
 from django.contrib.contenttypes.models import ContentType
 from src.management.const import list_permissions_template, add_actions_to_models
@@ -294,13 +295,16 @@ index_dict = {
     'document_type': '5',
 }
 
+
 def apply_document_filters(request, qs):
     from src.core.utils import get_indexes
     from django.db.models import Q
     from src.accounts.models import Customer, Warehouse
-    from src.documents.models import DocumentType, Document, DocumentItem
+    from src.documents.models import DocumentType
     from src.pos.models import CashRegister
     from src.products.models import Product
+    from datetime import datetime
+    from django.utils.timezone import now, make_aware
 
     indexes = get_indexes('documents')
 
@@ -354,13 +358,24 @@ def apply_document_filters(request, qs):
         qs = qs.filter(
             Q(reference_document_number__icontains=doc_ref_num_search_value))
 
-    # Created range
-    created_range_search_value = request.GET.get(
-        f"search[fixed][0][name]", None)
-    if created_range_search_value:
-        print("created_search = ", created_range_search_value)
-        # qs = qs.filter(
-        #     Q(created__gte=created_range_search_value))
+    created_start_value = request.GET.get(
+        f"columns[{indexes['start_date']}][search][value]", None)
+
+    if created_start_value:
+        print("created_start_value = ", created_start_value)
+        start_date = make_aware(datetime.strptime(
+            f"{created_start_value} 00:00:00", '%Y-%m-%d %H:%M:%S'))
+        qs = qs.filter(Q(created__gte=start_date))
+
+    created_end_value = request.GET.get(
+        f"columns[{indexes['end_date']}][search][value]", None)
+    if created_end_value:
+        end_date = make_aware(datetime.strptime(
+            f"{created_end_value} 23:59:59", '%Y-%m-%d %H:%M:%S'))
+        qs = qs.filter(Q(created__lte=end_date))
+    else:
+        end_date = now()
+        qs = qs.filter(Q(created__lte=end_date))
 
     return qs
 

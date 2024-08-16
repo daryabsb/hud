@@ -1,7 +1,7 @@
 import ast
 from django.db.models import Q, F, Subquery, OuterRef
 from django.views.generic import ListView
-import json
+from django_filters.filterset import filterset_factory
 from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -13,7 +13,7 @@ from src.accounts.models import Customer
 # from src.documents.views import DocumentsTable
 from src.documents.forms import DocumentFilterForm
 from src.core.utils import get_fields, get_columns, get_indexes
-
+from src.management.filters import DocumentFilterForm as DocumentFilter
 from src.management.utils import apply_document_filters
 
 
@@ -170,6 +170,21 @@ def mgt_documents_example(request):
     return render(request, 'mgt/documents/list3.html', context)
 
 
+def mgt_documents(request):
+    filter = DocumentFilter(request.GET, queryset=Document.objects.all())
+    form = DocumentFilter.form
+    documents = Document.objects.all()
+
+    documents_dict = DocumentSerializer(documents, many=True)
+
+    context = {
+        'filter': filter,
+        'form': form,
+        'documents_dict': documents_dict,
+    }
+    return render(request, 'mgt/documents/list.html', context)
+
+
 def documents_datatable_view(request):
     draw = int(request.GET.get("draw", "1"))
     length = int(request.GET.get("length", "10"))
@@ -208,17 +223,62 @@ def documents_datatable_view(request):
     }, safe=False)
 
 
-def mgt_documents(request):
-    form = DocumentFilterForm
-    documents = Document.objects.all()
+def documents_datatable_view2(request):
+    draw = int(request.GET.get("draw", "1"))
+    length = int(request.GET.get("length", "10"))
+    start = int(request.GET.get("start", "0"))
+    columns = get_columns('documents')
+    fields = get_fields('documents')
+    indexes = get_indexes('documents')
 
-    documents_dict = DocumentSerializer(documents, many=True)
+    # Prepare the initial queryset
+    qs = Document.objects.select_related(
+        'user', 'customer', 'cash_register', 'order', 'document_type', 'warehouse'
+    ).annotate(
+        user__name=F('user__name'),
+        customer__name=F('customer__name'),
+        cash_register__name=F('cash_register__name'),
+        order__id=F('order__id'),
+        document_type__name=F('document_type__name'),
+        warehouse__name=F('warehouse__name'),
+    ).order_by("id")
+
+    # Apply the filters using DocumentFilterForm
+    filter_set = DocumentFilter(request=request.GET, queryset=qs)
+
+    qs = filter_set.queryset
+
+    filtered_count = qs.count()
+    qs = qs[start: start + length]
+
+    data = list(qs.values(*get_fields('documents')))
+
+    return JsonResponse({
+        "recordsTotal": Document.objects.count(),
+        "recordsFiltered": filtered_count,
+        "draw": draw,
+        "data": data,
+        "columns": columns,
+        "indexes": indexes,
+    }, safe=False)
+
+
+def mgt_documents2(request):
+    # Instantiate the form with GET parameters to apply filters
+    form = DocumentFilterForm(request.GET or None)
+
+    # Apply the form's filters to the queryset
+    documents = form.apply_filters(Document.objects.all())
+
+    # Serialize the filtered queryset
+    documents_dict = DocumentSerializer(documents, many=True).data
 
     context = {
         'form': form,
         'documents_dict': documents_dict,
     }
     return render(request, 'mgt/documents/list.html', context)
+
 
 # def mgt_documents(request):
 #     documents = Document.objects.all()
