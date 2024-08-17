@@ -32,7 +32,7 @@ document_type_initial_data = [
 
 @admin.register(Document)
 class DocumentAdmin(admin.ModelAdmin):
-    list_display = ('product_name', 'discount', 'discount_type',
+    list_display = ('customer', 'discount', 'discount_type',
                     'total', 'paid_status', 'date')
     ordering = ('-date', )
     list_filter = ('date', 'paid_status', )

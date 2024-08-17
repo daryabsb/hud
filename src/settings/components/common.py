@@ -34,6 +34,8 @@ THIRD_PARTY_APPS = [
     'mptt',
     'fontawesome_5',
     'colorfield',
+    'django_filters',
+    'rest_framework_datatables',
     # 'table',
     "django_tables2",
     'datatableview',

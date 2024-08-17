@@ -244,7 +244,7 @@ def documents_datatable_view2(request):
     ).order_by("id")
 
     # Apply the filters using DocumentFilterForm
-    filter_set = DocumentFilter(request=request.GET, queryset=qs)
+    filter_set = DocumentFilter(request.GET, queryset=qs)
 
     qs = filter_set.queryset
 

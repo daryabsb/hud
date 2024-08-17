@@ -4,7 +4,7 @@ django-extensions
 django-cors-headers
 djangorestframework
 django-countries
-django-filter
+django-filter>24.0,<25.0
 django-mptt
 django-widget-tweaks
 django-htmx
@@ -16,6 +16,7 @@ django-renderpdf
 django-after-response
 django-tables2
 django-datatable-view
+djangorestframework-datatables
 fpdf
 loguru
 psycopg2

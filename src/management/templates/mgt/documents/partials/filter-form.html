@@ -1,5 +1,5 @@
     {% load widget_tweaks static %}
-    <div class="col-12 mt-3 p-3 border-top">
+    <div class="col-12 mt-3 p-3 border-top" id="document-filter-form">
         <div class="d-flex flex-wrap gap-1" id="my-form">
                 <div class="w-400px form-group row mb-0">
                     <label for="documents-products" class="ps-4 col-sm-5 col-form-label">{{ filter.form.product.label }}</label>
@@ -29,7 +29,12 @@
                     <label for="documents-products" class="ps-4 col-sm-5 col-form-label">{{ filter.form.paid_status.label }}</label>
                     <div class="col-sm-7"><div>{{ filter.form.paid_status }}</div></div>
                 </div>
-                <div class="w-400px form-group row ">
+                <div class="w-400px form-group row">
+                    <label for="documents-products" class="ps-4 col-sm-5 col-form-label">{{ filter.form.created.label }}</label>
+                    <div class="col-sm-7"><div class="d-flex w-100">{{ filter.form.created }}</div></div>
+                </div>
+
+                {% comment %} <div class="w-400px form-group row ">
                     <label for="documents-products" class="ps-4 col-sm-5 col-form-label">
                     Period</label>
                     <div class="col-sm-7 d-flex gap-1">
@@ -49,13 +54,17 @@
                             id="end-date" disabled>
                         </div>
                     </div>
-                </div>
+                </div> {% endcomment %}
             
         </div>
         {% comment %} <div class="col-xl-1">
             <div class="col-xl-2 d-flex align-items-center align-content-center">
                 <div>
-                    <button type="button" class="btn border-0">
+                    <button type="button" class="btn border-0" id="clear-form"
+                    hx-get="{% url 'mgt:clear-document-form' %}"
+                    hx-target="#document-filter-form"
+                    hx-on::after-request="alert('Done making a request!')"
+                    >
                         <i class="fa fa-shopping-bag fa-4x"></i>
                     </button>
                 </div>

@@ -20,7 +20,7 @@
                 <p>Guesses left: <span id="max-wrong-guesses">{{ max_wrong_guesses }}</span></p>
             </div>
         
-            <form hx-post="{% url 'guess_letter' %}" hx-target="#game-area">
+            <form hx-post="{% url 'game:guess_letter' %}" hx-target="#game-area">
                 <label for="guess">Enter a letter:</label>
                 <input type="text" id="guess" name="guess" maxlength="1" required>
                 <button type="submit">Guess</button>

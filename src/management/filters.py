@@ -2,8 +2,9 @@ from django import forms
 from datetime import datetime
 from django_filters import (
     FilterSet, CharFilter, ModelChoiceFilter, TypedChoiceFilter, DateFilter,
-    BooleanFilter,
+    BooleanFilter, RangeFilter, DateFromToRangeFilter
 )
+from django_filters.widgets import RangeWidget, DateRangeWidget
 from src.pos.models import CashRegister
 from src.products.models import Product
 from django.db.models import Q, F, Subquery, OuterRef
@@ -73,26 +74,27 @@ class DocumentFilterForm(FilterSet):
         widget=forms.Select(attrs={'class': 'form-select form-select-sm'}),
         # method='filter_by_paid_status'
     )
-    start_date = DateFilter(
-        label='Period',
-        widget=forms.DateInput(
-            attrs={'type': 'date', 'class': 'form-control form-control-sm'}),
-        method='filter_by_start_date'
-    )
-    end_date = DateFilter(
-        label='End Date',
-        widget=forms.DateInput(
-            attrs={'type': 'date', 'class': 'form-control form-control-sm'}),
-        method='filter_by_end_date'
-    )
-
-    def __init__(self, data=None, queryset=None, *, customer=None, request=None, prefix=None):
+    created = DateFromToRangeFilter(widget=DateRangeWidget(
+        # label='Created',
+        attrs={
+            'placeholder': 'YYYY/MM/DD', 
+            'class': 'form-control form-control-sm',
+            'type': 'date'
+            }))
+    
+    def __init__(self, data=None, queryset=None, *, request=None, prefix=None):
         # Preprocess the data to handle non-standard query parameters
         # if request is not None:
-        if request is not None:
-            customer = request.get('search[value][customer]', None)
         if data is not None:
-            print('data = ', data)
+            customer_id = data.get('search[value][customer]', None)
+            if customer_id:
+                customer = Customer.objects.get(id=int(customer_id))
+                self.filter_by_customer(queryset, value=customer)
+        if data is not None:
+            customer_id = data.get('search[value][customer]', None)
+            if customer_id:
+                print('customer_id = ', customer_id)
+            # print('data = ', data)
             processed_data = {}
             for key, value in data.items():
                 if key.startswith("search[value][") and key.endswith("]"):
@@ -104,25 +106,19 @@ class DocumentFilterForm(FilterSet):
             data = processed_data
             # print('data = ', data)
 
-        print('self_request = ', request)
+        # print('self_request = ', request)
         super().__init__(data, queryset=queryset, request=request, prefix=prefix)
 
     class Meta:
         model = Document
-        fields = ['customer']
-
-    @property
-    def qs(self):
-        queryset = super().qs
-        # Additional filtering logic can be added here if needed
-        return queryset
+        fields = []
 
     def filter_by_product(self, queryset, name, value):
         return queryset.filter(document_items__product=value).distinct()
 
-    def filter_by_customer(self, queryset, name, value):
+    def filter_by_customer(self, queryset, value):
         print('self.request = ', self.request)
-        return queryset.filter(customer=value)
+        return self.filter_queryset(customer=value)
 
     def filter_by_document_type(self, queryset, name, value):
         return queryset.filter(document_type=value)
@@ -288,3 +284,23 @@ data = {
 
     '_': '1723836453125'
 }
+
+
+[
+    'FILTER_DEFAULTS', 'Meta', 
+    '__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', 
+    '__ge__', '__getattribute__', '__getstate__', '__gt__', '__hash__', '__init__', 
+    '__init_subclass__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', 
+    '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 
+    '__weakref__', '_csv_filter_class_name', '_meta', 
+    
+    'base_filters', 'declared_filters', 'errors',  
+    
+    'filter_by_paid_status', 'filter_by_product', 'filter_by_start_date', 
+     'filter_queryset', 
+    'form', 'get_fields', 'get_filter_name', 'get_filters', 'get_form_class', 
+    'handle_unrecognized_field', 'is_valid', 'qs'
+    
+    'filter_by_cash_register','filter_by_end_date', 'filter_by_customer', 'filter_by_document_type',
+     'filter_by_warehouse', 'filter_for_field', 'filter_for_lookup',
+    ]

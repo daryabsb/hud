@@ -10,6 +10,7 @@ base_settings = [
     'components/cache.py',
     'components/celery.py',
     'components/common.py',
+    'components/restframework.py',
     # 'components/cors.py',
     'components/redis.py',
     'components/secretes.py',

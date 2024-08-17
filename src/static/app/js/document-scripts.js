@@ -273,6 +273,7 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
     });
 
 
+
     // const minEl = document.querySelector('#start-date');
     // const maxEl = document.querySelector('#end-date');
 
@@ -286,9 +287,8 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
     const documentWarehouseSelect = document.querySelector('#id_warehouse');
     const documentRefDocNumSelect = document.querySelector('#id_reference_document_number');
 
-    const documentCreatedMin = document.querySelector('#start-date');
-    const documentCreatedMax = document.querySelector('#end-date');
-
+    const documentCreatedMin = document.querySelector('#id_created_0');
+    const documentCreatedMax = document.querySelector('#id_created_1');
 
 
     documentProductSelect.addEventListener('change', function (e) {
