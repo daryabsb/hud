@@ -1,0 +1,62 @@
+<input type="hidden" name="group-id" id="selected-group" />
+<input type="hidden" name="product-id" id="selected-product" />
+<div class="col-12 px-5 pt-2 d-flex align-content-between gap-3">
+    <div class="d-flex flex-wrap">
+        <button type="button" class="btn border-0"
+            _="on click reload() the location of the window end"
+                ><i class="bi bi-plus-lg me-1"
+                ></i> Reload</button>
+            <!-- both buttons below will use the group-id input as hx-include -->
+            {% comment %} <form action="{% url 'printers:export-pdf' %}" method="GET"> {% endcomment %}
+        <a href="{% url 'printers:export-pdf' %}" target=_blank class="btn border-0" >
+            <i class="me-1 fas fa-lg fa-fw me-2 fa-file-pdf"></i>
+            Export PDF</a>
+            {% comment %} </form> {% endcomment %}
+        
+        <a href="#" data-toggle="card-expand" class="btn border-0"><i
+            class="me-1 fa fa-fw fa-expand"></i> EXPAND</a>
+        
+        <button type="button" class="btn border-0" data-bs-toggle="dropdown" data-bs-target="#sorting-menu"><i
+            class="me-1 fas fa-lg fa-fw me-2 fa-sort"></i> Sorting</button>
+        <div class="dropdown-menu" style="" id="sorting-menu">
+            <a class="dropdown-item" href="#">Name</a>
+            <a class="dropdown-item" href="#">Product group</a>
+            <div role="separator" class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Reset to default</a>
+        </div>
+        <button type="button" class="btn border-0" data-bs-toggle="dropdown" data-bs-target="#export-menu"><i
+            class="me-1 fas fa-lg fa-fw me-2 fa-sort"></i> Export</button>
+        <div class="dropdown-menu" style="" id="export-menu">
+            {% comment %} <a 
+            hx-get="{% url 'mgt:modal-select-product-fields' %}" 
+            hx-target="#select-product-fields-modal"
+            hx-vals='{"target":"csv"}'
+            hx-include="#mgt-products-table"
+            hx-trigger="click"
+            data-bs-target="#select-product-fields-modal" data-bs-toggle="modal"
+            
+            class="dropdown-item" href="#">CSV</a>
+
+            <a class="dropdown-item" href="#"
+                hx-get="{% url 'mgt:modal-select-product-fields' %}" 
+                hx-target="#select-product-fields-modal"
+                hx-vals='{"target":"excel"}'
+                hx-include="#mgt-products-table"
+                hx-trigger="click"
+                data-bs-target="#select-product-fields-modal" 
+                data-bs-toggle="modal"
+            >Excel</a> {% endcomment %}
+            
+            <a class="dropdown-item" href="#" id="export-csv">CSV</a>
+            <a class="dropdown-item" href="#" id="export-excel">Excel</a>
+            <a class="dropdown-item" href="#" id="export-pdf">PDF</a>
+            <div role="separator" class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Reset to default</a>
+        </div>
+    </div>
+    {% comment %} <div class="d-flex gap-3 ms-auto">
+        <button class="btn btn-outline-theme btn-sm">search</button>
+        <button class="btn btn-outline-theme btn-sm">Clear</button>
+    </div> {% endcomment %}
+</div>
+

@@ -84,6 +84,9 @@ dz_array = {
                     # f"{app}/plugins/select2/dist/js/select2.full.min.js",
                     f"{app}/js/document-scripts.js",
                 ],
+                "document_list": [
+                    f"{app}/js/document-scripts.js",
+                ],
                 "document_list_view": [
                     f"{app}/js/document-scripts.js",
                 ],

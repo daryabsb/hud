@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from src.documents.models import Document
 import django_tables2 as tables
-
+from src.documents.filters import DocumentFilter
 
 class DocumentTable(tables.Table):
     class Meta:
@@ -25,9 +25,19 @@ def document_list_view(request):
     tables.RequestConfig(
         request, 
         paginate={"per_page": 10}).configure(table)
-    return render(request, "documents/list.html", {"table": table})
+    return render(request, "documents/list-view.html", {"table": table})
 
 
+def document_list(request):
+    filter = DocumentFilter
+
+    return render(request, "documents/list.html", {"filter": filter})
+
+['FILTER_DEFAULTS', 'Meta', 
+  'base_filters', 'declared_filters', 'errors', 'filter_by_ref', 'filter_for_field', 'filter_for_lookup', 
+  'filter_queryset', 'form', 'get_fields', 'get_filter_name', 'get_filters', 'get_form_class', 
+  'handle_unrecognized_field', 'is_valid', 'qs'
+  ]
 
 from datatableview.views import DatatableView
 

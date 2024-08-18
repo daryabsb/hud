@@ -1,27 +1,20 @@
-
-
-
 import django_filters
 from rest_framework_datatables.filters import DatatablesFilterBackend
 from rest_framework_datatables.pagination import DatatablesPageNumberPagination
 from rest_framework import viewsets
 from .serializers import DocumentSerializer
 from src.documents.models import Document
+from src.core.utils import get_columns, get_indexes
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
-class DocumentFilter(django_filters.FilterSet):
-    customer = django_filters.CharFilter(field_name='customer__name', lookup_expr='icontains')
-    user = django_filters.CharFilter(field_name='user__name', lookup_expr='icontains')
-    document_type = django_filters.CharFilter(field_name='document_type__name', lookup_expr='icontains')
-    cash_register = django_filters.CharFilter(field_name='cash_register__name', lookup_expr='icontains')
-    warehouse = django_filters.CharFilter(field_name='warehouse__name', lookup_expr='icontains')
-    start_date = django_filters.DateFilter(field_name='created', lookup_expr='gte')
-    end_date = django_filters.DateFilter(field_name='created', lookup_expr='lte')
+from src.accounts.models import Customer
 
-    class Meta:
-        model = Document
-        fields = ['customer', 'user', 'document_type', 'cash_register', 'warehouse', 'start_date', 'end_date']
+from src.documents.filters import DocumentFilter
 
 
+
+# http://127.0.0.1:8000/documents/api/list/?format=datatables&keep=id
 
 class DocumentViewSet(viewsets.ModelViewSet):
     queryset = Document.objects.select_related(
@@ -35,3 +28,16 @@ class DocumentViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         # Customize queryset if needed based on request
         return self.queryset
+
+
+@api_view(['GET'])
+def document_columns_view(request):
+    columns = get_columns('documents')  # Assuming you have a get_columns function
+    indexes = get_indexes('documents')  # Assuming you have a get_columns function
+    return Response({"columns": columns, "indexes": indexes})
+
+    # def get_context_data(self, *args, **kwargs):
+    #     context = super().get_context_data(*args, **kwargs)
+    #     # Add the columns to the context
+    #     context['columns'] = get_columns('documents')  # Assuming you have a get_columns function
+    #     return context

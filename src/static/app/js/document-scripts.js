@@ -124,21 +124,22 @@ function createFormElement(column) {
 
 }
 
-async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
+async function renderDocumentsDataTable(elId = [], ajaxUrl = [], columns = [], options = {}) {
     var table1 = document.getElementById(elId[0]); var table2 = document.getElementById(elId[1]);
     var columns1; var columns2; var indexes1; var indexes2;
 
-    await fetch(ajaxUrl[0])
+    await fetch(columns[0])
         .then(response => response.json())
         .then(data => {
             columns1 = data.columns;
+            //console.log('column1 = ', columns1);
             columns1[0].class = 'btn btn-outline-theme text-success'
             indexes1 = data.indexes
-            columns1.push({
-                data: 'product',
-                defaultContent: '',
-                visible: false
-            })
+            // columns1.push({
+            //     data: 'product',
+            //     defaultContent: '',
+            //     visible: false
+            // })
 
         })
         .catch(err => console.error('Error fetching data:', err))
@@ -279,7 +280,7 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
 
     // var filter_elements = ['product', 'user', 'document_type', 'paid_status', 'icustomer',]
 
-    const documentProductSelect = document.querySelector('#id_product');
+    // const documentProductSelect = document.querySelector('#id_product');
     var customerSearchSelect = document.querySelector('#id_customer')
     var documentTypeSearchSelect = document.querySelector('#id_document_type')
     const documentPaidStatusSelect = document.querySelector('#id_paid_status');
@@ -291,11 +292,11 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
     const documentCreatedMax = document.querySelector('#id_created_1');
 
 
-    documentProductSelect.addEventListener('change', function (e) {
+    // documentProductSelect.addEventListener('change', function (e) {
 
-        table1.search({ "product": this.value })
-        table1.column(indexes1.product).search(this.value).draw(); // Ensure table2 is defined and accessible
-    });
+    //     table1.search({ "product": this.value })
+    //     table1.column(indexes1.product).search(this.value).draw(); // Ensure table2 is defined and accessible
+    // });
     customerSearchSelect.addEventListener('change', function (e) {
         table1.search({ "customer": this.value })
         table1.column(indexes1.customer).search(this.value).draw(); // Ensure table2 is defined and accessible
@@ -320,10 +321,48 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
 
     // Changes to the inputs will trigger a redraw to update the table
     documentCreatedMin.addEventListener('input', function () {
-        table1.column(indexes1.start_date).search(this.value).draw(); // Ensure table2 is defined and accessible
+        table1.column(indexes1.created).search(this.value).draw(); // Ensure table2 is defined and accessible
     });
     documentCreatedMax.addEventListener('input', function () {
-        table1.column(indexes1.end_date).search(this.value).draw(); // Ensure table2 is defined and accessible
+        table1.column(indexes1.created).search(this.value).draw(); // Ensure table2 is defined and accessible
+    });
+
+
+
+
+    let minDate, maxDate;
+
+    // Custom filtering function which will search data in column four between two values
+    DataTable.ext.search.push(function (settings, data, dataIndex) {
+        let min = minDate.val();
+        let max = maxDate.val();
+        let date = new Date(indexes1.created);
+
+        if (
+            (min === null && max === null) ||
+            (min === null && date <= max) ||
+            (min <= date && max === null) ||
+            (min <= date && date <= max)
+        ) {
+            return true;
+        }
+        return false;
+    });
+
+    // Create date inputs
+    minDate = new DateTime('#id_created_0', {
+        format: 'YYYY-MM-DD'
+    });
+    maxDate = new DateTime('#id_created_1', {
+        format: 'YYYY-MM-DD'
+    });
+
+    // DataTables initialisation
+
+
+    // Refilter the table
+    document.querySelectorAll('#id_created_0, #id_created_1').forEach((el) => {
+        el.addEventListener('change', () => table1.draw());
     });
 
 

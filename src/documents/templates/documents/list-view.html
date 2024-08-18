@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load render_table from django_tables2 %}
+
+{% block content %}
+<div id="content" class="app-content py-3">
+        <h1>Document List</h1>
+        {% render_table table %}
+</div>
+
+{% endblock content %}

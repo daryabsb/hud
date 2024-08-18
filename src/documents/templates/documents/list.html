@@ -1,10 +1,63 @@
 {% extends 'base.html' %}
-{% load render_table from django_tables2 %}
-
 {% block content %}
-<div id="content" class="app-content py-3">
-        <h1>Document List</h1>
-        {% render_table table %}
-</div>
 
+<div id="content" class="app-content py-3">
+	<div class="d-flex align-items-center mb-2">
+		<div>
+			<h1 class="page-header mb-0">Documents</h1>
+		</div>
+		<div class="ms-auto">
+			{% include 'mgt/buttons/add-product-button.html' %}
+		</div>
+	</div>
+    <div class="card flex-1 m-0 d-flex flex-column rounded-0">
+        <div class="card-body p-0 flex-1">
+            <div class="file-manager h-100" id="fileManager">
+				<div class="row border">
+					{% include 'documents/partials/buttons-toolbar.html' %}
+					{% include 'documents/partials/filter-form.html' %} 
+				</div>
+				</div>
+				<div class="file-manager-content d-flex flex-column">	
+					{% include 'documents/partials/documents-table.html' %}
+				</div>
+			</div>
+            <div class="file-manager h-100 border-top" id="fileManager">
+				<div class="file-manager-container overflow-auto">	
+					{% include 'mgt/documents/partials/documents-table3.html' %}
+				</div>
+			</div>
+        </div>
+		<div class="card-arrow">
+			<div class="card-arrow-top-left"></div>
+			<div class="card-arrow-top-right"></div>
+			<div class="card-arrow-bottom-left"></div>
+			<div class="card-arrow-bottom-right"></div>
+		</div>
+    </div>
+</div>
 {% endblock content %}
+
+{% block additional_js %}
+<script>
+	var documentsTopButtons = document.createElement('div');
+	documentsTopButtons.innerHTML = `{% include 'documents/partials/top-buttons.html' %}`;
+
+    document.addEventListener('DOMContentLoaded', function () {
+	renderDocumentsDataTable(
+		[
+            'documents-datatable',
+            'document-items-table'
+            ],
+		[
+			'{% url "documents:api-list-list" %}?format=datatables',
+			'{% url "mgt:document-items-datatable" %}?document-id=&datatables=1'
+            ],
+            columns=[
+			'{% url "documents:document-columns" %}',
+
+        ]
+		);
+    });
+</script>
+{% endblock additional_js %}
