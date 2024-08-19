@@ -13,7 +13,6 @@ from src.accounts.models import Customer
 from src.documents.filters import DocumentFilter
 
 
-
 # http://127.0.0.1:8000/documents/api/list/?format=datatables&keep=id
 
 class DocumentViewSet(viewsets.ModelViewSet):
@@ -22,8 +21,9 @@ class DocumentViewSet(viewsets.ModelViewSet):
     ).all()
     serializer_class = DocumentSerializer
     filter_backends = (DatatablesFilterBackend,)
-    pagination_class = DatatablesPageNumberPagination
+    # pagination_class = DatatablesPageNumberPagination
     filterset_class = DocumentFilter
+    filterset_fields = '__all__'
 
     def get_queryset(self):
         # Customize queryset if needed based on request
@@ -32,8 +32,10 @@ class DocumentViewSet(viewsets.ModelViewSet):
 
 @api_view(['GET'])
 def document_columns_view(request):
-    columns = get_columns('documents')  # Assuming you have a get_columns function
-    indexes = get_indexes('documents')  # Assuming you have a get_columns function
+    # Assuming you have a get_columns function
+    columns = get_columns('documents')
+    # Assuming you have a get_columns function
+    indexes = get_indexes('documents')
     return Response({"columns": columns, "indexes": indexes})
 
     # def get_context_data(self, *args, **kwargs):

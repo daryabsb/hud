@@ -280,8 +280,8 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], columns = [], o
 
     // var filter_elements = ['product', 'user', 'document_type', 'paid_status', 'icustomer',]
 
-    // const documentProductSelect = document.querySelector('#id_product');
-    var customerSearchSelect = document.querySelector('#id_customer')
+    const documentProductSelect = document.querySelector('#id_product');
+    // var customerSearchSelect = document.querySelector('#id_customer')
     var documentTypeSearchSelect = document.querySelector('#id_document_type')
     const documentPaidStatusSelect = document.querySelector('#id_paid_status');
     const documentCashRegisterSelect = document.querySelector('#id_cash_register');
@@ -292,15 +292,14 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], columns = [], o
     const documentCreatedMax = document.querySelector('#id_created_1');
 
 
-    // documentProductSelect.addEventListener('change', function (e) {
+    documentProductSelect.addEventListener('change', function (e) {
 
-    //     table1.search({ "product": this.value })
-    //     table1.column(indexes1.product).search(this.value).draw(); // Ensure table2 is defined and accessible
-    // });
-    customerSearchSelect.addEventListener('change', function (e) {
-        table1.search({ "customer": this.value })
-        table1.column(indexes1.customer).search(this.value).draw(); // Ensure table2 is defined and accessible
+        // table1.search({ "product": this.value })
+        table1.column(indexes1.product).search(this.value).draw(); // Ensure table2 is defined and accessible
     });
+    // customerSearchSelect.addEventListener('change', function (e) {
+    //     table1.column(indexes1.customer).search(this.value).draw(); // Ensure table2 is defined and accessible
+    // });
     documentTypeSearchSelect.addEventListener('change', function (e) {
         table1.column(indexes1.document_type).search(this.value).draw(); // Ensure table2 is defined and accessible
     });

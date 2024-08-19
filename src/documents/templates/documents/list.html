@@ -43,7 +43,7 @@
 	var documentsTopButtons = document.createElement('div');
 	documentsTopButtons.innerHTML = `{% include 'documents/partials/top-buttons.html' %}`;
 
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', async function () {
 	renderDocumentsDataTable(
 		[
             'documents-datatable',
@@ -58,6 +58,7 @@
 
         ]
 		);
+	
     });
 </script>
 {% endblock additional_js %}
