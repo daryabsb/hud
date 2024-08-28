@@ -12,6 +12,7 @@ from src.accounts.models import Customer
 
 from src.documents.filters import DocumentFilter
 
+from django_filters import rest_framework as filters
 
 # http://127.0.0.1:8000/documents/api/list/?format=datatables&keep=id
 
@@ -20,8 +21,8 @@ class DocumentViewSet(viewsets.ModelViewSet):
         'user', 'customer', 'cash_register', 'order', 'document_type', 'warehouse'
     ).all()
     serializer_class = DocumentSerializer
-    filter_backends = (DatatablesFilterBackend,)
-    # pagination_class = DatatablesPageNumberPagination
+    filter_backends = (DatatablesFilterBackend, filters.DjangoFilterBackend,)
+    pagination_class = DatatablesPageNumberPagination
     filterset_class = DocumentFilter
     filterset_fields = '__all__'
 
