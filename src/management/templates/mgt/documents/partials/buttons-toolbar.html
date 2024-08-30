@@ -8,6 +8,15 @@
                 ></i> Reload</button>
             <!-- both buttons below will use the group-id input as hx-include -->
             {% comment %} <form action="{% url 'printers:export-pdf' %}" method="GET"> {% endcomment %}
+        <a href="#" class="btn border-0"
+        _="on click 
+            toggle .d-none on #add-new-document-tab
+            toggle .active on .view-document-tab 
+            trigger click on .new-document-tab 
+            
+            end"
+        ><i
+            class="me-1 fa fa-fw fa-expand"></i> Add +</a>
         <a href="{% url 'printers:export-pdf' %}" target=_blank class="btn border-0" >
             <i class="me-1 fas fa-lg fa-fw me-2 fa-file-pdf"></i>
             Export PDF</a>

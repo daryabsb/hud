@@ -93,6 +93,17 @@ def modal_add_product(request):
     return render(request, 'mgt/modals/add-product-modal.html', context)
 
 
+def modal_add_document(request):
+    from src.documents.forms import DocumentFilterForm
+
+    form = DocumentFilterForm()
+
+    context = {
+        "form": form
+    }
+    return render(request, 'mgt/modals/add-product-modal.html', context)
+
+
 def add_to_product_tax_formset(request):
     template = 'mgt/tabs/add-product/side-forms/product-tax-formset.html'
     max_forms = Tax.objects.filter(is_tax_on_total=False).count()

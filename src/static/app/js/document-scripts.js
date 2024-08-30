@@ -61,7 +61,10 @@ Object.assign(DataTable.defaults, {
     ordering: false,
     scrollX: true, // width - 335,
     scrollY: 180,
-    fixedHeader: true,
+    // fixedHeader: {
+    //     header: false,
+    //     footer: true,
+    // },
     processing: true,
     compact: true,
     serverSide: true,
@@ -211,6 +214,7 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
             url: ajaxUrl[1],
             dataSrc: 'data',
         },
+        columnDefs: [{ width: '400px', targets: 1 }],
         columns: formattedColumns2,
     });
 
@@ -292,27 +296,6 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
     documentPagingPreviousButton.addEventListener('click', function (e) {
         table1.page('previous').draw(false);
     });
-
-
-
-    // var filter_elements = ['product', 'user', 'document_type', 'paid_status', 'icustomer',]
-
-    // var document_filter_forms_buttons = [
-    //     document.querySelector('#id_product'),
-    //     document.querySelector('#id_user'),
-    //     document.querySelector('#id_document_type'),
-    //     document.querySelector('#id_paid_status'),
-    //     document.querySelector('#id_customer'),
-    // ]
-    // document_filter_forms_buttons.forEach(button => {
-    //     if (button) { // Check if the element exists
-    //         button.addEventListener('change', function (e) {
-    //             table1.search(this.value).draw(); // Ensure table2 is defined and accessible
-    //         });
-    //     }
-    // });
-
-
 
     const documentProductFilter = document.querySelector('#id_product');
     // const documentUserFilter = document.querySelector('#id_user');

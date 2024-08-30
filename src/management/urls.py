@@ -64,6 +64,8 @@ urlpatterns += [
     path('modal-add-group/', views.modal_add_group, name='modal-add-group'),
     path('modal-add-user/', views.modal_add_user, name='modal-add-user'),
     path('modal-add-product/', views.modal_add_product, name='modal-add-product'),
+    path('modal-add-document/', views.modal_add_document,
+         name='modal-add-document'),
     path('modal-update-product/',
          views.modal_add_product, name='modal-update-product'),
     path('modal-add-product-group/', views.modal_add_product_group,
