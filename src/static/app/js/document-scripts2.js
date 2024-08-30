@@ -88,17 +88,7 @@ function createFormElement(column) {
     const outerDiv = document.createElement('div');
     outerDiv.className = 'w-200px form-group mb-0';
     // Create the label element
-    const label = document.createElement('label');
     const title = column.title().charAt(0).toUpperCase() + column.title().slice(1);
-    // label.setAttribute('for', `documents-${title}`);
-    // label.className = 'fs-6 text-end col-sm-5 col-form-label';
-    // label.textContent = title;
-
-    // Create the inner div with class col-sm-7
-    const innerDiv = document.createElement('div');
-    innerDiv.className = 'col-sm-12';
-
-    const selectWrapper = document.createElement('div');
 
     // Create the select element
     //const select = document.createElement('select');
@@ -109,7 +99,7 @@ function createFormElement(column) {
     select.id = `id_${title.toLowerCase()}`;
 
     // Create the first empty option
-    const emptyOption = select.add(new Option(title));
+    select.add(new Option(title));
     //emptyOption.selected = true;
 
     column
@@ -124,14 +114,8 @@ function createFormElement(column) {
         console.log('called');
         column.search(this.value).draw()
     })
-
-    selectWrapper.appendChild(select);
-    // Append the inner div with the select to the outer div
-    innerDiv.appendChild(selectWrapper);
-
     // Append the label and inner div to the outer div
-    // outerDiv.appendChild(label);
-    outerDiv.appendChild(select);
+    //outerDiv.appendChild(select);
 
 
 
@@ -140,22 +124,22 @@ function createFormElement(column) {
 
 }
 
-async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
-    var table1 = document.getElementById(elId[0]); var table2 = document.getElementById(elId[1]); var columns1; var columns2;
+async function renderDocumentsDataTable(elId = [], ajaxUrl = [], columns = [], options = {}) {
+    var table1 = document.getElementById(elId[0]); var table2 = document.getElementById(elId[1]);
+    var columns1; var columns2; var indexes1; var indexes2;
 
-    await fetch(ajaxUrl[0])
+    await fetch(columns[0])
         .then(response => response.json())
         .then(data => {
             columns1 = data.columns;
-            columns1.unshift(
-                {
-                    class: 'dt-control',
-                    orderable: false,
-                    data: null,
-                    defaultContent: '',
-                    //render: DataTable.render.select()
-                },
-            )
+            //console.log('column1 = ', columns1);
+            columns1[0].class = 'btn btn-outline-theme text-success'
+            indexes1 = data.indexes
+            // columns1.push({
+            //     data: 'product',
+            //     defaultContent: '',
+            //     visible: false
+            // })
 
         })
         .catch(err => console.error('Error fetching data:', err))
@@ -180,7 +164,7 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
         },
         columns: formattedColumns1,
         layout: {
-            //top: toolbar,
+            topStart: documentsTopButtons,
             bottomStart: null,
             bottomEnd: null,
             // topEnd: {
@@ -188,53 +172,8 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
             //         numbers: false
             //     }
             // },
-            topStart: null,
         },
-        initComplete: function () {
-            this.api()
-                .columns()
-                .every(function () {
-                    let column = this;
-                    let col = columns1.find(col => col.id === column.index())
-                    // if (col != undefined) {
-                    //     // .name
-                    //     var element = document.getElementById(`id_${col.name}`)
-                    //     if (element) {
-                    //         console.log("Element: ", element);
-                    //         element.addEventListener("change", function () {
-                    //             column.search(this.value).draw()
-                    //         })
-                    //         // console.log(column.index(), element);
-                    //     } else {
-                    //         console.log(column.index(), col.name);
 
-                    //     }
-
-                    // }
-
-
-                    var selectElement = createFormElement(column)
-                    // const docTypeSelect = document.querySelector('#id_document_type');
-                    // const docQueryForm = document.querySelector('#datatable-filter-form');
-                    // Create select element
-                    let select = document.createElement('select');
-
-                    // console.log("columnDef = ", column[0][0]);
-                    let columnDef = columns1.find(col => col.id === column[0][0])
-                    let searchable = false;
-                    if (columnDef !== undefined) {
-                        searchable = columnDef.searchable;
-                        console.log(columnDef.data);
-                    }
-
-                    if (searchable) {
-                        let formDiv = createFormElement(column, columnDef)
-
-                        console.log(formDiv);
-                        tableForms.appendChild(formDiv.el)
-                    }
-                });
-        }
     });
     table2 = new DataTable(table2, {
         ...options,
@@ -243,6 +182,15 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
             dataSrc: 'data',
         },
         columns: formattedColumns2,
+        scrollY: 230,
+        pageLength: 25,
+        // layout: {
+        //     bottom: {
+        //         paging: {
+        //             numbers: false
+        //         },
+        //     }
+        // }
     });
 
     // Array to track the ids of the details displayed rows
@@ -256,6 +204,7 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
                     .data()
                     .pluck('id');
                 // do something with the ID of the selected items
+                console.log(table1.rows(indexes).data());
                 table2.ajax.url(
                     `/mgt/document-items-datatable/?document-id=${data[0]}&datatables=1`
                 ).load() //= `{% url "mgt:document-items-datatable" %}?document-id=${data[0]}&datatables=1`
@@ -273,7 +222,7 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
                 ).load() //= `{% url "mgt:document-items-datatable" %}?document-id=${data[0]}&datatables=1`
             }
         })
-        .on('click', 'tbody td.dt-control', function (event) {
+        .on('click', 'tbody td.btn', function (event) {
             let tr = event.target.closest('tr');
             let row = table1.row(tr);
             let idx = detailRows.indexOf(tr.id);
@@ -325,32 +274,107 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
     });
 
 
+
     // const minEl = document.querySelector('#start-date');
     // const maxEl = document.querySelector('#end-date');
 
     // var filter_elements = ['product', 'user', 'document_type', 'paid_status', 'icustomer',]
 
-    // var document_filter_forms_buttons = [
-    //     document.querySelector('#id_product'),
-    //     document.querySelector('#id_user'),
-    //     document.querySelector('#id_document_type'),
-    //     document.querySelector('#id_paid_status'),
-    //     document.querySelector('#id_customer'),
-    // ]
-    // document_filter_forms_buttons.forEach(button => {
-    //     if (button) { // Check if the element exists
-    //         button.addEventListener('change', function (e) {
-    //             table1.search(this.value).draw(); // Ensure table2 is defined and accessible
-    //         });
-    //     }
-    // });
+    const documentProductSelect = document.querySelector('#id_product');
+    var customerSearchSelect = document.querySelector('#id_customer')
+    var documentTypeSearchSelect = document.querySelector('#id_document_type')
+    const documentPaidStatusSelect = document.querySelector('#id_paid_status');
+    const documentCashRegisterSelect = document.querySelector('#id_cash_register');
+    const documentWarehouseSelect = document.querySelector('#id_warehouse');
+    const documentRefDocNumSelect = document.querySelector('#id_reference_document_number');
+
+    const documentCreatedMin = document.querySelector('#id_created_0');
+    const documentCreatedMax = document.querySelector('#id_created_1');
+
+
+    documentProductSelect.addEventListener('change', function (e) {
+
+        // table1.search({ "product": this.value })
+        table1.column(indexes1.product).search(this.value).draw(); // Ensure table2 is defined and accessible
+    });
+    customerSearchSelect.addEventListener('change', function (e) {
+        console.log('indexes = ', indexes1);
+
+        table1.column(indexes1.customer).search(this.value).draw(); // Ensure table2 is defined and accessible
+    });
+    documentTypeSearchSelect.addEventListener('change', function (e) {
+        table1.column(indexes1.document_type).search(this.value).draw(); // Ensure table2 is defined and accessible
+    });
+    documentPaidStatusSelect.addEventListener('change', function (e) {
+        table1.search({ "paid_status": this.value })
+        table1.column(indexes1.paid_status).search(this.value).draw(); // Ensure table2 is defined and accessible
+    });
+    documentRefDocNumSelect.addEventListener('keyup', function (e) {
+        table1.column(indexes1.reference_document_number).search(this.value).draw(); // Ensure table2 is defined and accessible
+    });
+    documentCashRegisterSelect.addEventListener('change', function (e) {
+        table1.column(indexes1.cash_register).search(this.value).draw(); // Ensure table2 is defined and accessible
+    });
+    documentWarehouseSelect.addEventListener('change', function (e) {
+        table1.column(indexes1.warehouse).search(this.value).draw(); // Ensure table2 is defined and accessible
+    });
+
+
+    // Changes to the inputs will trigger a redraw to update the table
+    documentCreatedMin.addEventListener('input', function () {
+        table1.column(indexes1.created).search(this.value).draw(); // Ensure table2 is defined and accessible
+    });
+    documentCreatedMax.addEventListener('input', function () {
+        table1.column(indexes1.created).search(this.value).draw(); // Ensure table2 is defined and accessible
+    });
 
 
 
-    // const documentProductFilter = document.querySelector('#id_product');
+
+    let minDate, maxDate;
+
+    // Custom filtering function which will search data in column four between two values
+    DataTable.ext.search.push(function (settings, data, dataIndex) {
+        let min = minDate.val();
+        let max = maxDate.val();
+        let date = new Date(indexes1.created);
+
+        if (
+            (min === null && max === null) ||
+            (min === null && date <= max) ||
+            (min <= date && max === null) ||
+            (min <= date && date <= max)
+        ) {
+            return true;
+        }
+        return false;
+    });
+
+    // Create date inputs
+    minDate = new DateTime('#id_created_0', {
+        format: 'YYYY-MM-DD'
+    });
+    maxDate = new DateTime('#id_created_1', {
+        format: 'YYYY-MM-DD'
+    });
+
+    // DataTables initialisation
+
+
+    // Refilter the table
+    document.querySelectorAll('#id_created_0, #id_created_1').forEach((el) => {
+        el.addEventListener('change', () => table1.draw());
+    });
+
+
+
+
+
+
+
+
     // const documentUserFilter = document.querySelector('#id_user');
     // const documentTypeFilter = document.querySelector('#id_document_type');
-    // const documentPaidStatusFilter = document.querySelector('#id_paid_status');
     // const documentCustomerFilter = document.querySelector('#id_customer');
     // documentProductFilter.addEventListener('change', function (e) {
     //     table2.search(this.value).draw();
@@ -493,6 +517,8 @@ function formatColumns(columns) {
             || column.data === 'is_service'
             || column.data === 'is_using_default_quantity'
             || column.data === 'returned'
+            || column.data === 'paid_status'
+            || column.data === 'is_clocked_out'
         ) {
             return {
                 ...column,

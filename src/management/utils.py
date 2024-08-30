@@ -312,6 +312,7 @@ def apply_document_filters(request, qs):
     product_search_value = request.GET.get(
         f"columns[{indexes['product']}][search][value]", None)
     if product_search_value:
+        print("product_search_value = ", product_search_value)
         product = Product.objects.get(id=int(product_search_value))
         qs = qs.filter(document_items__product=product).distinct()
 
@@ -338,7 +339,7 @@ def apply_document_filters(request, qs):
             number=cash_register_search_value)
         qs = qs.filter(Q(cash_register=cash_register))
 
-    # Cash Register
+    # Warehouse
     warehouse_search_value = request.GET.get(
         f"columns[{indexes['warehouse']}][search][value]", None)
     if warehouse_search_value:
@@ -351,6 +352,7 @@ def apply_document_filters(request, qs):
         f"columns[{indexes['paid_status']}][search][value]", None)
     if paid_status_search_value:
         qs = qs.filter(Q(paid_status=paid_status_search_value))
+
     # Document Reference Number
     doc_ref_num_search_value = request.GET.get(
         f"columns[{indexes['reference_document_number']}][search][value]", None)

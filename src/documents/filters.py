@@ -31,7 +31,7 @@ class GlobalChoiceFilter(GlobalFilter, filters.ChoiceFilter):
     pass
 
 
-class DocumentFilter(filters.FilterSet):
+class DocumentFilter(FilterSet):
     product = ModelChoiceFilter(
         queryset=Product.objects.all(),
         label='Product',
@@ -95,33 +95,33 @@ class DocumentFilter(filters.FilterSet):
             'type': 'date'
         }))
 
-    # def __init__(self, data=None, queryset=None, *, request=None, prefix=None):
-    #     # Preprocess the data to handle non-standard query parameters
-    #     # if request is not None:
-    #     print("The data is called: ", data)
-    #     if data is not None:
-    #         customer_id = data.get('search[value][customer]', None)
-    #         if customer_id:
-    #             customer = Customer.objects.get(id=int(customer_id))
-    #             self.filter_by_customer(queryset, value=customer)
-    #     if data is not None:
-    #         customer_id = data.get('search[value][customer]', None)
-    #         if customer_id:
-    #             print('customer_id = ', customer_id)
-    #         # print('data = ', data)
-    #         processed_data = {}
-    #         for key, value in data.items():
-    #             if key.startswith("search[value][") and key.endswith("]"):
-    #                 # Extract the field name, e.g., "product" from "search[value][product]"
-    #                 field_name = key[len("search[value]["):-1]
-    #                 processed_data[field_name] = value
-    #             else:
-    #                 processed_data[key] = value
-    #         data = processed_data
-    #         # print('data = ', data)
+    def __init__(self, data=None, queryset=None, *, request=None, prefix=None):
+        # Preprocess the data to handle non-standard query parameters
+        # if request is not None:
+        print("The data is called: ", data)
+        if data is not None:
+            customer_id = data.get('search[value][customer]', None)
+            if customer_id:
+                customer = Customer.objects.get(id=int(customer_id))
+                self.filter_by_customer(queryset, value=customer)
+        if data is not None:
+            customer_id = data.get('search[value][customer]', None)
+            if customer_id:
+                print('customer_id = ', customer_id)
+            # print('data = ', data)
+            processed_data = {}
+            for key, value in data.items():
+                if key.startswith("search[value][") and key.endswith("]"):
+                    # Extract the field name, e.g., "product" from "search[value][product]"
+                    field_name = key[len("search[value]["):-1]
+                    processed_data[field_name] = value
+                else:
+                    processed_data[key] = value
+            data = processed_data
+            # print('data = ', data)
 
-    #     # print('self_request = ', request)
-    #     super().__init__(data, queryset=queryset, request=request, prefix=prefix)
+        # print('self_request = ', request)
+        super().__init__(data, queryset=queryset, request=request, prefix=prefix)
 
     class Meta:
         model = Document

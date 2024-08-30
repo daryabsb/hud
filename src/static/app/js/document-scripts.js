@@ -88,7 +88,17 @@ function createFormElement(column) {
     const outerDiv = document.createElement('div');
     outerDiv.className = 'w-200px form-group mb-0';
     // Create the label element
+    const label = document.createElement('label');
     const title = column.title().charAt(0).toUpperCase() + column.title().slice(1);
+    // label.setAttribute('for', `documents-${title}`);
+    // label.className = 'fs-6 text-end col-sm-5 col-form-label';
+    // label.textContent = title;
+
+    // Create the inner div with class col-sm-7
+    const innerDiv = document.createElement('div');
+    innerDiv.className = 'col-sm-12';
+
+    const selectWrapper = document.createElement('div');
 
     // Create the select element
     //const select = document.createElement('select');
@@ -99,7 +109,7 @@ function createFormElement(column) {
     select.id = `id_${title.toLowerCase()}`;
 
     // Create the first empty option
-    select.add(new Option(title));
+    const emptyOption = select.add(new Option(title));
     //emptyOption.selected = true;
 
     column
@@ -114,8 +124,14 @@ function createFormElement(column) {
         console.log('called');
         column.search(this.value).draw()
     })
+
+    selectWrapper.appendChild(select);
+    // Append the inner div with the select to the outer div
+    innerDiv.appendChild(selectWrapper);
+
     // Append the label and inner div to the outer div
-    //outerDiv.appendChild(select);
+    // outerDiv.appendChild(label);
+    outerDiv.appendChild(select);
 
 
 
@@ -124,22 +140,35 @@ function createFormElement(column) {
 
 }
 
-async function renderDocumentsDataTable(elId = [], ajaxUrl = [], columns = [], options = {}) {
-    var table1 = document.getElementById(elId[0]); var table2 = document.getElementById(elId[1]);
-    var columns1; var columns2; var indexes1; var indexes2;
+async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
+    var table1 = document.getElementById(elId[0]); var table2 = document.getElementById(elId[1]); var columns1; var columns2;
 
-    await fetch(columns[0])
+    await fetch(ajaxUrl[0])
         .then(response => response.json())
         .then(data => {
             columns1 = data.columns;
             //console.log('column1 = ', columns1);
             columns1[0].class = 'btn btn-outline-theme text-success'
             indexes1 = data.indexes
-            // columns1.push({
-            //     data: 'product',
-            //     defaultContent: '',
-            //     visible: false
-            // })
+            columns1.push(
+                {
+                    data: 'product',
+                    defaultContent: '',
+                    visible: false
+                },
+                {
+                    data: 'start_date',
+                    defaultContent: '',
+                    visible: false
+                },
+                {
+                    data: 'end_date',
+                    defaultContent: '',
+                    visible: false
+                },
+
+            )
+
 
         })
         .catch(err => console.error('Error fetching data:', err))
@@ -164,7 +193,7 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], columns = [], o
         },
         columns: formattedColumns1,
         layout: {
-            topStart: documentsTopButtons,
+            //top: toolbar,
             bottomStart: null,
             bottomEnd: null,
             // topEnd: {
@@ -172,6 +201,7 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], columns = [], o
             //         numbers: false
             //     }
             // },
+            topStart: documentsTopButtons,
         },
 
     });
@@ -182,15 +212,6 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], columns = [], o
             dataSrc: 'data',
         },
         columns: formattedColumns2,
-        scrollY: 230,
-        pageLength: 25,
-        // layout: {
-        //     bottom: {
-        //         paging: {
-        //             numbers: false
-        //         },
-        //     }
-        // }
     });
 
     // Array to track the ids of the details displayed rows
@@ -204,7 +225,6 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], columns = [], o
                     .data()
                     .pluck('id');
                 // do something with the ID of the selected items
-                console.log(table1.rows(indexes).data());
                 table2.ajax.url(
                     `/mgt/document-items-datatable/?document-id=${data[0]}&datatables=1`
                 ).load() //= `{% url "mgt:document-items-datatable" %}?document-id=${data[0]}&datatables=1`
@@ -222,7 +242,7 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], columns = [], o
                 ).load() //= `{% url "mgt:document-items-datatable" %}?document-id=${data[0]}&datatables=1`
             }
         })
-        .on('click', 'tbody td.btn', function (event) {
+        .on('click', 'tbody td.dt-control', function (event) {
             let tr = event.target.closest('tr');
             let row = table1.row(tr);
             let idx = detailRows.indexOf(tr.id);
@@ -275,121 +295,76 @@ async function renderDocumentsDataTable(elId = [], ajaxUrl = [], columns = [], o
 
 
 
-    // const minEl = document.querySelector('#start-date');
-    // const maxEl = document.querySelector('#end-date');
-
     // var filter_elements = ['product', 'user', 'document_type', 'paid_status', 'icustomer',]
 
-    const documentProductSelect = document.querySelector('#id_product');
-    var customerSearchSelect = document.querySelector('#id_customer')
-    var documentTypeSearchSelect = document.querySelector('#id_document_type')
-    const documentPaidStatusSelect = document.querySelector('#id_paid_status');
-    const documentCashRegisterSelect = document.querySelector('#id_cash_register');
-    const documentWarehouseSelect = document.querySelector('#id_warehouse');
-    const documentRefDocNumSelect = document.querySelector('#id_reference_document_number');
+    // var document_filter_forms_buttons = [
+    //     document.querySelector('#id_product'),
+    //     document.querySelector('#id_user'),
+    //     document.querySelector('#id_document_type'),
+    //     document.querySelector('#id_paid_status'),
+    //     document.querySelector('#id_customer'),
+    // ]
+    // document_filter_forms_buttons.forEach(button => {
+    //     if (button) { // Check if the element exists
+    //         button.addEventListener('change', function (e) {
+    //             table1.search(this.value).draw(); // Ensure table2 is defined and accessible
+    //         });
+    //     }
+    // });
 
-    const documentCreatedMin = document.querySelector('#id_created_0');
-    const documentCreatedMax = document.querySelector('#id_created_1');
 
 
-    documentProductSelect.addEventListener('change', function (e) {
+    const documentProductFilter = document.querySelector('#id_product');
+    // const documentUserFilter = document.querySelector('#id_user');
+    const documentTypeFilter = document.querySelector('#id_document_type');
+    const documentPaidStatusFilter = document.querySelector('#id_paid_status');
+    const documentCustomerFilter = document.querySelector('#id_customer');
+    const documentRefNumberFilter = document.querySelector('#id_reference_document_number');
+    const documentWarehouseFilter = document.querySelector('#id_warehouse');
+    const documentCashRegisterFilter = document.querySelector('#id_cash_register');
 
-        // table1.search({ "product": this.value })
+    const minEl = document.querySelector('#id_created_0');
+    const maxEl = document.querySelector('#id_created_1');
+
+    documentProductFilter.addEventListener('change', function (e) {
+        // for (let column = 0; column < 24; column++) {
+        //     // Runs 5 times, with values of step 0 through 4.
+        //     console.log(table1.column(column).index(), " = ", table1.column(column));
+        // }
+
+        // console.log(" columns = ", columns1);
+        console.log("start_date = ", indexes1.start_date);
+        console.log("end_date = ", indexes1.end_date);
+        // console.log(" columns = ", columns1);
         table1.column(indexes1.product).search(this.value).draw(); // Ensure table2 is defined and accessible
     });
-    customerSearchSelect.addEventListener('change', function (e) {
-        table1.column(indexes1.customer).search(this.value).draw(); // Ensure table2 is defined and accessible
-    });
-    documentTypeSearchSelect.addEventListener('change', function (e) {
+    // documentUserFilter.addEventListener('change', function (e) {
+    //     table1.column(indexes1.user).search(this.value).draw(); // Ensure table2 is defined and accessible
+    // });
+    documentTypeFilter.addEventListener('change', function (e) {
         table1.column(indexes1.document_type).search(this.value).draw(); // Ensure table2 is defined and accessible
     });
-    documentPaidStatusSelect.addEventListener('change', function (e) {
-        table1.search({ "paid_status": this.value })
+    documentPaidStatusFilter.addEventListener('change', function (e) {
         table1.column(indexes1.paid_status).search(this.value).draw(); // Ensure table2 is defined and accessible
     });
-    documentRefDocNumSelect.addEventListener('keyup', function (e) {
+    documentCustomerFilter.addEventListener('change', function (e) {
+        table1.column(indexes1.customer).search(this.value).draw(); // Ensure table2 is defined and accessible
+    });
+    documentRefNumberFilter.addEventListener('keyup', function (e) {
         table1.column(indexes1.reference_document_number).search(this.value).draw(); // Ensure table2 is defined and accessible
     });
-    documentCashRegisterSelect.addEventListener('change', function (e) {
-        table1.column(indexes1.cash_register).search(this.value).draw(); // Ensure table2 is defined and accessible
-    });
-    documentWarehouseSelect.addEventListener('change', function (e) {
+    documentWarehouseFilter.addEventListener('change', function (e) {
         table1.column(indexes1.warehouse).search(this.value).draw(); // Ensure table2 is defined and accessible
     });
-
-
-    // Changes to the inputs will trigger a redraw to update the table
-    documentCreatedMin.addEventListener('input', function () {
-        table1.column(indexes1.created).search(this.value).draw(); // Ensure table2 is defined and accessible
+    documentCashRegisterFilter.addEventListener('change', function (e) {
+        table1.column(indexes1.cash_register).search(this.value).draw(); // Ensure table2 is defined and accessible
     });
-    documentCreatedMax.addEventListener('input', function () {
-        table1.column(indexes1.created).search(this.value).draw(); // Ensure table2 is defined and accessible
+    minEl.addEventListener('change', function (e) {
+        table1.column(indexes1.start_date).search(this.value).draw(); // Ensure table2 is defined and accessible
     });
-
-
-
-
-    let minDate, maxDate;
-
-    // Custom filtering function which will search data in column four between two values
-    DataTable.ext.search.push(function (settings, data, dataIndex) {
-        let min = minDate.val();
-        let max = maxDate.val();
-        let date = new Date(indexes1.created);
-
-        if (
-            (min === null && max === null) ||
-            (min === null && date <= max) ||
-            (min <= date && max === null) ||
-            (min <= date && date <= max)
-        ) {
-            return true;
-        }
-        return false;
+    maxEl.addEventListener('change', function (e) {
+        table1.column(indexes1.end_date).search(this.value).draw(); // Ensure table2 is defined and accessible
     });
-
-    // Create date inputs
-    minDate = new DateTime('#id_created_0', {
-        format: 'YYYY-MM-DD'
-    });
-    maxDate = new DateTime('#id_created_1', {
-        format: 'YYYY-MM-DD'
-    });
-
-    // DataTables initialisation
-
-
-    // Refilter the table
-    document.querySelectorAll('#id_created_0, #id_created_1').forEach((el) => {
-        el.addEventListener('change', () => table1.draw());
-    });
-
-
-
-
-
-
-
-
-    // const documentUserFilter = document.querySelector('#id_user');
-    // const documentTypeFilter = document.querySelector('#id_document_type');
-    // const documentCustomerFilter = document.querySelector('#id_customer');
-    // documentProductFilter.addEventListener('change', function (e) {
-    //     table2.search(this.value).draw();
-    // });
-    // documentUserFilter.addEventListener('change', function (e) {
-    //     table2.search(this.value).draw();
-    // });
-    // documentTypeFilter.addEventListener('change', function (e) {
-    //     table1.search(this.value).draw();
-    // });
-    // documentPaidStatusFilter.addEventListener('change', function (e) {
-    //     table1.search(this.value).draw();
-    // });
-    // documentCustomerFilter.addEventListener('change', function (e) {
-    //     table1.search(this.value).draw();
-    // });
-
 
     // table1.search.fixed('range', function (searchStr, data, index) {
     //     console.log(data);

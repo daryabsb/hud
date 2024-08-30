@@ -13,7 +13,7 @@ def get_columns(app_name):
     queryset = AppTableColumn.objects.filter(
         is_enabled=True, app__name=app_name
     )
-    return [
+    columns = [
         {
             "id": index,
             "data": column.related_value if column.is_related else column.name,
@@ -23,6 +23,7 @@ def get_columns(app_name):
             "orderable": column.orderable,
         } for index, column in enumerate(queryset)
     ]
+    return columns
 
 
 def get_indexes(app_name):
@@ -31,10 +32,10 @@ def get_indexes(app_name):
         is_enabled=True, app__name=app_name
     )
     indexes = {column.name: index for index, column in enumerate(queryset)}
-    indexes['start_date'] = len(indexes)
-    indexes['end_date'] = len(indexes)
     if app_name == 'documents':
         indexes['product'] = len(indexes)
+    indexes['start_date'] = len(indexes)
+    indexes['end_date'] = len(indexes)
     return indexes
 
 

@@ -81,8 +81,9 @@
 
 {% block additional_js %}
 <script>
+	
 	var documentsTopButtons = document.createElement('div');
-	documentsTopButtons.innerHTML = `{% include 'mgt/documents/partials/top-buttons.html' %}`;
+	documentsTopButtons.innerHTML = `{% include 'documents/partials/top-buttons.html' %}`;
 
     document.addEventListener('DOMContentLoaded', function () {
 			//$( '#id_product' ).select2( {
