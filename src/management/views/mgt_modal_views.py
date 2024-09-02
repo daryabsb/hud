@@ -10,6 +10,7 @@ from src.products.forms import (
     ProductGroupForm, ConfirmPasswordForm, ProductDetailsForm,
     BarcodeForm, ProductCommentForm
 )
+from src.documents.models import DocumentCategory, DocumentType
 from src.printers.forms import ProductPrintStationForm
 from src.stock.forms import StockControlForm
 from src.stock.models import StockControl
@@ -96,12 +97,38 @@ def modal_add_product(request):
 def modal_add_document(request):
     from src.documents.forms import DocumentFilterForm
 
+    categories = DocumentCategory.objects.all()
+    selected_cat = categories.first()
+    document_types = DocumentType.objects.filter(category=selected_cat)
+
     form = DocumentFilterForm()
 
     context = {
-        "form": form
+        "form": form,
+        "selected_cat": selected_cat,
+        "categories": categories,
+        "document_types": document_types,
     }
     return render(request, 'mgt/modals/add-document-modal.html', context)
+
+
+def filter_document_type(request):
+
+    category_id = request.GET.get("category-id", None)
+
+    categories = DocumentCategory.objects.all()
+
+    if category_id:
+        cat = categories.get(id=int(category_id))
+    else:
+        cat = categories.first()
+
+    document_types = DocumentType.objects.filter(category=cat)
+
+    context = {
+        "document_types": document_types
+    }
+    return render(request, 'mgt/forms/document_type_select.html', context)
 
 
 def add_to_product_tax_formset(request):

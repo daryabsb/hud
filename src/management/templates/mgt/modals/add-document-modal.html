@@ -2,17 +2,30 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Add Product</h5>
+                <h5 class="modal-title">Add Document</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body overflow-y-auto" style="height: 30vh;">
                 <div class="mb-3 row gap-3">
                     <div class="col-6">
-                        <h6>This is the select document type category</h6>
+                        <h6>Select a category</h6>
+                        <select class="form-select h-100" multiple
+                        hx-get="{% url 'mgt:filter-document-type' %}"
+                        hx-target="#document_type_select"
+                        hx-swap="outerHTML"
+                        name="category-id"
+                        >
+                            {% for category in categories %}                            
+                            <option 
+                                value="{{ category.id }}"
+                                {% if category == selected_cat %}selected{% endif %}
+                                >{{ category.name }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
                     <div class="col-5">
-                        
-                        <h6>This is the select document type modal</h6>
+                        <h6>Select a document type</h6>
+                      {% include 'mgt/forms/document_type_select.html' %}
                         </div>
                     
                 </div>

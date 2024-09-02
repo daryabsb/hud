@@ -113,6 +113,9 @@ urlpatterns += [
          name="export-products-to-csv"),
     path('export-products-to-excel/', views.mgt_export_products_to_excel,
          name="export-products-to-excel"),
+
+    path('filter-document-type/', views.filter_document_type,
+         name="filter-document-type"),
 ]
 
 

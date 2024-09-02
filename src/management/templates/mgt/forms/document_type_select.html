@@ -1,0 +1,7 @@
+<div class="h-100" id="document_type_select">
+<select class="form-select"  multiple>
+    {% for type in document_types %}
+    <option value="{{ type.id }}">{{ type.name }}</option>
+    {% endfor %}
+</select>
+</div>
