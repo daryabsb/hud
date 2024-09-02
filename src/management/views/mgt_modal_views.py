@@ -101,7 +101,7 @@ def modal_add_document(request):
     context = {
         "form": form
     }
-    return render(request, 'mgt/modals/add-product-modal.html', context)
+    return render(request, 'mgt/modals/add-document-modal.html', context)
 
 
 def add_to_product_tax_formset(request):
