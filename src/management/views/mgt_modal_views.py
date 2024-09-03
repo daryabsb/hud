@@ -107,9 +107,29 @@ def modal_add_document(request):
         "form": form,
         "selected_cat": selected_cat,
         "categories": categories,
+        "first_type": document_types.first(),
         "document_types": document_types,
     }
     return render(request, 'mgt/modals/add-document-modal.html', context)
+
+
+def modal_select_document_type(request):
+    from src.documents.forms import DocumentFilterForm
+
+    categories = DocumentCategory.objects.all()
+    selected_cat = categories.first()
+    document_types = DocumentType.objects.filter(category=selected_cat)
+
+    form = DocumentFilterForm()
+
+    context = {
+        "form": form,
+        "selected_cat": selected_cat,
+        "categories": categories,
+        "first_type": document_types.first(),
+        "document_types": document_types,
+    }
+    return render(request, 'mgt/modals/select-document-type-modal.html', context)
 
 
 def filter_document_type(request):
@@ -126,7 +146,8 @@ def filter_document_type(request):
     document_types = DocumentType.objects.filter(category=cat)
 
     context = {
-        "document_types": document_types
+        "document_types": document_types,
+        "first_type": document_types.first()
     }
     return render(request, 'mgt/forms/document_type_select.html', context)
 

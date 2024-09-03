@@ -185,6 +185,10 @@ def mgt_documents(request):
     return render(request, 'mgt/documents/list.html', context)
 
 
+def add_document(request):
+    return JsonResponse({"message": "Hiiiiiiiii"})
+
+
 def documents_datatable_view(request):
     draw = int(request.GET.get("draw", "1"))
     length = int(request.GET.get("length", "10"))

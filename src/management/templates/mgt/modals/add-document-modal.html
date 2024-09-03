@@ -5,34 +5,23 @@
                 <h5 class="modal-title">Add Document</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body overflow-y-auto" style="height: 30vh;">
+            <div class="modal-body overflow-y-auto" style="height: 20vh;">
                 <div class="mb-3 row gap-3">
                     <div class="col-6">
-                        <h6>Select a category</h6>
-                        <select class="form-select h-100" multiple
-                        hx-get="{% url 'mgt:filter-document-type' %}"
-                        hx-target="#document_type_select"
-                        hx-swap="outerHTML"
-                        name="category-id"
-                        >
-                            {% for category in categories %}                            
-                            <option 
-                                value="{{ category.id }}"
-                                {% if category == selected_cat %}selected{% endif %}
-                                >{{ category.name }}</option>
-                            {% endfor %}
-                        </select>
+                        <h6>Add Document</h6>
                     </div>
                     <div class="col-5">
-                        <h6>Select a document type</h6>
-                      {% include 'mgt/forms/document_type_select.html' %}
+                        <h6>Add document items</h6>
                         </div>
                     
                 </div>
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn btn-outline-default" data-bs-dismiss="modal">Cancel</a>
-                <button type="submit"  class="btn btn-outline-theme">Submit</button>
+                <button class="btn btn-outline-theme" data-bs-dismiss="modal"
+                hx-get="{% url 'mgt:add-document' %}"
+                hx-target=""
+                >Next</button>
             </div>
         </div>
     </div>

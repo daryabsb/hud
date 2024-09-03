@@ -46,6 +46,7 @@ urlpatterns += [
 
 urlpatterns += [
     path('documents/', views.mgt_documents, name='documents'),
+    path('add-document/', views.add_document, name='add-document'),
     path('documents/test/', views.mgt_documents_example, name='documents-example'),
     path('documents-datatable-data/', views.documents_datatable_view,
          name='documents-datatable-data'),
@@ -64,6 +65,8 @@ urlpatterns += [
     path('modal-add-group/', views.modal_add_group, name='modal-add-group'),
     path('modal-add-user/', views.modal_add_user, name='modal-add-user'),
     path('modal-add-product/', views.modal_add_product, name='modal-add-product'),
+    path('modal-select-document-type/', views.modal_select_document_type,
+         name='modal-select-document-type'),
     path('modal-add-document/', views.modal_add_document,
          name='modal-add-document'),
     path('modal-update-product/',
