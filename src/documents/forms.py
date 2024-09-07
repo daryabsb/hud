@@ -5,6 +5,10 @@ from src.accounts.models import User, Customer, Warehouse
 from src.pos.models import CashRegister
 from src.documents.models import DocumentType
 
+from datetime import datetime, timedelta
+
+today = datetime.now()
+due_date = today + timedelta(days=15)
 
 SET_ENDDATE_MIN_AND_VALUE = f'''
         on change
@@ -95,3 +99,67 @@ class DocumentFilterForm(forms.Form):
             }),
         label='End Date'
     )
+
+
+class DocumentCreateForm(forms.Form):
+    number = forms.CharField(
+        required=False, label='Number',
+        initial= '45fd45fd',
+        strip=True,
+        widget=forms.TextInput(
+            attrs={'class': 'form-control form-control-sm'}
+        )
+    )
+    customer = forms.ModelChoiceField(
+        queryset=Customer.objects.filter(is_customer=False,is_supplier=True),
+        required=False, label='Vendor',
+        to_field_name='id',
+        widget=forms.Select(
+            attrs={'class': 'form-select form-select-sm'}
+        )
+    )
+    reference_document_number = forms.CharField(
+        max_length=100, required=False, label='External document',
+        widget=forms.TextInput(
+            attrs={'class': 'form-control form-control-sm'}
+        )
+    )
+    date = forms.DateField(
+        initial=today,
+        required=False, 
+        widget=forms.DateInput(
+            attrs={
+                'type': 'date',
+                'class': 'form-control form-control-sm',
+                '_': SET_ENDDATE_MIN_AND_VALUE
+
+            }),
+        label='Date'
+    )
+    due_date = forms.DateField(
+        initial=due_date,
+        required=False, 
+        widget=forms.DateInput(
+            attrs={
+                'type': 'date',
+                'class': 'form-control form-control-sm',
+                #   '_': 'on change set the max of previous <input/> to my value'
+            }),
+        label='Due Date'
+    )
+    stock_date = forms.DateField(
+        initial=today,
+        required=False, 
+        widget=forms.DateInput(
+            attrs={
+                'type': 'date',
+                'class': 'form-control form-control-sm',
+                #   '_': 'on change set the max of previous <input/> to my value'
+            }),
+        label='Stock Date'
+    )
+    paid_status = forms.BooleanField(
+        required=False, label='Paid Status',
+        widget=forms.CheckboxInput(attrs={'class': 'form-check-input'})
+    )
+

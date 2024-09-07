@@ -34,11 +34,22 @@
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn btn-outline-default" data-bs-dismiss="modal">Cancel</a>
-                <button class="btn btn-outline-theme" data-bs-dismiss="modal"
+                {% comment %} <button class="btn btn-outline-theme" data-bs-dismiss="modal"
                 hx-get="{% url 'mgt:modal-add-document' %}"
                 hx-target="#modalAddDocument"
                 hx-include="#document_type_select"
                 data-bs-target="#modalAddDocument" data-bs-toggle="modal"
+                >Next</button> {% endcomment %}
+                <button class="btn btn-outline-theme" data-bs-dismiss="modal"
+                hx-get="{% url 'mgt:add-new-document-tab' %}"
+                hx-target="#mgt-documents-tab-panes"
+                hx-swap="beforeend"
+                hx-include="#document_type_select"
+                _="on click 
+                    toggle .active on #mgt-documents-view-list
+                    toggle .show on #mgt-documents-view-list
+                    toggle .active on #mgt-documents-view-navlink                     
+                    end"
                 >Next</button>
             </div>
         </div>

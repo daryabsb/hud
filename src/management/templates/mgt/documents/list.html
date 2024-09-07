@@ -10,43 +10,38 @@
 			{% include 'mgt/buttons/add-document-button.html' %}
 		</div>
 	</div>
-    <div class="card flex-1 p-0 m-0 d-flex flex-column rounded-0">
+    <div class="card flex-1 p-0 m-0 d-flex flex-column rounded-0" id="mgt-document-page">
 		<div class="card-header pb-0">
-			<ul class="nav nav-tabs border-0">
+			<ul class="nav nav-tabs border-0" id="add-new-document-navlinks">
 				<li class="nav-item me-1">
-					<a href="#mgt-documents-view-list" 
+					<a href="#mgt-documents-view-navlink" 
 						class="nav-link px-4 active" 
 						data-bs-toggle="tab"
 						id="view-document-tab"
 						>View list</a>
 				</li>
-				<li class="nav-item me-1 d-none" id="add-new-document-tab">
-					<a href="#mgt-new-document" class="nav-link" data-bs-toggle="tab"
-					id="new-document-tab"
-					>New document</a>
-				</li>
 			</ul>
 		</div>
-        <div class="p-0 flex-1 tab-pane fade show active" id="mgt-documents-view-list">
-            <div class="file-manager h-100" id="fileManager">
-				<div class="row border">
-					{% include 'mgt/documents/partials/buttons-toolbar.html' %}
-					{% include 'mgt/documents/partials/filter-form.html' %} 
+		<div class="tab-content" id="mgt-documents-tab-panes">
+			<div class="p-0 flex-1 tab-pane fade show active" id="mgt-documents-view-list">
+				<div class="file-manager h-100" id="fileManager">
+					<div class="row border">
+						{% include 'mgt/documents/partials/buttons-toolbar.html' %}
+						{% include 'mgt/documents/partials/filter-form.html' %} 
+					</div>
 				</div>
-			</div>
-			<div class="file-manager-content d-flex flex-column">	
-				{% include 'mgt/documents/partials/documents-table2.html' %}
-			</div>
+				<div class="file-manager-content d-flex flex-column">	
+					{% include 'mgt/documents/partials/documents-table2.html' %}
+				</div>
 
-			<div class="file-manager h-100 border-top" id="fileManager">
-				<div class="file-manager-container overflow-auto">	
-					{% include 'mgt/documents/partials/documents-table3.html' %}
+				<div class="file-manager h-100 border-top" id="fileManager">
+					<div class="file-manager-container overflow-auto">	
+						{% include 'mgt/documents/partials/documents-table3.html' %}
+					</div>
 				</div>
 			</div>
 		</div>
-        <div class="p-0 flex-1 tab-pane fade d-none" id="mgt-new-document">
-            <h1>Tab new document</h1>
-		</div>
+        
 	
 		<div class="card-arrow">
 			<div class="card-arrow-top-left"></div>

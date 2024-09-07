@@ -11,6 +11,7 @@ from src.products.forms import (
     BarcodeForm, ProductCommentForm
 )
 from src.documents.models import DocumentCategory, DocumentType
+from src.documents.forms import DocumentCreateForm
 from src.printers.forms import ProductPrintStationForm
 from src.stock.forms import StockControlForm
 from src.stock.models import StockControl
@@ -130,6 +131,12 @@ def modal_select_document_type(request):
         "document_types": document_types,
     }
     return render(request, 'mgt/modals/select-document-type-modal.html', context)
+
+
+def add_new_document_tab(request):
+    form = DocumentCreateForm
+    context = {"form": form}
+    return render(request, 'mgt/documents/renders/add-new-document.html', context)
 
 
 def filter_document_type(request):

@@ -1,0 +1,78 @@
+
+<ul class="nav nav-tabs border-0" id="add-new-document-navlinks" hx-swap-oob="true">
+    <li class="nav-item me-1">
+        <a href="#mgt-documents-view-list" 
+            class="nav-link px-4" 
+            data-bs-toggle="tab"
+            id="view-document-tab"
+            >View list</a>
+    </li>
+    <li class="nav-item me-1" id="add-new-document-tab">
+        <a href="#mgt-new-document" class="nav-link active" data-bs-toggle="tab"
+        id="new-document-tab"
+        >New document</a>
+    </li>
+</ul>
+
+
+<div class="p-0 tab-pane fade show active" id="mgt-new-document">
+    
+    <div id="add-new-document-form">
+        <div class="file-manager h-100">
+            <div class="row gap-2 border p-4">
+                <div class="col-4 form-group row">
+                    <label for="staticEmail" class="col-sm-5 col-form-label">{{ form.number.label }}</label>
+                    <div class="col-sm-7">
+                        {{ form.number }}
+                    </div>
+                </div>
+                <div class="col-4 form-group row">
+                    <label for="staticEmail" class="col-sm-4 col-form-label text-end">{{ form.date.label }}</label>
+                    <div class="col-sm-8">
+                        {{ form.date }}
+                    </div>
+                </div>
+                <div class="col-4 form-check form-switch">
+                    {{ form.paid_status }}
+                    <label class="form-check-label" for="customSwitch1">{{ form.paid_status.label }}</label>
+                </div>
+                <div class="col-4 form-group row">
+                    <label for="staticEmail" class="col-sm-5 col-form-label">{{ form.reference_document_number.label }}</label>
+                    <div class="col-sm-7">
+                        {{ form.reference_document_number }}
+                    </div>
+                </div>
+                <div class="col-4 form-group row">
+                    <label for="staticEmail" class="col-sm-4 col-form-label text-end">{{ form.due_date.label }}</label>
+                    <div class="col-sm-8">
+                        {{ form.due_date }}
+                    </div>
+                </div>
+                <div class="col-4 form-group row">
+                    <label for="staticEmail" class="col-sm-4 col-form-label text-end">{{ form.stock_date.label }}</label>
+                    <div class="col-sm-8">
+                        {{ form.stock_date }}
+                    </div>
+                </div>
+            </div>
+            <div class="file-manager-content d-flex flex-column">
+                <div class="mb-3 row">
+                    <div class="col-3">
+                        <h6>Add Document</h6>
+                    </div>
+                    <div class="col-9">
+                        <h6>Add document items</h6>
+                        </div>
+                    
+                </div>
+            </div>
+            <div class="file-manager h-100 border-top" id="fileManager">
+                <a href="#" class="btn btn-outline-default" data-bs-dismiss="modal">Cancel</a>
+                <button class="btn btn-outline-theme" data-bs-dismiss="modal"
+                hx-get="{% url 'mgt:add-document' %}"
+                hx-target=""
+                >Next</button>
+            </div>
+        </div>
+    </div>
+</div>
