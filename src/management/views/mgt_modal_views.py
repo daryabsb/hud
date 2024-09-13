@@ -135,7 +135,15 @@ def modal_select_document_type(request):
 
 def add_new_document_tab(request):
     form = DocumentCreateForm
-    context = {"form": form}
+    groups = ProductGroup.objects.all()
+    products = Product.objects.all()
+
+    context = {
+        "form": form,
+        "groups": groups,
+        "products": products,
+
+    }
     return render(request, 'mgt/documents/renders/add-new-document.html', context)
 
 

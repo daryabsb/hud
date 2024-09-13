@@ -1,0 +1,61 @@
+{% load mptt_tags %}
+<div class="file-manager-sidebar-content overflow-auto" id="mgt-products-sidebar">
+    <div class="overflow-auto p-3">
+        <input type="text" class="form-control form-control-sm mb-3"
+            placeholder="Seach file..." />
+        
+<div class="file-tree mb-3 overflow-auto h-300px">
+    {% recursetree groups %}
+    
+        <div class="file-node {% if not node.is_leaf_node %}has-sub{% endif %} expand selected">
+            <a 
+                hx-get="{% url 'mgt:filter-products' slug=node.slug %}"
+                hx-push-url="true" hx-target="#mgt-products-table"
+                hx-swap="innerHTML"
+                href="#" class="file-link active" data-filter="parent-{{ node.id }}"
+                _="on click
+                    remove .text-warning from .file-icon
+                    add .text-warning to #file-icon-{{ node.id }}
+                    init add .text-warning to #file-icon-1
+                end">
+                <input type="hidden" id="product-group-{{ node.id }}" value="{{ node.id }}" />
+                <span class="file-arrow"></span>
+                <span class="file-info">
+                    <span class="file-icon" id="file-icon-{{ node.id }}">
+                        <i class="fa fa-folder fa-lg"></i>
+                    </span>
+                    <span class="file-text">{{ node.name }}</span>
+                </span>
+            </a>
+
+            <!-- Displaying the products under each ProductGroup -->
+            {% if node.products.exists %}
+                <ul class="product-list">
+                    {% for product in node.products.all %}
+                        <li>
+                            <a href="#" class="product-link">{{ product.name }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            <!-- Recursive call for children groups -->
+            {% if not node.is_leaf_node %}
+            <div class="file-tree">
+                {{ children }}
+            </div>
+            {% endif %}
+        </div>
+        
+    {% endrecursetree %}
+</div>
+    </div>
+</div>
+                {% comment %}  
+                         
+                        
+                        set #selected-group.value to {{node.id}}
+                        remove @disabled from #edit-group-button
+                        remove @disabled from #delete-group-button
+                    
+                    " {% endcomment %}
