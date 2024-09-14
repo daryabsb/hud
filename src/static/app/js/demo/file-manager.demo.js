@@ -5,23 +5,25 @@ Author: Sean Ngu
 Website: http://www.seantheme.com/hud/
 */
 
-var handleFileManagerClick = function() {
+var handleFileManagerClick = function () {
+	console.log("Called");
 	var fileHasSubNodes = document.querySelectorAll(".file-node.has-sub");
 
 	fileHasSubNodes.forEach(node => {
 		var fileArrow = node.querySelector(".file-link > .file-arrow");
-		
+		console.log("node_is = ", fileArrow);
+
 		fileArrow.addEventListener("click", function (event) {
 			event.preventDefault();
 			node.classList.toggle("expand");
 		});
 	});
-	
+
 	var fileInfoNodes = document.querySelectorAll(".file-node");
 
 	fileInfoNodes.forEach(node => {
 		var fileInfo = node.querySelector(".file-link > .file-info");
-		
+
 		fileInfo.addEventListener("click", function (event) {
 			event.preventDefault();
 			fileInfoNodes.forEach(otherNode => {
@@ -37,6 +39,8 @@ var handleFileManagerClick = function() {
 
 /* Controller
 ------------------------------------------------ */
-$(document).ready(function() {
-  handleFileManagerClick();
+document.addEventListener("DOMContentLoaded", function () {
+	console.log("Loaded");
+
+	handleFileManagerClick();
 });

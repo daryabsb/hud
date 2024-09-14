@@ -72,8 +72,8 @@
                         </div>
                         <div class="tab-content">
                             <div class="tab-pane fade show active" id="document-items">
-                                <div class="row" style="height: 45vh;">
-                                    <div class="col-sm-4 h-100">
+                                <div class="row" style="min-height: 45vh;">
+                                    <div class="col-sm-3 h-100">
                                         <div class="file-manager-sidebar-content">
                                             <div data-scrollbar="true" data-height="100%" class="p-3">
                                                 <div class="d-flex">
@@ -86,29 +86,13 @@
                                                 </div>
                                                 <div class="mb-3">
                                                 {% include 'mgt/documents/renders/add-document-products.html' %}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="file-manager-sidebar-footer" style="height:3.9rem;">
-                                            <div class="d-flex align-items-center">
-                                                <div class="mx-n1">
-                                                    <span class="iconify fa-2x text-theme"
-                                                        data-icon="solar:ssd-square-bold-duotone"></span>
-                                                </div>
-                                                <div class="flex-1 ps-4 small">
-                                                    <div class="progress h-5px my-1">
-                                                        <div class="progress-bar progress-bar-striped bg-theme"
-                                                            style="width: 80%"></div>
-                                                </div>
-                                                <div class="fw-bold text-body text-opacity-50 small">
-                                                    <b class="text-body">127.7GB</b> free of <b class="text-body">256GB</b>
-                                                </div>
                                             </div>
                                         </div>
                                         </div>
+                                        
                                     </div>
-                                    <div class="col-sm-8 border-start d-flex flex-column overflow-x-auto">
-                                        This is content
+                                    <div class="col-sm-9 border-start d-flex flex-column overflow-x-auto">
+                                    {% include 'mgt/documents/renders/add-document-item-list.html' %}
                                     </div>
                                 </div>
                             </div>
@@ -119,14 +103,6 @@
                         </div>
                     </div>
                 </div>
-
-            <div class="file-manager h-100 border-top" id="fileManager">
-                <a href="#" class="btn btn-outline-default" data-bs-dismiss="modal">Cancel</a>
-                <button class="btn btn-outline-theme" data-bs-dismiss="modal"
-                hx-get="{% url 'mgt:add-document' %}"
-                hx-target=""
-                >Next</button>
-            </div>
         </div>
     </div>
 </div>

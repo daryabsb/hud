@@ -7,32 +7,44 @@
 <div class="file-tree mb-3 overflow-auto h-300px">
     {% recursetree groups %}
     
-        <div class="file-node {% if not node.is_leaf_node %}has-sub{% endif %} expand selected">
+        <div class="file-node {% if not node.is_leaf_node %}has-sub{% endif %}" id="products-tree-{{ node.id }}">
             <a 
+            href="#" class="file-link active" data-filter="parent-{{ node.id }}"
+            _="on click
+            remove .text-warning from .file-icon
+            add .text-warning to #file-icon-{{ node.id }}
+            init add .text-warning to #file-icon-1
+            end">
+            <input type="hidden" id="product-group-{{ node.id }}" value="{{ node.id }}" />
+            <span 
+                class="file-arrow"
+                _="on click
+                    toggle .expand on #products-tree-{{ node.id }}
+                    toggle .selected on #products-tree-{{ node.id }}
+                end
+                "
+            
+            ></span>
+            <span 
                 hx-get="{% url 'mgt:filter-products' slug=node.slug %}"
                 hx-push-url="true" hx-target="#mgt-products-table"
                 hx-swap="innerHTML"
-                href="#" class="file-link active" data-filter="parent-{{ node.id }}"
-                _="on click
-                    remove .text-warning from .file-icon
-                    add .text-warning to #file-icon-{{ node.id }}
-                    init add .text-warning to #file-icon-1
-                end">
-                <input type="hidden" id="product-group-{{ node.id }}" value="{{ node.id }}" />
-                <span class="file-arrow"></span>
-                <span class="file-info">
+                class="file-info">
                     <span class="file-icon" id="file-icon-{{ node.id }}">
                         <i class="fa fa-folder fa-lg"></i>
                     </span>
                     <span class="file-text">{{ node.name }}</span>
                 </span>
             </a>
-
+            
             <!-- Displaying the products under each ProductGroup -->
             {% if node.products.exists %}
-                <ul class="product-list">
-                    {% for product in node.products.all %}
-                        <li>
+            <ul class="product-list">
+                {% for product in node.products.all %}
+                <li>
+                            <span class="file-icon" id="file-icon-{{ node.id }}">
+                                <i class="far fa-file-code text-body text-opacity-50 fa-lg"></i>
+                            </span>
                             <a href="#" class="product-link">{{ product.name }}</a>
                         </li>
                     {% endfor %}

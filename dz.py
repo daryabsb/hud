@@ -83,12 +83,15 @@ dz_array = {
                     # f"{app}/plugins/jquery-slim/jquery.slim.min.js",
                     # f"{app}/plugins/select2/dist/js/select2.full.min.js",
                     f"{app}/js/document-scripts.js",
+                    f"{app}/js/demo/file-manager.demo.js",
                 ],
                 "document_list": [
                     f"{app}/js/document-scripts.js",
+                    f"{app}/js/demo/file-manager.demo.js",
                 ],
                 "document_list_view": [
                     f"{app}/js/document-scripts.js",
+                    f"{app}/js/demo/file-manager.demo.js",
                 ],
                 "mgt_price_tags": [
 
