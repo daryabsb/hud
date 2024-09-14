@@ -44,13 +44,17 @@
                 hx-get="{% url 'mgt:add-new-document-tab' %}"
                 hx-target="#mgt-documents-tab-panes"
                 hx-swap="beforeend"
-                hx-include="#document_type_select"
+                hx-include="#document-type-select"
                 _="on click 
-                    toggle .active on #mgt-documents-view-list
-                    toggle .show on #mgt-documents-view-list
-                    toggle .active on #mgt-documents-view-navlink                     
-                    end"
+                toggle .active on #mgt-documents-view-list
+                toggle .show on #mgt-documents-view-list
+                toggle .active on #mgt-documents-view-navlink                     
+                
+                end" 
                 >Next</button>
             </div>
         </div>
     </div>
+    
+    {% comment %} 
+        {% endcomment %}

@@ -1,5 +1,5 @@
 <div class="h-100px" id="document_type_select">
-<select name="document-type" id="document-type" class="form-select" style="height: 100%;"  multiple>
+<select name="document-type" id="document-type-select" class="form-select" style="height: 100%;"  multiple>
     {% for type in document_types %}
     <option value="{{ type.id }}"
     {% if type == first_type %}selected{% endif %}
