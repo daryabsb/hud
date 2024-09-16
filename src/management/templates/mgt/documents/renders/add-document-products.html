@@ -1,10 +1,10 @@
 {% load mptt_tags %}
-<div class="file-manager-sidebar-content overflow-auto" id="mgt-products-sidebar">
+<div class="file-manager-sidebar-content overflow-auto mt-3" id="mgt-products-sidebar">
     <div class="overflow-auto p-3">
-        <input type="text" class="form-control form-control-sm mb-3"
-            placeholder="Seach file..." />
+        {% comment %} <input type="text" class="form-control form-control-sm mb-3"
+            placeholder="Seach file..." /> {% endcomment %}
         
-<div class="file-tree mb-3 overflow-auto h-300px">
+<div class="file-tree mb-3 ">
     {% recursetree groups %}
     
         <div class="file-node {% if not node.is_leaf_node %}has-sub{% endif %}" id="products-tree-{{ node.id }}">
@@ -38,25 +38,32 @@
             </a>
             
             <!-- Displaying the products under each ProductGroup -->
-            {% if node.products.exists %}
-            <ul class="product-list">
-                {% for product in node.products.all %}
-                <li>
-                            <span class="file-icon" id="file-icon-{{ node.id }}">
-                                <i class="far fa-file-code text-body text-opacity-50 fa-lg"></i>
-                            </span>
-                            <a href="#" class="product-link">{{ product.name }}</a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-
-            <!-- Recursive call for children groups -->
             {% if not node.is_leaf_node %}
             <div class="file-tree">
                 {{ children }}
             </div>
             {% endif %}
+            {% if node.products.exists %}
+            <ul class="product-list">
+                {% for product in node.products.all %}
+                <li>
+                <a 
+                    href="#" class="file-link" >
+                    <span class="file-arrow"></span>
+                    <span class="file-info">
+                            <span class="file-icon" id="file-icon-{{ product.id }}">
+                                <i class="far fa-file-code text-body text-opacity-50 fa-lg"></i>
+                            </span>
+                            <span class="file-text">{{ product.name }}</span>
+                        </span>
+                    </a>
+                </li>
+                    {% endfor %}
+            </ul>
+            {% endif %}
+
+            <!-- Recursive call for children groups -->
+            
         </div>
         
     {% endrecursetree %}
