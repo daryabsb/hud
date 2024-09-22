@@ -48,7 +48,12 @@
                 {% for product in node.products.all %}
                 <li>
                 <a 
-                    href="#" class="file-link" >
+                    href="#" class="file-link"
+                    hx-get="{% url 'mgt:add-document-product-modal' product.id %}"
+                    hx-target="#modalAddDocumentProduct"
+                    data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal"
+                    >
+                    {% comment %} _="on click alert('hiiii {{ product.name }}!') end" {% endcomment %}
                     <span class="file-arrow"></span>
                     <span class="file-info">
                             <span class="file-icon" id="file-icon-{{ product.id }}">

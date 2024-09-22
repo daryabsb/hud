@@ -297,6 +297,24 @@ def mgt_documents2(request):
 #     return render(request, 'mgt/documents/list.html', context)
 
 
+def add_document_items_to_document(request, product_id):
+    added_products_string = request.GET.get('added-products', None)
+
+    if added_products_string:
+        added_products = added_products_string.split(',')
+
+        print("added_products = ", added_products)
+    if product_id:
+        print("product_id = ", product_id)
+    
+    context = {
+        "product_id": product_id,
+        "added_products_string": added_products_string,
+    }
+    
+    return render(request, "mgt/documents/renders/add-document-item-list.html", context)
+
+
 class DocumentListView(APIView):
     def get(self, request):
         documents = Document.objects.all()

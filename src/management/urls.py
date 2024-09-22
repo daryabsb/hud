@@ -50,6 +50,11 @@ urlpatterns += [
     path('documents/test/', views.mgt_documents_example, name='documents-example'),
     path('documents-datatable-data/', views.documents_datatable_view,
         name='documents-datatable-data'),
+    
+    # add document urls
+    path("add-document-items/", views.add_document_items_to_document, name="add-document-items"),
+    path("add-document-product-modal/<int:product_id>/", views.add_new_document_product_details, name="add-document-product-modal")
+
 ]
 
 # DOCUMENTS RELATED URLS

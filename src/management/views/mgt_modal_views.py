@@ -146,6 +146,28 @@ def add_new_document_tab(request):
     }
     return render(request, 'mgt/documents/renders/add-new-document.html', context)
 
+def add_new_document_product_details(request, product_id):
+
+    stock_control = None
+    customer = None
+    
+    if product_id:
+        product = get_object_or_404(Product, id=product_id)
+        stock_control = StockControl.objects.filter(product=product).first()
+        customer = stock_control.customer if stock_control else None
+    
+    stock_control_form = StockControlForm(instance=stock_control)
+    customer_form = CustomerForm(instance=customer)
+
+    context = {
+        "stock_control_form": stock_control_form,
+        'customer_form': customer_form,
+    }
+
+    return render(request, 'mgt/modals/add-document-product-modal.html', context)
+
+
+
 
 def filter_document_type(request):
 
