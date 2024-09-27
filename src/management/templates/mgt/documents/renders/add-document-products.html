@@ -1,79 +1,38 @@
 {% load mptt_tags %}
-<div class="file-manager-sidebar-content overflow-auto mt-3" id="mgt-products-sidebar">
-    <div class="overflow-auto p-3">
-        {% comment %} <input type="text" class="form-control form-control-sm mb-3"
-            placeholder="Seach file..." /> {% endcomment %}
-        
-<div class="file-tree mb-3 ">
-    {% recursetree groups %}
-    
-        <div class="file-node {% if not node.is_leaf_node %}has-sub{% endif %}" id="products-tree-{{ node.id }}">
-            <a 
-            href="#" class="file-link active" data-filter="parent-{{ node.id }}"
-            _="on click
-            remove .text-warning from .file-icon
-            add .text-warning to #file-icon-{{ node.id }}
-            init add .text-warning to #file-icon-1
-            end">
-            <input type="hidden" id="product-group-{{ node.id }}" value="{{ node.id }}" />
-            <span 
-                class="file-arrow"
-                _="on click
-                    toggle .expand on #products-tree-{{ node.id }}
-                    toggle .selected on #products-tree-{{ node.id }}
-                end
-                "
-            
-            ></span>
-            <span 
-                hx-get="{% url 'mgt:filter-products' slug=node.slug %}"
-                hx-push-url="true" hx-target="#mgt-products-table"
-                hx-swap="innerHTML"
-                class="file-info">
-                    <span class="file-icon" id="file-icon-{{ node.id }}">
-                        <i class="fa fa-folder fa-lg"></i>
-                    </span>
-                    <span class="file-text">{{ node.name }}</span>
-                </span>
-            </a>
-            
-            <!-- Displaying the products under each ProductGroup -->
-            {% if not node.is_leaf_node %}
-            <div class="file-tree">
-                {{ children }}
-            </div>
-            {% endif %}
-            {% if node.products.exists %}
-            <ul class="product-list">
-                {% for product in node.products.all %}
-                <li>
-                <a 
-                    href="#" class="file-link"
-                    hx-get="{% url 'mgt:add-document-product-modal' product.id %}"
-                    hx-target="#modalAddDocumentProduct"
-                    data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal"
-                    >
-                    {% comment %} _="on click alert('hiiii {{ product.name }}!') end" {% endcomment %}
-                    <span class="file-arrow"></span>
-                    <span class="file-info">
-                            <span class="file-icon" id="file-icon-{{ product.id }}">
-                                <i class="far fa-file-code text-body text-opacity-50 fa-lg"></i>
-                            </span>
-                            <span class="file-text">{{ product.name }}</span>
-                        </span>
-                    </a>
-                </li>
-                    {% endfor %}
-            </ul>
-            {% endif %}
-
-            <!-- Recursive call for children groups -->
-            
-        </div>
-        
-    {% endrecursetree %}
-</div>
-    </div>
+<div class="file-manager-sidebar-content overflow-auto" id="mgt-products-sidebar">
+	<div class="overflow-auto p-3">
+		<input type="text" class="form-control form-control-sm mb-3"
+			placeholder="Seach file..." />
+		<div class="file-tree mb-3 overflow-auto h-500px">
+			<div class="list-group mb-3">
+				{% for product in products %}
+				<a href="#" 
+					class="list-group-item list-group-item-action d-flex align-items-center text-inverse"
+					>
+					{% comment %} 
+					hx-get="{% url 'mgt:filter-products' slug=product.id %}"
+					hx-push-url="true" hx-target="#mgt-products-table"
+					hx-swap="innerHTML"
+					_="on click
+					remove .text-warning from .file-icon
+					add .text-warning to #file-icon-{{ product.id }}
+					init add .text-warning to #file-icon-1
+					end" {% endcomment %}
+					<div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+						<img alt="" class="mw-100 mh-100" src="{{ product.img }}">
+					</div>
+					<input type="hidden" id="product-{{ product.id }}" value="{{ product.id }}" />
+					<div class="flex-fill ps-3 d-flex align-items-center">
+						<div class="fw-bold flex-fill">
+							{{ product.name }}
+						</div>
+						<i class="fa fa-circle text-success fs-7px ms-auto"></i>
+					</div>
+				</a>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
 </div>
                 {% comment %}  
                          
