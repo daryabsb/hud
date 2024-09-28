@@ -2,6 +2,14 @@
     <input type="hidden" name="added-products" id="added-products" value="2,4,12" />
 	<div class="col-lg-8">
 		<div class="card mb-4">
+			<div class="card-header bg-none d-flex p-3">
+                <a href="#" class="btn btn-outline-default" data-bs-dismiss="modal">Cancel</a>
+                <button class="btn btn-outline-theme" data-bs-dismiss="modal"
+                hx-get="{% url 'mgt:add-document' %}"
+                hx-target=""
+                >Next</button>
+				<a href="#" class="btn btn-outline-theme ms-auto">Mark as paid</a>
+			</div>
 			<div class="card-body text-inverse">
 				<table class="table table-hover">
                     <thead>
@@ -57,6 +65,7 @@
                     </tbody>
                 </table>
 			</div>
+			
 			<div class="card-arrow">
 				<div class="card-arrow-top-left"></div>
 				<div class="card-arrow-top-right"></div>
@@ -64,29 +73,30 @@
 				<div class="card-arrow-bottom-right"></div>
 			</div>
 		</div>
-		<div class="card">
+	</div>
+	<div class="col-lg-4">
+		<div class="card mb-4">
+			<div class="card-header d-flex align-items-center bg-inverse bg-opacity-10 fw-400">
+				Totals--------
+				<a href="#" class="ms-auto text-decoration-none text-inverse text-opacity-50">Edit</a>
+			</div>
 			<div class="card-body">
 				<table class="table table-borderless table-sm m-0">
 					<tbody>
 						<tr>
 							<td class="w-150px">Subtotal</td>
-							<td>3 items</td>
 							<td class="text-end">$3,496.00</td>
 						</tr>
 						<tr>
 							<td>Tax</td>
-							<td>GST 5%</td>
 							<td class="text-end">$174.80</td>
 						</tr>
 						<tr>
 							<td>Shipping Fee</td>
-							<td>promo code: <u class="text-success fw-bold small">FREESHIPPING</u>
-								<small>(<span class="text-decoration-line-through">$120.00</span>)</small>
-							</td>
 							<td class="text-end">$0.00</td>
 						</tr>
 						<tr>
-							<td class="pb-2" colspan="2"><b>Total</b></td>
+							<td class="pb-2" ><b>Total</b></td>
 							<td class="text-end pb-2 text-decoration-underline"><b>$3670.80</b></td>
 						</tr>
 						<tr>
@@ -98,21 +108,10 @@
 							<td class="pt-2 pb-2 text-nowrap">
 								Paid by customer
 							</td>
-							<td class="pt-2 pb-2">
-								via <a href="#" class="text-decoration-none">Paypal</a> (#IRU9589320)
-							</td>
 							<td class="pt-2 pb-2 text-end">$3670.80</td>
 						</tr>
 					</tbody>
 				</table>
-			</div>
-			<div class="card-footer bg-none d-flex p-3">
-                <a href="#" class="btn btn-outline-default" data-bs-dismiss="modal">Cancel</a>
-                <button class="btn btn-outline-theme" data-bs-dismiss="modal"
-                hx-get="{% url 'mgt:add-document' %}"
-                hx-target=""
-                >Next</button>
-				<a href="#" class="btn btn-outline-theme ms-auto">Mark as paid</a>
 			</div>
 			<div class="card-arrow">
 				<div class="card-arrow-top-left"></div>
@@ -121,8 +120,6 @@
 				<div class="card-arrow-bottom-right"></div>
 			</div>
 		</div>
-	</div>
-	<div class="col-lg-4">
 		<div class="card mb-4">
 			<div class="card-header d-flex align-items-center bg-inverse bg-opacity-10 fw-400">
 				Notes
