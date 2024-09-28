@@ -10,14 +10,15 @@
 					class="list-group-item list-group-item-action d-flex align-items-center text-inverse"
 					>
 					{% comment %} 
-					hx-get="{% url 'mgt:filter-products' slug=product.id %}"
-					hx-push-url="true" hx-target="#mgt-products-table"
-					hx-swap="innerHTML"
-					_="on click
-					remove .text-warning from .file-icon
-					add .text-warning to #file-icon-{{ product.id }}
-					init add .text-warning to #file-icon-1
-					end" {% endcomment %}
+						hx-get="{% url 'mgt:filter-products' slug=product.id %}"
+						hx-push-url="true" hx-target="#mgt-products-table"
+						hx-swap="innerHTML"
+						_="on click
+						remove .text-warning from .file-icon
+						add .text-warning to #file-icon-{{ product.id }}
+						init add .text-warning to #file-icon-1
+						end" 
+					{% endcomment %}
 					<div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
 						<img alt="" class="mw-100 mh-100" src="{{ product.img }}">
 					</div>
@@ -35,10 +36,9 @@
 	</div>
 </div>
                 {% comment %}  
-                         
-                        
-                        set #selected-group.value to {{node.id}}
-                        remove @disabled from #edit-group-button
-                        remove @disabled from #delete-group-button
-                    
-                    " {% endcomment %}
+					set #selected-group.value to {{node.id}}
+					remove @disabled from #edit-group-button
+					remove @disabled from #delete-group-button
+				
+				" 
+				{% endcomment %}
