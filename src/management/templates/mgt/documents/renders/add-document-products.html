@@ -6,9 +6,12 @@
 				{% for product in products %}
 				<a href="#" 
 					class="list-group-item list-group-item-action d-flex align-items-center text-inverse"
+                    hx-get="{% url 'mgt:add-document-product-modal' product.id %}"
+                    hx-target="#modalAddDocumentProduct"
+                    data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal"
+
 					>
 					{% comment %} 
-						hx-get="{% url 'mgt:filter-products' slug=product.id %}"
 						hx-push-url="true" hx-target="#mgt-products-table"
 						hx-swap="innerHTML"
 						_="on click
