@@ -1,9 +1,7 @@
 {% load mptt_tags %}
 <div class="file-manager-sidebar-content overflow-auto" id="mgt-products-sidebar">
-	<div class="overflow-auto p-3">
-		<input type="text" class="form-control form-control-sm mb-3"
-			placeholder="Seach file..." />
-		<div class="file-tree mb-3 overflow-auto h-500px">
+	<div class="overflow-auto mt-2">
+		<div class="file-tree mb-3 overflow-auto h-350px">
 			<div class="list-group mb-3">
 				{% for product in products %}
 				<a href="#" 
