@@ -163,3 +163,21 @@ class DocumentCreateForm(forms.Form):
         widget=forms.CheckboxInput(attrs={'class': 'form-check-input'})
     )
 
+
+# class AddItemToDocumentForm(forms.Form):
+#     product = forms.ModelChoiceField(
+#         queryset=Product.objects.filter(is_enabled=True),
+#         required=False, label='Product',
+#         to_field_name='id',
+#         widget=forms.Select(
+#             attrs={'class': 'form-select form-select-sm'}
+#         )
+#     )
+#     quantity = forms.IntegerField(
+#         required=False, label='Quantity',
+#         initial= 1,
+#         strip=True,
+#         widget=forms.TextInput(
+#             attrs={'class': 'form-control form-control-sm'}
+#         )
+#     )

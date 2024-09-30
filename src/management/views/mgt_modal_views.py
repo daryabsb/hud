@@ -93,8 +93,6 @@ def modal_add_product(request):
         'product_comment_formset': product_comment_formset,
     }
     return render(request, 'mgt/modals/add-product-modal.html', context)
-
-
 def modal_add_document(request):
     from src.documents.forms import DocumentFilterForm
 
