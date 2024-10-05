@@ -176,7 +176,8 @@ def add_new_document_product_details(request, product_id):
 
     context = {
         "stock_control_form": stock_control_form,
-        'customer_form': customer_form,
+        "customer_form": customer_form,
+        "document_type": document_type,
     }
 
     return render(request, 'mgt/modals/add-document-product-modal.html', context)
