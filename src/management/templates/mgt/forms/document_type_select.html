@@ -1,3 +1,8 @@
+<input hx-swap-oob="true" 
+    type="hidden" name="dt-id" id="selected-document-type-id" 
+    value="{{ document_type.id }}" 
+    />
+
 <div class="h-100px" id="document_type_select">
 <select name="document-type" id="document-type-select" class="form-select" style="height: 100%;"  multiple>
     {% for type in document_types %}

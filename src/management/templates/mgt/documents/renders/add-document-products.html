@@ -8,6 +8,7 @@
 					class="list-group-item list-group-item-action d-flex align-items-center text-inverse"
                     hx-get="{% url 'mgt:add-document-product-modal' product.id %}"
                     hx-target="#modalAddDocumentProduct"
+                    hx-vals='{"document_type": {{document_type.id}}}'
                     data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal"
 
 					>

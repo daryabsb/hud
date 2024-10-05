@@ -93,6 +93,8 @@ def modal_add_product(request):
         'product_comment_formset': product_comment_formset,
     }
     return render(request, 'mgt/modals/add-product-modal.html', context)
+
+
 def modal_add_document(request):
     from src.documents.forms import DocumentFilterForm
 
@@ -132,15 +134,23 @@ def modal_select_document_type(request):
 
 
 def add_new_document_tab(request):
+    ''' dt_id = document_type_id '''
     form = DocumentCreateForm
     groups = ProductGroup.objects.all()
     products = Product.objects.all()
+
+    # dt_id = request.GET.get("dt-id", None)
+    dt_id = request.GET.get("document-type", None)
+
+    if dt_id:
+        document_type = get_object_or_404(DocumentType, id=dt_id)
 
     context = {
         "form": form,
         "groups": groups,
         "products": products,
         "items": range(9),
+        "document_type": document_type
 
     }
     return render(request, 'mgt/documents/renders/add-new-document.html', context)
@@ -150,6 +160,11 @@ def add_new_document_product_details(request, product_id):
 
     stock_control = None
     customer = None
+
+    document_type_id = request.GET.get("document_type", None)
+
+    if document_type_id:
+        document_type = get_object_or_404(DocumentType, id=document_type_id)
 
     if product_id:
         product = get_object_or_404(Product, id=product_id)

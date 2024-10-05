@@ -27,7 +27,16 @@
                     </div>
                     <div class="col-5">
                         <h6>Select a document type</h6>
-                        {% include 'mgt/forms/document_type_select.html' %}
+                            <input type="hidden" id="selected-document-type-id" />
+                            <div class="h-100px" id="document_type_select">
+                                <select name="document-type" id="document-type-select" class="form-select" style="height: 100%;"  multiple>
+                                    {% for type in document_types %}
+                                    <option value="{{ type.id }}"
+                                    {% if type == first_type %}selected{% endif %}
+                                    >{{ type.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
                         </div>
                     
                 </div>
@@ -41,7 +50,7 @@
                 data-bs-target="#modalAddDocument" data-bs-toggle="modal"
                 >Next</button> {% endcomment %}
                 <button class="btn btn-outline-theme" data-bs-dismiss="modal"
-                hx-get="{% url 'mgt:add-new-document-tab' %}"
+                hx-get="{% url 'mgt:add-new-document-tab'  %}"
                 hx-target="#mgt-documents-tab-panes"
                 hx-swap="beforeend"
                 hx-include="#document-type-select"
