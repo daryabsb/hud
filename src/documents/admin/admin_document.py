@@ -29,6 +29,7 @@ document_type_initial_data = [
         'print_template': 'Proforma', 'price_type': 1, 'category_id': 1, 'user_id': 1},
 ]
 
+
 @admin.register(Document)
 class DocumentAdmin(admin.ModelAdmin):
     list_display = ('customer', 'discount', 'discount_type',
@@ -90,7 +91,8 @@ class DocumentCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(DocumentType)
 class DocumentTypeAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'code', 'category', 'user', 'created')
+    list_display = ('id', 'name', 'code', 'category',
+                    'stock_direction', 'created')
     ordering = ('id', )
     list_filter = ('name', 'category', )
 

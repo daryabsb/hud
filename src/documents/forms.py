@@ -7,6 +7,8 @@ from src.documents.models import DocumentType
 
 from datetime import datetime, timedelta
 
+from src.tax.models import Tax
+
 today = datetime.now()
 due_date = today + timedelta(days=15)
 
@@ -101,17 +103,160 @@ class DocumentFilterForm(forms.Form):
     )
 
 
+# form = DocumentCreateForm(
+#           stock_direction=document_type.stock_direction,
+#           product=selected_product
+#           )
+
+
 class DocumentCreateForm(forms.Form):
     number = forms.CharField(
         required=False, label='Number',
-        initial= '45fd45fd',
+        initial='45fd45fd',
         strip=True,
         widget=forms.TextInput(
             attrs={'class': 'form-control form-control-sm'}
         )
     )
     customer = forms.ModelChoiceField(
-        queryset=Customer.objects.filter(is_customer=False,is_supplier=True),
+        queryset=Customer.objects.none(),
+        required=False, label='Customer/Vendor',
+        to_field_name='id',
+        widget=forms.Select(
+            attrs={'class': 'form-select form-select-sm'}
+        )
+    )
+    reference_document_number = forms.CharField(
+        max_length=100, required=False, label='External Document',
+        widget=forms.TextInput(
+            attrs={'class': 'form-control form-control-sm'}
+        )
+    )
+    date = forms.DateField(
+        initial=today,
+        required=False,
+        widget=forms.DateInput(
+            attrs={
+                'type': 'date',
+                'class': 'form-control form-control-sm',
+            }),
+        label='Date'
+    )
+    due_date = forms.DateField(
+        initial=due_date,
+        required=False,
+        widget=forms.DateInput(
+            attrs={
+                'type': 'date',
+                'class': 'form-control form-control-sm',
+            }),
+        label='Due Date'
+    )
+    stock_date = forms.DateField(
+        initial=today,
+        required=False,
+        widget=forms.DateInput(
+            attrs={
+                'type': 'date',
+                'class': 'form-control form-control-sm',
+            }),
+        label='Stock Date'
+    )
+    paid_status = forms.BooleanField(
+        required=False, label='Paid Status',
+        widget=forms.CheckboxInput(attrs={'class': 'form-check-input'})
+    )
+
+    # You can add price and cost fields here if needed, initialized conditionally
+
+    def __init__(self, *args, **kwargs):
+        stock_direction = kwargs.pop('stock_direction', None)
+        # Assume product is passed to set price and cost
+        product = kwargs.pop('product', None)
+        super().__init__(*args, **kwargs)
+
+        # Adjust queryset and initial values based on stock_direction
+        if stock_direction == 2:  # Sale
+            self.fields['customer'].queryset = Customer.objects.filter(
+                is_customer=True)
+            # if product:
+            #     self.fields['price'].initial = product.price
+            #     self.fields['cost'].initial = product.cost
+        elif stock_direction == 1:  # Purchase
+            self.fields['customer'].queryset = Customer.objects.filter(
+                is_supplier=True)
+        elif stock_direction == 0:  # Proforma
+            # General query
+            self.fields['customer'].queryset = Customer.objects.all()
+
+        # Adjust form field labels or other logic if needed
+
+
+class AddDocumentItem(forms.Form):
+
+    quantity = forms.IntegerField(
+        required=False, label='Quantity',
+        initial=1,
+        widget=forms.TextInput(
+            attrs={'class': 'form-control form-control-sm'}
+        )
+    )
+
+    price_before_tax = forms.FloatField(
+        required=False, label='Price before tax',
+        initial=0.0,
+        widget=forms.TextInput(
+            attrs={'class': 'form-control form-control-sm'}
+        )
+    )
+
+    tax = forms.ModelChoiceField(
+        queryset=Tax.objects.filter(is_tax_on_total=False),
+        required=False, label='Tax',
+        to_field_name='id',
+        widget=forms.Select(
+            attrs={'class': 'form-select form-select-sm'}
+        )
+    )
+
+    price = forms.FloatField(
+        required=False, label='Price',
+        initial=0.0,
+        widget=forms.TextInput(
+            attrs={'class': 'form-control form-control-sm'}
+        )
+    )
+    discount_type = forms.ChoiceField(
+        required=False, label='Discount type',
+        choices=(
+            (0, 'Percent'),
+            (1, 'Amount'),
+        ),
+        widget=forms.Select(
+            attrs={'class': 'form-select form-select-sm'}
+        )
+    )
+
+    discount = forms.FloatField(
+        required=False, label='Discount',
+        initial=0.0,
+        widget=forms.TextInput(
+            attrs={'class': 'form-control form-control-sm'}
+        )
+    )
+
+
+class DocumentCreateForm2(forms.Form):
+    number = forms.CharField(
+        required=False, label='Number',
+        initial='45fd45fd',
+        strip=True,
+        widget=forms.TextInput(
+            attrs={'class': 'form-control form-control-sm'}
+        )
+    )
+    customer = forms.ModelChoiceField(
+        queryset=Customer.objects.filter(is_customer=False, is_supplier=True),
         required=False, label='Vendor',
         to_field_name='id',
         widget=forms.Select(
@@ -126,7 +271,7 @@ class DocumentCreateForm(forms.Form):
     )
     date = forms.DateField(
         initial=today,
-        required=False, 
+        required=False,
         widget=forms.DateInput(
             attrs={
                 'type': 'date',
@@ -138,7 +283,7 @@ class DocumentCreateForm(forms.Form):
     )
     due_date = forms.DateField(
         initial=due_date,
-        required=False, 
+        required=False,
         widget=forms.DateInput(
             attrs={
                 'type': 'date',
@@ -149,7 +294,7 @@ class DocumentCreateForm(forms.Form):
     )
     stock_date = forms.DateField(
         initial=today,
-        required=False, 
+        required=False,
         widget=forms.DateInput(
             attrs={
                 'type': 'date',

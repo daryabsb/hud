@@ -157,9 +157,10 @@ def add_new_document_tab(request):
 
 
 def add_new_document_product_details(request, product_id):
-
+    from src.documents.forms import DocumentCreateForm, AddDocumentItem
     stock_control = None
     customer = None
+    product = None
 
     document_type_id = request.GET.get("document_type", None)
 
@@ -171,6 +172,11 @@ def add_new_document_product_details(request, product_id):
         stock_control = StockControl.objects.filter(product=product).first()
         customer = stock_control.customer if stock_control else None
 
+    document_create_form = DocumentCreateForm(
+        stock_direction=document_type.stock_direction, product=product)
+
+    document_item_form = AddDocumentItem()
+
     stock_control_form = StockControlForm(instance=stock_control)
     customer_form = CustomerForm(instance=customer)
 
@@ -178,6 +184,7 @@ def add_new_document_product_details(request, product_id):
         "stock_control_form": stock_control_form,
         "customer_form": customer_form,
         "document_type": document_type,
+        "form": document_item_form,
     }
 
     return render(request, 'mgt/modals/add-document-product-modal.html', context)
