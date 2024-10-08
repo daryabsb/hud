@@ -120,7 +120,7 @@ class DocumentCreateForm(forms.Form):
     )
     customer = forms.ModelChoiceField(
         queryset=Customer.objects.none(),
-        required=False, label='Customer/Vendor',
+        required=False, label='',
         to_field_name='id',
         widget=forms.Select(
             attrs={'class': 'form-select form-select-sm'}
@@ -179,12 +179,14 @@ class DocumentCreateForm(forms.Form):
         if stock_direction == 2:  # Sale
             self.fields['customer'].queryset = Customer.objects.filter(
                 is_customer=True)
+            self.fields['customer'].label = 'Customer'
             # if product:
             #     self.fields['price'].initial = product.price
             #     self.fields['cost'].initial = product.cost
         elif stock_direction == 1:  # Purchase
             self.fields['customer'].queryset = Customer.objects.filter(
                 is_supplier=True)
+            self.fields['customer'].label = 'Vendor'
         elif stock_direction == 0:  # Proforma
             # General query
             self.fields['customer'].queryset = Customer.objects.all()
@@ -193,6 +195,19 @@ class DocumentCreateForm(forms.Form):
 
 
 class AddDocumentItem(forms.Form):
+    product = forms.CharField(
+        required=False,
+        widget=forms.HiddenInput()
+    )
+
+    customer = forms.ModelChoiceField(
+        queryset=Customer.objects.none(),
+        required=False, label='Customer/Vendor',
+        to_field_name='id',
+        widget=forms.Select(
+            attrs={'class': 'form-select form-select-sm'}
+        )
+    )
 
     quantity = forms.IntegerField(
         required=False, label='Quantity',
@@ -219,6 +234,13 @@ class AddDocumentItem(forms.Form):
         )
     )
 
+    product_cost = forms.FloatField(
+        required=False, label='Product cost',
+        initial=0.0,
+        widget=forms.TextInput(
+            attrs={'class': 'form-control form-control-sm'}
+        )
+    )
     price = forms.FloatField(
         required=False, label='Price',
         initial=0.0,
@@ -246,67 +268,92 @@ class AddDocumentItem(forms.Form):
     )
 
 
-class DocumentCreateForm2(forms.Form):
-    number = forms.CharField(
-        required=False, label='Number',
-        initial='45fd45fd',
-        strip=True,
-        widget=forms.TextInput(
-            attrs={'class': 'form-control form-control-sm'}
-        )
-    )
-    customer = forms.ModelChoiceField(
-        queryset=Customer.objects.filter(is_customer=False, is_supplier=True),
-        required=False, label='Vendor',
-        to_field_name='id',
-        widget=forms.Select(
-            attrs={'class': 'form-select form-select-sm'}
-        )
-    )
-    reference_document_number = forms.CharField(
-        max_length=100, required=False, label='External document',
-        widget=forms.TextInput(
-            attrs={'class': 'form-control form-control-sm'}
-        )
-    )
-    date = forms.DateField(
-        initial=today,
-        required=False,
-        widget=forms.DateInput(
-            attrs={
-                'type': 'date',
-                'class': 'form-control form-control-sm',
-                '_': SET_ENDDATE_MIN_AND_VALUE
+    def __init__(self, *args, **kwargs):
+        stock_direction = kwargs.pop('stock_direction', None)
+        # Assume product is passed to set price and cost
+        product = kwargs.pop('product', None)
+        super().__init__(*args, **kwargs)
 
-            }),
-        label='Date'
-    )
-    due_date = forms.DateField(
-        initial=due_date,
-        required=False,
-        widget=forms.DateInput(
-            attrs={
-                'type': 'date',
-                'class': 'form-control form-control-sm',
-                #   '_': 'on change set the max of previous <input/> to my value'
-            }),
-        label='Due Date'
-    )
-    stock_date = forms.DateField(
-        initial=today,
-        required=False,
-        widget=forms.DateInput(
-            attrs={
-                'type': 'date',
-                'class': 'form-control form-control-sm',
-                #   '_': 'on change set the max of previous <input/> to my value'
-            }),
-        label='Stock Date'
-    )
-    paid_status = forms.BooleanField(
-        required=False, label='Paid Status',
-        widget=forms.CheckboxInput(attrs={'class': 'form-check-input'})
-    )
+        # Adjust queryset and initial values based on stock_direction
+        if stock_direction == 2:  # Sale
+            self.fields['customer'].queryset = Customer.objects.filter(
+                is_customer=True)
+            self.fields['customer'].label = 'Customer'
+            if product:
+                self.fields['product'].initial = product.id
+                self.fields['price'].initial = product.price
+                self.fields['product_cost'].initial = product.cost
+
+        elif stock_direction == 1:  # Purchase
+            self.fields['customer'].queryset = Customer.objects.filter(
+                is_supplier=True)
+            self.fields['customer'].label = 'Vendor'
+        elif stock_direction == 0:  # Proforma
+            # General query
+            self.fields['customer'].queryset = Customer.objects.all()
+
+
+# class DocumentCreateForm2(forms.Form):
+#     number = forms.CharField(
+#         required=False, label='Number',
+#         initial='45fd45fd',
+#         strip=True,
+#         widget=forms.TextInput(
+#             attrs={'class': 'form-control form-control-sm'}
+#         )
+#     )
+#     customer = forms.ModelChoiceField(
+#         queryset=Customer.objects.filter(is_customer=False, is_supplier=True),
+#         required=False, label='Vendor',
+#         to_field_name='id',
+#         widget=forms.Select(
+#             attrs={'class': 'form-select form-select-sm'}
+#         )
+#     )
+#     reference_document_number = forms.CharField(
+#         max_length=100, required=False, label='External document',
+#         widget=forms.TextInput(
+#             attrs={'class': 'form-control form-control-sm'}
+#         )
+#     )
+#     date = forms.DateField(
+#         initial=today,
+#         required=False,
+#         widget=forms.DateInput(
+#             attrs={
+#                 'type': 'date',
+#                 'class': 'form-control form-control-sm',
+#                 '_': SET_ENDDATE_MIN_AND_VALUE
+
+#             }),
+#         label='Date'
+#     )
+#     due_date = forms.DateField(
+#         initial=due_date,
+#         required=False,
+#         widget=forms.DateInput(
+#             attrs={
+#                 'type': 'date',
+#                 'class': 'form-control form-control-sm',
+#                 #   '_': 'on change set the max of previous <input/> to my value'
+#             }),
+#         label='Due Date'
+#     )
+#     stock_date = forms.DateField(
+#         initial=today,
+#         required=False,
+#         widget=forms.DateInput(
+#             attrs={
+#                 'type': 'date',
+#                 'class': 'form-control form-control-sm',
+#                 #   '_': 'on change set the max of previous <input/> to my value'
+#             }),
+#         label='Stock Date'
+#     )
+#     paid_status = forms.BooleanField(
+#         required=False, label='Paid Status',
+#         widget=forms.CheckboxInput(attrs={'class': 'form-check-input'})
+#     )
 
 
 # class AddItemToDocumentForm(forms.Form):

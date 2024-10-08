@@ -175,7 +175,9 @@ def add_new_document_product_details(request, product_id):
     document_create_form = DocumentCreateForm(
         stock_direction=document_type.stock_direction, product=product)
 
-    document_item_form = AddDocumentItem()
+    document_item_form = AddDocumentItem(
+        stock_direction=document_type.stock_direction, product=product
+    )
 
     stock_control_form = StockControlForm(instance=stock_control)
     customer_form = CustomerForm(instance=customer)
