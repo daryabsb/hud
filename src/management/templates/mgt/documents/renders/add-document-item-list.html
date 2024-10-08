@@ -3,7 +3,16 @@
 	<div class="col-lg-8">
 	
 			<div class="card-header bg-none d-flex p-3">
-                <a href="#" class="btn btn-outline-default" data-bs-dismiss="modal">Cancel</a>
+                <a href="#" class="btn btn-outline-default" data-bs-dismiss="modal"
+				_="on click
+                    remove #new-document-tab
+                    remove #mgt-new-document
+                    add .active to #view-document-tab
+                    add .active to #mgt-documents-view-list
+                    add .show to #mgt-documents-view-list
+                    end
+                    "
+				>Cancel</a>
                 <button class="btn btn-outline-theme" data-bs-dismiss="modal"
                 hx-get="{% url 'mgt:add-document' %}"
                 hx-target=""

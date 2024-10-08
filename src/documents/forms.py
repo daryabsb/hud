@@ -255,7 +255,13 @@ class AddDocumentItem(forms.Form):
             (1, 'Amount'),
         ),
         widget=forms.Select(
-            attrs={'class': 'form-select form-select-sm'}
+            attrs={
+                'class': 'form-select form-select-sm',
+                '_': '''
+                on change 
+                    if my value is 0 set #discount-type-sign.innerText to '%'
+                    else set #discount-type-sign.innerText to '$'  end'''
+            }
         )
     )
 
@@ -267,7 +273,6 @@ class AddDocumentItem(forms.Form):
         )
     )
 
-
     def __init__(self, *args, **kwargs):
         stock_direction = kwargs.pop('stock_direction', None)
         # Assume product is passed to set price and cost
@@ -278,6 +283,8 @@ class AddDocumentItem(forms.Form):
         if stock_direction == 2:  # Sale
             self.fields['customer'].queryset = Customer.objects.filter(
                 is_customer=True)
+            self.fields['customer'].initial = Customer.objects.filter(
+                is_customer=True).first()
             self.fields['customer'].label = 'Customer'
             if product:
                 self.fields['product'].initial = product.id
@@ -288,9 +295,12 @@ class AddDocumentItem(forms.Form):
             self.fields['customer'].queryset = Customer.objects.filter(
                 is_supplier=True)
             self.fields['customer'].label = 'Vendor'
+            self.fields['customer'].initial = Customer.objects.filter(
+                is_supplier=True).first()
         elif stock_direction == 0:  # Proforma
             # General query
             self.fields['customer'].queryset = Customer.objects.all()
+            self.fields['customer'].initial = Customer.objects.first()
 
 
 # class DocumentCreateForm2(forms.Form):

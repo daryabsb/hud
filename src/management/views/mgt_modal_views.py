@@ -187,6 +187,7 @@ def add_new_document_product_details(request, product_id):
         "customer_form": customer_form,
         "document_type": document_type,
         "form": document_item_form,
+        "product": product,
     }
 
     return render(request, 'mgt/modals/add-document-product-modal.html', context)

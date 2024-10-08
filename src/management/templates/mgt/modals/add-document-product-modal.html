@@ -9,12 +9,12 @@
         <div 
         class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Add {{ document_type.stock_direction }} Document Item</h5>
+                <h5 class="modal-title">Add {{ product.name }} to document</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body overflow-y-auto" style="height: 80vh;">
 <div class="tab-pane fade show active" id="add-product-stock-control">
-    <div class="form-group row mb-3">
+    <div class="form-group row mb-5">
         <label class="col-sm-2 col-form-label">{{ form.customer.label }}</label>
         {% include 'mgt/documents/renders/add-document-customer-field.html' %}
         <div class="col-sm-1 ">
@@ -30,8 +30,33 @@
                     add @disabled to me"
             >+</button>
         </div>
-    {{ form.as_p}}
     </div>
+    <div class="mb-2">
+        <label class="form-label">{{ form.quantity.label }}</label>
+        {{ form.quantity }}
+    </div>
+    <div class="mb-2">
+        <label class="form-label">{{ form.price_before_tax.label }}</label>
+        {{ form.price_before_tax }}
+    </div>
+    <div class="mb-2">
+        <label class="form-label">{{ form.product_cost.label }}</label>
+        {{ form.product_cost }}
+    </div>
+    <div class="row mb-2">
+        <div class="col-sm-4">
+        {% render_field form.discount_type %}
+        </div>
+        <div class="col-sm-3 d-flex">
+        {{ form.discount }}<span id="discount-type-sign">%</span>
+        </div>
+    </div>
+
+    <div class="mb-2">
+        <label class="form-label">{{ form.tax.label }}</label>
+        {{ form.tax }}
+    </div>
+    {{ form.as_p}}
     <div class="form-group row mb-3">
         <label class="col-sm-2 col-form-label">SS{{ form.customer.label_tag}}</label>
         {% include 'mgt/tabs/add-product/side-forms/customer-field.html' %}
@@ -79,14 +104,6 @@
                     href="#" 
                     class="btn btn-outline-default" 
                     data-bs-dismiss="modal"
-                    _="on click
-                    remove #new-document-tab
-                    remove #mgt-new-document
-                    add .active to #view-document-tab
-                    add .active to #mgt-documents-view-list
-                    add .show to #mgt-documents-view-list
-                    end
-                    "
                     >Cancel</a>
                 <button type="submit"  class="btn btn-outline-theme">Submit</button>
             </div>
