@@ -1,111 +1,72 @@
 {% load widget_tweaks %}
-
-    <form  
-        hx-get="{% url 'mgt:add-document-items' %}"
-        hx-target="#add-document-items-detail"
-        hx-include="#added-products"
-        
-    class="modal-dialog modal-right">
-        <div 
-        class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Add {{ product.name }} to document</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+{% comment %} hx-include="#added-products" {% endcomment %}
+<form  
+	hx-post="{% url 'mgt:add-document-items'  %}"
+	hx-target="#add-document-items-detail"
+	class="modal-dialog modal-right">
+	<div 
+		class="modal-content">
+	<div class="modal-header">
+		<h5 class="modal-title">Add product to document</h5>
+		<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+	</div>
+	<div class="modal-body overflow-y-auto" >
+		<div class="tab-pane fade show active mb-5" id="add-product-stock-control">
+			<div class="mb-5">
+                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse">
+                    <div class="w-100px h-100px d-flex align-items-center justify-content-center ms-n1 bg-white p-1">
+                        <img src="{{ product.img }}" alt="" class="mw-100 mh-100">
+                    </div>
+                    <div class="flex-fill px-3">
+                        <div class="fw-bold h2">{{ product.name }}</div>
+                        <div class="h3 text-inverse text-opacity-50">{{ product.parent_group.name }}</div>
+                    <div class="d-flex align-items-center fs-11px">
+                    
+                    </div>
+                    </div>
+                    
+                    </a>
             </div>
-            <div class="modal-body overflow-y-auto" style="height: 80vh;">
-<div class="tab-pane fade show active" id="add-product-stock-control">
-    <div class="form-group row mb-5">
-        <label class="col-sm-2 col-form-label">{{ form.customer.label }}</label>
-        {% include 'mgt/documents/renders/add-document-customer-field.html' %}
-        <div class="col-sm-1 ">
-            <button
-                hx-trigger="click"
-                hx-get="{% url 'mgt:show-customer-form' %}"
-                hx-swap="innerHTML"
-                class="btn btn-outline-success" 
-                id="add-product-add-customer-button"
-                hx-target="#customer-form"
-                _="on click
-                    wait 1 seconds
-                    add @disabled to me"
-            >+</button>
-        </div>
-    </div>
-    <div class="mb-2">
-        <label class="form-label">{{ form.quantity.label }}</label>
-        {{ form.quantity }}
-    </div>
-    <div class="mb-2">
-        <label class="form-label">{{ form.price_before_tax.label }}</label>
-        {{ form.price_before_tax }}
-    </div>
-    <div class="mb-2">
-        <label class="form-label">{{ form.product_cost.label }}</label>
-        {{ form.product_cost }}
-    </div>
-    <div class="row mb-2">
-        <div class="col-sm-4">
-        {% render_field form.discount_type %}
-        </div>
-        <div class="col-sm-3 d-flex">
-        {{ form.discount }}<span id="discount-type-sign">%</span>
-        </div>
-    </div>
-
-    <div class="mb-2">
-        <label class="form-label">{{ form.tax.label }}</label>
-        {{ form.tax }}
-    </div>
-    {{ form.as_p}}
-    <div class="form-group row mb-3">
-        <label class="col-sm-2 col-form-label">SS{{ form.customer.label_tag}}</label>
-        {% include 'mgt/tabs/add-product/side-forms/customer-field.html' %}
-        <div class="col-sm-1 ">
-            <button
-                hx-trigger="click"
-                hx-get="{% url 'mgt:show-customer-form' %}"
-                hx-swap="innerHTML"
-                class="btn btn-outline-success" 
-                id="add-product-add-customer-button"
-                hx-target="#customer-form"
-                _="on click
-                    wait 1 seconds
-                    add @disabled to me"
-            >+</button>
-        </div>
-        <!-- _="on click set my value to null" -->
-    </div>
-    <div id="customer-form">
-        <!-- Customer form will be shown here -->
-    </div>
-    <div class="mb-2">
-        <label class="form-label">Reorder point</label>
-        {% render_field stock_control_form.reorder_point class="form-control" %}
-    </div>
-    <div class="mb-2">
-        <label class="form-label">Prefered quantity</label>
-        {% render_field stock_control_form.preferred_quantity class="form-control" %}
-    </div>
-    <div class="mb-3">
-        <div class="form-check form-switch mb-2">
-            {% render_field stock_control_form.is_low_stock_warning_enabled class="form-check-input" %}
-            <label class="form-check-label" for="customSwitch1">Low stock warning</label>
-        </div>
-    </div>
-    <div class="mb-2">
-        <label class="form-label">Low stock warning quantity</label>
-        {% render_field stock_control_form.low_stock_warning_quantity class="form-control" %}
-    </div>
-    <a href="#">Reset to default</a>
-</div>
-            </div>
-            <div class="modal-footer">
-                <a 
-                    href="#" 
-                    class="btn btn-outline-default" 
-                    data-bs-dismiss="modal"
-                    >Cancel</a>
-                <button type="submit"  class="btn btn-outline-theme">Submit</button>
-            </div>
-        </div>
-    </form>
+			<div class="mb-4">
+				<label class="form-label">{{ form.quantity.label }}</label>
+				{{ form.quantity }}
+			</div>
+			<div class="mb-4">
+				<label class="form-label">{{ form.price_before_tax.label }}</label>
+				{{ form.price_before_tax }}
+			</div>
+			<div class="mb-4">
+				<label class="form-label">{{ form.product_cost.label }}</label>
+				{{ form.product_cost }}
+			</div>
+			<div class="mb-4">
+				<label class="form-label">{{ form.price.label }}</label>
+				{{ form.price }}
+			</div>
+			<div class="row mb-4">
+				<label class="form-label">{{ form.discount.label }}</label>
+				<div class="input-group">
+					{% render_field form.discount_type %}
+					{% render_field form.discount %}
+					<span class="input-group-text" id="discount-type-sign">%</span>
+				</div>
+			</div>
+			<div class="mb-4">
+				<label class="form-label">{{ form.tax.label }}</label>
+				{{ form.tax }}
+			</div>
+		</div>
+		<div class="modal-footer">
+			<a 
+				href="#" 
+				class="btn btn-outline-default" 
+				data-bs-dismiss="modal"
+				>Cancel</a>
+			<button 
+            type="submit"  
+            class="btn btn-outline-theme"
+            data-bs-dismiss="modal"
+            >Submit</button>
+		</div>
+	</div>
+</form>

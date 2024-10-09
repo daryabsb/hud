@@ -297,7 +297,19 @@ def mgt_documents2(request):
 #     return render(request, 'mgt/documents/list.html', context)
 
 
-def add_document_items_to_document(request, product_id):
+def add_document_items_to_document(request):
+    from src.documents.forms import DocumentCreateForm, AddDocumentItem
+    
+    form = AddDocumentItem(request.POST)
+
+    print("check_form", form)
+
+    document_item = {
+        "quantity": request.POST.get("quantity"),
+        "price": request.POST.get("price"),
+    }
+
+    product_id = request.POST.get('product-id', None)
     added_products_string = request.GET.get('added-products', None)
 
     if added_products_string:
@@ -310,6 +322,8 @@ def add_document_items_to_document(request, product_id):
     context = {
         "product_id": product_id,
         "added_products_string": added_products_string,
+        "document_item": document_item,
+        "form": form,
     }
     
     return render(request, "mgt/documents/renders/add-document-item-list.html", context)
