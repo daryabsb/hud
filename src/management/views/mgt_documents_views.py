@@ -15,6 +15,7 @@ from src.documents.forms import DocumentFilterForm
 from src.core.utils import get_fields, get_columns, get_indexes
 from src.management.filters import DocumentFilterForm as DocumentFilter
 from src.management.utils import apply_document_filters
+from src.products.models import Product
 
 
 class DocumentSerializer(serializers.ModelSerializer):
@@ -299,17 +300,21 @@ def mgt_documents2(request):
 
 def add_document_items_to_document(request):
     from src.documents.forms import DocumentCreateForm, AddDocumentItem
-    
+    product = None
     form = AddDocumentItem(request.POST)
+    product_id = request.POST.get('product', None)
+
+    if product_id:
+        product = get_object_or_404(Product, id=product_id)
 
     print("check_form", form)
 
     document_item = {
+        "product": product,
         "quantity": request.POST.get("quantity"),
         "price": request.POST.get("price"),
     }
 
-    product_id = request.POST.get('product-id', None)
     added_products_string = request.GET.get('added-products', None)
 
     if added_products_string:
@@ -318,14 +323,14 @@ def add_document_items_to_document(request):
         print("added_products = ", added_products)
     if product_id:
         print("product_id = ", product_id)
-    
+
     context = {
         "product_id": product_id,
         "added_products_string": added_products_string,
         "document_item": document_item,
         "form": form,
     }
-    
+
     return render(request, "mgt/documents/renders/add-document-item-list.html", context)
 
 
