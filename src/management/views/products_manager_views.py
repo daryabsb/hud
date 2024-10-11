@@ -99,7 +99,6 @@ def mgt_products(request, slug=None):
 
     # Determine pagination range
     num_pages = paginator.num_pages
-    print("page_obj.count = ", page_obj.end_index() - page_obj.start_index() + 1)
     current_page = page_obj.number
     if num_pages <= 5:
         page_range = range(1, num_pages + 1)

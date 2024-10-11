@@ -234,13 +234,6 @@ class AddDocumentItem(forms.Form):
         )
     )
 
-    product_cost = forms.FloatField(
-        required=False, label='Product cost',
-        initial=0.0,
-        widget=forms.TextInput(
-            attrs={'class': 'form-control form-control-sm'}
-        )
-    )
     price = forms.FloatField(
         required=False, label='Price',
         initial=0.0,
@@ -273,6 +266,22 @@ class AddDocumentItem(forms.Form):
         )
     )
 
+    total_before_tax = forms.FloatField(
+        required=False, label='Total before tax',
+        initial=0.0,
+        widget=forms.TextInput(
+            attrs={'class': 'form-control form-control-sm'}
+        )
+    )
+
+    total = forms.FloatField(
+        required=False, label='Total',
+        initial=0.0,
+        widget=forms.TextInput(
+            attrs={'class': 'form-control form-control-sm'}
+        )
+    )
+
     def __init__(self, *args, **kwargs):
         stock_direction = kwargs.pop('stock_direction', None)
         # Assume product is passed to set price and cost
@@ -289,7 +298,7 @@ class AddDocumentItem(forms.Form):
             if product:
                 self.fields['product'].initial = product.id
                 self.fields['price'].initial = product.price
-                self.fields['product_cost'].initial = product.cost
+                # self.fields['product_cost'].initial = product.cost
 
         elif stock_direction == 1:  # Purchase
             self.fields['customer'].queryset = Customer.objects.filter(
@@ -297,6 +306,9 @@ class AddDocumentItem(forms.Form):
             self.fields['customer'].label = 'Vendor'
             self.fields['customer'].initial = Customer.objects.filter(
                 is_supplier=True).first()
+            if product:
+                self.fields['product'].initial = product.id
+
         elif stock_direction == 0:  # Proforma
             # General query
             self.fields['customer'].queryset = Customer.objects.all()

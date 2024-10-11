@@ -331,7 +331,7 @@ def add_document_items_to_document(request):
         "form": form,
     }
 
-    return render(request, "mgt/documents/renders/add-document-item-list.html", context)
+    return render(request, "mgt/documents/renders/add-document-item-row.html", context)
 
 
 class DocumentListView(APIView):

@@ -1,8 +1,10 @@
 {% load widget_tweaks %}
 {% comment %} hx-include="#added-products" {% endcomment %}
+	{% comment %} hx-target="#add-document-items-detail" {% endcomment %}
 <form  
 	hx-post="{% url 'mgt:add-document-items'  %}"
-	hx-target="#add-document-items-detail"
+    hx-target="#add-document-item-to-table"
+    hx-swap="beforeend"
 	class="modal-dialog modal-right">
 	<div 
 		class="modal-content">
@@ -35,9 +37,13 @@
 				<label class="form-label">{{ form.price_before_tax.label }}</label>
 				{{ form.price_before_tax }}
 			</div>
-			<div class="mb-4">
+			{% comment %} <div class="mb-4">
 				<label class="form-label">{{ form.product_cost.label }}</label>
 				{{ form.product_cost }}
+			</div> {% endcomment %}
+			<div class="mb-4">
+				<label class="form-label">{{ form.tax.label }}</label>
+				{{ form.tax }}
 			</div>
 			<div class="mb-4">
 				<label class="form-label">{{ form.price.label }}</label>
@@ -52,8 +58,12 @@
 				</div>
 			</div>
 			<div class="mb-4">
-				<label class="form-label">{{ form.tax.label }}</label>
-				{{ form.tax }}
+				<label class="form-label">{{ form.total_before_tax.label }}</label>
+				{{ form.total_before_tax }}
+			</div>
+			<div class="mb-4">
+				<label class="form-label">{{ form.total.label }}</label>
+				{{ form.total }}
 			</div>
 				{{ form.product }}
 		</div>
