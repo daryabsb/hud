@@ -282,12 +282,37 @@ class AddDocumentItem(forms.Form):
         )
     )
 
+    def get_total_before_tax(self, product):
+
+        quantity = self.fields['quantity'].initial
+        price_before_tax = self.fields['price_before_tax'].initial
+
+        tax_rate = self.fields['tax'].initial
+        discount_type = self.fields['discount_type'].initial
+        discount = self.fields['discount'].initial
+        price = product.price
+
+        base_price = quantity * price_before_tax
+        tax = 1
+
+        if tax_rate:
+            if tax_rate.is_fixed:
+                tax = tax_rate
+            else:
+                tax = base_price + (base_price * tax_rate)
+
+        print("initial_tax = ", tax_rate)
+        print("initial_quantity = ", quantity)
+
+        print("initial_quantity = ", base_price)
+
+        return
+
     def __init__(self, *args, **kwargs):
         stock_direction = kwargs.pop('stock_direction', None)
         # Assume product is passed to set price and cost
         product = kwargs.pop('product', None)
         super().__init__(*args, **kwargs)
-
         # Adjust queryset and initial values based on stock_direction
         if stock_direction == 2:  # Sale
             self.fields['customer'].queryset = Customer.objects.filter(
@@ -297,7 +322,9 @@ class AddDocumentItem(forms.Form):
             self.fields['customer'].label = 'Customer'
             if product:
                 self.fields['product'].initial = product.id
+                self.fields['price_before_tax'].initial = product.price
                 self.fields['price'].initial = product.price
+
                 # self.fields['product_cost'].initial = product.cost
 
         elif stock_direction == 1:  # Purchase
@@ -314,6 +341,7 @@ class AddDocumentItem(forms.Form):
             self.fields['customer'].queryset = Customer.objects.all()
             self.fields['customer'].initial = Customer.objects.first()
 
+        self.get_total_before_tax(product)
 
 # class DocumentCreateForm2(forms.Form):
 #     number = forms.CharField(

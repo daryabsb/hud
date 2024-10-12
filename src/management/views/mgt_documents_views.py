@@ -307,8 +307,6 @@ def add_document_items_to_document(request):
     if product_id:
         product = get_object_or_404(Product, id=product_id)
 
-    print("check_form", form)
-
     document_item = {
         "product": product,
         "quantity": request.POST.get("quantity"),
@@ -319,10 +317,6 @@ def add_document_items_to_document(request):
 
     if added_products_string:
         added_products = added_products_string.split(',')
-
-        print("added_products = ", added_products)
-    if product_id:
-        print("product_id = ", product_id)
 
     context = {
         "product_id": product_id,
