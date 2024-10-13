@@ -49,20 +49,22 @@ urlpatterns += [
     path('add-document/', views.add_document, name='add-document'),
     path('documents/test/', views.mgt_documents_example, name='documents-example'),
     path('documents-datatable-data/', views.documents_datatable_view,
-         name='documents-datatable-data'),
+		name='documents-datatable-data'),
 
     # add document urls
     path("add-document-items/", views.add_document_items_to_document,
-         name="add-document-items"),
+		name="add-document-items"),
     path("add-document-product-modal/<int:product_id>/",
-         views.add_new_document_product_details, name="add-document-product-modal")
+		views.add_new_document_product_details, name="add-document-product-modal"),
 
+    path("add-document-change-qty/", views.add_document_change_qty,
+		name="add-document-change-qty"),
 ]
 
 # DOCUMENTS RELATED URLS
 urlpatterns += [
     path('document-items-datatable/',
-         views.document_items_datatable_view, name='document-items-datatable'),
+		views.document_items_datatable_view, name='document-items-datatable'),
     path('documents/test/', views.mgt_documents_example, name='documents-example'),
 ]
 

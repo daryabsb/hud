@@ -16,7 +16,7 @@ from src.core.utils import get_fields, get_columns, get_indexes
 from src.management.filters import DocumentFilterForm as DocumentFilter
 from src.management.utils import apply_document_filters
 from src.products.models import Product
-
+from src.documents.forms import DocumentCreateForm, AddDocumentItem
 
 class DocumentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -299,7 +299,7 @@ def mgt_documents2(request):
 
 
 def add_document_items_to_document(request):
-    from src.documents.forms import DocumentCreateForm, AddDocumentItem
+    
     product = None
     form = AddDocumentItem(request.POST)
     product_id = request.POST.get('product', None)
@@ -326,6 +326,18 @@ def add_document_items_to_document(request):
     }
 
     return render(request, "mgt/documents/renders/add-document-item-row.html", context)
+
+
+def add_document_change_qty(request):
+
+    form = AddDocumentItem()
+
+    print('This cutie pie is called')
+
+    context = {
+        "form": form,
+    }
+    return render(request, 'documents/mgt-forms/add/widgets/price-pretax.html', context)
 
 
 class DocumentListView(APIView):

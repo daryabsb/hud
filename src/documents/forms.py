@@ -212,8 +212,21 @@ class AddDocumentItem(forms.Form):
     quantity = forms.IntegerField(
         required=False, label='Quantity',
         initial=1,
-        widget=forms.TextInput(
-            attrs={'class': 'form-control form-control-sm'}
+        widget=forms.NumberInput(
+            attrs={
+                'class': 'form-control form-control-sm',
+                '_': '''
+                on change 
+                    set x to #id_price_before_tax.value * my value 
+                    then set #id_price.value to x
+                end
+                    ''',
+                'hx-get': '/mgt/add-document-change-qty/',
+                'hx-target': '#add-doc-price-before-tax',
+                'hx-swap': 'outerHTML',
+                }
+                    # if my value is 0 set #discount-type-sign.innerText to '%'
+                    # else set #discount-type-sign.innerText to '$'  end
         )
     )
 
@@ -320,6 +333,7 @@ class AddDocumentItem(forms.Form):
             self.fields['customer'].initial = Customer.objects.filter(
                 is_customer=True).first()
             self.fields['customer'].label = 'Customer'
+
             if product:
                 self.fields['product'].initial = product.id
                 self.fields['price_before_tax'].initial = product.price
@@ -341,7 +355,8 @@ class AddDocumentItem(forms.Form):
             self.fields['customer'].queryset = Customer.objects.all()
             self.fields['customer'].initial = Customer.objects.first()
 
-        self.get_total_before_tax(product)
+        if product:
+            self.get_total_before_tax(product)
 
 # class DocumentCreateForm2(forms.Form):
 #     number = forms.CharField(

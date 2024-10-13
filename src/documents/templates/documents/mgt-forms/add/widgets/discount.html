@@ -1,0 +1,9 @@
+{% load widget_tweaks %}
+<div class="row mb-5" id="add-doc-discount">
+    <label class="form-label">{{ form.discount.label }}</label>
+    <div class="input-group">
+        {% render_field form.discount_type %}
+        {% render_field form.discount %}
+        <span class="input-group-text" id="discount-type-sign">%</span>
+    </div>
+</div>
