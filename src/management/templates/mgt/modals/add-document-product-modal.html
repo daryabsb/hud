@@ -5,35 +5,29 @@
 	hx-post="{% url 'mgt:add-document-items'  %}"
     hx-target="#add-document-item-to-table"
     hx-swap="beforeend"
-	class="modal-dialog modal-right">
-	<div 
-		class="modal-content">
-	<div class="modal-header">
-		<h5 class="modal-title">Add product to document</h5>
-		<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-	</div>
-	<div class="modal-body overflow-y-auto" >
-		<div class="tab-pane fade show active mb-5" id="add-product-stock-control">
-			{% include 'documents/mgt-forms/add/widgets/product.html'%}
-			{% include 'documents/mgt-forms/add/widgets/qty.html'%}
-			{% include 'documents/mgt-forms/add/widgets/price-pretax.html'%}
-			{% include 'documents/mgt-forms/add/widgets/tax.html'%}
-			{% include 'documents/mgt-forms/add/widgets/price.html'%}
-			{% include 'documents/mgt-forms/add/widgets/discount.html'%}
-			{% include 'documents/mgt-forms/add/widgets/total-pretax.html'%}
-			{% include 'documents/mgt-forms/add/widgets/total.html'%}	
-		</div>
-		<div class="modal-footer">
-			<a 
-				href="#" 
-				class="btn btn-outline-default" 
-				data-bs-dismiss="modal"
-				>Cancel</a>
-			<button 
-            type="submit"  
-            class="btn btn-outline-theme"
-            data-bs-dismiss="modal"
-            >Submit</button>
-		</div>
-	</div>
+	class="modal-dialog modal-right"
+    id="add-doc-create-item-form"
+    >
+	<div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Add product to document</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+	    <div class="modal-body overflow-y-auto" >
+			{% include 'documents/mgt-forms/add/add-doc-item-form.html'%}
+		
+		    <div class="modal-footer">
+                <a 
+                    href="#" 
+                    class="btn btn-outline-default" 
+                    data-bs-dismiss="modal"
+                    >Cancel</a>
+                <button 
+                type="submit"  
+                class="btn btn-outline-theme"
+                data-bs-dismiss="modal"
+                >Submit</button>
+		    </div>
+	    </div>
+    </div>
 </form>

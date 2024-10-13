@@ -1,4 +1,5 @@
 import ast
+from decimal import Decimal
 from django.db.models import Q, F, Subquery, OuterRef
 from django.views.generic import ListView
 from django_filters.filterset import filterset_factory
@@ -17,6 +18,8 @@ from src.management.filters import DocumentFilterForm as DocumentFilter
 from src.management.utils import apply_document_filters
 from src.products.models import Product
 from src.documents.forms import DocumentCreateForm, AddDocumentItem
+from src.tax.models import Tax
+
 
 class DocumentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -299,7 +302,7 @@ def mgt_documents2(request):
 
 
 def add_document_items_to_document(request):
-    
+
     product = None
     form = AddDocumentItem(request.POST)
     product_id = request.POST.get('product', None)
@@ -330,14 +333,65 @@ def add_document_items_to_document(request):
 
 def add_document_change_qty(request):
 
-    form = AddDocumentItem()
+    product_id = request.GET.get('product', None)
+    quantity = request.GET.get('quantity', 1)
+    price_before_tax = request.GET.get('price_before_tax', 1)
+    tax_id = request.GET.get('tax', None)
+    price = Decimal(quantity) * Decimal(request.GET.get('price', 1))
+    discount_type = request.GET.get('discount_type', 1)
+    discount = request.GET.get('discount', 1)
+    total_before_tax = request.GET.get('total_before_tax', 0)
+    total = request.GET.get('total', 1)
 
-    print('This cutie pie is called')
+    discount_cut = 0
+    tax_cut = 0
+
+    if tax_id:
+        tax = Tax.objects.get(id=tax_id)
+        if tax.is_fixed:
+            tax_cut = tax.rate
+        else:
+            tax_cut = price * Decimal(tax.rate) / Decimal(100.00)
+
+    if discount_type == 0:
+        discount_cut = price * discount / 100
+    elif discount_type == 1:
+        discount_cut = discount
+
+    if product_id:
+        product = get_object_or_404(Product, id=product_id)
+
+    total_before_tax = price - discount_cut
+    total = total_before_tax + tax_cut
+
+    form = AddDocumentItem(initial={
+        'product': product.id,
+        'quantity': quantity,
+        'price_before_tax': product.price,
+        'tax': tax,
+        'price': price,
+        'discount_type': discount_type,
+        'discount': discount_cut,
+        'total_before_tax': total_before_tax,
+        'total': total
+    })
+
+    # print('receive_product = ', product)
+    # print('receive_quantity = ', quantity)
+    # print('receive_price_before_tax = ', price_before_tax)
+    # print('tax = ', tax)
+    # print('receive_price = ', price)
+    # print('receive_discount_type = ', discount_type)
+    # print('receive_discount = ', discount)
+    # print('receive_total_before_tax = ', total_before_tax)
+    # print('receive_total = ', total)
 
     context = {
         "form": form,
+        "product": product,
     }
-    return render(request, 'documents/mgt-forms/add/widgets/price-pretax.html', context)
+    return render(request, 'documents/mgt-forms/add/add-doc-item-form.html', context)
+    # return JsonResponse({'message': 'documents/mgt-forms/add/add-doc-item-form.html'})
 
 
 class DocumentListView(APIView):

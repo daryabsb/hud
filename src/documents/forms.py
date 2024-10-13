@@ -215,18 +215,19 @@ class AddDocumentItem(forms.Form):
         widget=forms.NumberInput(
             attrs={
                 'class': 'form-control form-control-sm',
-                '_': '''
-                on change 
-                    set x to #id_price_before_tax.value * my value 
-                    then set #id_price.value to x
-                end
-                    ''',
                 'hx-get': '/mgt/add-document-change-qty/',
-                'hx-target': '#add-doc-price-before-tax',
+                'hx-target': '#add-product-form-render',
                 'hx-swap': 'outerHTML',
-                }
-                    # if my value is 0 set #discount-type-sign.innerText to '%'
-                    # else set #discount-type-sign.innerText to '$'  end
+                'hx-include': '#add-doc-create-item-form',
+            }
+            # '_': '''
+            # on change
+            #     set x to #id_price_before_tax.value * my value
+            #     then set #id_price.value to x
+            # end
+            #     ''',
+            # if my value is 0 set #discount-type-sign.innerText to '%'
+            # else set #discount-type-sign.innerText to '$'  end
         )
     )
 
