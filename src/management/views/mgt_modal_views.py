@@ -18,7 +18,7 @@ from src.stock.models import StockControl
 from src.tax.forms import ProductTaxForm
 from src.accounts.forms import CustomerForm
 from src.tax.models import ProductTax, Tax
-
+from decimal import Decimal
 
 @login_required
 @require_GET
@@ -161,6 +161,7 @@ def add_new_document_product_details(request, product_id):
     stock_control = None
     customer = None
     product = None
+    decimal_init = Decimal(1)
 
     document_type_id = request.GET.get("document_type", None)
 
@@ -172,11 +173,26 @@ def add_new_document_product_details(request, product_id):
         stock_control = StockControl.objects.filter(product=product).first()
         customer = stock_control.customer if stock_control else None
 
-    document_create_form = DocumentCreateForm(
-        stock_direction=document_type.stock_direction, product=product)
+    stock_direction=document_type.stock_direction
+
+    if stock_direction == 1:
+        pass
+    elif stock_direction == 2:
+        pass
+    else:
+        pass
 
     document_item_form = AddDocumentItem(
-        stock_direction=document_type.stock_direction, product=product
+        stock_direction=document_type.stock_direction, product=product,
+        initial={
+        'product': product.id,
+        'quantity': 1,
+        'price_before_tax': product.price,
+        'price': decimal_init * product.price,
+        'discount': 0,
+        'total_before_tax': decimal_init * product.price,
+        'total': decimal_init * product.price
+    }
     )
 
     stock_control_form = StockControlForm(instance=stock_control)

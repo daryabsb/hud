@@ -16,8 +16,8 @@
             </div>
         </div>
     </td>
-    <td class="align-middle">{{ document_item.price|floatformat }} x {{ document_item.quantity }}</td>
-    <td class="align-middle">1989$</td>
+    <td class="align-middle">{{ document_item.price_before_tax|floatformat }} x {{ document_item.quantity }}</td>
+    <td class="align-middle">{{ document_item.total|floatformat }}$</td>
     <td class="align-middle">
         <div class="btn-group btn-group-md">
             <button type="button" class="btn">

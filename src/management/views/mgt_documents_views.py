@@ -314,6 +314,8 @@ def add_document_items_to_document(request):
         "product": product,
         "quantity": request.POST.get("quantity"),
         "price": request.POST.get("price"),
+        "price_before_tax": request.POST.get("price_before_tax"),
+        "total": request.POST.get("total"),
     }
 
     added_products_string = request.GET.get('added-products', None)
@@ -337,14 +339,16 @@ def add_document_change_qty(request):
     quantity = request.GET.get('quantity', 1)
     price_before_tax = request.GET.get('price_before_tax', 1)
     tax_id = request.GET.get('tax', None)
-    price = Decimal(quantity) * Decimal(request.GET.get('price', 1))
-    discount_type = request.GET.get('discount_type', 1)
-    discount = request.GET.get('discount', 1)
+    # price = Decimal(quantity) * Decimal(request.GET.get('price', 1))
+    price = Decimal(quantity) * Decimal(price_before_tax)
+    discount_type = request.GET.get('discount_type', 0)
+    discount = request.GET.get('discount', 0)
     total_before_tax = request.GET.get('total_before_tax', 0)
     total = request.GET.get('total', 1)
 
-    discount_cut = 0
+    
     tax_cut = 0
+    tax = None
 
     if tax_id:
         tax = Tax.objects.get(id=tax_id)
@@ -354,14 +358,14 @@ def add_document_change_qty(request):
             tax_cut = price * Decimal(tax.rate) / Decimal(100.00)
 
     if discount_type == 0:
-        discount_cut = price * discount / 100
+        discount = price * Decimal(discount) / 100
     elif discount_type == 1:
-        discount_cut = discount
+        discount = Decimal(discount)
 
     if product_id:
         product = get_object_or_404(Product, id=product_id)
 
-    total_before_tax = price - discount_cut
+    total_before_tax = price - Decimal(discount)
     total = total_before_tax + tax_cut
 
     form = AddDocumentItem(initial={
@@ -371,7 +375,7 @@ def add_document_change_qty(request):
         'tax': tax,
         'price': price,
         'discount_type': discount_type,
-        'discount': discount_cut,
+        'discount': discount,
         'total_before_tax': total_before_tax,
         'total': total
     })

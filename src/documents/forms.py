@@ -194,6 +194,13 @@ class DocumentCreateForm(forms.Form):
         # Adjust form field labels or other logic if needed
 
 
+add_doc_item_htmx = {
+    'hx-get': '/mgt/add-document-change-qty/',
+    'hx-target': '#add-product-form-render',
+    'hx-swap': 'outerHTML',
+    'hx-include': '#add-doc-create-item-form',
+}
+
 class AddDocumentItem(forms.Form):
     product = forms.CharField(
         required=False,
@@ -211,14 +218,10 @@ class AddDocumentItem(forms.Form):
 
     quantity = forms.IntegerField(
         required=False, label='Quantity',
-        initial=1,
         widget=forms.NumberInput(
             attrs={
                 'class': 'form-control form-control-sm',
-                'hx-get': '/mgt/add-document-change-qty/',
-                'hx-target': '#add-product-form-render',
-                'hx-swap': 'outerHTML',
-                'hx-include': '#add-doc-create-item-form',
+                **add_doc_item_htmx
             }
             # '_': '''
             # on change
@@ -233,9 +236,12 @@ class AddDocumentItem(forms.Form):
 
     price_before_tax = forms.FloatField(
         required=False, label='Price before tax',
-        initial=0.0,
         widget=forms.TextInput(
-            attrs={'class': 'form-control form-control-sm'}
+            attrs={
+                'class': 'form-control form-control-sm',
+                'hx-trigger': 'keyup changed delay:500ms',
+                **add_doc_item_htmx
+                }
         )
     )
 
@@ -244,15 +250,17 @@ class AddDocumentItem(forms.Form):
         required=False, label='Tax',
         to_field_name='id',
         widget=forms.Select(
-            attrs={'class': 'form-select form-select-sm'}
+            attrs={'class': 'form-select form-select-sm', **add_doc_item_htmx}
         )
     )
 
     price = forms.FloatField(
         required=False, label='Price',
-        initial=0.0,
         widget=forms.TextInput(
-            attrs={'class': 'form-control form-control-sm'}
+            attrs={
+                'class': 'form-control form-control-sm',
+                'hx-trigger': 'keyup changed delay:500ms',
+                **add_doc_item_htmx}
         )
     )
     discount_type = forms.ChoiceField(
@@ -263,7 +271,7 @@ class AddDocumentItem(forms.Form):
         ),
         widget=forms.Select(
             attrs={
-                'class': 'form-select form-select-sm',
+                'class': 'form-select form-select-sm', **add_doc_item_htmx,
                 '_': '''
                 on change 
                     if my value is 0 set #discount-type-sign.innerText to '%'
@@ -274,26 +282,30 @@ class AddDocumentItem(forms.Form):
 
     discount = forms.FloatField(
         required=False, label='Discount',
-        initial=0.0,
         widget=forms.TextInput(
-            attrs={'class': 'form-control form-control-sm'}
+            attrs={
+                'class': 'form-control form-control-sm',
+                'hx-trigger': 'keyup changed delay:500ms',
+                **add_doc_item_htmx
+                }
         )
     )
 
     total_before_tax = forms.FloatField(
         required=False, label='Total before tax',
-        initial=0.0,
         widget=forms.TextInput(
-            attrs={'class': 'form-control form-control-sm'}
-        )
+            attrs={'class': 'form-control form-control-sm',},
+            
+        ),
+        disabled=True
     )
 
     total = forms.FloatField(
         required=False, label='Total',
-        initial=0.0,
         widget=forms.TextInput(
             attrs={'class': 'form-control form-control-sm'}
-        )
+        ),
+        # disabled=True
     )
 
     def get_total_before_tax(self, product):
@@ -337,8 +349,8 @@ class AddDocumentItem(forms.Form):
 
             if product:
                 self.fields['product'].initial = product.id
-                self.fields['price_before_tax'].initial = product.price
-                self.fields['price'].initial = product.price
+                # self.fields['price_before_tax'].initial = product.price
+                # self.fields['price'].initial = product.price
 
                 # self.fields['product_cost'].initial = product.cost
 
@@ -356,8 +368,8 @@ class AddDocumentItem(forms.Form):
             self.fields['customer'].queryset = Customer.objects.all()
             self.fields['customer'].initial = Customer.objects.first()
 
-        if product:
-            self.get_total_before_tax(product)
+        # if product:
+        #     self.get_total_before_tax(product)
 
 # class DocumentCreateForm2(forms.Form):
 #     number = forms.CharField(
