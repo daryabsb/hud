@@ -1,8 +1,8 @@
 {% load mptt_tags %}
 <div class="file-manager-sidebar-content overflow-auto" id="mgt-products-sidebar">
 	<div class="overflow-auto mt-2">
-		<div class="file-tree mb-3 overflow-auto h-350px">
-			<div class="list-group mb-3">
+		<div class="file-tree overflow-auto h-400px">
+			<div class="list-group" id="add-doc-product-list">
 				{% for product in products %}
 				<a href="#" 
 					class="list-group-item list-group-item-action d-flex align-items-center text-inverse"

@@ -20,6 +20,7 @@ from src.accounts.forms import CustomerForm
 from src.tax.models import ProductTax, Tax
 from decimal import Decimal
 
+
 @login_required
 @require_GET
 def modal_add_group(request):
@@ -173,7 +174,7 @@ def add_new_document_product_details(request, product_id):
         stock_control = StockControl.objects.filter(product=product).first()
         customer = stock_control.customer if stock_control else None
 
-    stock_direction=document_type.stock_direction
+    stock_direction = document_type.stock_direction
 
     if stock_direction == 1:
         pass
@@ -185,14 +186,14 @@ def add_new_document_product_details(request, product_id):
     document_item_form = AddDocumentItem(
         stock_direction=document_type.stock_direction, product=product,
         initial={
-        'product': product.id,
-        'quantity': 1,
-        'price_before_tax': product.price,
-        'price': decimal_init * product.price,
-        'discount': 0,
-        'total_before_tax': decimal_init * product.price,
-        'total': decimal_init * product.price
-    }
+            'product': product.id,
+            'quantity': 1,
+            'price_before_tax': product.price,
+            'price': decimal_init * product.price,
+            'discount': 0,
+            'total_before_tax': decimal_init * product.price,
+            'total': decimal_init * product.price
+        }
     )
 
     stock_control_form = StockControlForm(instance=stock_control)
@@ -393,3 +394,31 @@ def select_product_fields_to_export(request):
         'product_ids': product_ids
     }
     return render(request, 'mgt/modals/select-product-fields.html', context)
+
+
+def add_doc_filter_products(request):
+    keywords = request.GET.get('add-doc-product-filter', None)
+    qs = Product.objects.filter(is_enabled=True)
+    document_type = None
+
+    dt_id = request.GET.get("document-type", None)
+
+    if dt_id:
+        document_type = get_object_or_404(DocumentType, id=dt_id)
+
+    if keywords:
+        qs = qs.filter(name__icontains=keywords)
+        # qs = qs.filter(
+        #         # **filter_dict
+        #         Q(customer=customer)
+        #         | Q(document_type__id=int(col_search_value))
+        #         | Q(id=col_search_value)
+        #         | Q(paid_status=bool(col_search_value))
+        #     )
+    print('document_type = ', document_type)
+    context = {
+        "products": qs,
+        "document_type": document_type
+    }
+
+    return render(request, 'mgt/documents/renders/add-document-products.html', context)
