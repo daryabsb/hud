@@ -341,12 +341,11 @@ def add_document_change_qty(request):
     tax_id = request.GET.get('tax', None)
     # price = Decimal(quantity) * Decimal(request.GET.get('price', 1))
     price = Decimal(quantity) * Decimal(price_before_tax)
-    discount_type = request.GET.get('discount_type', 0)
+    discount_type = int(request.GET.get('discount_type', 0))
     discount = request.GET.get('discount', 0)
     total_before_tax = request.GET.get('total_before_tax', 0)
     total = request.GET.get('total', 1)
 
-    
     tax_cut = 0
     tax = None
 
@@ -357,15 +356,19 @@ def add_document_change_qty(request):
         else:
             tax_cut = price * Decimal(tax.rate) / Decimal(100.00)
 
+    print("discount_type = ", type(discount_type))
+    discount_cut = 0
     if discount_type == 0:
-        discount = price * Decimal(discount) / 100
+        print(
+            f"{price} X {Decimal(discount)} / 100 = { price * Decimal(discount) / 100 }")
+        discount_cut = price * Decimal(discount) / 100
     elif discount_type == 1:
-        discount = Decimal(discount)
+        discount_cut = Decimal(discount)
 
     if product_id:
         product = get_object_or_404(Product, id=product_id)
 
-    total_before_tax = price - Decimal(discount)
+    total_before_tax = price - Decimal(discount_cut)
     total = total_before_tax + tax_cut
 
     form = AddDocumentItem(initial={

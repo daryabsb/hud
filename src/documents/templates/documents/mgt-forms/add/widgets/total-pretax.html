@@ -1,4 +1,14 @@
-<div class="mb-4" id="add-doc-total-before-tax">
+{% comment %} <div class="mb-4" id="add-doc-total-before-tax">
     <label class="form-label">{{ form.total_before_tax.label }}</label>
     {{ form.total_before_tax }}
+</div> {% endcomment %}
+
+<div class="mb-4" id="add-doc-total">
+    <label class="form-label">{{ form.total_before_tax.label }}</label>
+    {% comment %} {% render_field form.total_before_tax %} {% endcomment %}
+    
+    <input type="hidden" name="{{ form.total_before_tax.name }}" value="{{ form.total_before_tax.value|floatformat:'2' }}" 
+        class="display-1 form-control" id="id_total"
+        >
+    <div class="h2">{{ form.total_before_tax.value|floatformat:"0" }}</div>
 </div>

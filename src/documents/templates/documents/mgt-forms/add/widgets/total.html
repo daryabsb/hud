@@ -1,4 +1,9 @@
 <div class="mb-4" id="add-doc-total">
     <label class="form-label">{{ form.total.label }}</label>
-    {{ form.total }}
+    {% comment %} {% render_field form.total %} {% endcomment %}
+    
+    <input type="hidden" name="{{ form.total.name }}" value="{{ form.total.value|floatformat:'2' }}" 
+        class="display-1 form-control" id="id_total"
+        >
+    <div class="h2">{{ form.total.value|floatformat:"0" }}</div>
 </div>
