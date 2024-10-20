@@ -47,6 +47,23 @@ def get_fields(app_name):
     return [column.related_value if column.is_related else column.name for column in queryset]
 
 
+def generate_number(target=None):
+    from datetime import date
+    min = 100
+    max = 3999
+    digits = str(random.randint(min, max))
+    digits = (len(str(max))-len(digits))*'0'+digits
+
+    if not target:
+        target = 'order'
+    # print(request.user.id)
+    # print(date.today().strftime("%A %d. %B %Y"))
+    # print(date.today().strftime("%d%m%Y"))
+    print(digits)
+
+    return f'{target}-{date.today().strftime("%d%m%Y")}-01-{digits}'
+
+
 def generate_ean13():
     from src.products.models import Barcode
     while True:

@@ -209,7 +209,7 @@ def documents_datatable_view(request):
         user__name=F('user__name'),
         customer__name=F('customer__name'),
         cash_register__name=F('cash_register__name'),
-        order__id=F('order__id'),
+        # order__id=F('order__id'),
         document_type__name=F('document_type__name'),
         warehouse__name=F('warehouse__name'),
     ).order_by("id")

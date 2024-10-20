@@ -85,7 +85,7 @@ class PosOrderItem(models.Model):
             print(digits)
             if target:
                 self.number = f'{target}-{self.user.id}-{date.today().strftime("%d%m%Y")}-01-{digits}'
-                
+
         self.order.update_items_subtotal()
 
         super(PosOrderItem, self).save(*args, **kwargs)

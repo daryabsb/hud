@@ -21,9 +21,10 @@ class Document(models.Model):
         CashRegister, on_delete=models.SET_NULL,
         null=True, blank=True, related_name="documents"
     )
-    order = models.ForeignKey(
-        PosOrder, on_delete=models.SET_NULL,
-        null=True, blank=True, related_name="documents")
+    order = models.OneToOneField(
+        PosOrder, on_delete=models.DO_NOTHING,
+        null=True, blank=True, related_name="document")
+
     document_type = models.ForeignKey(
         "DocumentType", on_delete=models.DO_NOTHING, related_name="documents"
     )
@@ -50,4 +51,3 @@ class Document(models.Model):
 
     def __str__(self):
         return f"{self.document_type.stock_direction} | {self.total}  | {self.number} | Pay status: {'Paid' if self.paid_status else 'Not Paid'}"
-

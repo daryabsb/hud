@@ -1,12 +1,13 @@
 from django.db import models
 from src.accounts.models import User, Customer
+from src.core.utils import generate_number
 from django.db.models import F, Sum, Case, When, Value
 
 
 class PosOrder(models.Model):
 
-    # number = models.CharField(
-    #     max_length=100, primary_key=True, db_index=True, unique=True)
+    number = models.CharField(
+        max_length=100, primary_key=True, db_index=True, unique=True)
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="orders")
     customer = models.ForeignKey(
@@ -40,28 +41,21 @@ class PosOrder(models.Model):
         ),
         output_field=models.CharField(max_length=20), db_persist=False,)
 
-    subtotal_after_discount =  models.GeneratedField(
+    subtotal_after_discount = models.GeneratedField(
         expression=F('item_subtotal') - F('discounted_amount'),
         output_field=models.DecimalField(
             decimal_places=3,  max_digits=15, default=0),
         db_persist=False)
 
-
-
-    # item_subtotal = models.GeneratedField(expression=Sum(F("items__subtotal")),
-    #                                       output_field=models.DecimalField(
-    #     max_digits=15, decimal_places=3
-    # ), db_persist=True,)
-    # subtotal_after_discount = models.DecimalField(
-    #     decimal_places=3,  max_digits=15, default=0)
     fixed_taxes = models.DecimalField(
         decimal_places=3,  max_digits=15, default=0)
 
     total_tax_rate = models.DecimalField(
         decimal_places=3,  max_digits=15, default=0)
 
-    total_tax =  models.GeneratedField(
-        expression=F('fixed_taxes') + F('subtotal_after_discount') * F('total_tax_rate') / 100,
+    total_tax = models.GeneratedField(
+        expression=F('fixed_taxes') + F('subtotal_after_discount') *
+        F('total_tax_rate') / 100,
         output_field=models.DecimalField(
             decimal_places=3,  max_digits=15, default=0),
         db_persist=False)
@@ -71,7 +65,7 @@ class PosOrder(models.Model):
         output_field=models.DecimalField(
             decimal_places=3,  max_digits=15, default=0),
         db_persist=False)
-    
+
     status = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
 
@@ -87,6 +81,8 @@ class PosOrder(models.Model):
 
     def save(self, *args, **kwargs):
         # if not self.pk:  # If the object is being created
+        if self.number is None or self.number == '':
+            self.number = generate_number('order')
         self.set_tax_fields()
         super().save(*args, **kwargs)
 
@@ -116,8 +112,7 @@ class PosOrder(models.Model):
         # Calculate the subtotal based on order items
 
         self.item_subtotal = sum(item.item_total for item in self.items.all())
-        
-        
+
         # customer_discounts = self.customer.discounts.all()
         # for discount in customer_discounts:
         #     if discount.type == 1:  # Percentage discount

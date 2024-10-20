@@ -2,6 +2,9 @@ from django.contrib import admin
 
 from src.orders.models import PosOrder
 
+
 @admin.register(PosOrder)
 class PosOrderAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('number', 'customer', 'discount',
+                    'discount_sign', 'discounted_amount', 'status', 'created')
+    ordering = ('-created', )

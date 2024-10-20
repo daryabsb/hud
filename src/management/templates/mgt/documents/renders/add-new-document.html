@@ -38,14 +38,16 @@
                     </div>
                 </div>
                 <div class="col-4 form-group row">
+                    <label for="staticEmail" class="col-sm-4 col-form-label text-end">{{ form.customer.label }}</label>
+                    <div class="col-sm-8">
+                        {{ form.customer }}
+                    </div>
+                </div>
+                <div class="col-4 form-group row">
                     <label for="staticEmail" class="col-sm-4 col-form-label text-end">{{ form.date.label }}</label>
                     <div class="col-sm-8">
                         {{ form.date }}
                     </div>
-                </div>
-                <div class="col-4 form-check form-switch">
-                    {{ form.paid_status }}
-                    <label class="form-check-label" for="customSwitch1">{{ form.paid_status.label }}</label>
                 </div>
                 <div class="col-4 form-group row">
                     <label for="staticEmail" class="col-sm-5 col-form-label">{{ form.reference_document_number.label }}</label>
@@ -65,11 +67,9 @@
                         {{ form.stock_date }}
                     </div>
                 </div>
-                <div class="col-4 form-group row">
-                    <label for="staticEmail" class="col-sm-5 col-form-label">{{ form.customer.label }}</label>
-                    <div class="col-sm-7">
-                        {{ form.customer }}
-                    </div>
+                <div class="col-4 form-check form-switch">
+                    {{ form.paid_status }}
+                    <label class="form-check-label" for="customSwitch1">{{ form.paid_status.label }}</label>
                 </div>
             </div>
             

@@ -145,6 +145,8 @@ def add_new_document_tab(request):
 
     if dt_id:
         document_type = get_object_or_404(DocumentType, id=dt_id)
+        form = DocumentCreateForm(
+            stock_direction=document_type.stock_direction)
 
     context = {
         "form": form,
