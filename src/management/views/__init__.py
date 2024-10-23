@@ -5,5 +5,10 @@ from .management_views import *
 from .stock_manager_views import *
 from .permissions_views import *
 from .mgt_modal_views import *
-from .mgt_documents_views import *
-from .mgt_document_items_views import *
+from .mgt.documents_views import *
+from .mgt.orders_views import *
+from .mgt.document_items_views import *
+
+# modals views
+from .modals.documents_modals import *
+from .modals.products_modals import *
