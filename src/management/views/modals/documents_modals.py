@@ -3,7 +3,7 @@ from decimal import Decimal
 from django.shortcuts import get_object_or_404, render
 from src.documents.models import DocumentCategory, DocumentType
 from src.documents.forms import DocumentFilterForm
-from src.documents.forms import DocumentCreateForm
+from src.documents.forms import DocumentCreateForm, AddDocumentItem
 from src.products.models import Product, ProductGroup
 from src.stock.models import StockControl
 from src.stock.forms import StockControlForm
@@ -49,6 +49,7 @@ def modal_select_document_type(request):
 
 def add_new_document_tab(request):
     ''' dt_id = document_type_id '''
+    
     form = DocumentCreateForm
     groups = ProductGroup.objects.all()
     products = Product.objects.all()
@@ -73,7 +74,6 @@ def add_new_document_tab(request):
 
 
 def add_new_document_product_details(request, product_id):
-    from src.documents.forms import DocumentCreateForm, AddDocumentItem
     stock_control = None
     customer = None
     product = None
