@@ -49,8 +49,10 @@ def modal_select_document_type(request):
 
 def add_new_document_tab(request):
     ''' dt_id = document_type_id '''
-    
-    form = DocumentCreateForm
+    from src.orders.forms import CreateSaleForm
+    from django.forms import model_to_dict
+
+    form = CreateSaleForm
     groups = ProductGroup.objects.all()
     products = Product.objects.all()
 
@@ -59,8 +61,12 @@ def add_new_document_tab(request):
 
     if dt_id:
         document_type = get_object_or_404(DocumentType, id=dt_id)
-        form = DocumentCreateForm(
-            stock_direction=document_type.stock_direction)
+        print("document_type = ", model_to_dict(document_type))
+        if document_type.stock_direction == 2:
+            form = CreateSaleForm()
+        else:
+            form = CreateSaleForm(
+                stock_direction=document_type.stock_direction)
 
     context = {
         "form": form,
@@ -143,4 +149,3 @@ def filter_document_type(request):
         "first_type": document_types.first()
     }
     return render(request, 'mgt/forms/document_type_select.html', context)
-

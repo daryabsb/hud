@@ -9,7 +9,8 @@ add_doc_item_htmx = {
     'hx-include': '#add-doc-create-item-form',
 }
 
-class CreateSaleForm(forms.ModelForm):
+
+class CreateSaleForm(forms.Form):
     number = forms.CharField(
         required=False, label='Number',
         initial=generate_number('order'),
@@ -50,6 +51,6 @@ class CreateSaleForm(forms.ModelForm):
                 'class': 'form-control form-control-sm',
                 'hx-trigger': 'keyup changed delay:500ms',
                 **add_doc_item_htmx
-                }
+            }
         )
     )
