@@ -65,7 +65,7 @@ def add_new_document_tab(request):
         if document_type.stock_direction == 2:
             form = CreateSaleForm()
         else:
-            form = CreateSaleForm(
+            form = DocumentCreateForm(
                 stock_direction=document_type.stock_direction)
 
     context = {

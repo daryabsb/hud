@@ -1,5 +1,5 @@
 from django.db import models
-from src.accounts.models import User, Customer
+from src.accounts.models import User, Customer, Warehouse
 from src.core.utils import generate_number
 from django.db.models import F, Sum, Case, When, Value
 
@@ -19,9 +19,20 @@ class PosOrder(models.Model):
     #     decimal_places=3,  max_digits=15, default=0)
     # total_tax = models.DecimalField(
     #     decimal_places=3,  max_digits=15, default=0)
+
+    warehouse = models.ForeignKey(
+        Warehouse, null=True, on_delete=models.DO_NOTHING,
+        related_name="orders"
+    )
+    date = models.DateTimeField(auto_now_add=True)
+    reference_document_number = models.CharField(
+        max_length=100, null=True, blank=True,)
+    internal_note = models.TextField(null=True, blank=True)
+    note = models.TextField(null=True, blank=True)
+    due_date = models.DateTimeField(auto_now_add=True)
+
     discount = models.FloatField(default=0)
     discount_type = models.FloatField(default=0)
-
     discounted_amount = models.GeneratedField(
         expression=Case(
             When(discount_type=1, then=F('item_subtotal')
@@ -66,7 +77,7 @@ class PosOrder(models.Model):
             decimal_places=3,  max_digits=15, default=0),
         db_persist=False)
 
-    status = models.BooleanField(default=False)
+    paid_status = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
 
     created = models.DateTimeField(auto_now_add=True)
