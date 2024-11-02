@@ -173,7 +173,7 @@ def mgt_documents_example(request):
 
     return render(request, 'mgt/documents/list3.html', context)
 
-
+@login_required
 def mgt_documents(request):
     filter = DocumentFilter(request.GET, queryset=Document.objects.all())
     form = DocumentFilter.form
