@@ -47,7 +47,7 @@ def get_fields(app_name):
     return [column.related_value if column.is_related else column.name for column in queryset]
 
 
-def generate_number(target=None):
+def generate_number(target=None, code=None):
     from datetime import date
     min = 100
     max = 3999
@@ -59,9 +59,11 @@ def generate_number(target=None):
     # print(request.user.id)
     # print(date.today().strftime("%A %d. %B %Y"))
     # print(date.today().strftime("%d%m%Y"))
-    print(digits)
 
-    return f'{target}-{date.today().strftime("%d%m%Y")}-01-{digits}'
+    if code:
+        code = f'{code}-'
+
+    return f'{target}-{code}{date.today().strftime("%d%m%Y")}-{digits}'
 
 
 def generate_ean13():
