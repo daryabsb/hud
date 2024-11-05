@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div id="content" class="app-content">
+	<div class="d-flex align-items-center mb-2">
+		<div>
+			<h1 class="page-header mb-0">Documents</h1>
+		</div>
+		<div class="ms-auto">
+			{% include 'mgt/buttons/add-document-button.html' %}
+		</div>
+	</div>
+    <div class="card flex-1 p-0 m-0 d-flex flex-column rounded-0" id="mgt-document-page">
+		<div class="card-header pb-0">
+			<ul class="nav nav-tabs border-0" id="mgt-documents-view-navlink">
+				<li class="nav-item me-1">
+					<a href="#mgt-documents-view-navlink" 
+						class="nav-link px-4 active" 
+						data-bs-toggle="tab"
+						id="view-document-tab"
+						>View list</a>
+				</li>
+			</ul>
+		</div>
+		<div class="tab-content" id="mgt-documents-tab-panes">
+			<div class="p-0 flex-1 tab-pane fade show active" id="mgt-documents-view-list">
+				<div class="file-manager h-100" id="fileManager">
+					<div class="row border">
+						{% include 'mgt/documents/partials/buttons-toolbar.html' %}
+						{% include 'mgt/documents/partials/filter-form.html' %} 
+					</div>
+				</div>
+				<div class="file-manager-content d-flex flex-column">	
+					{% include 'mgt/documents/partials/documents-table2.html' %}
+				</div>
+
+				<div class="file-manager h-100 border-top" id="fileManager">
+					<div class="file-manager-container overflow-auto">	
+						{% include 'mgt/documents/partials/documents-table3.html' %}
+					</div>
+				</div>
+			</div>
+		</div>
+        
+	
+		<div class="card-arrow">
+			<div class="card-arrow-top-left"></div>
+			<div class="card-arrow-top-right"></div>
+			<div class="card-arrow-bottom-left"></div>
+			<div class="card-arrow-bottom-right"></div>
+		</div>
+	</div>
+</div>
+
+
+{% endblock content %}
+
+{% block additional_js %}
+<script>
+	
+	var documentsTopButtons = document.createElement('div');
+	documentsTopButtons.innerHTML = `{% include 'documents/partials/top-buttons.html' %}`;
+
+    document.addEventListener('DOMContentLoaded', function () {
+			//$( '#id_product' ).select2( {
+				//theme: "light"
+				//theme: "bootstrap-5",
+				//dropdownCssClass: 'dropdown-menu'
+				//width: $( this ).data( 'width' ) ? $( this ).data( 'width' ) : $( this ).hasClass( 'w-100' ) ? '100%' : 'style',
+				//placeholder: $( this ).data( 'placeholder' ),
+			//} );
+			
+	renderDocumentsDataTable(
+		['documents-table','document-items-table'],
+		[
+			'{% url "mgt:documents-datatable-data" %}?datatables=1',
+			'{% url "mgt:document-items-datatable" %}?document-id=&datatables=1'
+		]
+		);
+	
+
+	
+    });
+</script>
+{% endblock additional_js %}

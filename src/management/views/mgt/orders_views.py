@@ -1,7 +1,13 @@
+
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render
 from src.documents.forms import DocumentCreateForm
 from src.documents.models import DocumentType
 from src.products.models import Product, ProductGroup
+from src.documents.models import Document
+from src.management.filters import DocumentFilterForm as DocumentFilter
+from src.management.views import DocumentSerializer
+
 
 '''
 cases:
@@ -9,6 +15,21 @@ cases:
 PURCHASE = supplier, items, dates (due, stock), external document, paid_status 
 SALE = customer, items, dates (due, stock), external document, paid_status 
 '''
+
+@login_required
+def mgt_orders(request):
+    filter = DocumentFilter(request.GET, queryset=Document.objects.all())
+    form = DocumentFilter.form
+    documents = Document.objects.all()
+
+    documents_dict = DocumentSerializer(documents, many=True)
+
+    context = {
+        'filter': filter,
+        'form': form,
+        'documents_dict': documents_dict,
+    }
+    return render(request, 'mgt/orders/list.html', context)
 
 
 def add_new_document_tab(request):

@@ -34,6 +34,11 @@ def run(*args):
     document_type = DocumentType.objects.get(id=dt)
     user = User.objects.first()
 
-    form = DocumentForm(initial={'document_type': document_type, 'user': user})
+    # form = DocumentForm(document_type=document_type,initial={'document_type': document_type, 'user': user})
+    form = DocumentForm(document_type=document_type, user=user)
 
+    # form.save(commit=False)
+    
+
+    # print('document_type = ', form['document_type'].value())
     print('Script is smooooth = ', int(args[0]))

@@ -69,6 +69,13 @@ urlpatterns += [
 ]
 
 
+# ORDER RELATED
+
+urlpatterns += [
+    path('orders/', views.mgt_orders, name='orders')
+]
+
+
 # MODALS URLS
 urlpatterns += [
     path('modal-add-group/', views.modal_add_group, name='modal-add-group'),

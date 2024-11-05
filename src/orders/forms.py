@@ -68,13 +68,15 @@ class DocumentForm(forms.ModelForm):
         # fields = '__all__'
 
     def __init__(self, *args, **kwargs):
-        # print(dir(self))
-        document_type = None
-        initial = kwargs.get('initial', None)
 
-        if initial:
-            document_type = initial.get('document_type')
+        document_type = kwargs.get('document_type', None)
+        user = kwargs.get('user', None)
+
+        # if initial:
+        #     document_type = initial.get('document_type')
         if document_type:
+            print('document_type_name = ', document_type.name)
+            print('user_name = ', user.name)
             # print(document_type.name)
 
             if document_type.category.id == 1:
