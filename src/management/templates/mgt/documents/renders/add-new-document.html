@@ -7,6 +7,7 @@
             id="view-document-tab"
             >View list</a>
     </li>
+    {% for nav_item in nav_items %}
     <li class="nav-item me-1" id="add-new-document-tab">
         <a href="#mgt-new-document" class="nav-link active" data-bs-toggle="tab"
         id="new-document-tab"
@@ -23,6 +24,7 @@
     >X</button>
     </a>
     </li>
+    {% endfor %}
 </ul>
 
 
