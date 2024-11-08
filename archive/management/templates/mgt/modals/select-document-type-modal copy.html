@@ -2,7 +2,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Add Order</h5>
+                <h5 class="modal-title">Add Document</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body overflow-y-auto" style="height: 20vh;">
@@ -50,11 +50,10 @@
                 data-bs-target="#modalAddDocument" data-bs-toggle="modal"
                 >Next</button> {% endcomment %}
                 <button class="btn btn-outline-theme" data-bs-dismiss="modal"
-                hx-get="{% url 'mgt:add-new-order-tab'  %}"
+                hx-get="{% url 'mgt:add-new-document-tab'  %}"
                 hx-target="#mgt-documents-tab-panes"
                 hx-swap="beforeend"
                 hx-include="#document-type-select"
-                hx-vals='{"nav-items":"{{ nav_items|length }}"}'
                 _="on click 
                 toggle .active on #mgt-documents-view-list
                 toggle .show on #mgt-documents-view-list

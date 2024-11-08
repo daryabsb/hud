@@ -1,0 +1,43 @@
+{% load widget_tweaks %}
+<div class="tab-pane fade" id="add-product-stock-control">
+    <div class="form-group row mb-3">
+        <label class="col-sm-2 col-form-label">Supplier</label>
+        {% include 'mgt/tabs/add-product/side-forms/customer-field.html' %}
+        <div class="col-sm-1 ">
+            <button
+                hx-trigger="click"
+                hx-get="{% url 'mgt:show-customer-form' %}"
+                hx-swap="innerHTML"
+                class="btn btn-outline-success" 
+                id="add-product-add-customer-button"
+                hx-target="#customer-form"
+                _="on click
+                    wait 1 seconds
+                    add @disabled to me"
+            >+</button>
+        </div>
+        <!-- _="on click set my value to null" -->
+    </div>
+    <div id="customer-form">
+        <!-- Customer form will be shown here -->
+    </div>
+    <div class="mb-2">
+        <label class="form-label">Reorder point</label>
+        {% render_field stock_control_form.reorder_point class="form-control" %}
+    </div>
+    <div class="mb-2">
+        <label class="form-label">Prefered quantity</label>
+        {% render_field stock_control_form.preferred_quantity class="form-control" %}
+    </div>
+    <div class="mb-3">
+        <div class="form-check form-switch mb-2">
+            {% render_field stock_control_form.is_low_stock_warning_enabled class="form-check-input" %}
+            <label class="form-check-label" for="customSwitch1">Low stock warning</label>
+        </div>
+    </div>
+    <div class="mb-2">
+        <label class="form-label">Low stock warning quantity</label>
+        {% render_field stock_control_form.low_stock_warning_quantity class="form-control" %}
+    </div>
+    <a href="#">Reset to default</a>
+</div>

@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div id="content" class="app-content d-flex flex-column">
+	<div class="d-flex align-items-center mb-3">
+		<div>
+			
+			<h1 class="page-header mb-0">Products</h1>
+		</div>
+		<div class="ms-auto">
+			{% comment %} _="on click toggle .active" {% endcomment %}
+			{% include 'mgt/buttons/add-product-button.html' %}
+		</div>
+	</div>
+	<div class="card flex-1 m-0 d-flex flex-column rounded-0">
+		<div class="card-header fw-bold small d-flex">
+				<ul class="breadcrumb flex-grow-1">
+					<li class="breadcrumb-item"><a href="/mgt/">MANAGEMENT</a></li>
+					<li class="breadcrumb-item active">PRODUCTS</li>
+				</ul>
+			<a href="#" data-toggle="card-expand" class="text-white text-opacity-50 text-decoration-none"><i
+				class="fa fa-fw fa-expand"></i> EXPAND</a>
+		</div>
+		<div class="card-body p-0 flex-1">
+			<div class="file-manager h-100" id="fileManager">
+				{% include 'mgt/products/partials/buttons-toolbar.html' %}
+				<div class="file-manager-container">
+					<div class="file-manager-sidebar">
+						<div class="file-manager-sidebar-mobile-toggler">
+							<button type="button" class="btn"
+								data-toggle-class="file-manager-sidebar-mobile-toggled"
+								data-toggle-target="#fileManager"><i class="far fa-lg fa-folder"></i></button>
+						</div>
+						<!-- mgt products sidebar -->
+						{% include 'mgt/products/partials/sidebar.html' %}
+					</div>
+					<div class="file-manager-content d-flex flex-column overflow-x-auto">
+						{% include 'mgt/products/partials/table-header.html' %} 
+						<div class="flex-1 h-100">
+							<div id="mgt-products-table" data-scrollbar="true" data-skip-mobile="true" class="p-0"  >
+							{% include 'mgt/products/partials/products-table.html' %}
+							</div>
+						</div>
+						{% comment %} <div class="border-top p-2">
+							<div class="d-md-flex align-items-center" style="height:2.8rem;"  id="mgt-products-table-pagination">
+								{% include 'mgt/products/partials/pagination.html' %}
+							</div>
+						</div> {% endcomment %}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="card-arrow">
+			<div class="card-arrow-top-left"></div>
+			<div class="card-arrow-top-right"></div>
+			<div class="card-arrow-bottom-left"></div>
+			<div class="card-arrow-bottom-right"></div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+
+{% comment %} 
+#add-doc-product-list
+ {% endcomment %}

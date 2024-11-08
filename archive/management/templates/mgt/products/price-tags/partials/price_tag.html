@@ -1,0 +1,63 @@
+<div class="price-tag" style="
+    background-color: {{ product.color }};
+    padding-left: {{ padding_left }}px;
+    padding-right: {{ padding_right }}px;
+    padding-top: {{ padding_top }}px;
+    padding-bottom: {{ padding_bottom }}px;
+    height: {{frame_height}}px;
+    width: {{ frame_width }}px;
+    display: flex;
+    flex-direction:column;
+    align-items: center;
+    box-sizing: border-box;
+    ">
+    
+    <div class="d-flex align-content-center align-items-center w-100 h-100 {% if is_preview %}border border-primary{% endif %}"> 
+        <div class="w-100 text-center">
+        {% if code_show and product.code %}
+        <div style="
+            font-size: {{code_font_size}}px;
+            font-weight: {{code_font_weight}};
+            color: {{code_font_color}};
+            margin-bottom: {{code_margin_bottom}}px;
+            "
+            class="text-center w-100 {% if is_preview %}border border-success{% endif %}"
+            >PRODUCT CODE: {{product.code}}</div>
+        {% endif %}
+        {% if name_show %}
+        <div style="
+            font-size: {{name_font_size}}px;
+            font-weight: {{name_font_weight}};
+            color: {{ name_font_color }};
+            margin-bottom: {{name_margin_bottom}}px;"
+            class="{% if is_preview %}border border-primary{% endif %}"
+            >{{ product.name }}</div>
+        {% endif %}
+        {% if price_show %}
+        <div style="
+            font-size: {{price_font_size}}px;
+            font-weight: {{price_font_weight}};
+            color: {{price_font_color}};
+            margin-bottom: {{price_margin_bottom}}px;"
+            class="{% if is_preview %}border border-primary{% endif %}"
+            >
+            <span>
+            {{product.price|floatformat:"0"}} IQD
+            </span>
+            {% if is_promoted %}
+            / 
+            <span><del>
+            {{product.price|floatformat:"0"}} IQD
+            </span>
+            {% endif %}
+            </div>
+        {% endif %}
+        {% if barcode_show %}
+        <div class="barcode w-100 {% if is_preview %}border border-success{% endif %}"
+        >
+            <img class="{% if is_preview %}border border-success{% endif %} object-fit-cover" style="width: {{barcode_width}}px; height:{{barcode_height}}px;" src="{{ product.barcode.image.url }}" alt="Barcode">
+        </div>
+        {% endif %}
+        </div>
+    </div>  
+</div>

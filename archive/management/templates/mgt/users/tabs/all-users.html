@@ -1,0 +1,130 @@
+{% load mgt_tags %}
+
+{% if users %}
+<div class="input-group mb-4">
+    <button class="btn btn-outline-default dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Filter products &nbsp;</button>
+    <div class="dropdown-menu">
+        <a class="dropdown-item" href="#">Action</a>
+        <a class="dropdown-item" href="#">Another action</a>
+        <a class="dropdown-item" href="#">Something else here</a>
+        <div role="separator" class="dropdown-divider"></div>
+        <a class="dropdown-item" href="#">Separated link</a>
+    </div>
+    <div class="flex-fill position-relative">
+        <div class="input-group">
+            <div class="input-group-text position-absolute top-0 bottom-0 bg-none border-0 pe-0" style="z-index: 1020;">
+                <i class="fa fa-search opacity-5"></i>
+            </div>
+            <input id="tpd" type="text" class="form-control active ps-35px" placeholder="Search products">
+        </div>
+    </div>
+</div>
+<div class="table-responsive" id="mgt-users">
+{% include 'mgt/users/partials/user-table.html' %}
+</div>
+
+
+
+
+{% comment %} <div class="accordion" id="accordionExample">
+	{% for item in list_permissions %}
+    <div class="accordion-item">
+		<h2 class="accordion-header" id="headingOne">
+			<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{item.app}}" aria-expanded="false">
+			{{item.app|title}}
+			</button>
+		</h2>
+		<div id="{{item.app}}" class="accordion-collapse collapse" data-bs-parent="#accordionExample" style="">
+			<div class="accordion-body">
+                <div class="list-group">
+                    {% for model_name in item.models %}
+                        <div class="list-group-item d-flex align-items-center">
+                            <div class="flex-fill">
+                                <div class="fw-bold">{{ model_name|title }}</div>
+                                <div class="small text-inverse text-opacity-50">last backup since yesterday</div>
+                            </div>
+                            <div>
+                               <div class="form-group mb-3">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                                        <label class="form-check-label" for="inlineCheckbox1">View</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" checked="">
+                                        <label class="form-check-label" for="inlineCheckbox2">Add</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" checked="">
+                                        <label class="form-check-label" for="inlineCheckbox2">Change</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" checked="">
+                                        <label class="form-check-label" for="inlineCheckbox2">Delete</label>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                           
+                        </div>
+                    {% endfor %}
+                </div>
+			</div>
+		</div>
+	</div>
+	{% endfor %}
+    <div class="accordion-item">
+		<h2 class="accordion-header" id="headingTwo">
+			<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false">
+			Accordion Item #2
+			</button>
+		</h2>
+		<div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample" style="">
+			<div class="accordion-body">
+				<strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+			</div>
+		</div>
+	</div>
+	
+    <div class="accordion-item">
+		<h2 class="accordion-header" id="headingThree">
+			<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false">
+			Accordion Item #3
+			</button>
+		</h2>
+		<div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample" style="">
+			<div class="accordion-body">
+				<strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+			</div>
+		</div>
+	</div>
+</div> {% endcomment %}
+
+
+
+
+
+
+
+
+
+
+
+
+{% if permissions|length > 10 %}
+<div class="d-md-flex align-items-center">
+    <div class="me-md-auto text-md-left text-center mb-2 mb-md-0">
+        Showing 1 to 10 of 57 entries
+    </div>
+    <ul class="pagination mb-0 justify-content-center">
+        <li class="page-item disabled"><a class="page-link">Previous</a></li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item active"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item"><a class="page-link" href="#">4</a></li>
+        <li class="page-item"><a class="page-link" href="#">5</a></li>
+        <li class="page-item"><a class="page-link" href="#">6</a></li>
+        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+    </ul>
+</div>
+{% endif %}
+{% endif %}

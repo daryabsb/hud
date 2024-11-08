@@ -98,7 +98,9 @@ urlpatterns += [
     path('modal-select-product-fields/', views.select_product_fields_to_export,
          name='modal-select-product-fields'),
     path('add-new-document-tab/', views.add_new_document_tab,
-         name='add-new-document-tab')
+         name='add-new-document-tab'),
+    path('add-new-order-tab/', views.add_new_order_tab,
+         name='add-new-order-tab'),
 ]
 
 # HTMX URLS

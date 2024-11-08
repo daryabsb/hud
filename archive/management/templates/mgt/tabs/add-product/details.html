@@ -1,0 +1,43 @@
+{% load widget_tweaks %}
+<div class="tab-pane fade show active" id="add-product-details">
+    <div class="mb-2">
+        <label class="form-label">Name</label>
+        {% render_field product_form.name class="form-control" %}
+    </div>
+    <div class="mb-2">
+        <label class="form-label">Code</label>
+        {% render_field product_form.code class="form-control" %}
+    </div>
+    <div class="mb-2" id="add-product-barcode-field">
+        {% include 'mgt/tabs/add-product/side-forms/barcode-field.html' %}
+    </div>
+    <div class="mb-2">
+        <label class="form-label">Unit of measurement</label>
+        {% render_field product_form.measurement_unit class="form-control" %}
+        <!-- _="on click set my value to null" -->
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Group</label>
+        {% render_field product_form.parent_group class="form-select" %}
+        <!-- _="on click set my value to null" -->
+    </div>
+    <div class="mb-3">
+        <div class="form-check form-switch mb-2">
+            {% render_field product_form.is_enabled class="form-check-input" %}
+            <label class="form-check-label" for="customSwitch1">Active</label>
+        </div>
+        <div class="form-check form-switch mb-2">
+            {% render_field product_form.is_using_default_quantity class="form-check-input" %}
+            <label class="form-check-label" for="customSwitch1">Default quantity</label>
+        </div>
+        <div class="form-check form-switch mb-2">
+            {% render_field product_form.is_service class="form-check-input" %}
+            <label class="form-check-label" for="customSwitch1">Service (not using stock)</label>
+        </div>
+    </div>
+    <div class="mb-2">
+        <label class="form-label">Age restriction</label>
+        {% render_field product_form.age_restriction class="form-control" %}
+        <!-- _="on click set my value to null" -->
+    </div>
+</div>

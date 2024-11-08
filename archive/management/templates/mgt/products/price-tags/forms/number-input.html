@@ -1,0 +1,38 @@
+{% if config.name == 'padding_left' or config.name == 'padding_right' %}
+<div class="d-flex gap-2 w-100px position-relative">
+    <button id="increase" type="button" class="position-absolute top-0 border-top border-theme border-theme-color p-0 h-30px w-40px btn btn-outline-theme rounded-0"
+    _="on click increment #pricetag-numberinput-{{ config.id }}.value">
+    <i class="fa fa-plus"></i>
+    </button>
+    <input type="number" name="{{ config.name }}" id="pricetag-numberinput-{{ config.id }}" readonly
+    class="form-control form-control-sm text-center border-theme border-theme-color p-0 ps-2 h-100px w-40px"
+    value="{{ config.value }}" {% if not config.editable %}disabled{% endif %}
+    _="on mousedown
+    halt the event -- prevent text selection... 
+    end" />
+    <button id="decrease" role="button" type="button" 
+        class="position-absolute p-0 h-30px w-40px bottom-0 border-top border-theme border-theme-color btn btn-outline-theme rounded-0 border-top"
+        _="on click if #pricetag-numberinput-{{config.id}}.value > 0 decrement #pricetag-numberinput-{{ config.id }}.value">
+    <i class="fa fa-minus"></i>
+    </button>
+</div>
+{% else %}
+<div class="d-flex gap-2 position-relative">
+    <button id="decrease" role="button" type="button" 
+            class="position-absolute p-0 h-100 text-center w-30px btn btn-outline-theme rounded-0"
+            _="on click if #pricetag-numberinput-{{config.id}}.value > 0 decrement #pricetag-numberinput-{{ config.id }}.value">
+        <i class="fa fa-minus"></i>
+    </button>
+    <input type="number" name="{{ config.name }}" id="pricetag-numberinput-{{ config.id }}" readonly
+            class="form-control form-control-sm ps-4 text-center border-theme border-theme-color w-100px"
+            value="{{ config.value }}" {% if not config.editable %}disabled{% endif %}
+            _="on mousedown
+            halt the event -- prevent text selection... 
+            end" />
+    <button id="increase" type="button" class="position-absolute p-0 end-0 h-100 w-30px btn btn-outline-theme rounded-0"
+            _="on click increment #pricetag-numberinput-{{ config.id }}.value">
+        <i class="fa fa-plus"></i>
+    </button>
+</div>
+{% endif %}
+

@@ -32,7 +32,7 @@ class DocumentSerializer(serializers.ModelSerializer):
 
 class ItemListView(ListView):
     model = Document
-    template_name = 'mgt/documents/dumps/list4.html'
+    template_name = 'mgt/documents/list4.html'
 
     def render_to_response(self, context, **response_kwargs):
         if self.request.GET.get("datatables"):
@@ -171,8 +171,7 @@ def mgt_documents_example(request):
     }
     print(request.GET)
 
-    return render(request, 'mgt/documents/dumps/list3.html', context)
-
+    return render(request, 'mgt/documents/list3.html', context)
 
 @login_required
 def mgt_documents(request):

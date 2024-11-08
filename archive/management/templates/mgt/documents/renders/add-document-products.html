@@ -1,0 +1,46 @@
+{% load mptt_tags %}
+<div class="file-manager-sidebar-content overflow-auto" id="mgt-products-sidebar">
+	<div class="overflow-auto mt-2">
+		<div class="file-tree overflow-auto h-400px">
+			<div class="list-group" id="add-doc-product-list">
+				{% for product in products %}
+				<a href="#" 
+					class="list-group-item list-group-item-action d-flex align-items-center text-inverse"
+                    hx-get="{% url 'mgt:add-document-product-modal' product.id %}"
+                    hx-target="#modalAddDocumentProduct"
+                    hx-vals='{"document_type": {{document_type.id}}}'
+                    data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal"
+
+					>
+					{% comment %} 
+						hx-push-url="true" hx-target="#mgt-products-table"
+						hx-swap="innerHTML"
+						_="on click
+						remove .text-warning from .file-icon
+						add .text-warning to #file-icon-{{ product.id }}
+						init add .text-warning to #file-icon-1
+						end" 
+					{% endcomment %}
+					<div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+						<img alt="" class="mw-100 mh-100" src="{{ product.img }}">
+					</div>
+					<input type="hidden" id="product-{{ product.id }}" value="{{ product.id }}" />
+					<div class="flex-fill ps-3 d-flex align-items-center">
+						<div class="fw-bold flex-fill">
+							{{ product.name }}
+						</div>
+						<i class="fa fa-circle text-success fs-7px ms-auto"></i>
+					</div>
+				</a>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</div>
+                {% comment %}  
+					set #selected-group.value to {{node.id}}
+					remove @disabled from #edit-group-button
+					remove @disabled from #delete-group-button
+				
+				" 
+				{% endcomment %}

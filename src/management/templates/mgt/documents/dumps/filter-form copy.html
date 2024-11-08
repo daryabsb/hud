@@ -1,0 +1,56 @@
+    {% load widget_tweaks static %}
+    <div class="col-12 row mt-3 p-3 border-top">
+        <div class="col-xl-11 d-flex flex-wrap gap-1">
+            
+                <div class="w-400px form-group row mb-0">
+                    <label for="documents-products" class="ps-4 col-sm-5 col-form-label">{{ form.product.label }}</label>
+                    <div class="col-sm-7"><div>{{ form.product }}</div></div>
+                </div>
+                <div class="w-400px form-group row mb-0">
+                    <label for="documents-products" class="ps-4 col-sm-5 col-form-label">{{ form.customer.label }}</label>
+                    <div class="col-sm-7"><div>{{ form.customer }}</div></div>
+                </div>
+                <div class="w-400px form-group row mb-0">
+                    <label for="documents-products" class="ps-4 col-sm-5 col-form-label">{{ form.cash_register.label }}</label>
+                    <div class="col-sm-7"><div>{{ form.cash_register }}</div></div>
+                </div>
+                <div class="w-400px form-group row">
+                    <label for="documents-products" class="ps-4 col-sm-5 col-form-label">{{ form.user.label }}</label>
+                    <div class="col-sm-7"><div>{{ form.user }}</div></div>
+                </div>
+                <div class="w-400px form-group row">
+                    <label for="documents-products" class="ps-4 col-sm-5 col-form-label">{{ form.document_type.label }}</label>
+                    <div class="col-sm-7"><div>{{ form.document_type }}</div></div>
+                </div>
+                <div class="w-400px form-group row">
+                    <label for="documents-products" class="ps-4 col-sm-5 col-form-label">{{ form.reference_document_number.label }}</label>
+                    <div class="col-sm-7"><div>{{ form.reference_document_number }}</div></div>
+                </div>
+                <div class="w-400px form-group row">
+                    <label for="documents-products" class="ps-4 col-sm-5 col-form-label">{{ form.paid_status.label }}</label>
+                    <div class="col-sm-7"><div>{{ form.paid_status }}</div></div>
+                </div>
+                <div class="w-400px form-group row">
+                    <label for="documents-products" class="ps-4 col-sm-5 col-form-label">{{ form.document_type.label }}</label>
+                    <div class="col-sm-7"><div>{{ form.document_type }}</div></div>
+                </div>
+                <div class="w-400px form-group row ">
+                    <label for="documents-products" class="ps-4 col-sm-5 col-form-label">
+                    {{ form.start_date.label }}</label>
+                    <div class="col-sm-7 d-flex gap-1">
+                        <div>{{ form.start_date }}</div>
+                        <div>-</div>
+                        <div>{{ form.end_date }}</div>
+                    </div>
+                </div>
+        </div>
+        <div class="col-xl-1">
+            <div class="col-xl-2 d-flex align-items-center align-content-center">
+                <div>
+                    <button type="button" class="btn border-0">
+                        <i class="fa fa-shopping-bag fa-4x"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>

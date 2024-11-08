@@ -1,0 +1,61 @@
+<div class=" w-100 mb-0 d-flex flex-wrap text-nowrap px-10px pt-10px pb-0">
+    <button type="button" class="btn btn-sm btn-default me-2 mb-10px px-2"><i
+        class="fa fa-fw fa-home"></i></button>
+    <button type="button" class="btn btn-sm btn-default me-2 mb-10px" disabled><i
+        class="fa fa-fw fa-arrow-turn-up ms-n1"></i> Up One Level</button>
+    <div class="btn-group me-2 mb-10px">
+        <button type="button" class="btn btn-sm btn-default"
+        id="table-page-back"
+        ><i
+            class="fa me-1 fa-arrow-left"></i> Back</button>
+        <button type="button" class="btn btn-sm btn-default"
+        id="table-page-next"
+        ><i
+            class="fa me-1 fa-arrow-right"></i> Next</button>
+    </div>
+    <button type="button" class="btn btn-sm btn-default me-2 mb-10px px-2"
+    id="reload-table"
+    ><i
+        class="fa fa-fw fa-arrows-rotate"></i></button>
+    <div class="btn-group me-2 mb-10px">
+        <button type="button" class="btn btn-sm btn-default"
+            _="on click set .product-select-checkbox.checked to true"
+            id="select-all"
+            ><i class="fa fa-fw fa-check ms-n1"></i> Select All</button>
+            <button type="button" class="btn btn-sm btn-default"
+            _="on click set .product-select-checkbox.checked to false"
+            id="deselect-all"
+            ><i
+                class="far fa-fw fa-square ms-n1"></i> Unselect All</button>
+        <div class="form-group row mx-4">
+            <label for="staticEmail" class="col-sm-6 col-form-label">Page size</label>
+            <div class="col-sm-6">
+                <select class="form-select form-select-inline"
+                    id="page-size"
+                    name="page-size"
+                    >
+                    {% comment %} {% for size in page_size_range %}
+                    <option value="{{ size }}" {% if size == page_size %}selected{% endif %}>{{ size }}</option>
+                    {% endfor %} {% endcomment %}
+                </select>
+            </div>
+        </div>  
+    </div>
+<div class="input-group">
+<select class="btn btn-outline-default">
+    {% for group in groups %}
+<option>{{ group.name }}</a></option>
+    {% empty %}
+    No groups
+    {% endfor %}
+</select>
+	<div class="flex-fill position-relative">
+		<div class="input-group">
+			<div class="input-group-text position-absolute top-0 bottom-0 bg-none border-0 pe-0" style="z-index: 1020;">
+				<i class="fa fa-search opacity-5"></i>
+			</div>
+			<input type="text" class="form-control ps-35px" placeholder="Search products" id="top-search">
+		</div>
+	</div>
+</div>
+</div>

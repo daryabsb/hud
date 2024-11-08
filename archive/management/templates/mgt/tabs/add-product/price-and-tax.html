@@ -1,0 +1,57 @@
+{% load widget_tweaks  mgt_tags %}
+<div class="tab-pane fade" id="add-product-price-and-tax">
+    <label class="form-label">Taxes <span class="badge badge-warning"
+    _="on mouseenter toggle *display of #product-tax-help until mouseleave"
+    >
+    <i class="far fa-lg fa-fw fa-question-circle"></i>
+    </span></label>
+    <!--
+        <button class="btn btn-outline-default is-add-button" id="add-tax-to-product-form-button"
+        hx-get="{% url 'mgt:append-product-tax-form' %}"
+        hx-target="#append-product-tax-form"
+        hx-include="#append-product-tax-form"
+        hx-swap="beforeend"
+            _="on click toggle my *display    
+            "
+        {% if product and product.productTaxes.exists %}style="display:none;"{% endif %}    
+            >Add tax to product</button>
+
+    <div class="mb-5" id="append-product-tax-form">
+
+    </div>
+        <div class="my-4" style="display:none;" id="product-tax-help">
+        <h6>Explanation:</h6>
+        <p>Here the explanation of the tax process happens</p>
+    </div>
+
+    <div>--------------------------------</div>
+    <div>--------------------------------</div>
+    -->
+    <div class="mb-3" id="product-tax-formset">
+        {% include 'mgt/tabs/add-product/side-forms/product-tax-formset.html' %}
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Cost</label>
+        {% render_field product_form.cost class="form-control" %}
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Markup (%)</label>
+        {% render_field product_form.margin class="form-control" %}
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Sale price</label>
+        {% render_field product_form.price class="form-control" %}
+    </div>
+    <div class="mb-3">
+        <div class="form-check form-switch mb-2">
+            {% render_field product_form.is_tax_inclusive_price class="form-check-input" %}
+            <label class="form-check-label" for="customSwitch1">Price include tax</label>
+        </div>
+        <div class="form-check form-switch mb-2">
+            {% render_field product_form.is_price_change_allowed class="form-check-input" %}
+            <label class="form-check-label" for="customSwitch1">Price change allowed</label>
+        </div>
+    </div>
+
+</div>

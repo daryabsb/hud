@@ -7,7 +7,7 @@
 			<h1 class="page-header mb-0">Documents</h1>
 		</div>
 		<div class="ms-auto">
-			{% include 'mgt/buttons/add-order-button.html' %}
+			{% include 'mgt/buttons/add-document-button.html' %}
 		</div>
 	</div>
     <div class="card flex-1 p-0 m-0 d-flex flex-column rounded-0" id="mgt-document-page">
@@ -29,7 +29,6 @@
 						{% include 'mgt/documents/partials/buttons-toolbar.html' %}
 						{% include 'mgt/documents/partials/filter-form.html' %} 
 					</div>
-
 				</div>
 				<div class="file-manager-content d-flex flex-column">	
 					{% include 'mgt/documents/partials/documents-table2.html' %}
@@ -52,6 +51,7 @@
 		</div>
 	</div>
 </div>
+
 
 {% endblock content %}
 

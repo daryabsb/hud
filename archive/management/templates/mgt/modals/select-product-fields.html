@@ -1,0 +1,41 @@
+{% load widget_tweaks globals %}
+<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<h3 class="modal-title">Select fields to export</h3>
+			<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+		</div>
+		<form
+			{% if target == 'csv' %}
+			action="{% url 'mgt:export-products-to-csv' %}"
+			{% elif target == 'excel' %}
+			action="{% url 'mgt:export-products-to-excel' %}"
+			{% endif %}
+			method="post"
+			class="modal-body">
+			{% csrf_token %}
+			<input type="hidden" name="product-ids" value="{{ product_ids }}" />
+			<div class="row mb-5">
+				<div class="col-md-12 mb-3">
+					<div class="row">
+						{% for field in fields %}
+						<div class="col-6 mb-2">
+							<input class="form-check-input" type="checkbox" name="selected-fields" value="{{ field }}" id="defaultCheck2" checked="">
+							<label class="form-check-label" for="defaultCheck2">{{ field|get_title:"_" }}</label>
+							</div>
+						{% endfor %}
+					</div>
+				
+				</div>
+				<div class="col-md-12">
+					<button 
+
+					type="submit"
+					class="btn btn-outline-theme btn-lg btn-block" 
+					data-bs-dismiss="modal"
+					>Confirm</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

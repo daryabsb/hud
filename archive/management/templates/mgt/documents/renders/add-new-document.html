@@ -1,0 +1,154 @@
+
+<ul class="nav nav-tabs border-0" id="mgt-documents-view-navlink" hx-swap-oob="true">
+    <li class="nav-item me-1">
+        <a href="#mgt-documents-view-list" 
+            class="nav-link px-4" 
+            data-bs-toggle="tab"
+            id="view-document-tab"
+            >View list</a>
+    </li>
+    {% for nav_item in nav_items %}
+    <li class="nav-item me-1" id="add-new-document-tab">
+        <a href="#mgt-new-document" class="nav-link active" data-bs-toggle="tab"
+        id="new-document-tab"
+        >New document
+    <button class="btn btn-sm btn-outline-theme"
+    _="on click
+                    remove #new-document-tab
+                    remove #mgt-new-document
+                    add .active to #view-document-tab
+                    add .active to #mgt-documents-view-list
+                    add .show to #mgt-documents-view-list
+                    end
+                    "
+    >X</button>
+    </a>
+    </li>
+    {% endfor %}
+</ul>
+
+
+<div class="p-0 tab-pane fade show active" id="mgt-new-document">
+    
+    <div id="add-new-document-form">
+        <div class="file-manager h-100">
+            <div class="row gap-2 p-4">
+                <div class="col-4 form-group row">
+                    <label for="staticEmail" class="col-sm-5 col-form-label">{{ form.number.label }}</label>
+                    <div class="col-sm-7">
+                        {{ form.number }}
+                    </div>
+                </div>
+                <div class="col-4 form-group row">
+                    <label for="staticEmail" class="col-sm-4 col-form-label text-end">{{ form.customer.label }}</label>
+                    <div class="col-sm-8">
+                        {{ form.customer }}
+                    </div>
+                </div>
+                <div class="col-4 form-group row">
+                    <label for="staticEmail" class="col-sm-4 col-form-label text-end">{{ form.date.label }}</label>
+                    <div class="col-sm-8">
+                        {{ form.date }}
+                    </div>
+                </div>
+                <div class="col-4 form-group row">
+                    <label for="staticEmail" class="col-sm-5 col-form-label">{{ form.reference_document_number.label }}</label>
+                    <div class="col-sm-7">
+                        {{ form.reference_document_number }}
+                    </div>
+                </div>
+                <div class="col-4 form-group row">
+                    <label for="staticEmail" class="col-sm-4 col-form-label text-end">{{ form.due_date.label }}</label>
+                    <div class="col-sm-8">
+                        {{ form.due_date }}
+                    </div>
+                </div>
+                <div class="col-4 form-group row">
+                    <label for="staticEmail" class="col-sm-4 col-form-label text-end">{{ form.stock_date.label }}</label>
+                    <div class="col-sm-8">
+                        {{ form.stock_date }}
+                    </div>
+                </div>
+                <div class="col-4 form-check form-switch">
+                    {{ form.paid_status }}
+                    <label class="form-check-label" for="customSwitch1">{{ form.paid_status.label }}</label>
+                </div>
+            </div>
+            
+                <div class="p-0 flex-1">
+                    <div class="file-manager pb-0">
+                        <div class="file-manager-toolbar border-start ps-2 pb-0">
+                            <ul class="nav nav-tabs border-0">
+                                <li class="nav-item me-1"><a href="#document-items" class="nav-link active" data-bs-toggle="tab">Document items</a></li>
+                                <li class="nav-item me-1"><a href="#document-payment" class="nav-link" data-bs-toggle="tab">Payment</a></li>
+                            </ul>
+                        </div>
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="document-items">
+                                <div class="row" style="min-height: 45vh;">
+                                    <div class="col-sm-3 h-100">
+                                        <div class="file-manager-sidebar-content">
+                                            <div data-scrollbar="true" data-height="100%" class="p-3">
+                                            <input type="hidden" id="document-type" name="document-type" value="{{ document_type.id }}" />
+                                                
+                                                    <div class="input-group flex-nowrap">
+                                                        sa
+                                                        <button 
+                                                            class="btn btn-outline-default dropdown-toggle" 
+                                                            type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                            <span class="d-none d-md-inline">ABC</span>
+                                                            <span class="d-inline d-md-none"><i class="fa fa-check"></i></span>
+                                                        </button>
+                                                        <div class="dropdown-menu dropdown-menu-end" style="">
+                                                            <a class="dropdown-item" href="#">Action</a>
+                                                            <a class="dropdown-item" href="#">Another action</a>
+                                                            <a class="dropdown-item" href="#">Something else here</a>
+                                                            <div role="separator" class="dropdown-divider"></div>
+                                                            <a class="dropdown-item" href="#">Separated link</a>
+                                                        </div>
+                                                        <input type="text" class="form-control form-control-sm" placeholder="Username">
+                                                        <span class="input-group-text">.com</span>
+                                                    </div>
+                                                
+                                                <div class="d-flex">
+                                                <select 
+                                                    name="product-filter-type" 
+                                                    class="form-select form-select-sm w-80px"
+                                                    id="product-filter-type" 
+                                                    >
+                                                    <option>###</option>
+                                                    <option>abc</option>
+                                                    <option>123</option>
+                                                <select>
+                                                <input 
+                                                type="text" 
+                                                class="form-control form-control-sm"
+                                                name="add-doc-product-filter"
+                                                hx-get="{% url 'mgt:add-doc-filter-products' %}"
+                                                hx-target="#mgt-products-sidebar"
+                                                hx-trigger="keyup changed delay:250ms"
+                                                hx-include="#document-type"
+                                                />
+                                                </div>
+                                                <div class="mb-3">
+                                                {% include 'mgt/documents/renders/add-document-products.html' %}
+                                            </div>
+                                        </div>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="pt-3 pe-4 col-sm-9 border-start d-flex flex-column overflow-x-auto">
+                                    {% include 'mgt/documents/renders/add-document-item-list.html' %}
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <div class="tab-pane fade" id="document-payment">
+                                <h6>Document payment</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>

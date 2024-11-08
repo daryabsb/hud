@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div id="content" class="app-content p-0">
+	<div class="d-block d-md-flex align-items-stretch h-100">
+		<div class="gallery-menu-container">
+			<div data-scrollbar="true" data-height="100%" data-skip-mobile="true">
+				<div class="gallery-menu">
+					<div class="p-3 d-flex align-items-center">
+						<a href="javascript:window.history.back();"
+							class="btn btn-outline-default text-nowrap btn-sm px-3 rounded-pill"><i
+								class="fa fa-arrow-left me-1 ms-n1"></i> Back</a>
+					</div>
+					<div class="gallery-menu-header">Main</div>
+					<div class="gallery-menu-item"><a href="#" class="gallery-menu-link active"><i
+								class="fa fa-fw fa-image me-1"></i> Photos</a></div>
+					<div class="gallery-menu-item"><a href="#" class="gallery-menu-link"><i
+								class="fa fa-fw fa-heart me-1"></i> Memories</a></div>
+					<div class="gallery-menu-header">Shared</div>
+					<div class="gallery-menu-item"><a href="#" class="gallery-menu-link"><i
+								class="fa fa-fw fa-cloud me-1"></i> Activity</a></div>
+					<div class="gallery-menu-header">Albums</div>
+					<div class="gallery-menu-item"><a href="#" class="gallery-menu-link"><i
+								class="fa fa-fw fa-camera me-1"></i> All Photos</a></div>
+					<div class="gallery-menu-item"><a href="#" class="gallery-menu-link"><i
+								class="fa fa-fw fa-user me-1"></i> People</a></div>
+					<div class="gallery-menu-item"><a href="#" class="gallery-menu-link"><i
+								class="fa fa-fw fa-map-pin me-1"></i> Places</a></div>
+					<div class="gallery-menu-item"><a href="#" class="gallery-menu-link"><i
+								class="fa fa-fw fa-camera-retro me-1"></i> Selfies</a></div>
+					<div class="gallery-menu-item"><a href="#" class="gallery-menu-link"><i
+								class="fa fa-fw fa-video me-1"></i> Panaromas</a></div>
+					<div class="gallery-menu-item"><a href="#" class="gallery-menu-link"><i
+								class="fa fa-fw fa-star me-1"></i> Depth Effect</a></div>
+					<div class="gallery-menu-item"><a href="#" class="gallery-menu-link"><i
+								class="fa fa-fw fa-mobile me-1"></i> Screenshots</a></div>
+				</div>
+			</div>
+		</div>
+		<div class="gallery-content-container">
+			<div data-scrollbar="true" data-height="100%">
+				<div class="gallery-content">
+					{% for group in groups %}
+					{% if group.products.count > 0 %}
+					<div class="gallery">
+						<div class="d-flex align-items-center mb-3">
+							<div class="gallery-title mb-0">
+								<a href="#">
+									{{ group.name }} <i class="fa fa-chevron-right"></i>
+									<small>{{ group.products.count }} Products</small>
+								</a>
+							</div>
+							<div class="ms-auto btn-group">
+								<a href="#" class="btn btn-outline-default btn-sm"><i
+										class="fa fa-play"></i></a>
+								<a href="#" class="btn btn-outline-default btn-sm"><i
+										class="fa fa-plus"></i></a>
+								<a href="#" class="btn btn-outline-default btn-sm"><i
+										class="fa fa-upload"></i></a>
+							</div>
+						</div>
+						<div class="gallery-image">
+							<ul class="gallery-image-list">
+								<li><a href="javascript:;" >
+								{% for image in images %}
+							</a></li>
+								{% comment %} <li><a href="javascript:;" >{{image}}</a></li>
+								<li><a href="javascript:;" >product.name</a></li>{% endcomment %}
+								<li><a href="javascript:;" data-pswp-src="{{image}}"
+									data-pswp-width="752" data-pswp-height="502"><img
+										src="{{image}}" alt="product.name"
+										class="img-portrait"></a></li> 
+										{% endfor %}	
+										<li><a href="javascript:;" data-pswp-src="{{barcode}}"
+											data-pswp-width="752" data-pswp-height="502"><img
+												src="{{barcode}}" alt="product.name"
+												class="img-portrait"></a></li> 
+								{% comment %} {% for product in group.products.all %}
+								<li><a href="javascript:;" data-pswp-src="{{ product.image.url }}"
+										data-pswp-width="752" data-pswp-height="502"><img
+											src="{{ product.image.url }}" alt="{{ product.name }}"
+											class="img-portrait"></a></li>
+								{% endfor %} {% endcomment %}
+
+							</ul>
+						</div>
+					</div>
+					{% endif %}
+					{% endfor %}
+					<div class="gallery">
+						<div class="d-flex align-items-center mb-3">
+							<div class="gallery-title mb-0">
+								<a href="#">
+									Collections #339 <i class="fa fa-chevron-right"></i>
+									<small>May 8, 2024</small>
+								</a>
+							</div>
+							<div class="ms-auto btn-group">
+								<a href="#" class="btn btn-outline-default btn-sm"><i
+										class="fa fa-play"></i></a>
+								<a href="#" class="btn btn-outline-default btn-sm"><i
+										class="fa fa-plus"></i></a>
+								<a href="#" class="btn btn-outline-default btn-sm"><i
+										class="fa fa-upload"></i></a>
+							</div>
+						</div>
+						<div class="gallery-image">
+							<ul class="gallery-image-list">
+								<li><a href="javascript:;" data-pswp-src="{% static 'app/img/gallery/gallery-21.jpg' %}"
+										data-pswp-width="752" data-pswp-height="564">
+										<img
+											src="{% static 'app/img/gallery/gallery-21.jpg' %}"
+											alt="Collection #145 Image 1"></a></li>
+								<li><a href="javascript:;" data-pswp-src="{% static 'app/img/gallery/gallery-22.jpg' %}"
+										data-pswp-width="752" data-pswp-height="564"><img
+											src="{% static 'app/img/gallery/gallery-22.jpg' %}"
+											alt="Collection #145 Image 2"></a></li>
+								<li><a href="javascript:;" data-pswp-src="{% static 'app/img/gallery/gallery-23.jpg' %}"
+										data-pswp-width="752" data-pswp-height="486"><img
+											src="{% static 'app/img/gallery/gallery-23.jpg' %}"
+											alt="Collection #145 Image 3" class="img-portrait"></a></li>
+								<li><a href="javascript:;" data-pswp-src="{% static 'app/img/gallery/gallery-24.jpg' %}"
+										data-pswp-width="752" data-pswp-height="564"><img
+											src="{% static 'app/img/gallery/gallery-24.jpg' %}"
+											alt="Collection #145 Image 4"></a></li>
+								<li><a href="javascript:;" data-pswp-src="{% static 'app/img/gallery/gallery-25.jpg' %}"
+										data-pswp-width="752" data-pswp-height="1128"><img
+											src="{% static 'app/img/gallery/gallery-25.jpg' %}"
+											alt="Collection #145 Image 5"></a></li>
+								<li><a href="javascript:;" data-pswp-src="{% static 'app/img/gallery/gallery-26.jpg' %}"
+										data-pswp-width="752" data-pswp-height="564"><img
+											src="{% static 'app/img/gallery/gallery-26.jpg' %}"
+											alt="Collection #145 Image 6"></a></li>
+								<li><a href="javascript:;" data-pswp-src="{% static 'app/img/gallery/gallery-27.jpg' %}"
+										data-pswp-width="752" data-pswp-height="502"><img
+											src="{% static 'app/img/gallery/gallery-27.jpg' %}"
+											alt="Collection #145 Image 7" class="img-portrait"></a></li>
+								<li><a href="javascript:;" data-pswp-src="{% static 'app/img/gallery/gallery-28.jpg' %}"
+										data-pswp-width="752" data-pswp-height="564"><img
+											src="{% static 'app/img/gallery/gallery-28.jpg' %}"
+											alt="Collection #145 Image 8"></a></li>
+								<li><a href="javascript:;" data-pswp-src="{% static 'app/img/gallery/gallery-29.jpg' %}"
+										data-pswp-width="752" data-pswp-height="1128"><img
+											src="{% static 'app/img/gallery/gallery-29.jpg' %}"
+											alt="Collection #145 Image 9"></a></li>
+								<li><a href="javascript:;" data-pswp-src="{% static 'app/img/gallery/gallery-30.jpg' %}"
+										data-pswp-width="752" data-pswp-height="940"><img
+											src="{% static 'app/img/gallery/gallery-30.jpg' %}"
+											alt="Collection #145 Image 10"></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+{% endblock content %}
+{% block additional_js %}
+
+
+
+{% endblock additional_js %}

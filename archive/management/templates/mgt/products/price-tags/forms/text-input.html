@@ -1,0 +1,8 @@
+{% if config.input_type == 'text' and config.params == 'color' %}
+    <input type="text" name="{{ config.name }}" class="form-control form-control-sm" style="max-width: 5rem;"
+        data-jscolor="" 
+        value="{{ config.value|default:'' }}" {% if not config.editable %}disabled{% endif %}>
+{% elif config.input_type == 'text' %}
+    <input type="text" name="{{ config.name }}" class="form-control form-control-sm" style="max-width: 5rem;"
+        value="{{ config.value|default:'' }}" {% if not config.editable %}disabled{% endif %}>
+{% endif %}

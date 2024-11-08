@@ -1,0 +1,92 @@
+    {% if groups_permissions %}
+    <table class="table table-hover text-nowrap">
+        <thead>
+            <tr>
+                <th class="pt-0 pb-2"></th>
+                <th class="pt-0 pb-2">Group Name</th>
+                <th class="pt-0 pb-2">User Count</th>
+                <th class="pt-0 pb-2">Permission Count</th>
+                <th class="pt-0 pb-2"></th>
+            </tr>
+        </thead>
+        <tbody class="accordion" id="accordionExample03">
+            {% for permission in groups_permissions %}
+            <tr>
+                <td class="w-10px align-middle">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" name="{{permission.group.id}}">
+                        <label class="form-check-label" for="{{permission.group.id}}"></label>
+                    </div>
+                </td>
+                <td>
+                    <div class="d-flex align-items-center">
+                        <div class="ms-3">
+                            <a href="page_product_details.html" class="text-inverse text-opacity-75 text-decoration-none">{{ permission.group.name }}</a>
+                        </div>
+                    </div>
+                </td>
+                <td class="align-middle">{{ permission.group.user_set.count }}</td>
+                <td class="align-middle">{{ permission.group.permissions.count }}</td>
+                <td class="align-middle">
+                <button class="btn accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{permission.group.id}}" aria-expanded="false">
+			        Permissions
+                </button>
+                </td>
+            </tr>
+            <tr id="{{permission.group.id}}" class="accordion-collapse collapse" data-bs-parent="#accordionExample03" style="">
+            <td colspan="5">
+                <form hx-post="{% url 'mgt:update-group-permissions' %}" hx-target="#mgt-groups">
+                    <input type="hidden" name="group-id" value="{{permission.group.id}}" />
+                    
+                    <table class="table">
+                        <caption>
+                            <button type="submit" class="btn btn-outline-theme align-self-end">Save</button>
+                            <div class="mx-5"><div  id="check-response"></div></div>
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">model</th>
+                                <th scope="col">Actions</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for perm in permission.list_permissions %}
+                            <tr>
+                                <td colspan="4">{{ perm.app_label|title }}</td>
+                            </tr>
+                            {% for item in perm.models %}
+                            <tr>
+                                <th scope="row">#</th>
+                                <td scope="col">{{ item.model|title }}</td>
+                                <td scope="col">
+                                <div class="form-group mb-3">
+                                {% for action in item.actions %}
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" 
+                                        type="checkbox" 
+                                        id="checkbox-{{action.name}}_{{item.model}}" 
+                                        name="permissions"
+                                        value="{{action.name}}_{{item.model}}_{{perm.app_label}}"
+                                        {% if action.state %}checked{% endif %}>
+                                        <label class="form-check-label" for="inlineCheckbox1">{{ action.name }}</label>
+                                    </div>
+                                {% endfor %}
+                                </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </form>
+            </td>
+            {% comment %} <td colspan="2"></td> <td >Tax</td> <td colspan="3">nazanm chi nazanm chi nazanm chi nazanm chi</td> {% endcomment %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <h3> There no group to show here!
+    {% endif %}

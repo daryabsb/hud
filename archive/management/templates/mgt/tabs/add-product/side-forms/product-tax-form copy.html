@@ -1,0 +1,61 @@
+{% if form.instance and form.instance.id %}
+<div class="form-group row mb-3" id="id_form-0-tax-{{ form.instance.id }}">
+        {% include 'mgt/tabs/add-product/side-forms/product-tax-field.html' %}
+        
+        <div class="col-sm-1 has-button">
+            {% comment %} <input type="hidden" id="product-id" name="product-id" value="{{ product.id }}" /> {% endcomment %}
+            <button
+                hx-get="{% url 'mgt:add-to-producttax-formset' %}"
+                hx-target="#product-tax-formset"
+                hx-include="#product-id"
+                class="btn btn-outline-success is-button" 
+                id="add-product-add-customer-button"
+                my-form-id="{{ form.instance.id }}"
+                {% if max_forms == product_tax_formset|length %}disabled{% endif %}
+                
+            >+</button>
+        </div>
+        <div class="col-sm-1 ">
+            <button class="btn btn-outline-theme{% if forloop.counter == 1 %} is-first-set{% endif %}" id="cancel-add-producttax-form-{{ tax.id}}"
+            hx-post="{% url 'mgt:delete-product-tax' %}"
+            hx-target="#product-tax-formset"
+            hx-vals='{
+                "product_tax_id": "{{ form.instance.id }}",
+                "product-id": "{{ product.id }}"
+                }'
+            >-</button>
+        </div>
+    </div>
+{% else %}
+    <div class="form-group row mb-3" id="id_form-0-tax-null">
+        {% include 'mgt/tabs/add-product/side-forms/product-tax-field.html' %}
+        <div class="col-sm-1 has-button">
+            {% comment %} <input type="hidden" id="product-id" name="product-id" value="{{ product.id }}" /> {% endcomment %}
+            <button
+                hx-get="{% url 'mgt:add-to-producttax-formset' %}"
+                hx-target="#product-tax-formset"
+                hx-include="#product-id"
+                class="btn btn-outline-success is-button-null" 
+                id="add-product-add-customer-button"
+                my-form-id="{{ tax.id }}"
+                {% if max_forms == product_tax_formset|length %}disabled{% endif %}
+                
+            >+</button>
+        </div>
+        <div class="col-sm-1 ">
+            <button class="btn btn-outline-theme{% if forloop.counter == 1 %} is-first-set{% endif %}" id="cancel-add-producttax-form-{{ tax.id}}"
+            _="on click
+                remove #id_form-0-tax-null
+                toggle *display of the #add-tax-to-product-form-button  
+                toggle @disabled on the last .is-button
+                end
+                "
+                >-</button>
+            </div>
+        </div>
+        <!--if I match .is-first-set
+            then 
+                alert('I am the first')
+        else 
+        end --> 
+{% endif %}

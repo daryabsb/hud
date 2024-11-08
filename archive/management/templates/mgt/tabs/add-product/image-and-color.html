@@ -1,0 +1,29 @@
+{% load widget_tweaks %}
+<div class="tab-pane fade" id="add-product-image-and-color">
+    <div class="mb-3">
+        <label class="form-label">Color</label>
+        {% render_field product_form.color class="form-control"  %}
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Image</label>
+        {% render_field product_form.image class="form-control"  %}
+        <a href="#"
+        _=" on click
+            set #id_image.value to null    
+        "
+        >Remove image</a>
+    </div>
+    {% if product and product.image %}
+    <div class="mb-3">
+        <img src="{{ product.image.url }}" alt="Product Image" style="max-width: 200px;">
+    </div>
+    {% endif %}
+
+</div>
+
+
+
+<script>
+
+</script>

@@ -1,0 +1,27 @@
+
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Document</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body overflow-y-auto" style="height: 20vh;">
+                <div class="mb-3 row">
+                    <div class="col-3">
+                        <h6>Add Document</h6>
+                    </div>
+                    <div class="col-9">
+                        <h6>Add document items</h6>
+                        </div>
+                    
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-outline-default" data-bs-dismiss="modal">Cancel</a>
+                <button class="btn btn-outline-theme" data-bs-dismiss="modal"
+                hx-get="{% url 'mgt:add-document' %}"
+                hx-target=""
+                >Next</button>
+            </div>
+        </div>
+    </div>

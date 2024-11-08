@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div id="content" class="app-content py-3">
+	<div class="d-flex align-items-center mb-2">
+		<div>
+			
+			<h1 class="page-header mb-0">Documents</h1>
+		</div>
+		<div class="ms-auto">
+			{% comment %} _="on click toggle .active" {% endcomment %}
+			{% include 'mgt/buttons/add-product-button.html' %}
+		</div>
+	</div>
+    <div class="card flex-1 m-0 d-flex flex-column rounded-0">
+        {% comment %} <div class="card-header fw-bold small d-flex">
+            <ul class="breadcrumb flex-grow-1">
+                <li class="breadcrumb-item"><a href="/mgt/">MANAGEMENT</a></li>
+                <li class="breadcrumb-item active">PRODUCTS</li>
+            </ul>
+			<a href="#" data-toggle="card-expand" class="text-white text-opacity-50 text-decoration-none"><i
+				class="fa fa-fw fa-expand"></i> EXPAND</a>
+		</div> {% endcomment %}
+        <div class="card-body p-0 flex-1">
+            <div class="file-manager h-100" id="fileManager">
+				<div class="row border">
+                {% include 'mgt/documents/partials/buttons-toolbar.html' %}
+                {% include 'mgt/documents/partials/filter-form.html' %} 
+				    {% comment %}<div class="col-12 row mt-2 px-2 border-top">
+						<div class="h-100 text-center">
+						 <h6 class="mt-2 ms-2">Filter Documents</h6>
+						<select class="form-select form-select-sm" id="basic-usage" data-placeholder="Choose one thing">
+							<option></option>
+							<option>Reactive</option>
+							<option>Solution</option>
+							<option>Conglomeration</option>
+							<option>Algoritm</option>
+							<option>Holistic</option>
+						</select> 
+						
+						<div class="col-xl-12 d-flex flex-wrap gap-2 ms-2 p-2" id="table-forms">
+						</div>
+					</div>{% endcomment %}
+		</div>
+				</div>
+				<div class="file-manager-content d-flex flex-column">	
+					{% comment %} <div class="mb-0 d-flex flex-wrap text-nowrap px-10px pt-10px pb-0 border-bottom">
+						<button type="button" class="btn btn-sm btn-default me-2 mb-10px px-2"><i class="fa fa-fw fa-home"></i></button>
+						<button type="button" class="btn btn-sm btn-default me-2 mb-10px" disabled=""><i class="fa fa-fw fa-arrow-turn-up ms-n1"></i> Up One Level</button>
+						<div class="btn-group me-2 mb-10px">
+							<button type="button" class="btn btn-sm btn-default" id="documents-table-paging-previous"><i class="fa me-1 fa-arrow-left"></i> Back</button>
+							<button type="button" class="btn btn-sm btn-default" id="documents-table-paging-next"><i class="fa me-1 fa-arrow-right"></i> Forward</button>
+						</div>
+						<button type="button" class="btn btn-sm btn-default me-2 mb-10px px-2"><i class="fa fa-fw fa-arrows-rotate"></i></button>
+						<div class="btn-group me-2 mb-10px">
+							<button type="button" class="btn btn-sm btn-default" id="documents-table-select-all"><i class="fa fa-fw fa-check ms-n1"></i> Select All</button>
+							<button type="button" class="btn btn-sm btn-default" id="documents-table-deselect-all"><i class="far fa-fw fa-square ms-n1"></i> Unselect All</button>
+						</div>
+					</div> {% endcomment %}
+					{% comment %} <table id="documents-table" class="display" width="100%"></table> {% endcomment %}
+					{% include 'mgt/documents/partials/documents-table2.html' %}
+				</div>
+			</div>
+            <div class="file-manager h-100 border-top" id="fileManager">
+				<div class="file-manager-container overflow-auto">	
+					{% comment %} <table id="documents-table" class="display" width="100%"></table> {% endcomment %}
+					{% include 'mgt/documents/partials/documents-table3.html' %}
+				</div>
+			</div>
+        </div>
+		<div class="card-arrow">
+			<div class="card-arrow-top-left"></div>
+			<div class="card-arrow-top-right"></div>
+			<div class="card-arrow-bottom-left"></div>
+			<div class="card-arrow-bottom-right"></div>
+		</div>
+    </div>
+	<input type="hidden" id="documents-dist" value="{{ documents_dict }}" />
+</div>
+{% endblock content %}
+
+{% block additional_js %}
+<script>
+	var documentsTopButtons = document.createElement('div');
+	documentsTopButtons.innerHTML = `{% include 'mgt/documents/partials/top-buttons.html' %}`;
+
+    document.addEventListener('DOMContentLoaded', function () {
+			//$( '#id_product' ).select2( {
+				//theme: "light"
+				//theme: "bootstrap-5",
+				//dropdownCssClass: 'dropdown-menu'
+				//width: $( this ).data( 'width' ) ? $( this ).data( 'width' ) : $( this ).hasClass( 'w-100' ) ? '100%' : 'style',
+				//placeholder: $( this ).data( 'placeholder' ),
+			//} );
+			
+	renderDocumentsDataTable(
+		['documents-table','document-items-table'],
+		[
+			'{% url "mgt:documents-datatable-data" %}?datatables=1',
+			'{% url "mgt:document-items-datatable" %}?document-id=&datatables=1'
+		]
+		);
+	
+
+	
+    });
+</script>
+{% endblock additional_js %}

@@ -1,0 +1,33 @@
+{% load widget_tweaks %}
+<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<h3 class="modal-title">Delete product group ({{ product.name }})!</h3>
+			<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+		</div>
+		<form
+			hx-post="{% url 'mgt:delete-product' %}"
+			hx-target="#mgt-products-table"
+			class="modal-body">
+			<input type="hidden" name="delete-product-id" value="{{ product.id }}" />
+			<p class="mb-3">
+				You are about to delete a product from the system<br>
+				If you are sure, enter password and click confirm!
+			</p>
+			<div class="row mb-5">
+				<div class="col-md-9">
+					{{ form.password|attr:"class:form-control form-control-lg"|attr:"_:on keyup wait 2seconds remove @disabled from #confirm-delete-product-button"}}
+				
+				</div>
+				<div class="col-md-3">
+					<button 
+						type="submit" 
+						class="btn btn-outline-theme btn-lg btn-block" 
+						id="confirm-delete-product-button"
+					 	data-bs-dismiss="modal"
+					>Confirm</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

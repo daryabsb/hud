@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div id="content" class="app-content py-3">
+	<div class="d-flex align-items-center mb-3">
+		<div>
+			
+			<h1 class="page-header mb-0">Documents</h1>
+		</div>
+		<div class="ms-auto">
+			{% comment %} _="on click toggle .active" {% endcomment %}
+			{% include 'mgt/buttons/add-product-button.html' %}
+		</div>
+	</div>
+    <div class="card flex-1 m-0 d-flex flex-column rounded-0">
+        <div class="card-header fw-bold small d-flex">
+            <ul class="breadcrumb flex-grow-1">
+                <li class="breadcrumb-item"><a href="/mgt/">MANAGEMENT</a></li>
+                <li class="breadcrumb-item active">PRODUCTS</li>
+            </ul>
+			<a href="#" data-toggle="card-expand" class="text-white text-opacity-50 text-decoration-none"><i
+				class="fa fa-fw fa-expand"></i> EXPAND</a>
+		</div>
+        <div class="card-body p-0 flex-1">
+            <div class="file-manager h-100" id="fileManager">
+                {% include 'mgt/documents/partials/buttons-toolbar.html' %}
+                
+				
+				<div class="file-manager-container">
+                {% include './partials/example-datatable.html' %}
+                </div>
+            </div>
+        </div>
+		<div class="card-arrow">
+			<div class="card-arrow-top-left"></div>
+			<div class="card-arrow-top-right"></div>
+			<div class="card-arrow-bottom-left"></div>
+			<div class="card-arrow-bottom-right"></div>
+		</div>
+    </div>
+	<input type="hidden" id="documents-dist" value="{{ documents_dict }}" />
+</div>
+{% endblock content %}

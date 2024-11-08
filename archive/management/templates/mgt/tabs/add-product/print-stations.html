@@ -1,0 +1,41 @@
+{% load widget_tweaks %}
+<div class="tab-pane fade" id="add-product-print-stations">
+    <div class="card mb-3" id="add-product-print-station-warning">
+        <div class="card-header fw-bold text-warning">Warning</div>
+        <div class="widget-reminder">
+            <div class="widget-reminder-item">
+                <div class="widget-reminder-time">
+                    <div class="w-100 h-100 d-flex align-items-center justify-content-center h1">
+                        <i class="fas fa-lg fa-fw me-2 fa-info-circle"></i>
+                    </div>
+                </div>
+                <div class="widget-reminder-divider bg-danger"></div>
+                <div class="widget-reminder-content">
+                    <div class="fw-bold">Your license is expired, you need to get a proper license to use this feature!</div>
+                    <div class="d-flex align-items-center fs-13px mt-2">
+                        <a href="#" 
+                        _="on click 
+                            wait 2 seconds
+                            toggle *display of #add-product-print-station-warning
+                            remove @disabled from #id_print_station
+                        "
+                        class="ms-auto">Get License</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <!-- card-arrow -->
+        <div class="card-arrow">
+            <div class="card-arrow-top-left"></div>
+            <div class="card-arrow-top-right"></div>
+            <div class="card-arrow-bottom-left"></div>
+            <div class="card-arrow-bottom-right"></div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Print station</label>
+        {% render_field product_printstation_form.print_station class="form-select" disabled="true" %}
+        <!-- _="on click set my value to null" -->
+    </div>
+</div>
