@@ -69,17 +69,16 @@ class DocumentForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        print('self.fields = ', self.fields)
 
         # Get initial document_type if available
-        document_type = self.initial.get(
-            'document_type', self.instance.document_type if self.instance else None)
+        document_type = self.initial.get('document_type', None)
 
+        print('document_type = ', document_type)
         # Adjust customer field based on document_type
-        if document_type == 'sale':
+        if document_type.category.id == 1:
             self.fields['customer'].queryset = Customer.objects.filter(
                 is_customer=True)
-        elif document_type == 'purchase':
+        elif document_type.category.id == 2:
             self.fields['customer'].queryset = Customer.objects.filter(
                 is_supplier=True)
         else:

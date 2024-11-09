@@ -64,7 +64,6 @@ def add_new_document_tab(request):
 
     if dt_id:
         document_type = get_object_or_404(DocumentType, id=dt_id)
-        print("document_type = ", model_to_dict(document_type))
         if document_type.stock_direction == 2:
             form = DocumentForm(
                 initial={'document_type': document_type, 'user': request.user})
