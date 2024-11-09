@@ -8,6 +8,7 @@ from src.products.models import Product, ProductGroup
 from src.stock.models import StockControl
 from src.stock.forms import StockControlForm
 from src.accounts.forms import CustomerForm
+from src.orders.forms import DocumentForm
 
 
 def modal_add_document(request):
@@ -53,6 +54,8 @@ def add_new_document_tab(request):
     from django.forms import model_to_dict
 
     form = CreateSaleForm
+    form = DocumentForm
+
     groups = ProductGroup.objects.all()
     products = Product.objects.all()
 
@@ -63,7 +66,8 @@ def add_new_document_tab(request):
         document_type = get_object_or_404(DocumentType, id=dt_id)
         print("document_type = ", model_to_dict(document_type))
         if document_type.stock_direction == 2:
-            form = CreateSaleForm()
+            form = DocumentForm(
+                initial={'document_type': document_type, 'user': request.user})
         else:
             form = DocumentCreateForm(
                 stock_direction=document_type.stock_direction)

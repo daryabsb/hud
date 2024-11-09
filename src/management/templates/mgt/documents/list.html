@@ -83,3 +83,42 @@
     });
 </script>
 {% endblock additional_js %}
+
+{% comment %} <div>
+	<label for="id_number">Number:</label>
+	<input type="text" name="number" value="order-None09112024-3971" class="form-control form-control-sm" id="id_number">
+</div>
+<div>
+	<label for="id_customer">Customer:</label>
+	<select name="customer" class="form-select form-select-sm" id="id_customer">
+		<option value="" selected>---------</option>
+		<option value="1">Good Customer</option>
+	</select>
+</div>
+<div>
+	<label for="id_discount_type">Discount type:</label>
+	<select name="discount_type" class="form-select form-select-sm" hx-get="/mgt/add-document-change-qty/" hx-target="#add-product-form-render" hx-swap="outerHTML" hx-include="#add-doc-create-item-form" _="
+		on change
+		if my value is 0 set #discount-type-sign.innerText to &#x27;%&#x27;
+		else set #discount-type-sign.innerText to &#x27;$&#x27;  end" id="id_discount_type">
+		<option value="0">Percent</option>
+		<option value="1">Amount</option>
+	</select>
+</div>
+<div>
+	<label for="id_discount">Discount:</label>
+	<input type="text" name="discount" class="form-control form-control-sm" hx-trigger="keyup changed delay:500ms" hx-get="/mgt/add-document-change-qty/" hx-target="#add-product-form-render" hx-swap="outerHTML" hx-include="#add-doc-create-item-form" id="id_discount">
+</div>
+<div>
+	<label for="id_document_type">Document type:</label>
+	<select name="document_type" required id="id_document_type">
+		<option value="">---------</option>
+		<option value="1">100 | Purchase</option>
+		<option value="2" selected>200 | Sales</option>
+		<option value="3">300 | Inventory Count</option>
+		<option value="4">220 | Refund</option>
+		<option value="5">120 | Stock Return</option>
+		<option value="6">400 | Loss And Damage</option>
+		<option value="7">230 | Proforma</option>
+	</select>
+</div> {% endcomment %}

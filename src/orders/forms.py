@@ -21,8 +21,7 @@ class DocumentForm(forms.ModelForm):
         )
     )
     customer = forms.ModelChoiceField(
-        # queryset=Customer.objects.filter(is_customer=True),
-        queryset=Customer.objects.none(),
+        queryset=Customer.objects.filter(is_customer=True),
         required=False, label=None,
         to_field_name='id',
         widget=forms.Select(
@@ -64,31 +63,28 @@ class DocumentForm(forms.ModelForm):
             'customer',
             'discount_type',
             'discount',
+            'document_type',
         )
         # fields = '__all__'
 
     def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        print('self.fields = ', self.fields)
 
-        document_type = kwargs.get('document_type', None)
-        user = kwargs.get('user', None)
+        # Get initial document_type if available
+        document_type = self.initial.get(
+            'document_type', self.instance.document_type if self.instance else None)
 
-        # if initial:
-        #     document_type = initial.get('document_type')
-        if document_type:
-            print('document_type_name = ', document_type.name)
-            print('user_name = ', user.name)
-            # print(document_type.name)
-
-            if document_type.category.id == 1:
-                print('Purchase')
-            elif document_type.category.id == 2:
-                print('Sale')
-            elif document_type.category.id == 3:
-                print('Inventory')
-            elif document_type.category.id == 4:
-                print('Loss and Damage')
-
-        # print(self._meta.fields[2])
+        # Adjust customer field based on document_type
+        if document_type == 'sale':
+            self.fields['customer'].queryset = Customer.objects.filter(
+                is_customer=True)
+        elif document_type == 'purchase':
+            self.fields['customer'].queryset = Customer.objects.filter(
+                is_supplier=True)
+        else:
+            # Hide customer field for other types
+            self.fields['customer'].widget = forms.HiddenInput()
 
 
 class CreateSaleForm(forms.Form):
