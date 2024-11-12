@@ -2,6 +2,10 @@ from django import forms
 from src.accounts.models import Customer
 from src.documents.models import Document
 from src.core.utils import generate_number
+from datetime import datetime, timedelta
+
+today = datetime.now()
+due_date = today + timedelta(days=15)
 
 add_doc_item_htmx = {
     'hx-get': '/mgt/add-document-change-qty/',
@@ -27,6 +31,32 @@ class DocumentForm(forms.ModelForm):
         widget=forms.Select(
             attrs={'class': 'form-select form-select-sm'}
         )
+    )
+    reference_document_number = forms.CharField(
+        max_length=100, required=False, label='External Document',
+        widget=forms.TextInput(
+            attrs={'class': 'form-control form-control-sm'}
+        )
+    )
+    date = forms.DateField(
+        initial=today,
+        required=False,
+        widget=forms.DateInput(
+            attrs={
+                'type': 'date',
+                'class': 'form-control form-control-sm',
+            }),
+        label='Date'
+    )
+    due_date = forms.DateField(
+        initial=due_date,
+        required=False,
+        widget=forms.DateInput(
+            attrs={
+                'type': 'date',
+                'class': 'form-control form-control-sm',
+            }),
+        label='Due Date'
     )
     discount_type = forms.ChoiceField(
         required=False, label='Discount type',
@@ -64,6 +94,9 @@ class DocumentForm(forms.ModelForm):
             'discount_type',
             'discount',
             'document_type',
+            'reference_document_number',
+            'date',
+            'due_date',
         )
         # fields = '__all__'
 

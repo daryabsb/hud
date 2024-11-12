@@ -53,8 +53,10 @@ def add_new_document_tab(request):
     from src.orders.forms import CreateSaleForm
     from django.forms import model_to_dict
 
-    form = CreateSaleForm
-    form = DocumentForm
+    # form = CreateSaleForm
+    # form = DocumentForm
+
+    document_type = DocumentType.objects.first()
 
     groups = ProductGroup.objects.all()
     products = Product.objects.all()
@@ -64,13 +66,15 @@ def add_new_document_tab(request):
 
     if dt_id:
         document_type = get_object_or_404(DocumentType, id=dt_id)
-        if document_type.stock_direction == 2:
-            form = DocumentForm(
-                initial={'document_type': document_type, 'user': request.user})
-        else:
-            form = DocumentCreateForm(
-                stock_direction=document_type.stock_direction)
+        # if document_type.stock_direction == 2:
+        #     form = DocumentForm(
+        #         initial={'document_type': document_type, 'user': request.user})
+        # else:
+        #     form = DocumentCreateForm(
+        #         stock_direction=document_type.stock_direction)
 
+    form = DocumentForm(
+        initial={'document_type': document_type, 'user': request.user})
     context = {
         "form": form,
         "groups": groups,

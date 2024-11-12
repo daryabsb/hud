@@ -201,6 +201,7 @@ add_doc_item_htmx = {
     'hx-include': '#add-doc-create-item-form',
 }
 
+
 class AddDocumentItem(forms.Form):
     product = forms.CharField(
         required=False,
@@ -241,7 +242,7 @@ class AddDocumentItem(forms.Form):
                 'class': 'form-control form-control-sm',
                 'hx-trigger': 'keyup changed delay:500ms',
                 **add_doc_item_htmx
-                }
+            }
         )
     )
 
@@ -287,15 +288,15 @@ class AddDocumentItem(forms.Form):
                 'class': 'form-control form-control-sm',
                 'hx-trigger': 'keyup changed delay:500ms',
                 **add_doc_item_htmx
-                }
+            }
         )
     )
 
     total_before_tax = forms.FloatField(
         required=False, label='Total before tax',
         widget=forms.TextInput(
-            attrs={'class': 'form-control form-control-sm',},
-            
+            attrs={'class': 'form-control form-control-sm', },
+
         ),
         disabled=True
     )
