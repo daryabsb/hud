@@ -3,6 +3,7 @@ from src.accounts.models import Customer
 from src.documents.models import Document
 from src.core.utils import generate_number
 from datetime import datetime, timedelta
+from django.utils.text import slugify
 
 today = datetime.now()
 due_date = today + timedelta(days=15)
@@ -15,10 +16,20 @@ add_doc_item_htmx = {
 }
 
 
+class CustomDateInput(forms.DateInput):
+    template_name = 'mgt/widgets/date-widget.html'
+
+    def __init__(self, attrs=None):
+        final_attrs = {'type': 'date', 'class': 'form-control form-control-sm'}
+        if attrs:
+            final_attrs.update(attrs)
+        super().__init__(attrs=final_attrs)
+
+
 class DocumentForm(forms.ModelForm):
     number = forms.CharField(
         required=False, label='Number',
-        initial=generate_number('order'),
+        # initial=generate_number('order'),
         strip=True,
         widget=forms.TextInput(
             attrs={'class': 'form-control form-control-sm'}
@@ -41,21 +52,13 @@ class DocumentForm(forms.ModelForm):
     date = forms.DateField(
         initial=today,
         required=False,
-        widget=forms.DateInput(
-            attrs={
-                'type': 'date',
-                'class': 'form-control form-control-sm',
-            }),
+        widget=CustomDateInput(),
         label='Date'
     )
     due_date = forms.DateField(
         initial=due_date,
         required=False,
-        widget=forms.DateInput(
-            attrs={
-                'type': 'date',
-                'class': 'form-control form-control-sm',
-            }),
+        widget=CustomDateInput(),
         label='Due Date'
     )
     discount_type = forms.ChoiceField(
@@ -95,18 +98,19 @@ class DocumentForm(forms.ModelForm):
             'discount',
             'document_type',
             'reference_document_number',
-            'date',
-            'due_date',
+            # 'date',
+            # 'due_date',
         )
         # fields = '__all__'
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
         # Get initial document_type if available
         document_type = self.initial.get('document_type', None)
 
         print('document_type = ', document_type)
+        self.fields['number'].initial = generate_number(
+            slugify(document_type.name).lower())
         # Adjust customer field based on document_type
         if document_type.category.id == 1:
             self.fields['customer'].queryset = Customer.objects.filter(
@@ -116,7 +120,8 @@ class DocumentForm(forms.ModelForm):
                 is_supplier=True)
         else:
             # Hide customer field for other types
-            self.fields['customer'].widget = forms.HiddenInput()
+            self.fields['customer'].queryset = Customer.objects.all()
+            # self.fields['customer'].widget = forms.HiddenInput()
 
 
 class CreateSaleForm(forms.Form):

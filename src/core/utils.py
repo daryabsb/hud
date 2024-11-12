@@ -47,7 +47,7 @@ def get_fields(app_name):
     return [column.related_value if column.is_related else column.name for column in queryset]
 
 
-def generate_number(target=None, code=None):
+def generate_number(target=None, code=''):
     from datetime import date
     min = 100
     max = 3999
