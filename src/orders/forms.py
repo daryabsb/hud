@@ -107,21 +107,22 @@ class DocumentForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         # Get initial document_type if available
         document_type = self.initial.get('document_type', None)
+        customer_queryset = Customer.objects.all()
 
-        print('document_type = ', document_type)
         self.fields['number'].initial = generate_number(
             slugify(document_type.name).lower())
         # Adjust customer field based on document_type
         if document_type.category.id == 1:
-            self.fields['customer'].queryset = Customer.objects.filter(
-                is_customer=True)
+            customer_queryset = Customer.objects.filter(is_customer=True)
+            self.fields['customer'].queryset = customer_queryset
         elif document_type.category.id == 2:
-            self.fields['customer'].queryset = Customer.objects.filter(
-                is_supplier=True)
+            customer_queryset = Customer.objects.filter(is_supplier=True)
+            self.fields['customer'].queryset = customer_queryset
         else:
             # Hide customer field for other types
             self.fields['customer'].queryset = Customer.objects.all()
             # self.fields['customer'].widget = forms.HiddenInput()
+        # self.fields['customer'].initial = customer_queryset.first()
 
 
 class CreateSaleForm(forms.Form):
