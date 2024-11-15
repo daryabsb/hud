@@ -2,6 +2,22 @@
     <input type="hidden" name="added-products" id="added-products" value="2,4,12" />
 	<div class="col-lg-8">
 		{% comment %} {{ form.as_p}} {% endcomment %}
+			<div class="card-body text-inverse h-400px overflow-auto border-bottom">
+				<table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th class="pt-0 pb-2"></th>
+                            <th class="pt-0 pb-2">Product</th>
+                            <th class="pt-0 pb-2">Detail</th>
+                            <th class="pt-0 pb-2">Subtotal</th>
+                            <th class="pt-0 pb-2">Actiona</th>
+
+                        </tr>
+                    </thead>
+                    <tbody id="add-document-item-to-table">
+                    </tbody>
+                </table>
+			</div>
 			<div class="card-header bg-none d-flex p-3">
                 <a href="#" class="btn btn-outline-default" data-bs-dismiss="modal"
 				_="on click
@@ -18,22 +34,6 @@
                 hx-target=""
                 >Next</button>
 				<a href="#" class="btn btn-outline-theme ms-auto">Mark as paid</a>
-			</div>
-			<div class="card-body text-inverse h-350px overflow-auto border-bottom">
-				<table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th class="pt-0 pb-2"></th>
-                            <th class="pt-0 pb-2">Product</th>
-                            <th class="pt-0 pb-2">Detail</th>
-                            <th class="pt-0 pb-2">Subtotal</th>
-                            <th class="pt-0 pb-2">Actiona</th>
-
-                        </tr>
-                    </thead>
-                    <tbody id="add-document-item-to-table">
-                    </tbody>
-                </table>
 			</div>
 			
 			
