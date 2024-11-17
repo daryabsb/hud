@@ -212,43 +212,48 @@
                                         <div class="messenger-content-body row pt-2 ps-4">
                                             <div class="col-lg-8">
                                                 <div data-scrollbar="true" data-height="100%" class=" overflow-y-auto" style="height: 100%;">
-                                                This is the chat area
+                                                {% include 'mgt/documents//items/items-list.html' %}
+
+
+
+
                                                 </div>
+                                                
                                             </div>
                                             <div class="col-lg-4">
-<div class="card mb-2">
-  <div class="card-header bg-none fw-bold d-flex align-items-center">Discussion group <a href="#" class="ms-auto text-muted text-decoration-none" data-toggle="card-expand"><i class="fa fa-expand"></i></a></div>
-  <div class="card-body  p-2 bg-inverse bg-opacity-10" class=" overflow-y-auto" style="height: 100px;">
-    
-      <div class="widget-chat-item">
-        <div class="widget-chat-content">
-          <div class="widget-chat-name">Roberto Lambert</div>
-          <div class="widget-chat-message">
-            Not much, It's got a new look, contact pics show up.
-          </div>
-          <div class="widget-chat-message last">
-            How's crusty old iOS 6 treating you?
-          </div>
-        </div>
-      </div>
-    
-  </div>
-  <div class="card-footer bg-none">
-    <div class="input-group">
-      <input type="text" class="form-control" placeholder="Search for...">
-      <button class="btn btn-outline-default" type="button"><i class="fa fa-paper-plane text-muted"></i></button>
-    </div>
-  </div>
-  
-  <!-- card-arrow -->
-  <div class="card-arrow">
-    <div class="card-arrow-top-left"></div>
-    <div class="card-arrow-top-right"></div>
-    <div class="card-arrow-bottom-left"></div>
-    <div class="card-arrow-bottom-right"></div>
-  </div>
-</div>
-                                                <div class="card mb-2">
+                                                <div class="card mb-1">
+                                                    <div class="card-header bg-none fw-bold d-flex align-items-center">Discussion group <a href="#" class="ms-auto text-muted text-decoration-none" data-toggle="card-expand"><i class="fa fa-expand"></i></a></div>
+                                                    <div class="card-body p-2 bg-inverse bg-opacity-10" class=" overflow-y-auto" style="height: 100px;">
+                                                        
+                                                        <div class="widget-chat-item">
+                                                            <div class="widget-chat-content">
+                                                            <div class="widget-chat-name">Roberto Lambert</div>
+                                                            <div class="widget-chat-message">
+                                                                Not much, It's got a new look, contact pics show up.
+                                                            </div>
+                                                            <div class="widget-chat-message last">
+                                                                How's crusty old iOS 6 treating you?
+                                                            </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    <div class="card-footer bg-none">
+                                                        <div class="input-group">
+                                                        <input type="text" class="form-control" placeholder="Search for...">
+                                                        <button class="btn btn-outline-default" type="button"><i class="fa fa-paper-plane text-muted"></i></button>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <!-- card-arrow -->
+                                                    <div class="card-arrow">
+                                                        <div class="card-arrow-top-left"></div>
+                                                        <div class="card-arrow-top-right"></div>
+                                                        <div class="card-arrow-bottom-left"></div>
+                                                        <div class="card-arrow-bottom-right"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="card mb-1">
                                                     <div class="card-header d-flex align-items-center bg-inverse bg-opacity-10 fw-400">
                                                         Totals--------
                                                         <a href="#" class="ms-auto text-decoration-none text-inverse text-opacity-50">Edit</a>
@@ -295,7 +300,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="messenger-content-footer p-2">
+                                        {% comment %} <div class="messenger-content-footer p-2">
                                             <div class="input-group input-group-lg position-relative z-2">
                                                 <button class="btn text-inverse position-absolute start-0" id="trigger"><i
                                                     class="far fa-face-smile"></i></button>
@@ -305,7 +310,7 @@
                                                     class="fa fa-paper-plane text-muted"></i></button>
                                             </div>
                                             
-                                        </div>
+                                        </div> {% endcomment %}
                                     </div>
                                 </div>
 
