@@ -171,7 +171,6 @@
                                                         hx-target="#modalAddDocumentProduct"
                                                         hx-vals='{"document_type": {{document_type.id}}}'
                                                         data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal"
-
                                                         >
                                                         
                                                         <div class="p-1 w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
@@ -184,7 +183,7 @@
                                                         </div>
                                                         <div class="messenger-time-badge">
                                                             <div class="messenger-time">{{ product.price|floatformat:'0' }} {{product.currency.name}}</div>
-                                                            <div class="messenger-badge">Stock: 2{{ product.measurement_unit }}</div>
+                                                            <div class="messenger-badge">1 {{ product.measurement_unit }}</div>
                                                         </div>
                                                     </a>
                                                 </div>
@@ -213,12 +212,7 @@
                                             <div class="col-lg-8">
                                                 <div data-scrollbar="true" data-height="100%" class=" overflow-y-auto" style="height: 100%;">
                                                 {% include 'mgt/documents//items/items-list.html' %}
-
-
-
-
                                                 </div>
-                                                
                                             </div>
                                             <div class="col-lg-4">
                                                 <div class="card mb-1">

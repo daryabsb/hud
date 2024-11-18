@@ -35734,3 +35734,80 @@ body .note-modal-backdrop {
     -webkit-transform: translate(0, 0) !important;
     transform: translate(0, 0) !important;
 }
+
+/* Messenger */
+.messenger .messenger-sidebar .messenger-item.active {
+    background-color: rgba(var(--bs-inverse-rgb), .15)
+}
+
+.messenger .messenger-sidebar .messenger-item:focus,
+.messenger .messenger-sidebar .messenger-item:hover {
+    background-color: rgba(var(--bs-inverse-rgb), .1)
+}
+
+.messenger .messenger-sidebar .messenger-item .messenger-media {
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+
+.messenger .messenger-sidebar .messenger-item .messenger-media img {
+    max-width: 100%
+}
+
+.messenger .messenger-sidebar .messenger-item .messenger-media+.messenger-info {
+    padding-left: .85rem
+}
+
+.messenger .messenger-sidebar .messenger-item .messenger-info {
+    flex: 1;
+    white-space: nowrap
+}
+
+.messenger .messenger-sidebar .messenger-item .messenger-time-badge {
+    display: flex;
+    flex-direction: column;
+    white-space: nowrap
+}
+
+.messenger .messenger-sidebar .messenger-item .messenger-time {
+    font-size: .690625rem;
+    color: rgba(var(--bs-inverse-rgb), .5);
+    margin-bottom: .25rem
+}
+
+.messenger .messenger-sidebar .messenger-item .messenger-name,
+.messenger .messenger-sidebar .messenger-item .messenger-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 13.75rem;
+    color: rgba(var(--bs-inverse-rgb), .5);
+    font-size: .8125rem
+}
+
+.messenger .messenger-sidebar .messenger-item .messenger-name {
+    font-weight: 600;
+    color: var(--bs-inverse)
+}
+
+.messenger .messenger-sidebar .messenger-item .messenger-badge {
+    background: var(--bs-theme);
+    color: var(--bs-theme-color);
+    display: inline-flex;
+    border-radius: 1.875rem;
+    padding: 0 .1875rem;
+    min-width: 4rem;
+    min-height: 1.125rem;
+    align-items: center;
+    justify-content: center;
+    font-size: .66875rem;
+    font-weight: 700;
+    margin-left: auto
+}
+
+.messenger .messenger-sidebar .messenger-item .messenger-badge.empty {
+    /* display: none */
+    color: red;
+}
