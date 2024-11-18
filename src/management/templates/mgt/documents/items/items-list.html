@@ -3,13 +3,18 @@
 	{% comment %} {{ form.as_p}} {% endcomment %}
 	<div class="card-body text-inverse h-400px overflow-auto border-bottom">
 		<table class="table table-hover">
-			<thead>
+			<thead class="bg-inverse bg-opacity-10">
 				<tr>
-					<th class="pt-0 pb-2"></th>
-					<th class="pt-0 pb-2">Product</th>
-					<th class="pt-0 pb-2">Detail</th>
-					<th class="pt-0 pb-2">Subtotal</th>
-					<th class="pt-0 pb-2">Actiona</th>
+					<th class="pt-3 pb-2">
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" id="product1">
+							<label class="form-check-label" for="product1"></label>
+						</div>
+					</th>
+					<th class="pt-3 pb-2">Product</th>
+					<th class="pt-3 pb-2">Detail</th>
+					<th class="pt-3 pb-2">Subtotal</th>
+					<th class="pt-3 pb-2">Actiona</th>
 
 				</tr>
 			</thead>
