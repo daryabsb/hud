@@ -1,0 +1,158 @@
+{% load static %}
+<div class="messenger">
+    <div class="messenger-sidebar">
+        <div class="messenger-sidebar-header">
+            <h3 class="mb-10px">Products</h3>
+            <div class="position-relative">
+                <button type="submit" class="btn text-inverse position-absolute top-0"><i
+                    class="bi bi-search"></i></button>
+                <input type="text" class="form-control rounded-pill ps-35px"
+                    placeholder="Search products">
+            </div>
+        </div>
+        <div class="messenger-sidebar-body ">
+            <div data-scrollbar="true" data-height="100%" class="overflow-auto" style="height: 100%;">
+            {% for product in products %}
+                <div class="messenger-item p-2">
+                    <a href="#" 
+                        class="list-group-item list-group-item-action d-flex align-items-center text-inverse"
+                        hx-get="{% url 'mgt:add-document-product-modal' product.id %}"
+                        hx-target="#modalAddDocumentProduct"
+                        hx-vals='{"document_type": {{document_type.id}}}'
+                        data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal"
+                        >
+                        
+                        <div class="p-1 w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                            <img alt="" class="mw-100 mh-100" src="{{ product.img }}">
+                        </div>
+                        <div class="flex-fill ps-2 d-flex align-items-center">
+                            <div class="fw-bold flex-fill">
+                                {{ product.name|truncatechars:20 }}
+                            </div>
+                        </div>
+                        <div class="messenger-time-badge">
+                            <div class="messenger-time">{{ product.price|floatformat:'0' }} {{product.currency.name}}</div>
+                            <div class="messenger-badge">1 {{ product.measurement_unit }}</div>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+                <div class="messenger-item">
+                    <a href="#" data-toggle="messenger-content" class="messenger-link">
+                        <div class="messenger-media">
+                            <img src="{% static 'app/img/user/user-2.jpg' %}" class="mw-100 mh-100 rounded-pill"
+                                alt>
+                        </div>
+                        <div class="messenger-info">
+                            <div class="messenger-name">Roberto</div>
+                            <div class="messenger-text">Say hello to Alice</div>
+                        </div>
+                        <div class="messenger-time-badge">
+                            <div class="messenger-time">14:59</div>
+                            <div class="messenger-badge">1</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="messenger-content">
+        <div class="messenger-content-body row pt-2 ps-4">
+            <div class="col-lg-8">
+                <div data-scrollbar="true" data-height="100%" class=" overflow-y-auto" style="height: 100%;">
+                {% include 'mgt/documents/items/items-list.html' %}
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card mb-1">
+                    <div class="card-header bg-none fw-bold d-flex align-items-center">Discussion group <a href="#" class="ms-auto text-muted text-decoration-none" data-toggle="card-expand"><i class="fa fa-expand"></i></a></div>
+                    <div class="card-body p-2 bg-inverse bg-opacity-10" class=" overflow-y-auto" style="height: 100px;">
+                        
+                        <div class="widget-chat-item">
+                            <div class="widget-chat-content">
+                            <div class="widget-chat-name">Roberto Lambert</div>
+                            <div class="widget-chat-message">
+                                Not much, It's got a new look, contact pics show up.
+                            </div>
+                            <div class="widget-chat-message last">
+                                How's crusty old iOS 6 treating you?
+                            </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="card-footer bg-none">
+                        <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search for...">
+                        <button class="btn btn-outline-default" type="button"><i class="fa fa-paper-plane text-muted"></i></button>
+                        </div>
+                    </div>
+                    
+                    <!-- card-arrow -->
+                    <div class="card-arrow">
+                        <div class="card-arrow-top-left"></div>
+                        <div class="card-arrow-top-right"></div>
+                        <div class="card-arrow-bottom-left"></div>
+                        <div class="card-arrow-bottom-right"></div>
+                    </div>
+                </div>
+                <div class="card mb-1">
+                    <div class="card-header d-flex align-items-center bg-inverse bg-opacity-10 fw-400">
+                        Totals--------
+                        <a href="#" class="ms-auto text-decoration-none text-inverse text-opacity-50">Edit</a>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-borderless table-sm m-0">
+                            <tbody>
+                                <tr>
+                                    <td class="w-150px">Subtotal</td>
+                                    <td class="text-end">$3,496.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Tax</td>
+                                    <td class="text-end">$174.80</td>
+                                </tr>
+                                <tr>
+                                    <td>Shipping Fee</td>
+                                    <td class="text-end">$0.00</td>
+                                </tr>
+                                <tr>
+                                    <td class="pb-2"><b>Total</b></td>
+                                    <td class="text-end pb-2 text-decoration-underline"><b>$3670.80</b></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        <hr class="m-0">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="pt-2 pb-2 text-nowrap">
+                                        Paid by customer
+                                    </td>
+                                    <td class="pt-2 pb-2 text-end">$3670.80</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-arrow">
+                        <div class="card-arrow-top-left"></div>
+                        <div class="card-arrow-top-right"></div>
+                        <div class="card-arrow-bottom-left"></div>
+                        <div class="card-arrow-bottom-right"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% comment %} <div class="messenger-content-footer p-2">
+            <div class="input-group input-group-lg position-relative z-2">
+                <button class="btn text-inverse position-absolute start-0" id="trigger"><i
+                    class="far fa-face-smile"></i></button>
+                <input type="text" class="form-control rounded-start ps-45px" id="input"
+                    placeholder="Write a message...">
+                <button class="btn btn-outline-default" type="button"><i
+                    class="fa fa-paper-plane text-muted"></i></button>
+            </div>
+            
+        </div> {% endcomment %}
+    </div>
+</div>

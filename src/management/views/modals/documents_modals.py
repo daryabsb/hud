@@ -52,6 +52,7 @@ def add_new_document_tab(request):
     ''' dt_id = document_type_id '''
     from src.orders.forms import CreateSaleForm
     from django.forms import model_to_dict
+    from src.orders.models import PosOrder
 
     # form = CreateSaleForm
     # form = DocumentForm
@@ -75,15 +76,19 @@ def add_new_document_tab(request):
 
     form = DocumentForm(
         initial={'document_type': document_type, 'user': request.user})
+
+    orders = PosOrder.objects.filter(is_active=True)
+    print("orders: ", orders.count())
     context = {
         "form": form,
         "groups": groups,
         "products": products,
         "items": range(9),
-        "document_type": document_type
+        "document_type": document_type,
+        "orders": orders,
 
     }
-    return render(request, 'mgt/documents/renders/add-new-document.html', context)
+    return render(request, 'mgt/documents/add/new/document.html', context)
 
 
 def add_new_document_product_details(request, product_id):

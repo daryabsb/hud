@@ -1,0 +1,53 @@
+
+<ul class="nav nav-tabs border-0" id="mgt-documents-view-navlink" hx-swap-oob="true">
+    <li class="nav-item me-1">
+        <a href="#mgt-documents-view-list" 
+            class="nav-link px-4" 
+            data-bs-toggle="tab"
+            id="view-document-tab"
+            >View list</a>
+    </li>
+    {% for nav_item in nav_items %}
+    <li class="nav-item me-1" id="add-new-document-tab">
+        <a href="#mgt-new-document" class="nav-link active" data-bs-toggle="tab"
+        id="new-document-tab"
+        >New document
+    <button class="btn btn-sm btn-outline-theme"
+    _="on click
+                    remove #new-document-tab
+                    remove #mgt-new-document
+                    add .active to #view-document-tab
+                    add .active to #mgt-documents-view-list
+                    add .show to #mgt-documents-view-list
+                    end
+                    "
+    >X</button>
+    </a>
+    </li>
+    {% endfor %}
+</ul>
+
+
+<div class="p-0 tab-pane fade show active" id="mgt-new-document">
+    <div id="add-new-document-form">
+        <div class="file-manager h-100">
+            {% include 'mgt/documents/add/new/forms/document-form.html' %}
+            {% include 'mgt/documents/add/new/forms/document-details.html' %}
+        </div>
+    </div>
+</div>
+<script>
+
+var handleChatScroll = function() {
+    var elm = document.querySelector('.messenger-content-body [data-scrollbar="true"]');
+    elm.scrollTop = elm.scrollHeight - elm.clientHeight;
+    var elm = document.querySelector('.messenger-content-body');
+    elm.classList.remove('invisible');
+};
+
+document.addEventListener("DOMContentLoaded", (event) => {
+    handleChatScroll();
+});
+
+
+</script>

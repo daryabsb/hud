@@ -10,6 +10,7 @@ from rest_framework import serializers
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.decorators import login_required
 from src.documents.models import Document, DocumentItem
+from src.orders.models import PosOrder
 from src.accounts.models import Customer
 # from src.documents.views import DocumentsTable
 from src.documents.forms import DocumentFilterForm
@@ -179,12 +180,14 @@ def mgt_documents(request):
     filter = DocumentFilter(request.GET, queryset=Document.objects.all())
     form = DocumentFilter.form
     documents = Document.objects.all()
+    orders = PosOrder.objects.filter(is_active=True)
 
     documents_dict = DocumentSerializer(documents, many=True)
 
     context = {
         'filter': filter,
         'form': form,
+        'orders': orders,
         'documents_dict': documents_dict,
     }
     return render(request, 'mgt/documents/list.html', context)
