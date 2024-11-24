@@ -78,7 +78,7 @@ def add_new_document_tab(request):
         initial={'document_type': document_type, 'user': request.user})
 
     orders = PosOrder.objects.filter(is_active=True)
-    print("orders: ", orders.count())
+
     context = {
         "form": form,
         "groups": groups,

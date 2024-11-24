@@ -9,7 +9,7 @@ from rest_framework.views import APIView
 from rest_framework import serializers
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.decorators import login_required
-from src.documents.models import Document, DocumentItem
+from src.documents.models import Document, DocumentItem, DocumentType
 from src.orders.models import PosOrder
 from src.accounts.models import Customer
 # from src.documents.views import DocumentsTable
@@ -20,7 +20,7 @@ from src.management.utils import apply_document_filters
 from src.products.models import Product
 from src.documents.forms import DocumentCreateForm, AddDocumentItem
 from src.tax.models import Tax
-
+from src.orders.forms import DocumentForm
 
 class DocumentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -180,14 +180,31 @@ def mgt_documents(request):
     filter = DocumentFilter(request.GET, queryset=Document.objects.all())
     form = DocumentFilter.form
     documents = Document.objects.all()
-    orders = PosOrder.objects.filter(is_active=True)
-
+    orders_queryset = PosOrder.objects.filter(is_active=True)
+    products = Product.objects.all()
     documents_dict = DocumentSerializer(documents, many=True)
+    document_type = DocumentType.objects.first()
+
+    orders = []
+    for order in orders_queryset:
+        form = DocumentForm(
+            initial={'document_type': order.document_type, 'user': request.user})
+        document_type = order.document_type
+        order_dict = {
+            'number': order.number,
+            'order': order,
+            'form': form,
+        }
+
+        orders.append(order_dict)
+    
 
     context = {
         'filter': filter,
         'form': form,
         'orders': orders,
+        'document_type': document_type,
+        'products': products,
         'documents_dict': documents_dict,
     }
     return render(request, 'mgt/documents/list.html', context)

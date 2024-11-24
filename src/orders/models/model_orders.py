@@ -2,7 +2,7 @@ from django.db import models
 from src.accounts.models import User, Customer, Warehouse
 from src.core.utils import generate_number
 from django.db.models import F, Sum, Case, When, Value
-
+from src.documents.models import DocumentType
 
 class PosOrder(models.Model):
 
@@ -19,7 +19,10 @@ class PosOrder(models.Model):
     #     decimal_places=3,  max_digits=15, default=0)
     # total_tax = models.DecimalField(
     #     decimal_places=3,  max_digits=15, default=0)
-
+    document_type = models.ForeignKey(
+        DocumentType, on_delete=models.DO_NOTHING, 
+        related_name="orders", default=1
+    )
     warehouse = models.ForeignKey(
         Warehouse, null=True, on_delete=models.DO_NOTHING,
         related_name="orders"

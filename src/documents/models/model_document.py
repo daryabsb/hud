@@ -1,7 +1,7 @@
 from django.db import models
 from src.accounts.models import User, Warehouse, Customer
 from src.pos.models import CashRegister
-from src.orders.models import PosOrder
+# from src.orders.models import PosOrder
 from datetime import datetime, timedelta
 
 today = datetime.now()
@@ -25,9 +25,7 @@ class Document(models.Model):
         CashRegister, on_delete=models.SET_NULL,
         null=True, blank=True, related_name="documents"
     )
-    order = models.OneToOneField(
-        PosOrder, on_delete=models.DO_NOTHING,
-        null=True, blank=True, related_name="document")
+    order = models.CharField(max_length=50,null=True, blank=True)
 
     document_type = models.ForeignKey(
         "DocumentType", on_delete=models.DO_NOTHING, related_name="documents"

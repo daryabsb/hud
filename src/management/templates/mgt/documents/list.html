@@ -14,16 +14,16 @@
 		<div class="card-header pb-0">
 			<ul class="nav nav-tabs border-0" id="mgt-documents-view-navlink">
 				<li class="nav-item me-1">
-					<a href="#mgt-documents-view-navlink" 
+					<a href="#mgt-documents-view-list" 
 						class="nav-link px-4 active" 
 						data-bs-toggle="tab"
 						id="view-document-tab"
-						>View list</a>
+						>View list test</a>
 				</li>
 				{% for order in orders %}
 				<li class="nav-item me-1">
-					<a href="#mgt-documents-view-navlink" 
-						class="nav-link px-4 active" 
+					<a href="#mgt-documents-{{ order.number }}" 
+						class="nav-link px-4" 
 						data-bs-toggle="tab"
 						id="view-document-tab"
 						>{{order.number}}</a>
@@ -49,6 +49,9 @@
 					</div>
 				</div>
 			</div>
+			{% for order in orders %}
+			{% include 'mgt/documents/add/new/document.html' with number=order.number %}
+			{% endfor %}
 
 		</div>
         

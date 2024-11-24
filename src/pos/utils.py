@@ -1,7 +1,6 @@
 import platform
 import uuid
 from django.db import transaction
-from src.orders.models import PosOrder
 from src.accounts.models import Customer
 
 
@@ -12,6 +11,7 @@ def get_computer_info():
 
 
 def get_active_order(active_order=None):
+    from src.orders.models import PosOrder
     if not active_order:
         active_order = PosOrder.objects.filter(is_active=True).first()
     active_order.update_items_subtotal()
@@ -22,6 +22,7 @@ def get_active_order(active_order=None):
 
 
 def activate_order_and_deactivate_others(user, order_id=None):
+    from src.orders.models import PosOrder
     if order_id:
         order = PosOrder.objects.get(pk=order_id)
         order.is_active = True
