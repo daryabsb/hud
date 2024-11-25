@@ -4,6 +4,7 @@ from src.core.utils import generate_number
 from django.db.models import F, Sum, Case, When, Value
 from src.documents.models import DocumentType
 
+
 class PosOrder(models.Model):
 
     number = models.CharField(
@@ -81,7 +82,7 @@ class PosOrder(models.Model):
         db_persist=False)
 
     paid_status = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -95,8 +96,10 @@ class PosOrder(models.Model):
 
     def save(self, *args, **kwargs):
         # if not self.pk:  # If the object is being created
+        
         if self.number is None or self.number == '':
-            self.number = generate_number('order')
+            doc_type = kwargs.pop('doc_type', 'order')
+            self.number = generate_number(doc_type)
         self.set_tax_fields()
         super().save(*args, **kwargs)
 

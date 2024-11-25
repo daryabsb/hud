@@ -50,14 +50,15 @@
                 data-bs-target="#modalAddDocument" data-bs-toggle="modal"
                 >Next</button> {% endcomment %}
                 <button class="btn btn-outline-theme" data-bs-dismiss="modal"
-                hx-post="{% url 'mgt:add-new-order'  %}"
+                hx-get="{% url 'mgt:add-new-document-tab'  %}"
                 hx-target="#mgt-documents-tab-panes"
                 hx-swap="beforeend"
                 hx-include="#document-type-select"
                 hx-vals='{"nav-items":"{{ nav_items|length }}"}'
                 _="on click 
-                toggle .show 
-                toggle .active                    
+                toggle .active on #mgt-documents-view-list
+                toggle .show on #mgt-documents-view-list
+                toggle .active on #mgt-documents-view-navlink                     
                 
                 end" 
                 >Next</button>

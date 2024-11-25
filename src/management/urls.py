@@ -72,7 +72,8 @@ urlpatterns += [
 # ORDER RELATED
 
 urlpatterns += [
-    path('orders/', views.mgt_orders, name='orders')
+    path('orders/', views.mgt_orders, name='orders'),
+    path('add-new-order/', views.mgt_add_new_order, name='add-new-order')
 ]
 
 

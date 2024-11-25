@@ -1,4 +1,22 @@
-<div class="p-0 tab-pane fade" id="mgt-documents-{{ number }}">
+<ul class="nav nav-tabs border-0" id="mgt-documents-view-navlink" hx-swap-oob="true">
+    <li class="mgt-document-nav nav-item me-1">
+        <a href="#mgt-documents-view-list" 
+            class="nav-link px-4" 
+            data-bs-toggle="tab"
+            id="view-document-tab"
+            >View list test</a>
+    </li>
+    {% for order in orders %}
+    <li class="mgt-document-nav nav-item me-1">
+        <a href="#mgt-documents-{{ order.number }}" 
+            class="nav-link px-4{% if order.number == active_number %} {{ active }}{% endif %}" 
+            data-bs-toggle="tab"
+            id="view-document-tab"
+            >{{order.number}}</a>
+    </li>
+    {% endfor %}
+</ul>
+<div class="mg-document-tab p-0 tab-pane fade show {{ active }}" id="mgt-documents-{{ number }}">
     <div id="add-new-document-form">
         <div class="file-manager h-100">
             {% include 'mgt/documents/add/new/forms/document-form.html' %}

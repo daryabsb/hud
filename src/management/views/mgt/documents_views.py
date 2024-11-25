@@ -210,6 +210,35 @@ def mgt_documents(request):
     return render(request, 'mgt/documents/list.html', context)
 
 
+def mgt_add_new_order(request):
+    document_type_id = request.POST.get('document-type')
+
+    if document_type_id: 
+        document_type = get_object_or_404(DocumentType, id=document_type_id)
+
+        order = PosOrder(user=request.user, document_type=document_type)
+        order.save(doc_type=document_type.name.lower())
+
+        form = DocumentForm(
+                initial={'document_type': document_type, 'user': request.user, 'number': order.number})
+        
+        document_type = order.document_type
+        products = Product.objects.all()
+        orders_queryset = PosOrder.objects.filter(is_active=True)
+
+        context = {
+            'number': order.number,
+            'orders': orders_queryset,
+            'order': order,
+            'form': form,
+            'products': products,
+            'document_type': document_type,
+            'active_number': order.number,
+            'active': 'show active'
+        }
+        return render(request, 'mgt/documents/add/new/document.html', context)
+
+
 def add_document(request):
     return JsonResponse({"message": "Hiiiiiiiii"})
 
