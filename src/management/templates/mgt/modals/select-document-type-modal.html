@@ -52,15 +52,15 @@
                 <button class="btn btn-outline-theme" data-bs-dismiss="modal"
                 hx-post="{% url 'mgt:add-new-order'  %}"
                 hx-target="#mgt-documents-tab-panes"
-                hx-swap="beforeend"
                 hx-include="#document-type-select"
                 hx-vals='{"nav-items":"{{ nav_items|length }}"}'
                 _="on click 
-                toggle .show 
-                toggle .active                    
+                toggle .show on .mg-document-tab
+                toggle .active on .mg-document-tab                   
                 
                 end" 
                 >Next</button>
+                {% comment %} hx-swap="beforeend" {% endcomment %}
             </div>
         </div>
     </div>
