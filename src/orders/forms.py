@@ -1,6 +1,6 @@
 from django import forms
 from src.accounts.models import Customer
-from src.documents.models import Document
+from src.documents.models import Document, DocumentType
 from src.core.utils import generate_number
 from datetime import datetime, timedelta
 from django.utils.text import slugify
@@ -29,14 +29,21 @@ class CustomDateInput(forms.DateInput):
 class DocumentForm(forms.ModelForm):
     number = forms.CharField(
         required=False, label='Number',
-        # initial=generate_number('order'),
         strip=True,
         widget=forms.TextInput(
             attrs={'class': 'form-control form-control-sm'}
         )
     )
     customer = forms.ModelChoiceField(
-        queryset=Customer.objects.filter(is_customer=True),
+        queryset=Customer.objects.none(),
+        required=False, label=None,
+        to_field_name='id',
+        widget=forms.Select(
+            attrs={'class': 'form-select form-select-sm'}
+        )
+    )
+    document_type = forms.ModelChoiceField(
+        queryset=DocumentType.objects.all(),
         required=False, label=None,
         to_field_name='id',
         widget=forms.Select(
@@ -63,13 +70,10 @@ class DocumentForm(forms.ModelForm):
     )
     discount_type = forms.ChoiceField(
         required=False, label='Discount type',
-        choices=(
-            (0, 'Percent'),
-            (1, 'Amount'),
-        ),
+        choices=((0, 'Percent'), (1, 'Amount')),
         widget=forms.Select(
             attrs={
-                'class': 'form-select form-select-sm', **add_doc_item_htmx,
+                'class': 'form-select form-select-sm',
                 '_': '''
                 on change 
                     if my value is 0 set #discount-type-sign.innerText to '%'
@@ -77,14 +81,22 @@ class DocumentForm(forms.ModelForm):
             }
         )
     )
-
     discount = forms.FloatField(
         required=False, label='Discount',
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control form-control-sm',
                 'hx-trigger': 'keyup changed delay:500ms',
-                **add_doc_item_htmx
+            }
+        )
+    )
+
+    paid_status = forms.ChoiceField(
+        required=False, label='Paid Status',
+        widget=forms.CheckboxInput(
+            attrs={
+                'class': 'form-check-input',
+                'hx-trigger': 'keyup changed delay:500ms',
             }
         )
     )
@@ -98,35 +110,38 @@ class DocumentForm(forms.ModelForm):
             'discount',
             'document_type',
             'reference_document_number',
-            # 'date',
-            # 'due_date',
+            'date',
+            'due_date',
+            'paid_status'
         )
-        # fields = '__all__'
 
     def __init__(self, *args, **kwargs):
+        instance = kwargs.get('instance', None)
+        initial = kwargs.get('initial', {})
         super().__init__(*args, **kwargs)
-        # Get initial document_type if available
-        number = self.initial.get('document_type', None)
-        document_type = self.initial.get('document_type', None)
-        customer_queryset = Customer.objects.all()
 
-        if number:
-            self.fields['number'].initial = number
+        if instance:
+            # Set initial values based on the instance
+            print('number = ', instance.number)
+            self.fields['document_type'].initial = instance.document_type
+            if instance.document_type.category.id == 1:
+                self.fields['customer'].queryset = Customer.objects.filter(is_customer=True)
+            elif instance.document_type.category.id == 2:
+                self.fields['customer'].queryset = Customer.objects.filter(is_supplier=True)
+            else:
+                self.fields['customer'].queryset = Customer.objects.none()
         else:
-            self.fields['number'].initial = generate_number(
-                slugify(document_type.name).lower())
-        # Adjust customer field based on document_type
-        if document_type.category.id == 1:
-            customer_queryset = Customer.objects.filter(is_customer=True)
-            self.fields['customer'].queryset = customer_queryset
-        elif document_type.category.id == 2:
-            customer_queryset = Customer.objects.filter(is_supplier=True)
-            self.fields['customer'].queryset = customer_queryset
-        else:
-            # Hide customer field for other types
-            self.fields['customer'].queryset = Customer.objects.all()
-            # self.fields['customer'].widget = forms.HiddenInput()
-        # self.fields['customer'].initial = customer_queryset.first()
+            # Use provided initial values
+            document_type = initial.get('document_type')
+            if document_type:
+                self.fields['document_type'].initial = document_type
+                if document_type.category.id == 1:
+                    self.fields['customer'].queryset = Customer.objects.filter(is_customer=True)
+                elif document_type.category.id == 2:
+                    self.fields['customer'].queryset = Customer.objects.filter(is_supplier=True)
+                else:
+                    self.fields['customer'].queryset = Customer.objects.none()
+
 
 
 class CreateSaleForm(forms.Form):

@@ -1,42 +1,47 @@
 <div class="row gap-2 p-4">
     <div class="col-4 form-group row">
-        <label for="staticEmail" class="col-sm-5 col-form-label">{{ form.number.label }}</label>
-        <div class="col-sm-7">
+        <label for="staticEmail" class="col-sm-3 col-form-label">{{ form.number.label }}</label>
+        <div class="col-sm-9">
             {{ form.number }}
         </div>
     </div>
-    <div class="col-4 form-group row">
-        <label for="staticEmail" class="col-sm-4 col-form-label text-end">{{ form.customer.label }}</label>
-        <div class="col-sm-8">
-            {{ form.customer }}
+
+    <div class="col-3 form-group row">
+        <label for="staticEmail" class="col-sm-6 col-form-label">{{ form.document_type.label }}</label>
+        <div class="col-sm-6">
+            {{ form.document_type }}
         </div>
     </div>
-    <div class="col-4 form-group row">
-        <label for="staticEmail" class="col-sm-4 col-form-label text-end">{{ form.date.label }}</label>
+    <div class="col-3 form-group row">
+        <label for="staticEmail" class="col-sm-4 col-form-label">{{ form.date.label }}</label>
         <div class="col-sm-8">
             {{ form.date }}
         </div>
     </div>
+    <div class="col-2 form-check form-switch align-content-end">
+        {{ form.paid_status }}
+        <label class="form-check-label" for="customSwitch1">{{ form.paid_status.label }}</label>
+    </div>
+    
     <div class="col-4 form-group row">
-        <label for="staticEmail" class="col-sm-5 col-form-label">{{ form.reference_document_number.label }}</label>
-        <div class="col-sm-7">
+        <label for="staticEmail" class="col-sm-3 col-form-label">{{ form.customer.label }}</label>
+        <div class="col-sm-9">
+            {{ form.customer }}
+        </div>
+    </div>
+    
+    <div class="col-3 form-group row">
+        <label for="staticEmail" class="col-sm-6 col-form-label">{{ form.reference_document_number.label }}</label>
+        <div class="col-sm-6">
             {{ form.reference_document_number }}
         </div>
     </div>
-    <div class="col-4 form-group row">
-        <label for="staticEmail" class="col-sm-4 col-form-label text-end">{{ form.due_date.label }}</label>
+    
+    <div class="col-3 form-group row">
+        <label for="staticEmail" class="col-sm-4 col-form-label">{{ form.due_date.label }}</label>
         <div class="col-sm-8">
             {{ form.due_date }}
         </div>
     </div>
-    <div class="col-4 form-group row">
-        <label for="staticEmail" class="col-sm-4 col-form-label text-end">{{ form.stock_date.label }}</label>
-        <div class="col-sm-8">
-            {{ form.stock_date }}
-        </div>
-    </div>
-    <div class="col-4 form-check form-switch">
-        {{ form.paid_status }}
-        <label class="form-check-label" for="customSwitch1">{{ form.paid_status.label }}</label>
-    </div>
+
 </div>

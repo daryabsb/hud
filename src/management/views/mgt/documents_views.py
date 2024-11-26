@@ -175,6 +175,27 @@ def mgt_documents_example(request):
     return render(request, 'mgt/documents/dumps/list3.html', context)
 
 
+def create_order_dict(request, Order: PosOrder, order_object=None) -> list:
+
+    queryset = Order.objects.all()
+    orders = []
+    for order in queryset:
+        form = DocumentForm(
+            instance=order,
+            initial={'document_type': order.document_type, 'user': request.user})
+        document_type = order.document_type
+        order_dict = {
+            'number': order.number,
+            'order': order,
+            'form': form,
+        }
+
+        orders.append(order_dict)
+
+        if order_object:
+            orders.append(order_object)
+    return orders
+
 @login_required
 def mgt_documents(request):
     filter = DocumentFilter(request.GET, queryset=Document.objects.all())
@@ -185,19 +206,7 @@ def mgt_documents(request):
     documents_dict = DocumentSerializer(documents, many=True)
     document_type = DocumentType.objects.first()
 
-    orders = []
-    for order in orders_queryset:
-        form = DocumentForm(
-            initial={'document_type': order.document_type, 'user': request.user})
-        document_type = order.document_type
-        order_dict = {
-            'number': order.number,
-            'order': order,
-            'form': form,
-        }
-
-        orders.append(order_dict)
-    
+    orders = create_order_dict(request, PosOrder)
 
     context = {
         'filter': filter,
@@ -207,6 +216,8 @@ def mgt_documents(request):
         'products': products,
         'documents_dict': documents_dict,
     }
+
+
     return render(request, 'mgt/documents/list.html', context)
 
 
@@ -219,16 +230,19 @@ def mgt_add_new_order(request):
         order = PosOrder(user=request.user, document_type=document_type)
         order.save(doc_type=document_type.name.lower())
 
+        # If the order object already exists, pass it as instance to the form
         form = DocumentForm(
-                initial={'document_type': document_type, 'user': request.user, 'number': order.number})
+            instance=order,  # Existing order object
+            initial={'document_type': document_type, 'user': request.user}
+        )
         
-        document_type = order.document_type
         products = Product.objects.all()
-        orders_queryset = PosOrder.objects.filter(is_active=True)
+
+        orders = create_order_dict(request, PosOrder, order)
 
         context = {
             'number': order.number,
-            'orders': orders_queryset,
+            'orders': orders,
             'order': order,
             'form': form,
             'products': products,
@@ -237,6 +251,7 @@ def mgt_add_new_order(request):
             'active': 'show active'
         }
         return render(request, 'mgt/documents/add/new/document.html', context)
+
 
 
 def add_document(request):
