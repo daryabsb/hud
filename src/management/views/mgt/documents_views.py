@@ -178,7 +178,7 @@ def mgt_documents_example(request):
 
 def create_order_dict(request, Order: PosOrder, order_object=None) -> list:
 
-    queryset = Order.objects.all()
+    queryset = Order.objects.all().order_by('created')
     orders = []
     for order in queryset:
         form = DocumentForm(
@@ -192,16 +192,16 @@ def create_order_dict(request, Order: PosOrder, order_object=None) -> list:
 
         orders.append(order_dict)
 
-        if order_object:
-            order_form = DocumentForm(
-                instance=order_object,
-                initial={'document_type': order_object.document_type, 'user': request.user})
-            order_object_dict = {
-                'number': order_object.number,
-                'order': order_object,
-                'form': order_form,
-            }
-            orders.append(order_object_dict)
+        # if order_object:
+        #     order_form = DocumentForm(
+        #         instance=order_object,
+        #         initial={'document_type': order_object.document_type, 'user': request.user})
+        #     order_object_dict = {
+        #         'number': order_object.number,
+        #         'order': order_object,
+        #         'form': order_form,
+        #     }
+        #     orders.append(order_object_dict)
     return orders
 
 
@@ -231,7 +231,11 @@ def mgt_documents(request):
 
 def mgt_add_new_order(request):
     document_type_id = request.POST.get('document-type')
-
+    filter = DocumentFilter(request.GET, queryset=Document.objects.all())
+    document_form = DocumentFilter.form
+    documents = Document.objects.all()
+    documents_dict = DocumentSerializer(documents, many=True)
+    print('caalled = ', document_type_id)
     if document_type_id:
         document_type = get_object_or_404(DocumentType, id=document_type_id)
 
@@ -241,26 +245,28 @@ def mgt_add_new_order(request):
         print('number = ', order.number)
 
         # If the order object already exists, pass it as instance to the form
-        form = DocumentForm(
-            instance=order,  # Existing order object
-            initial={'document_type': document_type, 'user': request.user}
-        )
+        # form = DocumentForm(
+        #     instance=order,  # Existing order object
+        #     initial={'document_type': document_type, 'user': request.user}
+        # )
 
         products = Product.objects.all()
 
         orders = create_order_dict(request, PosOrder, order)
 
         context = {
+            'filter': filter,
+            'form': document_form,
+            'documents_dict': documents_dict,
             'number': order.number,
             'orders': orders,
             'order': order,
-            'form': form,
             'products': products,
             'document_type': document_type,
             'active_number': order.number,
             'active': 'show active'
         }
-        return render(request, 'mgt/documents/list.html', context)
+        return render(request, 'mgt/documents/add/new/render-new-document.html', context)
 
 
 def add_document(request):

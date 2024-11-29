@@ -1,0 +1,54 @@
+<div class="card flex-1 p-0 m-0 d-flex flex-column rounded-0" id="mgt-document-page">
+		<div class="card-header pb-0" id="mgt-new-document-nav">
+			<ul class="nav nav-tabs border-0" id="mgt-documents-view-navlink">
+				<li class="mgt-document-nav nav-item me-1">
+					<a href="#mgt-documents-view-list" 
+						class="nav-link px-4 {% if not active_number %}active{% endif %}" 
+						data-bs-toggle="tab"
+						id="view-document-tab"
+						>View list</a>
+				</li>
+				{% for order in orders %}
+				<li class="mgt-document-nav nav-item me-1">
+					<a href="#mgt-documents-{{ order.number }}" 
+						class="nav-link px-4 {% if active_number == order.number %}active{% endif %}" 
+						data-bs-toggle="tab"
+						id="view-document-tab"
+						>{{order.number}}</a>
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
+		<div class="tab-content" id="mgt-documents-tab-panes">
+			<div class="mg-document-tab p-0 flex-1 tab-pane fade {% if not active_number %}show active{% endif %}" 
+				id="mgt-documents-view-list">
+				<div class="file-manager h-100" id="fileManager">
+					<div class="row border">
+						{% include 'mgt/documents/partials/buttons-toolbar.html' %}
+						{% include 'mgt/documents/partials/filter-form.html' %} 
+					</div>
+				</div>
+				<div class="file-manager-content d-flex flex-column">	
+					{% include 'mgt/documents/tables/documents-table2.html' %}
+				</div>
+
+				<div class="file-manager h-100 border-top" id="fileManager">
+					<div class="file-manager-container overflow-auto">	
+						{% include 'mgt/documents/tables/documents-table3.html' %}
+					</div>
+				</div>
+			</div>
+			{% for order in orders %}
+			{% include 'mgt/documents/add/new/document.html' %}
+			{% endfor %}
+
+		</div>
+        
+	
+		<div class="card-arrow">
+			<div class="card-arrow-top-left"></div>
+			<div class="card-arrow-top-right"></div>
+			<div class="card-arrow-bottom-left"></div>
+			<div class="card-arrow-bottom-right"></div>
+		</div>
+	</div>

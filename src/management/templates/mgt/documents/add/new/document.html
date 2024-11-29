@@ -1,4 +1,4 @@
-<div class="mg-document-tab p-0 tab-pane fade {{ active }}" id="mgt-documents-{{ order.number }}">
+<div class="mg-document-tab p-0 tab-pane fade {% if active_number == order.number %}{{ active }}{% endif %}" id="mgt-documents-{{ order.number }}">
     <div id="add-new-document-form">
         <div class="file-manager">
             {% include 'mgt/documents/add/new/forms/document-form.html' %}

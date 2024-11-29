@@ -11,19 +11,19 @@
 		</div>
 	</div>
     <div class="card flex-1 p-0 m-0 d-flex flex-column rounded-0" id="mgt-document-page">
-		<div class="card-header pb-0">
+		<div class="card-header pb-0" id="mgt-new-document-nav">
 			<ul class="nav nav-tabs border-0" id="mgt-documents-view-navlink">
 				<li class="mgt-document-nav nav-item me-1">
 					<a href="#mgt-documents-view-list" 
-						class="nav-link px-4 active" 
+						class="nav-link px-4 {% if not active_number %}active{% endif %}" 
 						data-bs-toggle="tab"
 						id="view-document-tab"
-						>View list test</a>
+						>View list</a>
 				</li>
 				{% for order in orders %}
 				<li class="mgt-document-nav nav-item me-1">
 					<a href="#mgt-documents-{{ order.number }}" 
-						class="nav-link px-4" 
+						class="nav-link px-4{% if not active_number == order.number %}active{% endif %}" 
 						data-bs-toggle="tab"
 						id="view-document-tab"
 						>{{order.number}}</a>
@@ -32,7 +32,7 @@
 			</ul>
 		</div>
 		<div class="tab-content" id="mgt-documents-tab-panes">
-			<div class="mg-document-tab p-0 flex-1 tab-pane fade {% if not active %}show active{% endif %}" 
+			<div class="mg-document-tab p-0 flex-1 tab-pane fade {% if not active_number %}show active{% endif %}" 
 				id="mgt-documents-view-list">
 				<div class="file-manager h-100" id="fileManager">
 					<div class="row border">
