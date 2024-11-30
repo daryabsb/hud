@@ -5,6 +5,6 @@ from src.orders.models import PosOrder
 
 @admin.register(PosOrder)
 class PosOrderAdmin(admin.ModelAdmin):
-    list_display = ('number', 'customer', 'discount',
+    list_display = ('number', 'customer', 'discount', 'total',
                     'discount_sign', 'discounted_amount', 'paid_status', 'created')
     ordering = ('-created', )

@@ -98,6 +98,7 @@ def add_new_document_product_details(request, product_id):
     decimal_init = Decimal(1)
 
     document_type_id = request.GET.get("document_type", None)
+    order_number = request.GET.get("order_number", None)
 
     if document_type_id:
         document_type = get_object_or_404(DocumentType, id=document_type_id)
@@ -138,6 +139,7 @@ def add_new_document_product_details(request, product_id):
         "document_type": document_type,
         "form": document_item_form,
         "product": product,
+        "order_number": order_number,
     }
 
     return render(request, 'mgt/modals/add-document-product-modal.html', context)

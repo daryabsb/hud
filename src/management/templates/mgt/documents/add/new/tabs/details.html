@@ -64,7 +64,7 @@
                 </div>
             </div>
             <div class="col-lg-4">
-                <div class="card mb-1">
+                <div class="card mb-3">
                     <div class="card-header bg-none fw-bold d-flex align-items-center">Discussion group <a href="#" class="ms-auto text-muted text-decoration-none" data-toggle="card-expand"><i class="fa fa-expand"></i></a></div>
                     <div class="card-body p-2 bg-inverse bg-opacity-10" class=" overflow-y-auto" style="height: 100px;">
                         
@@ -98,7 +98,7 @@
                 </div>
                 <div class="card mb-1">
                     <div class="card-header d-flex align-items-center bg-inverse bg-opacity-10 fw-400">
-                        Totals--------
+                        Totals
                         <a href="#" class="ms-auto text-decoration-none text-inverse text-opacity-50">Edit</a>
                     </div>
                     <div class="card-body">
@@ -106,20 +106,20 @@
                             <tbody>
                                 <tr>
                                     <td class="w-150px">Subtotal</td>
-                                    <td class="text-end">$3,496.00</td>
+                                    <td class="text-end">${{ order.item_subtotal }}</td>
                                 </tr>
                                 <tr>
                                     <td>Tax</td>
                                     <td class="text-end">$174.80</td>
                                 </tr>
                                 <tr>
-                                    <td>Shipping Fee</td>
-                                    <td class="text-end">$0.00</td>
+                                    <td>Total discount</td>
+                                    <td class="text-end">${{ order.discounted_amount }}</td>
                                 </tr>
-                                <tr>
+                                {% comment %} <tr>
                                     <td class="pb-2"><b>Total</b></td>
-                                    <td class="text-end pb-2 text-decoration-underline"><b>$3670.80</b></td>
-                                </tr>
+                                    <td class="text-end pb-2 text-decoration-underline"><b>${{ order.total }}</b></td>
+                                </tr> {% endcomment %}
                                 <tr>
                                     <td colspan="3">
                                         <hr class="m-0">
@@ -127,9 +127,9 @@
                                 </tr>
                                 <tr>
                                     <td class="pt-2 pb-2 text-nowrap">
-                                        Paid by customer
+                                        Total
                                     </td>
-                                    <td class="pt-2 pb-2 text-end">$3670.80</td>
+                                    <td class="pt-2 pb-2 text-end">${{ order.total }}</td>
                                 </tr>
                             </tbody>
                         </table>

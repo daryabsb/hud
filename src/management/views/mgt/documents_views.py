@@ -10,7 +10,7 @@ from rest_framework import serializers
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.decorators import login_required
 from src.documents.models import Document, DocumentItem, DocumentType
-from src.orders.models import PosOrder
+from src.orders.models import PosOrder, PosOrderItem
 from src.accounts.models import Customer
 # from src.documents.views import DocumentsTable
 from src.documents.forms import DocumentFilterForm
@@ -186,6 +186,11 @@ def create_order_dict(request, Order: PosOrder, order_object=None) -> list:
             initial={'document_type': order.document_type, 'user': request.user})
         order_dict = {
             'number': order.number,
+            'items': order.items,
+            'item_subtotal': order.item_subtotal,
+            'total_tax': order.total_tax,
+            'discounted_amount': order.discounted_amount,
+            'total': order.total,
             'order': order,
             'form': form,
         }
@@ -238,7 +243,7 @@ def mgt_add_new_order(request):
     if document_type_id:
         document_type = get_object_or_404(DocumentType, id=document_type_id)
         order = PosOrder(user=request.user, document_type=document_type)
-        order.save(doc_type=document_type.name.lower())        
+        order.save(doc_type=document_type.name.lower())
         products = Product.objects.all()
         orders = create_order_dict(request, PosOrder, order)
 
@@ -371,33 +376,43 @@ def mgt_documents2(request):
 def add_document_items_to_document(request):
 
     product = None
+    order = None
     form = AddDocumentItem(request.POST)
     product_id = request.POST.get('product', None)
+    order_number = request.POST.get('order', None)
+
+    if order_number:
+        order = get_object_or_404(PosOrder, number=order_number)
 
     if product_id:
         product = get_object_or_404(Product, id=product_id)
 
-    document_item = {
-        "product": product,
-        "quantity": request.POST.get("quantity"),
-        "price": request.POST.get("price"),
-        "price_before_tax": request.POST.get("price_before_tax"),
-        "total": request.POST.get("total"),
-    }
+        quantity = request.POST.get("quantity")
+        price = request.POST.get("price")
+        order_item = PosOrderItem(
+            user=request.user,
+            order=order,
+            product=product,
+            quantity=quantity,
+            price=price,
+        )
+        order_item.save()
 
-    added_products_string = request.GET.get('added-products', None)
+        order_item = {
+            "product": product,
+            "quantity": request.POST.get("quantity"),
+            "price": request.POST.get("price"),
+            "price_before_tax": request.POST.get("price_before_tax"),
+            "total": request.POST.get("total"),
+        }
 
-    if added_products_string:
-        added_products = added_products_string.split(',')
+        context = {
+            "product_id": product_id,
+            "order_item": order_item,
+            "form": form,
+        }
 
-    context = {
-        "product_id": product_id,
-        "added_products_string": added_products_string,
-        "document_item": document_item,
-        "form": form,
-    }
-
-    return render(request, "mgt/documents/renders/add-document-item-row.html", context)
+        return render(request, "mgt/documents/renders/add-document-item-row.html", context)
 
 
 def add_document_change_qty(request):
