@@ -235,23 +235,11 @@ def mgt_add_new_order(request):
     document_form = DocumentFilter.form
     documents = Document.objects.all()
     documents_dict = DocumentSerializer(documents, many=True)
-    print('caalled = ', document_type_id)
     if document_type_id:
         document_type = get_object_or_404(DocumentType, id=document_type_id)
-
         order = PosOrder(user=request.user, document_type=document_type)
-        order.save(doc_type=document_type.name.lower())
-
-        print('number = ', order.number)
-
-        # If the order object already exists, pass it as instance to the form
-        # form = DocumentForm(
-        #     instance=order,  # Existing order object
-        #     initial={'document_type': document_type, 'user': request.user}
-        # )
-
+        order.save(doc_type=document_type.name.lower())        
         products = Product.objects.all()
-
         orders = create_order_dict(request, PosOrder, order)
 
         context = {
@@ -260,7 +248,6 @@ def mgt_add_new_order(request):
             'documents_dict': documents_dict,
             'number': order.number,
             'orders': orders,
-            'order': order,
             'products': products,
             'document_type': document_type,
             'active_number': order.number,
