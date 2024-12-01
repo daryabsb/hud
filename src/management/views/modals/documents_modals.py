@@ -98,7 +98,9 @@ def add_new_document_product_details(request, product_id):
     decimal_init = Decimal(1)
 
     document_type_id = request.GET.get("document_type", None)
-    order_number = request.GET.get("order_number", None)
+    order_number = request.GET.get("order-number", None)
+
+    print('order = ', order_number)
 
     if document_type_id:
         document_type = get_object_or_404(DocumentType, id=document_type_id)

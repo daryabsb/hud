@@ -19,15 +19,16 @@
                         hx-get="{% url 'mgt:add-document-product-modal' product.id %}"
                         hx-target="#modalAddDocumentProduct"
                         hx-vals='{"document_type": {{document_type.id}}}'
+                        hx-include="#order-number-{{ order.number }}"
                         data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal"
                         >
-                        
                         <div class="p-1 w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
                             <img alt="" class="mw-100 mh-100" src="{{ product.img }}">
                         </div>
+                        <input type="hidden" id="order-number-{{ order.number }}" name="order-number" value="{{ order.number }}" />
                         <div class="flex-fill ps-2 d-flex align-items-center">
                             <div class="fw-bold flex-fill">
-                                {{ product.name|truncatechars:20 }}
+                                {{ product.name|truncatechars:20 }}||{{ order.number }}
                             </div>
                         </div>
                         <div class="messenger-time-badge">

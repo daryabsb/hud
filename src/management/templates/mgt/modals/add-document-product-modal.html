@@ -3,7 +3,7 @@
 	{% comment %} hx-target="#add-document-items-detail" {% endcomment %}
 <form  
 	hx-post="{% url 'mgt:add-document-items'  %}"
-    hx-target="#add-document-item-to-table"
+    hx-target="#item-table-{{ order_number }}"
     hx-swap="beforeend"
 	class="modal-dialog modal-right"
     id="add-doc-create-item-form"

@@ -92,7 +92,7 @@ class PosOrder(models.Model):
         ordering = ['-created']
 
     def __str__(self):
-        return f"{self.customer}: {self.total}"
+        return f"{self.number}: {self.total}"
 
     def save(self, *args, **kwargs):
         # if not self.pk:  # If the object is being created

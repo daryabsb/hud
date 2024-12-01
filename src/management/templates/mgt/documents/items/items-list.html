@@ -15,43 +15,11 @@
 					<th class="pt-3 pb-2">Detail</th>
 					<th class="pt-3 pb-2">Subtotal</th>
 					<th class="pt-3 pb-2">Actiona</th>
-
 				</tr>
 			</thead>
-			<tbody id="add-document-item-to-table">
+			<tbody id="item-table-{{ order.number }}">
 			{% for item in order.items.all %}
-				<tr>
-		<td class="w-10px align-middle">
-			<div class="form-check">
-				<input type="checkbox" class="form-check-input" id="product1">
-				<label class="form-check-label" for="product1"></label>
-			</div>
-		</td>
-		<td>
-			<div class="d-flex align-items-center">
-				<div class="w-40px h-40px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
-					<img alt="" class="mw-100 mh-100" src="{{ item.product.img }}">
-				</div>
-				<div class="ms-3">
-					<a href="page_product_details.html" class="text-inverse text-opacity-75 text-decoration-none">{{ item.product.name }}</a>
-				</div>
-			</div>
-		</td>
-		<td class="align-middle">{{ item.price|floatformat }} x {{ item.quantity }}</td>
-		<td class="align-middle">{{ item.item_total|floatformat }}$</td>
-		<td class="align-middle">
-			<div class="btn-group btn-group-md">
-				<button type="button" class="btn">
-					<i class="fas fa-lg fa-fw me-2 fa-edit"></i>
-				</button>
-				<button type="button" class="btn"
-				_="on click remove closest <tr/> end"
-				>
-                <i class="fas fa-lg fa-fw me-2 fa-trash text-danger"></i>
-            </button>
-        </div>
-    </td>
-</tr>
+				{% include 'mgt/documents/items/item.html' %}
 			{% endfor %}
 			</tbody>
 		</table>

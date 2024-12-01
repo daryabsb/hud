@@ -382,37 +382,46 @@ def add_document_items_to_document(request):
     order_number = request.POST.get('order', None)
 
     if order_number:
+        print('order number is: ', order_number)
         order = get_object_or_404(PosOrder, number=order_number)
 
     if product_id:
         product = get_object_or_404(Product, id=product_id)
 
-        quantity = request.POST.get("quantity")
-        price = request.POST.get("price")
-        order_item = PosOrderItem(
-            user=request.user,
-            order=order,
-            product=product,
-            quantity=quantity,
-            price=price,
-        )
+        # Check if same item exists
+        order_item = PosOrderItem.objects.filter(product=product).first()
+        
+        if order_item:
+            print('Order item exists!')
+        else:
+            quantity = request.POST.get("quantity")
+            price = request.POST.get("price")
+            order_item = PosOrderItem(
+                user=request.user,
+                order=order,
+                product=product,
+                quantity=quantity,
+                price=price,
+            )
         order_item.save()
 
-        order_item = {
-            "product": product,
-            "quantity": request.POST.get("quantity"),
-            "price": request.POST.get("price"),
-            "price_before_tax": request.POST.get("price_before_tax"),
-            "total": request.POST.get("total"),
-        }
+        # order_item = {
+        #     "product": product,
+        #     "quantity": request.POST.get("quantity"),
+        #     "price": request.POST.get("price"),
+        #     "price_before_tax": request.POST.get("price_before_tax"),
+        #     "total": request.POST.get("total"),
+        # }
+
+        print(order_item.number)
 
         context = {
             "product_id": product_id,
-            "order_item": order_item,
+            "item": order_item,
             "form": form,
         }
 
-        return render(request, "mgt/documents/renders/add-document-item-row.html", context)
+        return render(request, "mgt/documents/items/item.html", context)
 
 
 def add_document_change_qty(request):
@@ -427,6 +436,7 @@ def add_document_change_qty(request):
     discount = request.GET.get('discount', 0)
     total_before_tax = request.GET.get('total_before_tax', 0)
     total = request.GET.get('total', 1)
+    order_number = request.GET.get('order', None)
 
     tax_cut = 0
     tax = None
@@ -438,7 +448,7 @@ def add_document_change_qty(request):
         else:
             tax_cut = price * Decimal(tax.rate) / Decimal(100.00)
 
-    print("discount_type = ", type(discount_type))
+    print("order_number = ", order_number)
     discount_cut = 0
     if discount_type == 0:
         print(
@@ -476,6 +486,7 @@ def add_document_change_qty(request):
     # print('receive_total = ', total)
 
     context = {
+        'order_number': order_number,
         "form": form,
         "product": product,
     }
