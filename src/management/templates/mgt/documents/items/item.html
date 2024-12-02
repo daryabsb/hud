@@ -1,5 +1,5 @@
 {% if item %}
-<tr>
+<tr id="item-{{ item.number }}">
     <td class="w-10px align-middle">
         <div class="form-check">
             <input type="checkbox" class="form-check-input" id="product1">
@@ -16,15 +16,18 @@
             </div>
         </div>
     </td>
-    <td class="align-middle">{{ item.price_before_tax|floatformat }} x {{ item.quantity }}</td>
-    <td class="align-middle">{{ item.total|floatformat }}$</td>
+    <td class="align-middle">{{ item.price|floatformat }} x {{ item.quantity }}</td>
+    <td class="align-middle">{{ item.item_total|floatformat }}$</td>
     <td class="align-middle">
         <div class="btn-group btn-group-md">
             <button type="button" class="btn">
                 <i class="fas fa-lg fa-fw me-2 fa-edit"></i>
             </button>
             <button type="button" class="btn"
-            _="on click remove closest <tr/> end"
+            hx-get="{% url 'mgt:modal-delete-order-item' item.number %}"
+            hx-target="#modalAddDocumentProduct"
+            data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal"
+            
             >
                 <i class="fas fa-lg fa-fw me-2 fa-trash text-danger"></i>
             </button>

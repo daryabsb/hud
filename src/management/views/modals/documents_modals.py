@@ -1,5 +1,6 @@
 from decimal import Decimal
-
+from django.views.decorators.http import require_GET, require_POST
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render
 from src.documents.models import DocumentCategory, DocumentType
 from src.documents.forms import DocumentFilterForm
@@ -9,7 +10,7 @@ from src.stock.models import StockControl
 from src.stock.forms import StockControlForm
 from src.accounts.forms import CustomerForm
 from src.orders.forms import DocumentForm
-
+from src.orders.models import PosOrderItem
 
 def modal_add_document(request):
     from src.documents.forms import DocumentFilterForm
@@ -165,3 +166,14 @@ def filter_document_type(request):
         "first_type": document_types.first()
     }
     return render(request, 'mgt/forms/document_type_select.html', context)
+
+
+@login_required
+@require_GET
+def modal_delete_order_item(request, item_number):
+
+    if item_number:
+        item = get_object_or_404(PosOrderItem, number=item_number)
+    
+        context = {"item": item}
+        return render(request, 'mgt/modals/confirm-delete-order-item.html', context)

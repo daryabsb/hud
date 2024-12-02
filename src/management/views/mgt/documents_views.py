@@ -390,11 +390,21 @@ def add_document_items_to_document(request):
 
         # Check if same item exists
         order_item = PosOrderItem.objects.filter(product=product).first()
-        
+        quantity = request.POST.get("quantity")
         if order_item:
             print('Order item exists!')
+            order_item.quantity += int(quantity)
+            order_item.save()
+            print('Order_item_QUANTITY = ', order_item.quantity)
+            context = {
+                "product_id": product_id,
+                # "item": order_item,
+                "form": form,
+                "order": order,
+            }
+            return render(request, "mgt/documents/items/items-list.html", context)
         else:
-            quantity = request.POST.get("quantity")
+            
             price = request.POST.get("price")
             order_item = PosOrderItem(
                 user=request.user,
@@ -417,12 +427,25 @@ def add_document_items_to_document(request):
 
         context = {
             "product_id": product_id,
-            "item": order_item,
+            # "item": order_item,
             "form": form,
+            "order": order,
         }
 
-        return render(request, "mgt/documents/items/item.html", context)
+        return render(request, "mgt/documents/items/items-list.html", context)
 
+def add_document_remove_items(request, item_number):
+    order = None
+    if item_number:
+        item = get_object_or_404(PosOrderItem, number=item_number)
+
+        if item:
+            order = item.order
+            item.delete()
+        context = {
+            "order": order,
+        }
+        return render(request, "mgt/documents/items/items-list.html", context)
 
 def add_document_change_qty(request):
 

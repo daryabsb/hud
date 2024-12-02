@@ -1,0 +1,50 @@
+{% load widget_tweaks %}
+{% if item %}
+<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<h3 class="modal-title">Delete ({{ item.product.name }}) from the order!</h3>
+			<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+		</div>
+		<form
+			hx-post="{% url 'mgt:add-document-remove-items' item.number %}"
+			hx-target="#add-document-items-detail-{{ item.order.number }}"
+			class="modal-body">
+			<input type="hidden" name="delete-product-id" value="{{ product.id }}" />
+			<p class="mb-3">
+				You are about to delete a product from the order<br>
+				If you are sure, type the word (DELETE) then click confirm!
+			</p>
+			<div class="row mb-5">
+				<div class="col-md-9">
+					<input type="text" placeholder="type the word DELETE here" 
+					class="form-control form-control-lg"
+					_="on keyup 
+					if my value == 'DELETE' 
+					then 
+						remove .is-invalid from me
+						add .is-valid to me
+						wait 2seconds 
+						remove @disabled from #confirm-delete-item-button
+						else
+						remove .is-valid from me
+						wait 2seconds 
+						add .is-invalid to me
+					end
+					"
+					>				
+				</div>
+				<div class="col-md-3">
+					<button 
+						type="submit" 
+						class="btn btn-outline-theme btn-lg btn-block" 
+						id="confirm-delete-item-button"
+						disabled
+					 	data-bs-dismiss="modal"
+					>Confirm</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+{% endif %}

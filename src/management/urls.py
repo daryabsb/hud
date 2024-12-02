@@ -57,6 +57,9 @@ urlpatterns += [
     path("add-document-product-modal/<int:product_id>/",
          views.add_new_document_product_details, name="add-document-product-modal"),
 
+    path("add-document-remove-items/<str:item_number>/",
+         views.add_document_remove_items, name="add-document-remove-items"),
+
     path("add-document-change-qty/", views.add_document_change_qty,
          name="add-document-change-qty"),
 ]
@@ -102,6 +105,8 @@ urlpatterns += [
          name='add-new-document-tab'),
     path('add-new-order-tab/', views.add_new_order_tab,
          name='add-new-order-tab'),
+    path('modal-delete-order-item/<str:item_number>', views.modal_delete_order_item,
+         name='modal-delete-order-item'),
 ]
 
 # HTMX URLS
