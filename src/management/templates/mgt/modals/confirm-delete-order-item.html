@@ -29,6 +29,7 @@
 						else
 						remove .is-valid from me
 						wait 2seconds 
+						add @disabled to #confirm-delete-item-button
 						add .is-invalid to me
 					end
 					"
@@ -37,7 +38,7 @@
 				<div class="col-md-3">
 					<button 
 						type="submit" 
-						class="btn btn-outline-theme btn-lg btn-block" 
+						class="btn btn-outline-danger btn-lg btn-block" 
 						id="confirm-delete-item-button"
 						disabled
 					 	data-bs-dismiss="modal"
