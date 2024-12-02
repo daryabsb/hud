@@ -402,9 +402,9 @@ def add_document_items_to_document(request):
                 "form": form,
                 "order": order,
             }
-            return render(request, "mgt/documents/items/items-list.html", context)
+            return render(request, "mgt/documents/add/new/render/render-item.html", context)
         else:
-            
+
             price = request.POST.get("price")
             order_item = PosOrderItem(
                 user=request.user,
@@ -432,7 +432,8 @@ def add_document_items_to_document(request):
             "order": order,
         }
 
-        return render(request, "mgt/documents/items/items-list.html", context)
+        return render(request, "mgt/documents/add/new/render/render-item.html", context)
+
 
 def add_document_remove_items(request, item_number):
     order = None
@@ -446,6 +447,7 @@ def add_document_remove_items(request, item_number):
             "order": order,
         }
         return render(request, "mgt/documents/items/items-list.html", context)
+
 
 def add_document_change_qty(request):
 

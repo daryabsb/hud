@@ -1,0 +1,44 @@
+<div class="card-header d-flex align-items-center bg-inverse bg-opacity-10 fw-400">
+    Totals
+    <a href="#" class="ms-auto text-decoration-none text-inverse text-opacity-50">Edit</a>
+</div>
+<div class="card-body">
+    <table class="table table-borderless table-sm m-0">
+        <tbody>
+            <tr>
+                <td class="w-150px">Subtotal</td>
+                <td class="text-end">${{ order.item_subtotal }}</td>
+            </tr>
+            <tr>
+                <td>Tax</td>
+                <td class="text-end">$174.80</td>
+            </tr>
+            <tr>
+                <td>Total discount</td>
+                <td class="text-end">${{ order.discounted_amount }}</td>
+            </tr>
+            {% comment %} <tr>
+                <td class="pb-2"><b>Total</b></td>
+                <td class="text-end pb-2 text-decoration-underline"><b>${{ order.total }}</b></td>
+            </tr> {% endcomment %}
+            <tr>
+                <td colspan="3">
+                    <hr class="m-0">
+                </td>
+            </tr>
+            <tr>
+                <td class="pt-2 pb-2 text-nowrap">
+                    Total
+                </td>
+                <td class="pt-2 pb-2 text-end">${{ order.total }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="card-arrow">
+    <div class="card-arrow-top-left"></div>
+    <div class="card-arrow-top-right"></div>
+    <div class="card-arrow-bottom-left"></div>
+    <div class="card-arrow-bottom-right"></div>
+</div>
+                
