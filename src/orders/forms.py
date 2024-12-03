@@ -4,6 +4,7 @@ from src.documents.models import Document, DocumentType
 from src.core.utils import generate_number
 from datetime import datetime, timedelta
 from django.utils.text import slugify
+from src.orders.models import PosOrder, PosOrderItem
 
 today = datetime.now()
 due_date = today + timedelta(days=15)
@@ -24,7 +25,6 @@ class CustomDateInput(forms.DateInput):
         if attrs:
             final_attrs.update(attrs)
         super().__init__(attrs=final_attrs)
-
 
 class DocumentForm(forms.ModelForm):
     number = forms.CharField(
@@ -142,6 +142,14 @@ class DocumentForm(forms.ModelForm):
                 else:
                     self.fields['customer'].queryset = Customer.objects.none()
 
+
+class PosOrderItemForm(forms.ModelForm):
+    class Meta:
+        model = PosOrderItem
+        fields = (
+            'product', 'quantity', 'price', 'price_before_tax', 'tax',
+            'discount', 'discount_type', 'total_before_tax', 'total',
+        )
 
 
 class CreateSaleForm(forms.Form):

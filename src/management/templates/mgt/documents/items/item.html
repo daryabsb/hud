@@ -20,7 +20,13 @@
     <td class="align-middle">{{ item.item_total|floatformat }}$</td>
     <td class="align-middle">
         <div class="btn-group btn-group-md">
-            <button type="button" class="btn">
+            <button type="button" class="btn"
+            
+            hx-get="{% url 'mgt:modal-edit-order-item' item.number %}"
+            hx-target="#modalEditDocumentItem"
+            data-bs-target="#modalEditDocumentItem" data-bs-toggle="modal"
+
+            >
                 <i class="fas fa-lg fa-fw me-2 fa-edit"></i>
             </button>
             <button type="button" class="btn"

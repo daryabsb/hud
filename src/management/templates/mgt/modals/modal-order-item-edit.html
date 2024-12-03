@@ -1,0 +1,35 @@
+
+{% comment %} hx-include="#added-products" {% endcomment %}
+	{% comment %} hx-target="#add-document-items-detail" {% endcomment %}
+{% if item %}
+<form  
+	hx-post="{% url 'mgt:edit-document-items' item.number  %}"
+    hx-target="#add-document-items-detail-{{ order_number }}"
+	class="modal-dialog modal-right"
+    id="add-doc-create-item-form"
+    >
+    {% comment %} hx-swap="beforeend" {% endcomment %}
+	<div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Add product to document</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+	    <div class="modal-body overflow-y-auto" >
+			{% include 'documents/mgt-forms/add/add-doc-item-form.html'%}
+		
+		    <div class="modal-footer">
+                <a 
+                    href="#" 
+                    class="btn btn-outline-default" 
+                    data-bs-dismiss="modal"
+                    >Cancel</a>
+                <button 
+                type="submit"  
+                class="btn btn-outline-theme"
+                data-bs-dismiss="modal"
+                >Submit</button>
+		    </div>
+	    </div>
+    </div>
+</form>
+{% endif %}

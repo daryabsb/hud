@@ -105,6 +105,8 @@ urlpatterns += [
          name='add-new-document-tab'),
     path('add-new-order-tab/', views.add_new_order_tab,
          name='add-new-order-tab'),
+    path('modal-edit-order-item/<str:item_number>', views.add_new_document_edit_item,
+         name='modal-edit-order-item'),
     path('modal-delete-order-item/<str:item_number>', views.modal_delete_order_item,
          name='modal-delete-order-item'),
 ]
