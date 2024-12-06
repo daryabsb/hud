@@ -52,7 +52,9 @@ class DocumentAdmin(admin.ModelAdmin):
 
 @admin.register(DocumentItem)
 class DocumentItemAdmin(admin.ModelAdmin):
-    list_display = ('product', 'price', 'total', 'returned', 'created')
+    list_display = ('number', 'product', 'price',
+                    # 'total',
+                    'returned', 'created')
     ordering = ('-created', )
     # list_filter = ('user', 'product__plan__subscription')
 

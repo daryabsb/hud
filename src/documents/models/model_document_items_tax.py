@@ -7,12 +7,12 @@ class DocumentItemTax(models.Model):
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="document_item_taxes"
     )
-    document_item = models.ForeignKey(
-        "DocumentItem",
-        on_delete=models.CASCADE,
-        null=True,
-        related_name="document_item_taxes",
-    )
+    # document_item = models.ForeignKey(
+    #     "DocumentItem",
+    #     on_delete=models.CASCADE,
+    #     null=True,
+    #     related_name="document_item_taxes",
+    # )
     tax = models.ForeignKey(
         Tax, on_delete=models.DO_NOTHING, related_name="document_item_taxes"
     )

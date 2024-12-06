@@ -26,6 +26,7 @@ class CustomDateInput(forms.DateInput):
             final_attrs.update(attrs)
         super().__init__(attrs=final_attrs)
 
+
 class DocumentForm(forms.ModelForm):
     number = forms.CharField(
         required=False, label='Number',
@@ -125,9 +126,11 @@ class DocumentForm(forms.ModelForm):
             print('number = ', instance.number)
             self.fields['document_type'].initial = instance.document_type
             if instance.document_type.category.id == 1:
-                self.fields['customer'].queryset = Customer.objects.filter(is_customer=True)
+                self.fields['customer'].queryset = Customer.objects.filter(
+                    is_customer=True)
             elif instance.document_type.category.id == 2:
-                self.fields['customer'].queryset = Customer.objects.filter(is_supplier=True)
+                self.fields['customer'].queryset = Customer.objects.filter(
+                    is_supplier=True)
             else:
                 self.fields['customer'].queryset = Customer.objects.none()
         else:
@@ -136,9 +139,11 @@ class DocumentForm(forms.ModelForm):
             if document_type:
                 self.fields['document_type'].initial = document_type
                 if document_type.category.id == 1:
-                    self.fields['customer'].queryset = Customer.objects.filter(is_customer=True)
+                    self.fields['customer'].queryset = Customer.objects.filter(
+                        is_customer=True)
                 elif document_type.category.id == 2:
-                    self.fields['customer'].queryset = Customer.objects.filter(is_supplier=True)
+                    self.fields['customer'].queryset = Customer.objects.filter(
+                        is_supplier=True)
                 else:
                     self.fields['customer'].queryset = Customer.objects.none()
 
@@ -146,10 +151,11 @@ class DocumentForm(forms.ModelForm):
 class PosOrderItemForm(forms.ModelForm):
     class Meta:
         model = PosOrderItem
-        fields = (
-            'product', 'quantity', 'price', 'price_before_tax', 'tax',
-            'discount', 'discount_type', 'total_before_tax', 'total',
-        )
+        fields = '__all__'
+        # (
+        #     'product', 'quantity', 'price', 'price_before_tax', 'tax',
+        #     'discount', 'discount_type', 'total_before_tax', 'total',
+        # )
 
 
 class CreateSaleForm(forms.Form):

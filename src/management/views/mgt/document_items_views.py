@@ -25,7 +25,7 @@ def document_items_datatable_view(request):
         product__name=F('product__name'),
         document__id=F('document__id')
         # image_url=F('image__url'),
-    ).order_by("id")
+    ).order_by("number")
 
     if search_value:
         qs = qs.filter(

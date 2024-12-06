@@ -13,6 +13,7 @@ from src.orders.forms import DocumentForm
 from src.orders.models import PosOrderItem
 from src.orders.forms import PosOrderItemForm
 
+
 def modal_add_document(request):
     from src.documents.forms import DocumentFilterForm
 
@@ -175,7 +176,7 @@ def modal_delete_order_item(request, item_number):
 
     if item_number:
         item = get_object_or_404(PosOrderItem, number=item_number)
-    
+
         context = {"item": item}
         return render(request, 'mgt/modals/confirm-delete-order-item.html', context)
 

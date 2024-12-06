@@ -18,20 +18,20 @@ customers = Customer.objects.all()
 
 def run():
     # create_documents()
-    # create_document_items()
+    create_document_items()
     # print(str(create_number()))
-    product = Product.objects.first()
-    print("filtered_product = ", product.name)
-    documents = Document.objects.filter(
-        document_items__product=product
-    ).distinct()
-    print(documents.count(), "documents found")
-    checked_documents = 0
-    for document in documents:
-        for item in document.document_items.all():
-            if item.product == product:
-                checked_documents += 1
-    print(checked_documents, "documents checked")
+    # product = Product.objects.first()
+    # print("filtered_product = ", product.name)
+    # documents = Document.objects.filter(
+    #     document_items__product=product
+    # ).distinct()
+    # print(documents.count(), "documents found")
+    # checked_documents = 0
+    # for document in documents:
+    #     for item in document.document_items.all():
+    #         if item.product == product:
+    #             checked_documents += 1
+    # print(checked_documents, "documents checked")
     # print("found_product = ", item.product.name)
 
 
@@ -59,37 +59,41 @@ def create_documents():
 
 
 def create_document_items():
+    from src.core.utils import generate_number
     for document in documents:
         n = random_one_digit()
         products_ids = random_set(n)
         product_name_list = []
-        for id in products_ids:
-            product = Product.objects.get(id=id)
-            quantity = random_one_digit()
-            total = float(product.price) * float(quantity)
+        if document.document_items.exists():
+            print('document items exists')
+        else:
+            for id in products_ids:
+                product = Product.objects.get(id=id)
+                quantity = random_one_digit()
+                # total = float(product.price) * float(quantity)
 
-            item = DocumentItem(**{
-
-                'user': user,
-                'document': document,
-                'product': product,
-                'quantity': quantity,
-                'expected_quantity': 1,
-                'price_before_tax': product.price,
-                'price': product.price,
-                'discount': 0.0,
-                'discount_type': 0.0,
-                'product_cost': float(product.price) * float(0.90),
-                'price_before_tax_after_discount': product.price,
-                'price_after_discount': product.price,
-                'total': total,
-                'total_after_document_discount': total,
-                'discount_apply_rule': 0,
-                'returned': random_bool()
-            })
-            item.save()
-            print(
-                f'{item.product.name}: {item.price} X {item.quantity} = {item.total}')
+                item = DocumentItem(**{
+                    'number': generate_number('item'),
+                    'user': user,
+                    'document': document,
+                    'product': product,
+                    'quantity': quantity,
+                    'expected_quantity': 1,
+                    # 'price_before_tax': product.price,
+                    'price': product.price,
+                    'discount': 0.0,
+                    'discount_type': 0.0,
+                    # 'product_cost': float(product.price) * float(0.90),
+                    # 'price_before_tax_after_discount': product.price,
+                    # 'price_after_discount': product.price,
+                    # 'total': total,
+                    # 'total_after_document_discount': total,
+                    'discount_apply_rule': 0,
+                    'returned': random_bool()
+                })
+                item.save()
+                print(
+                    f'{item.product.name}: {item.price} X {item.quantity} = {item.price * item.quantity}')
 
 
 def create_number():
