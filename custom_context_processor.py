@@ -20,3 +20,14 @@ def dz_static(request):
 #     return {
 #         "site_config":setup_config.loadConfig()
 #     }
+
+def props(request):
+    from src.configurations.models import ApplicationProperty
+    properties = ApplicationProperty.objects.all()
+    prop_dict = {}
+    for prop in properties:
+        prop_dict[prop.name] = prop.value
+    
+    print(prop_dict)
+    return prop_dict
+    # return {'props':prop_dict}

@@ -157,8 +157,8 @@
     --bs-highlight-bg: #fefacf;
     --bs-border-width: 1px;
     --bs-border-style: solid;
-    --bs-border-color: rgba(0, 0, 0, 0.2);
-    --bs-border-color-translucent: rgba(0, 0, 0, 0.1);
+    --bs-border-color: rgba(0, 0, 0, 0.5);
+    --bs-border-color-translucent: rgba(0, 0, 0, 0.5);
     --bs-border-radius: 4px;
     --bs-border-radius-sm: 2px;
     --bs-border-radius-lg: 8px;
@@ -18316,9 +18316,9 @@ fieldset:disabled .btn {
 :root,
 [data-bs-theme=light] {
     --bs-body-bg-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.99) 100%);
-    --bs-body-bg-image: url("images/pattern.png");
+    /* --bs-body-bg-image: url("images/pattern.png"); */
     --bs-body-bg-image-size: 4.6875rem;
-    --bs-body-bg-cover: url("images/cover.jpg");
+    /* --bs-body-bg-cover: url("images/cover.jpg"); */
     --bs-body-font-weight: 400;
     --bs-body-letter-spacing: 0.046875rem;
     --bs-component-bg: #FFFFFF;
@@ -18346,9 +18346,9 @@ fieldset:disabled .btn {
 
 [data-bs-theme=dark] {
     --bs-body-bg-gradient: linear-gradient(180deg, rgba(50, 70, 80, 0.9) 0%, rgb(13, 16, 27) 100%);
-    --bs-body-bg-image: url("images/pattern-dark.png");
+    /* --bs-body-bg-image: url("images/pattern-dark.png"); */
     --bs-body-bg-image-size: 4.6875rem;
-    --bs-body-bg-cover: url("images/cover-dark.jpg");
+    /* --bs-body-bg-cover: url("images/cover-dark.jpg"); */
     --bs-body-font-weight: 300;
     --bs-body-letter-spacing: 0.046875rem;
     --bs-component-bg: #28292b;
@@ -28340,7 +28340,7 @@ body:not(.app-init) * {
 }
 
 .bg-cover-2:after {
-    background-image: url(images/cover-2.jpg)
+    /* background-image: url(images/cover-2.jpg) */
 }
 
 .bg-cover-none:after {
@@ -28348,11 +28348,11 @@ body:not(.app-init) * {
 }
 
 [data-bs-theme=dark].bg-cover-2:after {
-    background-image: url(images/cover-2-dark.jpg)
+    /* background-image: url(images/cover-2-dark.jpg) */
 }
 
 .bg-cover-3:after {
-    background-image: url(images/cover-3.jpg)
+    /* background-image: url(images/cover-3.jpg) */
 }
 
 .bg-cover-none:after {
@@ -28360,11 +28360,11 @@ body:not(.app-init) * {
 }
 
 [data-bs-theme=dark].bg-cover-3:after {
-    background-image: url(images/cover-3-dark.jpg)
+    /* background-image: url(images/cover-3-dark.jpg) */
 }
 
 .bg-cover-4:after {
-    background-image: url(images/cover-4.jpg)
+    /* background-image: url(images/cover-4.jpg) */
 }
 
 .bg-cover-none:after {
@@ -28372,11 +28372,11 @@ body:not(.app-init) * {
 }
 
 [data-bs-theme=dark].bg-cover-4:after {
-    background-image: url(images/cover-4-dark.jpg)
+    /* background-image: url(images/cover-4-dark.jpg) */
 }
 
 .bg-cover-5:after {
-    background-image: url(images/cover-5.jpg)
+    /* background-image: url(images/cover-5.jpg) */
 }
 
 .bg-cover-none:after {
@@ -28384,11 +28384,11 @@ body:not(.app-init) * {
 }
 
 [data-bs-theme=dark].bg-cover-5:after {
-    background-image: url(images/cover-5-dark.jpg)
+    /* background-image: url(images/cover-5-dark.jpg) */
 }
 
 .bg-cover-6:after {
-    background-image: url(images/cover-6.jpg)
+    /* background-image: url(images/cover-6.jpg) */
 }
 
 .bg-cover-none:after {
@@ -28396,11 +28396,11 @@ body:not(.app-init) * {
 }
 
 [data-bs-theme=dark].bg-cover-6:after {
-    background-image: url(images/cover-6-dark.jpg)
+    /* background-image: url(images/cover-6-dark.jpg) */
 }
 
 .bg-cover-7:after {
-    background-image: url(images/cover-7.jpg)
+    /* background-image: url(images/cover-7.jpg) */
 }
 
 .bg-cover-none:after {
@@ -28408,11 +28408,11 @@ body:not(.app-init) * {
 }
 
 [data-bs-theme=dark].bg-cover-7:after {
-    background-image: url(images/cover-7-dark.jpg)
+    /* background-image: url(images/cover-7-dark.jpg) */
 }
 
 .bg-cover-8:after {
-    background-image: url(images/cover-8.jpg)
+    /* background-image: url(images/cover-8.jpg) */
 }
 
 .bg-cover-none:after {
@@ -28420,11 +28420,11 @@ body:not(.app-init) * {
 }
 
 [data-bs-theme=dark].bg-cover-8:after {
-    background-image: url(images/cover-8-dark.jpg)
+    /* background-image: url(images/cover-8-dark.jpg) */
 }
 
 .bg-cover-9:after {
-    background-image: url(images/cover-9.jpg)
+    /* background-image: url(images/cover-9.jpg) */
 }
 
 .bg-cover-none:after {
@@ -28432,7 +28432,7 @@ body:not(.app-init) * {
 }
 
 [data-bs-theme=dark].bg-cover-9:after {
-    background-image: url(images/cover-9-dark.jpg)
+    /* background-image: url(images/cover-9-dark.jpg) */
 }
 
 .flex-1 {
