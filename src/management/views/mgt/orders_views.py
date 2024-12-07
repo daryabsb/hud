@@ -30,7 +30,7 @@ def mgt_orders(request):
         'form': form,
         'documents_dict': documents_dict,
     }
-    return render(request, 'mgt/orders/list.html', context)
+    return render(request, 'orders/list.html', context)
 
 
 def add_new_order_tab(request):
