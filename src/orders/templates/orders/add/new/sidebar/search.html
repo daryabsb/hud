@@ -5,7 +5,7 @@
         placeholder="Search products"
         name="add-doc-product-filter"
         hx-get="{% url 'mgt:add-doc-filter-products' %}"
-        hx-target="#mgt-products-sidebar"
+        hx-target="#mgt-products-sidebar-{{ order.number }}"
         hx-trigger="keyup changed delay:250ms"
         hx-include="#document-type"
         >
