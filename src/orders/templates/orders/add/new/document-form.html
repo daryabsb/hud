@@ -1,0 +1,58 @@
+ <div class="row gap-2 p-4">
+    <div class="col-4 form-group row">
+        <label for="staticEmail" class="col-sm-3 col-form-label">Number</label>
+        <div class="col-sm-9">
+            <input type="text" name="number" value="sales-30112024-0149" class="form-control form-control-sm" id="id_number">
+        </div>
+    </div>
+    <div class="col-3 form-group row">
+        <label for="staticEmail" class="col-sm-6 col-form-label">Document type</label>
+        <div class="col-sm-6">
+            <select name="document_type" class="form-select form-select-sm" id="id_document_type">
+                <option value="">---------</option>
+                <option value="1">100 | Purchase</option>
+                <option value="2" selected="">200 | Sales</option>
+                <option value="3">300 | Inventory Count</option>
+                <option value="4">220 | Refund</option>
+                <option value="5">120 | Stock Return</option>
+                <option value="6">400 | Loss And Damage</option>
+                <option value="7">230 | Proforma</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-3 form-group row">
+        <label for="staticEmail" class="col-sm-4 col-form-label">Date</label>
+        <div class="col-sm-8">
+            <div class="form-group">
+                <input type="" name="date" id="id_date" class="form-control form-control-sm" value="2024-12-08">
+            </div>
+        </div>
+    </div>
+    <div class="col-2 form-check form-switch align-content-end">
+        <input type="checkbox" name="paid_status" class="form-check-input" hx-trigger="keyup changed delay:500ms" id="id_paid_status">
+        <label class="form-check-label" for="customSwitch1">Paid Status</label>
+    </div>
+    <div class="col-4 form-group row">
+        <label for="staticEmail" class="col-sm-3 col-form-label">Customer</label>
+        <div class="col-sm-9">
+            <select name="customer" class="form-select form-select-sm" id="id_customer">
+                <option value="">---------</option>
+                <option value="1" selected="">Good Customer</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-3 form-group row">
+        <label for="staticEmail" class="col-sm-6 col-form-label">External Document</label>
+        <div class="col-sm-6">
+            <input type="text" name="reference_document_number" class="form-control form-control-sm" maxlength="100" id="id_reference_document_number">
+        </div>
+    </div>
+    <div class="col-3 form-group row">
+        <label for="staticEmail" class="col-sm-4 col-form-label">Due Date</label>
+        <div class="col-sm-8">
+            <div class="form-group">
+                <input type="" name="due_date" id="id_due_date" class="form-control form-control-sm" value="2024-12-23">
+            </div>
+        </div>
+    </div>
+</div>

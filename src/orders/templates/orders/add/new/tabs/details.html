@@ -1,0 +1,22 @@
+<div class="messenger">
+    <div class="messenger-sidebar">
+        <div class="messenger-sidebar-header">
+            <h3 class="mb-10px">Products</h3>
+            {% include 'orders/add/new/sidebar/search.html' %}
+        </div>
+        <div class="messenger-sidebar-body ">
+            {% include 'orders/add/new/sidebar/products.html' %}
+        </div>
+    </div>
+    <div class="messenger-content">
+        <div class="messenger-content-body row pt-2 ps-4">
+            <div class="col-lg-8">
+                {% include 'orders/add/new/items/list.html' %}
+            </div>
+            <div class="col-lg-4">
+                {% include 'orders/elements/notes.html' %}
+                {% include 'orders/elements/totals.html' %}
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,30 @@
+<div data-scrollbar="true" data-height="100%" 
+    class="overflow-auto ps" style="height: 100%;" 
+    data-init="true"
+    id="mgt-products-sidebar"
+    >
+    {% for product in products %}
+    <div class="messenger-item p-2">
+        <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" 
+        hx-get="/mgt/add-document-product-modal/{{ product.id }}/" 
+        hx-target="#modalAddDocumentProduct" 
+        hx-vals='{"document_type": {{ order.document_type.id }}}' 
+        hx-include="#order-number-{{ order.number }}" 
+        data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+            <div class="p-1 w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                <img alt="" class="mw-100 mh-100" src="{{ product.img }}">
+            </div>
+            <input type="hidden" id="order-number-{{ order.number }}" name="order-number" value="{{ order.number }}">
+            <div class="flex-fill ps-2 d-flex align-items-center">
+                <div class="fw-bold flex-fill">
+                    {{ product.name }}
+                </div>
+            </div>
+            <div class="messenger-time-badge">
+                <div class="messenger-time">{{ product.price }} {{ product.currency.name }}</div>
+                <div class="messenger-badge">1 {{ product.measurement_unit }}</div>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+</div>

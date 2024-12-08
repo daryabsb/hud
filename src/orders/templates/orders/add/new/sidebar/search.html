@@ -1,0 +1,12 @@
+<div class="position-relative">
+    <button type="submit" class="btn text-inverse position-absolute top-0"><i class="bi bi-search"></i></button>
+    <input type="text" 
+        class="form-control rounded-pill ps-35px" 
+        placeholder="Search products"
+        name="add-doc-product-filter"
+        hx-get="{% url 'mgt:add-doc-filter-products' %}"
+        hx-target="#mgt-products-sidebar"
+        hx-trigger="keyup changed delay:250ms"
+        hx-include="#document-type"
+        >
+</div>

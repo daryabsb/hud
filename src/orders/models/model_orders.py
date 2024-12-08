@@ -21,7 +21,7 @@ class PosOrder(models.Model):
     # total_tax = models.DecimalField(
     #     decimal_places=3,  max_digits=15, default=0)
     document_type = models.ForeignKey(
-        DocumentType, on_delete=models.DO_NOTHING, 
+        DocumentType, on_delete=models.DO_NOTHING,
         related_name="orders", default=1
     )
     warehouse = models.ForeignKey(
@@ -96,7 +96,7 @@ class PosOrder(models.Model):
 
     def save(self, *args, **kwargs):
         # if not self.pk:  # If the object is being created
-        
+
         if self.number is None or self.number == '':
             doc_type = kwargs.pop('doc_type', 'order')
             self.number = generate_number(doc_type)
@@ -139,6 +139,12 @@ class PosOrder(models.Model):
         #         self.item_subtotal -= discount.value
 
         self.save()
+
+    @property
+    def currency(self):
+        if self.items.exists():
+            return self.items.first().product.currency.name
+        return ""
 
     @property
     def subtotal(self):

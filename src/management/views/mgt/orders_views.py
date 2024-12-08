@@ -24,6 +24,7 @@ def mgt_orders(request):
     form = DocumentFilter.form
     documents = Document.objects.all()
     orders = PosOrder.objects.filter(is_active=True)
+    products = Product.objects.all()
 
     documents_dict = DocumentSerializer(documents, many=True)
 
@@ -31,6 +32,7 @@ def mgt_orders(request):
         'filter': filter,
         'form': form,
         'orders': orders,
+        'products': products,
         'documents_dict': documents_dict,
     }
     return render(request, 'orders/list.html', context)

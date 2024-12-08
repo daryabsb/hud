@@ -8,7 +8,7 @@ def mgt_home(request):
         "modules": [
             {"id": 1, "name": "Products",
                 "url": "/mgt/products/", "icon": "shopping-bag"},
-            {"id": 2, "name": "Orders", "url": "#", "icon": "shopping-cart"},
+            {"id": 2, "name": "Orders", "url": "/mgt/orders/", "icon": "shopping-cart"},
             {"id": 3, "name": "Stock", "url": "/mgt/stocks/",
                 "icon": "shopping-basket"},
             {"id": 4, "name": "Printers", "url": "#", "icon": "print"},

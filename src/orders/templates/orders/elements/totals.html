@@ -1,0 +1,37 @@
+<div class="card mb-1" id="order-totals">
+    <div class="card-header d-flex align-items-center bg-inverse bg-opacity-10 fw-400">
+        Totals
+        <a href="#" class="ms-auto text-decoration-none text-inverse text-opacity-50">Edit</a>
+    </div>
+    <div class="card-body">
+        <table class="table table-borderless table-sm m-0">
+            <tbody>
+                <tr>
+                    <td class="w-150px">Subtotal</td>
+                    <td class="text-end">{{ order.currency }} {{ order.item_subtotal }}</td>
+                </tr>
+                <tr>
+                    <td>Tax</td>
+                    <td class="text-end">{{ order.currency }} {{ order.total_tax }}</td>
+                </tr>
+                <tr>
+                    <td>Total discount</td>
+                    <td class="text-end">{{ order.currency }} {{ order.discounted_amount }}</td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <hr class="m-0">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="pt-2 pb-2 text-nowrap">
+                        Total
+                    </td>
+                    <td class="pt-2 pb-2 text-end">{{ order.currency }} {{ order.total }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- card-arrow -->
+    {% include 'components/card-arrow.html' %}
+</div>
