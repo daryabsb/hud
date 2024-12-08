@@ -1,0 +1,18 @@
+<ul class="nav nav-tabs border-0" id="mgt-documents-view-navlink">
+    <li class="nav-item me-1">
+        <a href="#mgt-documents-view-list" 
+            class="nav-link px-4 active" 
+            data-bs-toggle="tab"
+            id="view-document-tab"
+            >View list</a>
+    </li>
+    {% for order in orders %}
+    <li class="nav-item me-1">
+        <a href="#add-document-{{ order.number }}" 
+        class="nav-link px-4" 
+        data-bs-toggle="tab"
+        id="add-document-tab-{{ order.number }}"
+        >{{ order.number }}</a>
+    </li>
+    {% endfor %}
+</ul>

@@ -1,0 +1,18 @@
+{% if type == 'btn' %}
+<button class="btn btn-outlined-theme" id="add-document"
+	hx-get="{% url 'mgt:modal-select-document-type' %}" 
+	hx-target="#modalSelectDocumentType" 
+	hx-trigger="click"
+	hx-include="#selected-group"
+	data-bs-target="#modalSelectDocumentType" data-bs-toggle="modal"
+>Add product</button>
+{% else %}
+<a  class="btn btn-outline-theme" id="add-document"
+	hx-get="{% url 'mgt:modal-select-document-type' %}" 
+	hx-target="#modalSelectDocumentType" 
+	hx-trigger="click"
+	hx-include="#selected-group"
+	href="#modalSelectDocumentType" data-bs-toggle="modal"
+    >
+    <i class="fa fa-plus-circle fa-fw me-1"></i> Add Order</a>
+{% endif %}

@@ -8,6 +8,7 @@ from src.documents.models import Document
 from src.management.filters import DocumentFilterForm as DocumentFilter
 from src.management.views import DocumentSerializer
 from src.orders.forms import DocumentForm
+from src.orders.models import PosOrder
 
 '''
 cases:
@@ -22,12 +23,14 @@ def mgt_orders(request):
     filter = DocumentFilter(request.GET, queryset=Document.objects.all())
     form = DocumentFilter.form
     documents = Document.objects.all()
+    orders = PosOrder.objects.filter(is_active=True)
 
     documents_dict = DocumentSerializer(documents, many=True)
 
     context = {
         'filter': filter,
         'form': form,
+        'orders': orders,
         'documents_dict': documents_dict,
     }
     return render(request, 'orders/list.html', context)

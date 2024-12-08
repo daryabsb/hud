@@ -1,0 +1,1166 @@
+<div class="p-0 flex-1 tab-pane fade" id="add-document-{{ order.number }}">
+    <div id="add-document-form-{{ order.number }}">
+        <div class="file-manager">
+            <div class="row gap-2 p-4">
+                <div class="col-4 form-group row">
+                    <label for="staticEmail" class="col-sm-3 col-form-label">Number</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="number" value="sales-30112024-0149" class="form-control form-control-sm" id="id_number">
+                    </div>
+                </div>
+                <div class="col-3 form-group row">
+                    <label for="staticEmail" class="col-sm-6 col-form-label">Document type</label>
+                    <div class="col-sm-6">
+                        <select name="document_type" class="form-select form-select-sm" id="id_document_type">
+                            <option value="">---------</option>
+                            <option value="1">100 | Purchase</option>
+                            <option value="2" selected="">200 | Sales</option>
+                            <option value="3">300 | Inventory Count</option>
+                            <option value="4">220 | Refund</option>
+                            <option value="5">120 | Stock Return</option>
+                            <option value="6">400 | Loss And Damage</option>
+                            <option value="7">230 | Proforma</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-3 form-group row">
+                    <label for="staticEmail" class="col-sm-4 col-form-label">Date</label>
+                    <div class="col-sm-8">
+                        <div class="form-group">
+                            <input type="" name="date" id="id_date" class="form-control form-control-sm" value="2024-12-08">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2 form-check form-switch align-content-end">
+                    <input type="checkbox" name="paid_status" class="form-check-input" hx-trigger="keyup changed delay:500ms" id="id_paid_status">
+                    <label class="form-check-label" for="customSwitch1">Paid Status</label>
+                </div>
+                <div class="col-4 form-group row">
+                    <label for="staticEmail" class="col-sm-3 col-form-label">Customer</label>
+                    <div class="col-sm-9">
+                        <select name="customer" class="form-select form-select-sm" id="id_customer">
+                            <option value="">---------</option>
+                            <option value="1" selected="">Good Customer</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-3 form-group row">
+                    <label for="staticEmail" class="col-sm-6 col-form-label">External Document</label>
+                    <div class="col-sm-6">
+                        <input type="text" name="reference_document_number" class="form-control form-control-sm" maxlength="100" id="id_reference_document_number">
+                    </div>
+                </div>
+                <div class="col-3 form-group row">
+                    <label for="staticEmail" class="col-sm-4 col-form-label">Due Date</label>
+                    <div class="col-sm-8">
+                        <div class="form-group">
+                            <input type="" name="due_date" id="id_due_date" class="form-control form-control-sm" value="2024-12-23">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-0 flex-1">
+                <div class="file-manager pb-0">
+                    <div class="file-manager-toolbar border-start ps-2 pb-0">
+                        <ul class="nav nav-tabs border-0" role="tablist">
+                            <li class="nav-item me-1" role="presentation"><a href="#document-items" class="nav-link" data-bs-toggle="tab" aria-selected="false" tabindex="-1" role="tab">Document items</a></li>
+                            <li class="nav-item me-1" role="presentation"><a href="#document-payment" class="nav-link" data-bs-toggle="tab" aria-selected="false" tabindex="-1" role="tab">Payment</a></li>
+                            <li class="nav-item me-1" role="presentation"><a href="#document-details" class="nav-link active" data-bs-toggle="tab" aria-selected="true" role="tab">Details</a></li>
+                        </ul>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane fade" id="document-items" role="tabpanel">
+                            <div class="row" style="min-height: 45vh;">
+                                <div class="col-sm-3 h-100">
+                                    <div class="file-manager-sidebar-content">
+                                        <div data-scrollbar="true" data-height="100%" class="p-3 ps" data-init="true" style="height: 100%;">
+                                            <input type="hidden" id="document-type" name="document-type" value="1">
+                                            <div class="input-group flex-nowrap">
+                                                <button class="btn btn-outline-default dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <span class="d-none d-md-inline">ABC</span>
+                                                <span class="d-inline d-md-none"><i class="fa fa-check"></i></span>
+                                                </button>
+                                                <div class="dropdown-menu dropdown-menu-end" style="">
+                                                    <a class="dropdown-item" href="#">Action</a>
+                                                    <a class="dropdown-item" href="#">Another action</a>
+                                                    <a class="dropdown-item" href="#">Something else here</a>
+                                                    <div role="separator" class="dropdown-divider"></div>
+                                                    <a class="dropdown-item" href="#">Separated link</a>
+                                                </div>
+                                                <input type="text" class="form-control form-control-sm" placeholder="Username">
+                                                <span class="input-group-text">.com</span>
+                                            </div>
+                                            <div class="d-flex">
+                                                <select name="product-filter-type" class="form-select form-select-sm w-80px" id="product-filter-type">
+                                                    <option>###</option>
+                                                    <option>abc</option>
+                                                    <option>123</option>
+                                                </select>
+                                                <input type="text" class="form-control form-control-sm" name="add-doc-product-filter" hx-get="/mgt/add-doc-filter-products/" hx-target="#mgt-products-sidebar" hx-trigger="keyup changed delay:250ms" hx-include="#document-type">
+                                            </div>
+                                            <div class="mb-3">
+                                                <div class="file-manager-sidebar-content overflow-auto" id="mgt-products-sidebar">
+                                                    <div class="overflow-auto mt-2">
+                                                        <div class="file-tree overflow-auto h-400px">
+                                                            <div class="list-group" id="add-doc-product-list">
+                                                                {'number': 'sales-30112024-0149', 'items': &lt;django.db.models.fields.related_descriptors.create_reverse_many_to_one_manager.&lt;locals&gt;.RelatedManager object at 0x000001ADA0EFDE90&gt;, 'item_subtotal': Decimal('0.000'), 'total_tax': Decimal('0.000'), 'discounted_amount': Decimal('0.000'), 'total': Decimal('0.000'), 'order': &lt;PosOrder: sales-30112024-0149: 0.000&gt;, 'form': &lt;DocumentForm bound=False, valid=False, fields=(number;customer;discount_type;discount;document_type;reference_document_number;date;due_date;paid_status)&gt;}
+                                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/1/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                                    <div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                                        <img alt="" class="mw-100 mh-100" src="/media/uploads/product/7fb638f8-c3a0-4181-b13b-8b7e7bbabe0d.jpg">
+                                                                    </div>
+                                                                    <input type="hidden" id="product-1" value="1">
+                                                                    <input type="hidden" name="order_number" value="sales-30112024-0149">
+                                                                    <div class="flex-fill ps-3 d-flex align-items-center">
+                                                                        <div class="fw-bold flex-fill">
+                                                                            Organic Bananas
+                                                                        </div>
+                                                                        <i class="fa fa-circle text-success fs-7px ms-auto"></i>
+                                                                    </div>
+                                                                </a>
+                                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/2/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                                    <div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/wholemilk.jpg">
+                                                                    </div>
+                                                                    <input type="hidden" id="product-2" value="2">
+                                                                    <input type="hidden" name="order_number" value="sales-30112024-0149">
+                                                                    <div class="flex-fill ps-3 d-flex align-items-center">
+                                                                        <div class="fw-bold flex-fill">
+                                                                            Whole Milk
+                                                                        </div>
+                                                                        <i class="fa fa-circle text-success fs-7px ms-auto"></i>
+                                                                    </div>
+                                                                </a>
+                                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/3/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                                    <div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/chickenbreast.jpg">
+                                                                    </div>
+                                                                    <input type="hidden" id="product-3" value="3">
+                                                                    <input type="hidden" name="order_number" value="sales-30112024-0149">
+                                                                    <div class="flex-fill ps-3 d-flex align-items-center">
+                                                                        <div class="fw-bold flex-fill">
+                                                                            Chicken Breast
+                                                                        </div>
+                                                                        <i class="fa fa-circle text-success fs-7px ms-auto"></i>
+                                                                    </div>
+                                                                </a>
+                                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/4/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                                    <div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/sourdoughbread.jpg">
+                                                                    </div>
+                                                                    <input type="hidden" id="product-4" value="4">
+                                                                    <input type="hidden" name="order_number" value="sales-30112024-0149">
+                                                                    <div class="flex-fill ps-3 d-flex align-items-center">
+                                                                        <div class="fw-bold flex-fill">
+                                                                            Sourdough Bread
+                                                                        </div>
+                                                                        <i class="fa fa-circle text-success fs-7px ms-auto"></i>
+                                                                    </div>
+                                                                </a>
+                                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/5/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                                    <div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/tomatosoup.jpg">
+                                                                    </div>
+                                                                    <input type="hidden" id="product-5" value="5">
+                                                                    <input type="hidden" name="order_number" value="sales-30112024-0149">
+                                                                    <div class="flex-fill ps-3 d-flex align-items-center">
+                                                                        <div class="fw-bold flex-fill">
+                                                                            Tomato Soup
+                                                                        </div>
+                                                                        <i class="fa fa-circle text-success fs-7px ms-auto"></i>
+                                                                    </div>
+                                                                </a>
+                                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/6/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                                    <div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/iphone11promax.jpg">
+                                                                    </div>
+                                                                    <input type="hidden" id="product-6" value="6">
+                                                                    <input type="hidden" name="order_number" value="sales-30112024-0149">
+                                                                    <div class="flex-fill ps-3 d-flex align-items-center">
+                                                                        <div class="fw-bold flex-fill">
+                                                                            Phone Pro Max
+                                                                        </div>
+                                                                        <i class="fa fa-circle text-success fs-7px ms-auto"></i>
+                                                                    </div>
+                                                                </a>
+                                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/7/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                                    <div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/delllavender13in.jpg">
+                                                                    </div>
+                                                                    <input type="hidden" id="product-7" value="7">
+                                                                    <input type="hidden" name="order_number" value="sales-30112024-0149">
+                                                                    <div class="flex-fill ps-3 d-flex align-items-center">
+                                                                        <div class="fw-bold flex-fill">
+                                                                            DELL Lavender
+                                                                        </div>
+                                                                        <i class="fa fa-circle text-success fs-7px ms-auto"></i>
+                                                                    </div>
+                                                                </a>
+                                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/8/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                                    <div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/samsungrefrigerator.jpg">
+                                                                    </div>
+                                                                    <input type="hidden" id="product-8" value="8">
+                                                                    <input type="hidden" name="order_number" value="sales-30112024-0149">
+                                                                    <div class="flex-fill ps-3 d-flex align-items-center">
+                                                                        <div class="fw-bold flex-fill">
+                                                                            Samsung Refrigerator
+                                                                        </div>
+                                                                        <i class="fa fa-circle text-success fs-7px ms-auto"></i>
+                                                                    </div>
+                                                                </a>
+                                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/9/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                                    <div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/sonywh-1000xm4.jpg">
+                                                                    </div>
+                                                                    <input type="hidden" id="product-9" value="9">
+                                                                    <input type="hidden" name="order_number" value="sales-30112024-0149">
+                                                                    <div class="flex-fill ps-3 d-flex align-items-center">
+                                                                        <div class="fw-bold flex-fill">
+                                                                            Sony WHXM
+                                                                        </div>
+                                                                        <i class="fa fa-circle text-success fs-7px ms-auto"></i>
+                                                                    </div>
+                                                                </a>
+                                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/10/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                                    <div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/canoneosr5.jpg">
+                                                                    </div>
+                                                                    <input type="hidden" id="product-10" value="10">
+                                                                    <input type="hidden" name="order_number" value="sales-30112024-0149">
+                                                                    <div class="flex-fill ps-3 d-flex align-items-center">
+                                                                        <div class="fw-bold flex-fill">
+                                                                            Canon EOSR
+                                                                        </div>
+                                                                        <i class="fa fa-circle text-success fs-7px ms-auto"></i>
+                                                                    </div>
+                                                                </a>
+                                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/11/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                                    <div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/modernsofa.jpg">
+                                                                    </div>
+                                                                    <input type="hidden" id="product-11" value="11">
+                                                                    <input type="hidden" name="order_number" value="sales-30112024-0149">
+                                                                    <div class="flex-fill ps-3 d-flex align-items-center">
+                                                                        <div class="fw-bold flex-fill">
+                                                                            Modern Sofa
+                                                                        </div>
+                                                                        <i class="fa fa-circle text-success fs-7px ms-auto"></i>
+                                                                    </div>
+                                                                </a>
+                                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/12/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                                    <div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/egyptiancottonsheets.jpg">
+                                                                    </div>
+                                                                    <input type="hidden" id="product-12" value="12">
+                                                                    <input type="hidden" name="order_number" value="sales-30112024-0149">
+                                                                    <div class="flex-fill ps-3 d-flex align-items-center">
+                                                                        <div class="fw-bold flex-fill">
+                                                                            Egyptian Cotton Sheets
+                                                                        </div>
+                                                                        <i class="fa fa-circle text-success fs-7px ms-auto"></i>
+                                                                    </div>
+                                                                </a>
+                                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/13/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                                    <div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/nonstickcookwareset.jpg">
+                                                                    </div>
+                                                                    <input type="hidden" id="product-13" value="13">
+                                                                    <input type="hidden" name="order_number" value="sales-30112024-0149">
+                                                                    <div class="flex-fill ps-3 d-flex align-items-center">
+                                                                        <div class="fw-bold flex-fill">
+                                                                            Nonstick Cookware Set
+                                                                        </div>
+                                                                        <i class="fa fa-circle text-success fs-7px ms-auto"></i>
+                                                                    </div>
+                                                                </a>
+                                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/14/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                                    <div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/abstractwallart.jpg">
+                                                                    </div>
+                                                                    <input type="hidden" id="product-14" value="14">
+                                                                    <input type="hidden" name="order_number" value="sales-30112024-0149">
+                                                                    <div class="flex-fill ps-3 d-flex align-items-center">
+                                                                        <div class="fw-bold flex-fill">
+                                                                            Abstract Wall Art
+                                                                        </div>
+                                                                        <i class="fa fa-circle text-success fs-7px ms-auto"></i>
+                                                                    </div>
+                                                                </a>
+                                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/15/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                                    <div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/dysonvacuumcleaner.jpg">
+                                                                    </div>
+                                                                    <input type="hidden" id="product-15" value="15">
+                                                                    <input type="hidden" name="order_number" value="sales-30112024-0149">
+                                                                    <div class="flex-fill ps-3 d-flex align-items-center">
+                                                                        <div class="fw-bold flex-fill">
+                                                                            Dyson Vacuum Cleaner
+                                                                        </div>
+                                                                        <i class="fa fa-circle text-success fs-7px ms-auto"></i>
+                                                                    </div>
+                                                                </a>
+                                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/16/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                                    <div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/goldnecklace.jpg">
+                                                                    </div>
+                                                                    <input type="hidden" id="product-16" value="16">
+                                                                    <input type="hidden" name="order_number" value="sales-30112024-0149">
+                                                                    <div class="flex-fill ps-3 d-flex align-items-center">
+                                                                        <div class="fw-bold flex-fill">
+                                                                            Gold Necklace
+                                                                        </div>
+                                                                        <i class="fa fa-circle text-success fs-7px ms-auto"></i>
+                                                                    </div>
+                                                                </a>
+                                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/17/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                                    <div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/leatherhandbag.jpg">
+                                                                    </div>
+                                                                    <input type="hidden" id="product-17" value="17">
+                                                                    <input type="hidden" name="order_number" value="sales-30112024-0149">
+                                                                    <div class="flex-fill ps-3 d-flex align-items-center">
+                                                                        <div class="fw-bold flex-fill">
+                                                                            Leather Handbag
+                                                                        </div>
+                                                                        <i class="fa fa-circle text-success fs-7px ms-auto"></i>
+                                                                    </div>
+                                                                </a>
+                                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/18/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                                    <div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/rolexsubmariner.jpg">
+                                                                    </div>
+                                                                    <input type="hidden" id="product-18" value="18">
+                                                                    <input type="hidden" name="order_number" value="sales-30112024-0149">
+                                                                    <div class="flex-fill ps-3 d-flex align-items-center">
+                                                                        <div class="fw-bold flex-fill">
+                                                                            Rolex Submariner
+                                                                        </div>
+                                                                        <i class="fa fa-circle text-success fs-7px ms-auto"></i>
+                                                                    </div>
+                                                                </a>
+                                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/19/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                                    <div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/ray-banaviator.jpg">
+                                                                    </div>
+                                                                    <input type="hidden" id="product-19" value="19">
+                                                                    <input type="hidden" name="order_number" value="sales-30112024-0149">
+                                                                    <div class="flex-fill ps-3 d-flex align-items-center">
+                                                                        <div class="fw-bold flex-fill">
+                                                                            Ray Ban Aviator
+                                                                        </div>
+                                                                        <i class="fa fa-circle text-success fs-7px ms-auto"></i>
+                                                                    </div>
+                                                                </a>
+                                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/20/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                                    <div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/cashmerescarf.jpg">
+                                                                    </div>
+                                                                    <input type="hidden" id="product-20" value="20">
+                                                                    <input type="hidden" name="order_number" value="sales-30112024-0149">
+                                                                    <div class="flex-fill ps-3 d-flex align-items-center">
+                                                                        <div class="fw-bold flex-fill">
+                                                                            Cashmere Scarf
+                                                                        </div>
+                                                                        <i class="fa fa-circle text-success fs-7px ms-auto"></i>
+                                                                    </div>
+                                                                </a>
+                                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/21/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                                    <div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/belgianchocolates.jpg">
+                                                                    </div>
+                                                                    <input type="hidden" id="product-21" value="21">
+                                                                    <input type="hidden" name="order_number" value="sales-30112024-0149">
+                                                                    <div class="flex-fill ps-3 d-flex align-items-center">
+                                                                        <div class="fw-bold flex-fill">
+                                                                            Belgian Chocolates
+                                                                        </div>
+                                                                        <i class="fa fa-circle text-success fs-7px ms-auto"></i>
+                                                                    </div>
+                                                                </a>
+                                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/22/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                                    <div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/potatochips.jpg">
+                                                                    </div>
+                                                                    <input type="hidden" id="product-22" value="22">
+                                                                    <input type="hidden" name="order_number" value="sales-30112024-0149">
+                                                                    <div class="flex-fill ps-3 d-flex align-items-center">
+                                                                        <div class="fw-bold flex-fill">
+                                                                            Potato Chips
+                                                                        </div>
+                                                                        <i class="fa fa-circle text-success fs-7px ms-auto"></i>
+                                                                    </div>
+                                                                </a>
+                                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/23/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                                    <div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/gummybears.jpg">
+                                                                    </div>
+                                                                    <input type="hidden" id="product-23" value="23">
+                                                                    <input type="hidden" name="order_number" value="sales-30112024-0149">
+                                                                    <div class="flex-fill ps-3 d-flex align-items-center">
+                                                                        <div class="fw-bold flex-fill">
+                                                                            Gummy Bears
+                                                                        </div>
+                                                                        <i class="fa fa-circle text-success fs-7px ms-auto"></i>
+                                                                    </div>
+                                                                </a>
+                                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/24/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                                    <div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/truffleoil.jpg">
+                                                                    </div>
+                                                                    <input type="hidden" id="product-24" value="24">
+                                                                    <input type="hidden" name="order_number" value="sales-30112024-0149">
+                                                                    <div class="flex-fill ps-3 d-flex align-items-center">
+                                                                        <div class="fw-bold flex-fill">
+                                                                            Truffle Oil
+                                                                        </div>
+                                                                        <i class="fa fa-circle text-success fs-7px ms-auto"></i>
+                                                                    </div>
+                                                                </a>
+                                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/25/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                                    <div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/holidaygiftbasket.jpg">
+                                                                    </div>
+                                                                    <input type="hidden" id="product-25" value="25">
+                                                                    <input type="hidden" name="order_number" value="sales-30112024-0149">
+                                                                    <div class="flex-fill ps-3 d-flex align-items-center">
+                                                                        <div class="fw-bold flex-fill">
+                                                                            Holiday Gift Basket
+                                                                        </div>
+                                                                        <i class="fa fa-circle text-success fs-7px ms-auto"></i>
+                                                                    </div>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
+                                                <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+                                            </div>
+                                            <div class="ps__rail-y" style="top: 0px; right: 0px;">
+                                                <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pt-3 pe-4 col-sm-9 border-start d-flex flex-column overflow-x-auto">
+                                    <div class="row gx-4" id="add-document-items-detail">
+                                        <input type="hidden" name="added-products" id="added-products" value="2,4,12">
+                                        <div class="col-lg-8">
+                                            <div class="card-body text-inverse h-400px overflow-auto border-bottom">
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="pt-0 pb-2"></th>
+                                                            <th class="pt-0 pb-2">Product</th>
+                                                            <th class="pt-0 pb-2">Detail</th>
+                                                            <th class="pt-0 pb-2">Subtotal</th>
+                                                            <th class="pt-0 pb-2">Actiona</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="add-document-item-to-table2">
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="card-header bg-none d-flex p-3">
+                                                <a href="#" class="btn btn-outline-default" data-bs-dismiss="modal" _="on click
+                                                    remove #new-document-tab
+                                                    remove #mgt-new-document
+                                                    add .active to #view-document-tab
+                                                    add .active to #mgt-documents-view-list
+                                                    add .show to #mgt-documents-view-list
+                                                    end
+                                                    ">Cancel</a>
+                                                <button class="btn btn-outline-theme" data-bs-dismiss="modal" hx-get="/mgt/add-document/" hx-target="">Next</button>
+                                                <a href="#" class="btn btn-outline-theme ms-auto">Mark as paid</a>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="card mb-4">
+                                                <div class="card-header d-flex align-items-center bg-inverse bg-opacity-10 fw-400">
+                                                    Notes
+                                                    <a href="#" class="ms-auto text-decoration-none text-inverse text-opacity-50">Edit</a>
+                                                </div>
+                                                <div class="card-body  h-150px">
+                                                    No notes from customer
+                                                </div>
+                                                <div class="card-arrow">
+                                                    <div class="card-arrow-top-left"></div>
+                                                    <div class="card-arrow-top-right"></div>
+                                                    <div class="card-arrow-bottom-left"></div>
+                                                    <div class="card-arrow-bottom-right"></div>
+                                                </div>
+                                            </div>
+                                            <div class="card mb-4">
+                                                <div class="card-header d-flex align-items-center bg-inverse bg-opacity-10 fw-400">
+                                                    Totals--------asas
+                                                    <a href="#" class="ms-auto text-decoration-none text-inverse text-opacity-50">Edit</a>
+                                                </div>
+                                                <div class="card-body">
+                                                    <table class="table table-borderless table-sm m-0">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="w-150px">Subtotal</td>
+                                                                <td class="text-end">$0.000ss</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Tax</td>
+                                                                <td class="text-end">$0.000</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Shipping Fee</td>
+                                                                <td class="text-end">$0.00</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="pb-2"><b>Total</b></td>
+                                                                <td class="text-end pb-2 text-decoration-underline"><b>$3670.80</b></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="3">
+                                                                    <hr class="m-0">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="pt-2 pb-2 text-nowrap">
+                                                                    Paid by customer
+                                                                </td>
+                                                                <td class="pt-2 pb-2 text-end">$3670.80</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="card-arrow">
+                                                    <div class="card-arrow-top-left"></div>
+                                                    <div class="card-arrow-top-right"></div>
+                                                    <div class="card-arrow-bottom-left"></div>
+                                                    <div class="card-arrow-bottom-right"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="document-payment" role="tabpanel">
+                            <h6>Document payment</h6>
+                        </div>
+                        <div class="card border-0. h-500px tab-pane fade show active" id="document-details" role="tabpanel">
+                            <div class="messenger">
+                                <div class="messenger-sidebar">
+                                    <div class="messenger-sidebar-header">
+                                        <h3 class="mb-10px">Products</h3>
+                                        <div class="position-relative">
+                                            <button type="submit" class="btn text-inverse position-absolute top-0"><i class="bi bi-search"></i></button>
+                                            <input type="text" class="form-control rounded-pill ps-35px" placeholder="Search products">
+                                        </div>
+                                    </div>
+                                    <div class="messenger-sidebar-body ">
+                                        <div data-scrollbar="true" data-height="100%" class="overflow-auto ps" style="height: 100%;" data-init="true">
+                                            <div class="messenger-item p-2">
+                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/1/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" hx-include="#order-number-sales-30112024-0149" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                    <div class="p-1 w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                        <img alt="" class="mw-100 mh-100" src="/media/uploads/product/7fb638f8-c3a0-4181-b13b-8b7e7bbabe0d.jpg">
+                                                    </div>
+                                                    <input type="hidden" id="order-number-sales-30112024-0149" name="order-number" value="sales-30112024-0149">
+                                                    <div class="flex-fill ps-2 d-flex align-items-center">
+                                                        <div class="fw-bold flex-fill">
+                                                            Organic Bananas
+                                                        </div>
+                                                    </div>
+                                                    <div class="messenger-time-badge">
+                                                        <div class="messenger-time">1200 IQD</div>
+                                                        <div class="messenger-badge">1 KG</div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="messenger-item p-2">
+                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/2/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" hx-include="#order-number-sales-30112024-0149" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                    <div class="p-1 w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/wholemilk.jpg">
+                                                    </div>
+                                                    <input type="hidden" id="order-number-sales-30112024-0149" name="order-number" value="sales-30112024-0149">
+                                                    <div class="flex-fill ps-2 d-flex align-items-center">
+                                                        <div class="fw-bold flex-fill">
+                                                            Whole Milk
+                                                        </div>
+                                                    </div>
+                                                    <div class="messenger-time-badge">
+                                                        <div class="messenger-time">3500 IQD</div>
+                                                        <div class="messenger-badge">1 packs</div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="messenger-item p-2">
+                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/3/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" hx-include="#order-number-sales-30112024-0149" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                    <div class="p-1 w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/chickenbreast.jpg">
+                                                    </div>
+                                                    <input type="hidden" id="order-number-sales-30112024-0149" name="order-number" value="sales-30112024-0149">
+                                                    <div class="flex-fill ps-2 d-flex align-items-center">
+                                                        <div class="fw-bold flex-fill">
+                                                            Chicken Breast
+                                                        </div>
+                                                    </div>
+                                                    <div class="messenger-time-badge">
+                                                        <div class="messenger-time">5000 IQD</div>
+                                                        <div class="messenger-badge">1 KG</div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="messenger-item p-2">
+                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/4/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" hx-include="#order-number-sales-30112024-0149" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                    <div class="p-1 w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/sourdoughbread.jpg">
+                                                    </div>
+                                                    <input type="hidden" id="order-number-sales-30112024-0149" name="order-number" value="sales-30112024-0149">
+                                                    <div class="flex-fill ps-2 d-flex align-items-center">
+                                                        <div class="fw-bold flex-fill">
+                                                            Sourdough Bread
+                                                        </div>
+                                                    </div>
+                                                    <div class="messenger-time-badge">
+                                                        <div class="messenger-time">4000 IQD</div>
+                                                        <div class="messenger-badge">1 pcs</div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="messenger-item p-2">
+                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/5/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" hx-include="#order-number-sales-30112024-0149" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                    <div class="p-1 w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/tomatosoup.jpg">
+                                                    </div>
+                                                    <input type="hidden" id="order-number-sales-30112024-0149" name="order-number" value="sales-30112024-0149">
+                                                    <div class="flex-fill ps-2 d-flex align-items-center">
+                                                        <div class="fw-bold flex-fill">
+                                                            Tomato Soup
+                                                        </div>
+                                                    </div>
+                                                    <div class="messenger-time-badge">
+                                                        <div class="messenger-time">1500 IQD</div>
+                                                        <div class="messenger-badge">1 pcs</div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="messenger-item p-2">
+                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/6/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" hx-include="#order-number-sales-30112024-0149" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                    <div class="p-1 w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/iphone11promax.jpg">
+                                                    </div>
+                                                    <input type="hidden" id="order-number-sales-30112024-0149" name="order-number" value="sales-30112024-0149">
+                                                    <div class="flex-fill ps-2 d-flex align-items-center">
+                                                        <div class="fw-bold flex-fill">
+                                                            Phone Pro Max
+                                                        </div>
+                                                    </div>
+                                                    <div class="messenger-time-badge">
+                                                        <div class="messenger-time">1050000 IQD</div>
+                                                        <div class="messenger-badge">1 pcs</div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="messenger-item p-2">
+                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/7/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" hx-include="#order-number-sales-30112024-0149" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                    <div class="p-1 w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/delllavender13in.jpg">
+                                                    </div>
+                                                    <input type="hidden" id="order-number-sales-30112024-0149" name="order-number" value="sales-30112024-0149">
+                                                    <div class="flex-fill ps-2 d-flex align-items-center">
+                                                        <div class="fw-bold flex-fill">
+                                                            DELL Lavender
+                                                        </div>
+                                                    </div>
+                                                    <div class="messenger-time-badge">
+                                                        <div class="messenger-time">740000 IQD</div>
+                                                        <div class="messenger-badge">1 pcs</div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="messenger-item p-2">
+                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/8/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" hx-include="#order-number-sales-30112024-0149" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                    <div class="p-1 w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/samsungrefrigerator.jpg">
+                                                    </div>
+                                                    <input type="hidden" id="order-number-sales-30112024-0149" name="order-number" value="sales-30112024-0149">
+                                                    <div class="flex-fill ps-2 d-flex align-items-center">
+                                                        <div class="fw-bold flex-fill">
+                                                            Samsung Refrigerator
+                                                        </div>
+                                                    </div>
+                                                    <div class="messenger-time-badge">
+                                                        <div class="messenger-time">1200000 IQD</div>
+                                                        <div class="messenger-badge">1 pcs</div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="messenger-item p-2">
+                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/9/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" hx-include="#order-number-sales-30112024-0149" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                    <div class="p-1 w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/sonywh-1000xm4.jpg">
+                                                    </div>
+                                                    <input type="hidden" id="order-number-sales-30112024-0149" name="order-number" value="sales-30112024-0149">
+                                                    <div class="flex-fill ps-2 d-flex align-items-center">
+                                                        <div class="fw-bold flex-fill">
+                                                            Sony WHXM
+                                                        </div>
+                                                    </div>
+                                                    <div class="messenger-time-badge">
+                                                        <div class="messenger-time">350000 IQD</div>
+                                                        <div class="messenger-badge">1 pcs</div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="messenger-item p-2">
+                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/10/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" hx-include="#order-number-sales-30112024-0149" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                    <div class="p-1 w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/canoneosr5.jpg">
+                                                    </div>
+                                                    <input type="hidden" id="order-number-sales-30112024-0149" name="order-number" value="sales-30112024-0149">
+                                                    <div class="flex-fill ps-2 d-flex align-items-center">
+                                                        <div class="fw-bold flex-fill">
+                                                            Canon EOSR
+                                                        </div>
+                                                    </div>
+                                                    <div class="messenger-time-badge">
+                                                        <div class="messenger-time">3900000 IQD</div>
+                                                        <div class="messenger-badge">1 pcs</div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="messenger-item p-2">
+                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/11/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" hx-include="#order-number-sales-30112024-0149" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                    <div class="p-1 w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/modernsofa.jpg">
+                                                    </div>
+                                                    <input type="hidden" id="order-number-sales-30112024-0149" name="order-number" value="sales-30112024-0149">
+                                                    <div class="flex-fill ps-2 d-flex align-items-center">
+                                                        <div class="fw-bold flex-fill">
+                                                            Modern Sofa
+                                                        </div>
+                                                    </div>
+                                                    <div class="messenger-time-badge">
+                                                        <div class="messenger-time">850000 IQD</div>
+                                                        <div class="messenger-badge">1 pcs</div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="messenger-item p-2">
+                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/12/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" hx-include="#order-number-sales-30112024-0149" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                    <div class="p-1 w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/egyptiancottonsheets.jpg">
+                                                    </div>
+                                                    <input type="hidden" id="order-number-sales-30112024-0149" name="order-number" value="sales-30112024-0149">
+                                                    <div class="flex-fill ps-2 d-flex align-items-center">
+                                                        <div class="fw-bold flex-fill">
+                                                            Egyptian Cotton She…
+                                                        </div>
+                                                    </div>
+                                                    <div class="messenger-time-badge">
+                                                        <div class="messenger-time">120000 IQD</div>
+                                                        <div class="messenger-badge">1 pcs</div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="messenger-item p-2">
+                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/13/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" hx-include="#order-number-sales-30112024-0149" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                    <div class="p-1 w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/nonstickcookwareset.jpg">
+                                                    </div>
+                                                    <input type="hidden" id="order-number-sales-30112024-0149" name="order-number" value="sales-30112024-0149">
+                                                    <div class="flex-fill ps-2 d-flex align-items-center">
+                                                        <div class="fw-bold flex-fill">
+                                                            Nonstick Cookware S…
+                                                        </div>
+                                                    </div>
+                                                    <div class="messenger-time-badge">
+                                                        <div class="messenger-time">200000 IQD</div>
+                                                        <div class="messenger-badge">1 pcs</div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="messenger-item p-2">
+                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/14/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" hx-include="#order-number-sales-30112024-0149" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                    <div class="p-1 w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/abstractwallart.jpg">
+                                                    </div>
+                                                    <input type="hidden" id="order-number-sales-30112024-0149" name="order-number" value="sales-30112024-0149">
+                                                    <div class="flex-fill ps-2 d-flex align-items-center">
+                                                        <div class="fw-bold flex-fill">
+                                                            Abstract Wall Art
+                                                        </div>
+                                                    </div>
+                                                    <div class="messenger-time-badge">
+                                                        <div class="messenger-time">80000 IQD</div>
+                                                        <div class="messenger-badge">1 pcs</div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="messenger-item p-2">
+                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/15/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" hx-include="#order-number-sales-30112024-0149" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                    <div class="p-1 w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/dysonvacuumcleaner.jpg">
+                                                    </div>
+                                                    <input type="hidden" id="order-number-sales-30112024-0149" name="order-number" value="sales-30112024-0149">
+                                                    <div class="flex-fill ps-2 d-flex align-items-center">
+                                                        <div class="fw-bold flex-fill">
+                                                            Dyson Vacuum Cleaner
+                                                        </div>
+                                                    </div>
+                                                    <div class="messenger-time-badge">
+                                                        <div class="messenger-time">300000 IQD</div>
+                                                        <div class="messenger-badge">1 pcs</div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="messenger-item p-2">
+                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/16/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" hx-include="#order-number-sales-30112024-0149" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                    <div class="p-1 w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/goldnecklace.jpg">
+                                                    </div>
+                                                    <input type="hidden" id="order-number-sales-30112024-0149" name="order-number" value="sales-30112024-0149">
+                                                    <div class="flex-fill ps-2 d-flex align-items-center">
+                                                        <div class="fw-bold flex-fill">
+                                                            Gold Necklace
+                                                        </div>
+                                                    </div>
+                                                    <div class="messenger-time-badge">
+                                                        <div class="messenger-time">450000 IQD</div>
+                                                        <div class="messenger-badge">1 pcs</div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="messenger-item p-2">
+                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/17/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" hx-include="#order-number-sales-30112024-0149" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                    <div class="p-1 w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/leatherhandbag.jpg">
+                                                    </div>
+                                                    <input type="hidden" id="order-number-sales-30112024-0149" name="order-number" value="sales-30112024-0149">
+                                                    <div class="flex-fill ps-2 d-flex align-items-center">
+                                                        <div class="fw-bold flex-fill">
+                                                            Leather Handbag
+                                                        </div>
+                                                    </div>
+                                                    <div class="messenger-time-badge">
+                                                        <div class="messenger-time">250000 IQD</div>
+                                                        <div class="messenger-badge">1 pcs</div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="messenger-item p-2">
+                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/18/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" hx-include="#order-number-sales-30112024-0149" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                    <div class="p-1 w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/rolexsubmariner.jpg">
+                                                    </div>
+                                                    <input type="hidden" id="order-number-sales-30112024-0149" name="order-number" value="sales-30112024-0149">
+                                                    <div class="flex-fill ps-2 d-flex align-items-center">
+                                                        <div class="fw-bold flex-fill">
+                                                            Rolex Submariner
+                                                        </div>
+                                                    </div>
+                                                    <div class="messenger-time-badge">
+                                                        <div class="messenger-time">8000000 IQD</div>
+                                                        <div class="messenger-badge">1 pcs</div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="messenger-item p-2">
+                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/19/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" hx-include="#order-number-sales-30112024-0149" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                    <div class="p-1 w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/ray-banaviator.jpg">
+                                                    </div>
+                                                    <input type="hidden" id="order-number-sales-30112024-0149" name="order-number" value="sales-30112024-0149">
+                                                    <div class="flex-fill ps-2 d-flex align-items-center">
+                                                        <div class="fw-bold flex-fill">
+                                                            Ray Ban Aviator
+                                                        </div>
+                                                    </div>
+                                                    <div class="messenger-time-badge">
+                                                        <div class="messenger-time">150000 IQD</div>
+                                                        <div class="messenger-badge">1 pcs</div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="messenger-item p-2">
+                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/20/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" hx-include="#order-number-sales-30112024-0149" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                    <div class="p-1 w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/cashmerescarf.jpg">
+                                                    </div>
+                                                    <input type="hidden" id="order-number-sales-30112024-0149" name="order-number" value="sales-30112024-0149">
+                                                    <div class="flex-fill ps-2 d-flex align-items-center">
+                                                        <div class="fw-bold flex-fill">
+                                                            Cashmere Scarf
+                                                        </div>
+                                                    </div>
+                                                    <div class="messenger-time-badge">
+                                                        <div class="messenger-time">200000 IQD</div>
+                                                        <div class="messenger-badge">1 pcs</div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="messenger-item p-2">
+                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/21/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" hx-include="#order-number-sales-30112024-0149" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                    <div class="p-1 w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/belgianchocolates.jpg">
+                                                    </div>
+                                                    <input type="hidden" id="order-number-sales-30112024-0149" name="order-number" value="sales-30112024-0149">
+                                                    <div class="flex-fill ps-2 d-flex align-items-center">
+                                                        <div class="fw-bold flex-fill">
+                                                            Belgian Chocolates
+                                                        </div>
+                                                    </div>
+                                                    <div class="messenger-time-badge">
+                                                        <div class="messenger-time">25000 IQD</div>
+                                                        <div class="messenger-badge">1 pcs</div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="messenger-item p-2">
+                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/22/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" hx-include="#order-number-sales-30112024-0149" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                    <div class="p-1 w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/potatochips.jpg">
+                                                    </div>
+                                                    <input type="hidden" id="order-number-sales-30112024-0149" name="order-number" value="sales-30112024-0149">
+                                                    <div class="flex-fill ps-2 d-flex align-items-center">
+                                                        <div class="fw-bold flex-fill">
+                                                            Potato Chips
+                                                        </div>
+                                                    </div>
+                                                    <div class="messenger-time-badge">
+                                                        <div class="messenger-time">3000 IQD</div>
+                                                        <div class="messenger-badge">1 pcs</div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="messenger-item p-2">
+                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/23/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" hx-include="#order-number-sales-30112024-0149" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                    <div class="p-1 w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/gummybears.jpg">
+                                                    </div>
+                                                    <input type="hidden" id="order-number-sales-30112024-0149" name="order-number" value="sales-30112024-0149">
+                                                    <div class="flex-fill ps-2 d-flex align-items-center">
+                                                        <div class="fw-bold flex-fill">
+                                                            Gummy Bears
+                                                        </div>
+                                                    </div>
+                                                    <div class="messenger-time-badge">
+                                                        <div class="messenger-time">5000 IQD</div>
+                                                        <div class="messenger-badge">1 pcs</div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="messenger-item p-2">
+                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/24/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" hx-include="#order-number-sales-30112024-0149" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                    <div class="p-1 w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/truffleoil.jpg">
+                                                    </div>
+                                                    <input type="hidden" id="order-number-sales-30112024-0149" name="order-number" value="sales-30112024-0149">
+                                                    <div class="flex-fill ps-2 d-flex align-items-center">
+                                                        <div class="fw-bold flex-fill">
+                                                            Truffle Oil
+                                                        </div>
+                                                    </div>
+                                                    <div class="messenger-time-badge">
+                                                        <div class="messenger-time">30000 IQD</div>
+                                                        <div class="messenger-badge">1 pcs</div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="messenger-item p-2">
+                                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center text-inverse" hx-get="/mgt/add-document-product-modal/25/" hx-target="#modalAddDocumentProduct" hx-vals="{&quot;document_type&quot;: 1}" hx-include="#order-number-sales-30112024-0149" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                    <div class="p-1 w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                        <img alt="" class="mw-100 mh-100" src="/media/initial/holidaygiftbasket.jpg">
+                                                    </div>
+                                                    <input type="hidden" id="order-number-sales-30112024-0149" name="order-number" value="sales-30112024-0149">
+                                                    <div class="flex-fill ps-2 d-flex align-items-center">
+                                                        <div class="fw-bold flex-fill">
+                                                            Holiday Gift Basket
+                                                        </div>
+                                                    </div>
+                                                    <div class="messenger-time-badge">
+                                                        <div class="messenger-time">60000 IQD</div>
+                                                        <div class="messenger-badge">1 pcs</div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="messenger-item">
+                                                <a href="#" data-toggle="messenger-content" class="messenger-link">
+                                                    <div class="messenger-media">
+                                                        <img src="/static/app/img/user/user-2.jpg" class="mw-100 mh-100 rounded-pill" alt="">
+                                                    </div>
+                                                    <div class="messenger-info">
+                                                        <div class="messenger-name">Roberto</div>
+                                                        <div class="messenger-text">Say hello to Alice</div>
+                                                    </div>
+                                                    <div class="messenger-time-badge">
+                                                        <div class="messenger-time">14:59</div>
+                                                        <div class="messenger-badge">1</div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
+                                                <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+                                            </div>
+                                            <div class="ps__rail-y" style="top: 0px; right: 0px;">
+                                                <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="messenger-content">
+                                    <div class="messenger-content-body row pt-2 ps-4">
+                                        <div class="col-lg-8">
+                                            <div data-scrollbar="true" data-height="100%" class="overflow-y-auto ps" style="height: 100%;" data-init="true">
+                                                <div class="gx-4" id="add-document-items-detail-sales-30112024-0149">
+                                                    <input type="hidden" name="added-products" id="added-products" value="2,4,12">
+                                                    <div class="card-body text-inverse h-400px overflow-auto border-bottom">
+                                                        <table class="table table-hover">
+                                                            <thead class="bg-inverse bg-opacity-10">
+                                                                <tr>
+                                                                    <th class="pt-3 pb-2">
+                                                                        <div class="form-check">
+                                                                            <input type="checkbox" class="form-check-input" id="product1">
+                                                                            <label class="form-check-label" for="product1"></label>
+                                                                        </div>
+                                                                    </th>
+                                                                    <th class="pt-3 pb-2">Product</th>
+                                                                    <th class="pt-3 pb-2">Detail</th>
+                                                                    <th class="pt-3 pb-2">Subtotal</th>
+                                                                    <th class="pt-3 pb-2">Actiona</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="item-table-sales-30112024-0149">
+                                                                <tr id="item-item-1-07122024-01-0562">
+                                                                    <td class="w-10px align-middle">
+                                                                        <div class="form-check">
+                                                                            <input type="checkbox" class="form-check-input" id="product1">
+                                                                            <label class="form-check-label" for="product1"></label>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="d-flex align-items-center">
+                                                                            <div class="w-40px h-40px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                                                <img alt="" class="mw-100 mh-100" src="/media/initial/tomatosoup.jpg">
+                                                                            </div>
+                                                                            <div class="ms-3">
+                                                                                <a href="page_product_details.html" class="text-inverse text-opacity-75 text-decoration-none">Tomato Soup</a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td class="align-middle">3000 x 2</td>
+                                                                    <td class="align-middle">6000$</td>
+                                                                    <td class="align-middle">
+                                                                        <div class="btn-group btn-group-md">
+                                                                            <button type="button" class="btn" hx-get="/mgt/modal-edit-order-item/item-1-07122024-01-0562" hx-target="#modalEditDocumentItem" data-bs-target="#modalEditDocumentItem" data-bs-toggle="modal">
+                                                                            <i class="fas fa-lg fa-fw me-2 fa-edit"></i>
+                                                                            </button>
+                                                                            <button type="button" class="btn" hx-get="/mgt/modal-delete-order-item/item-1-07122024-01-0562" hx-target="#modalAddDocumentProduct" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                                                                            <i class="fas fa-lg fa-fw me-2 fa-trash text-danger"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div class="card-header bg-none d-flex p-3">
+                                                        <a href="#" class="btn btn-outline-default" data-bs-dismiss="modal" _="on click
+                                                            remove #new-document-tab
+                                                            remove #mgt-new-document
+                                                            add .active to #view-document-tab
+                                                            add .active to #mgt-documents-view-list
+                                                            add .show to #mgt-documents-view-list
+                                                            end
+                                                            ">Cancel</a>
+                                                        <button class="btn btn-outline-theme" data-bs-dismiss="modal" hx-get="/mgt/add-document/" hx-target="">Next</button>
+                                                        <a href="#" class="btn btn-outline-theme ms-auto">Mark as paid</a>
+                                                    </div>
+                                                </div>
+                                                <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
+                                                    <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+                                                </div>
+                                                <div class="ps__rail-y" style="top: 0px; right: 0px;">
+                                                    <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="card mb-3">
+                                                <div class="card-header bg-none fw-bold d-flex align-items-center">Discussion group <a href="#" class="ms-auto text-muted text-decoration-none" data-toggle="card-expand"><i class="fa fa-expand"></i></a></div>
+                                                <div class="card-body p-2 bg-inverse bg-opacity-10" style="height: 100px;">
+                                                    <div class="widget-chat-item">
+                                                        <div class="widget-chat-content">
+                                                            <div class="widget-chat-name">Roberto Lambert</div>
+                                                            <div class="widget-chat-message">
+                                                                Not much, It's got a new look, contact pics show up.
+                                                            </div>
+                                                            <div class="widget-chat-message last">
+                                                                How's crusty old iOS 6 treating you?
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-footer bg-none">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" placeholder="Search for...">
+                                                        <button class="btn btn-outline-default" type="button"><i class="fa fa-paper-plane text-muted"></i></button>
+                                                    </div>
+                                                </div>
+                                                <!-- card-arrow -->
+                                                <div class="card-arrow">
+                                                    <div class="card-arrow-top-left"></div>
+                                                    <div class="card-arrow-top-right"></div>
+                                                    <div class="card-arrow-bottom-left"></div>
+                                                    <div class="card-arrow-bottom-right"></div>
+                                                </div>
+                                            </div>
+                                            <div class="card mb-1" id="order-totals">
+                                                <div class="card-header d-flex align-items-center bg-inverse bg-opacity-10 fw-400">
+                                                    Totals
+                                                    <a href="#" class="ms-auto text-decoration-none text-inverse text-opacity-50">Edit</a>
+                                                </div>
+                                                <div class="card-body">
+                                                    <table class="table table-borderless table-sm m-0">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="w-150px">Subtotal</td>
+                                                                <td class="text-end">$0.000</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Tax</td>
+                                                                <td class="text-end">$174.80</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Total discount</td>
+                                                                <td class="text-end">$0.000</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="3">
+                                                                    <hr class="m-0">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="pt-2 pb-2 text-nowrap">
+                                                                    Total
+                                                                </td>
+                                                                <td class="pt-2 pb-2 text-end">$0.000</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="card-arrow">
+                                                    <div class="card-arrow-top-left"></div>
+                                                    <div class="card-arrow-top-right"></div>
+                                                    <div class="card-arrow-bottom-left"></div>
+                                                    <div class="card-arrow-bottom-right"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

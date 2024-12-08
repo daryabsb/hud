@@ -1,0 +1,21 @@
+
+<script>
+	var documentsTopButtons = document.createElement('div');
+	documentsTopButtons.innerHTML = `{% include 'documents/partials/top-buttons.html' %}`;
+    document.addEventListener('DOMContentLoaded', function () {
+			//$( '#id_product' ).select2( {
+				//theme: "light"
+				//theme: "bootstrap-5",
+				//dropdownCssClass: 'dropdown-menu'
+				//width: $( this ).data( 'width' ) ? $( this ).data( 'width' ) : $( this ).hasClass( 'w-100' ) ? '100%' : 'style',
+				//placeholder: $( this ).data( 'placeholder' ),
+			//} );
+	renderDocumentsDataTable(
+		['documents-table','document-items-table'],
+		[
+			'{% url "mgt:documents-datatable-data" %}?datatables=1',
+			'{% url "mgt:document-items-datatable" %}?document-id=&datatables=1'
+		]
+		);
+    });
+</script>

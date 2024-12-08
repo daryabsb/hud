@@ -7,20 +7,12 @@
 			<h1 class="page-header mb-0">Documents</h1>
 		</div>
 		<div class="ms-auto">
-            {% include 'mgt/buttons/add-order-button.html' %}
+            {% include 'buttons/add-document.html' %}
 		</div>
 	</div>
     <div class="card flex-1 p-0 m-0 d-flex flex-column rounded-0" id="mgt-orders-page">
     <div class="card-header pb-0">
-			<ul class="nav nav-tabs border-0" id="mgt-documents-view-navlink">
-				<li class="nav-item me-1">
-					<a href="#mgt-documents-view-navlink" 
-						class="nav-link px-4 active" 
-						data-bs-toggle="tab"
-						id="view-document-tab"
-						>View list</a>
-				</li>
-			</ul>
+			{% include 'nav/documents-view.html' %}
 		</div>
         <div class="tab-content" id="mgt-documents-tab-panes">
             <div class="p-0 flex-1 tab-pane fade show active" id="mgt-documents-view-list">
@@ -31,22 +23,35 @@
 					</div>
 				</div>
                 <div class="file-manager-content d-flex flex-column">
+
+                    <!-- document table -->
                     <div class="file-manager h-100 border-top" id="fileManager">
-                        <div class="file-manager-container overflow-auto">	
-                            This is orders page
+                        <div class="file-manager-container overflow-auto">
+                            {% include 'datatables/document-table.html' %}
                         </div>
                     </div>=
+                    
+                    <!-- document item table -->
+                    <div class="file-manager h-100 border-top" id="fileManager">
+                        <div class="file-manager-container overflow-auto">
+                            {% include 'datatables/document-item-table.html' %}
+                        </div>
+                    </div>==
+
+                    
                 </div>
             </div>
+            {% for order in orders %}
+            {% include 'orders/add/new/document.html' %}
+            {% endfor %}
         </div>
-        <div class="card-arrow">
-                <div class="card-arrow-top-left"></div>
-                <div class="card-arrow-top-right"></div>
-                <div class="card-arrow-bottom-left"></div>
-                <div class="card-arrow-bottom-right"></div>
-        </div>
+        {% include 'components/card-arrow.html' %}
     </div>
-
+    
 </div>
 
 {% endblock content %}
+
+{% block additional_js %}
+{% include 'scripts/documents-datatables.html' %}
+{% endblock additional_js %}
