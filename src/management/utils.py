@@ -1,6 +1,6 @@
 import random
 import string
-from django.contrib.auth.models import Group, Permission
+from django.contrib.auth.models import Group as UserGroup, Permission
 from pytz import timezone
 from src.accounts.models import User
 from django.contrib.contenttypes.models import ContentType
@@ -153,7 +153,7 @@ def populate_groups_permissions(groups=None):
     list_permissions = add_actions_to_models(list_permissions_template)
 
     if not groups:
-        groups = Group.objects.all()
+        groups = UserGroup.objects.all()
 
     groups_count = groups.count
 

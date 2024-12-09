@@ -26,7 +26,7 @@ urlpatterns += [
     path('products/', views.mgt_products, name='products'),
     path('products/<slug:slug>/', views.mgt_products, name='filter-products'),
     path('price-tags/', views.mgt_price_tags, name='price-tags'),
-    path('price-tags/<slug:slug>', views.mgt_price_tags, name='filter-price-tags'),
+    path('price-tags/<slug:slug>', views.mgt_price_tags2, name='filter-price-tags'),
     path('invoice-template/', views.mgt_invoice_template_view,
          name='invoice-template'),
     path('mgt-price-tags-control/', views.mgt_price_tags_control,
