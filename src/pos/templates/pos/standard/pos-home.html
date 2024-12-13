@@ -53,22 +53,34 @@
             </div>
         </div>
         <div class="pos-content">
-            <div class="pos-content-container h-100 p-4" data-scrollbar="true" data-height="100%">
+            <div class="pos-content-container h-100 p-3" >
                 
                 <div class="row">
-                    <div class="col-xxl-12">
-                    {% include 'pos/partials/barcode-input.html' %}
+                    <div class="col-xxl-12 mb-2">
+                        <ul class="nav nav-tabs nav-tabs-v2 px-4" role="tablist">
+                        {% for order in orders %}
+                            <li class="nav-item me-3" role="presentation">
+                            <a href="#order-tab-{{ order.number }}" class="nav-link {% if forloop.first %}active{% endif %} px-2" 
+                            data-bs-toggle="tab" aria-selected="true" role="tab">{{ order.number }}</a></li>
+                        {% endfor %}
+                           
+                        </ul>
                     </div>
+                    {% comment %} <div class="col-xxl-12">
+                    {% include 'pos/partials/barcode-input.html' %}
+                    </div> {% endcomment %}
                 </div>
-                {% if layout == 'visual' %}
-                <div class="row gx-4">
-                    {% for product in products %}
-                    {% include 'pos/products/product-card.html' %}
+                <div class="tab-content p-4 row">
+                {% for order in orders %}
+
+                    <div class="col-xxl-12 tab-pane fade {% if forloop.first %}show active{% endif %}"
+                    id="order-tab-{{ order.number }}"
+                    >
+                    {% include 'pos/standard/order/detail.html' %}
+                    </div>
                     {% endfor %}
                 </div>
-                {% else %}
-                <div class="row gx-4"> The layout is list</div>
-                {% endif %}
+               
             </div>
         </div>
         <div class="pos-sidebar" style="width: 350px;" id="pos-sidebar">

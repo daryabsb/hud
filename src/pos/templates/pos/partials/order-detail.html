@@ -12,8 +12,8 @@
             <img src="{% static 'app/img/user/customer.png' %}" class="invert-dark"alt>
         </div>
         {% comment %} <div class="title">Table 01</div> {% endcomment %}
-        <div class="title">{{ active_order.customer.name }}</div>
-        <div class="order">Order: <b>#00{{ active_order.id }}</b></div>
+        <div class="title">{{ active_order.customer.name }}</div>||
+        <div class="order"><b>{{ active_order.number }}</b></div>
     </div>
     <div class="pos-sidebar-nav">
         <ul class="nav nav-tabs nav-fill">

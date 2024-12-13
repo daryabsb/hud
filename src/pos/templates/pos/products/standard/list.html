@@ -1,0 +1,39 @@
+<div data-scrollbar="true" data-height="100%" class="overflow-y-auto ps" style="height: 100%;" data-init="true">
+    <div class="gx-4" id="add-document-items-detail-{{ order.number }}">
+        <div class="card-body text-inverse h-400px overflow-auto border-bottom">
+            <table class="table table-hover">
+                <thead class="bg-inverse bg-opacity-10">
+                    <tr>
+                        <th class="pt-3 pb-2">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="product1">
+                                <label class="form-check-label" for="product1"></label>
+                            </div>
+                        </th>
+                        <th class="pt-3 pb-2">Product</th>
+                        <th class="pt-3 pb-2">Detail</th>
+                        <th class="pt-3 pb-2">Subtotal</th>
+                        <th class="pt-3 pb-2">Actiona</th>
+                    </tr>
+                </thead>
+                <tbody id="item-table-sales-30112024-0149">
+                    {% for product in products %}
+                        {% comment %} {% include 'orders/add/new/items/item.html' %} {% endcomment %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer bg-none d-flex p-3">
+            <a href="#" class="btn btn-outline-default" data-bs-dismiss="modal" _="on click
+                remove #new-document-tab
+                remove #mgt-new-document
+                add .active to #view-document-tab
+                add .active to #mgt-documents-view-list
+                add .show to #mgt-documents-view-list
+                end
+                ">Cancel</a>
+            <button class="btn btn-outline-theme" data-bs-dismiss="modal" hx-get="/mgt/add-document/" hx-target="">Next</button>
+            <a href="#" class="btn btn-outline-theme ms-auto">Mark as paid</a>
+        </div>
+    </div>
+</div>
