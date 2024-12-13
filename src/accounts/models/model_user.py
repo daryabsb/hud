@@ -9,7 +9,7 @@ from django.contrib.auth.models import PermissionsMixin
 class User(PermissionsMixin, AbstractBaseUser):
     # Custom user model supports email instead of username
     access_level = models.OneToOneField(
-        "SecurityKey", on_delete=models.CASCADE, null=True, 
+        "SecurityKey", on_delete=models.CASCADE, null=True,
         blank=True, related_name="access_level"
     )
     email = models.EmailField(max_length=255, unique=True)
@@ -17,7 +17,7 @@ class User(PermissionsMixin, AbstractBaseUser):
     image = models.ImageField(
         null=True, blank=True, default='user.png',
         upload_to=upload_image_file_path)
-
+    pin = models.SmallIntegerField(default=1699)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 

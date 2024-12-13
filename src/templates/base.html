@@ -16,11 +16,15 @@ HUD | Dashboard
 </head>
 
 <body
+id="body"
 onresize="resizeBody()"
-hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' 
+hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
 hx-on="htmx:load: jscolor.install();"
 class="theme-success"
 >
+{% comment %} hx-get="/load-password-window/"
+hx-target="#warning-toaster"
+hx-trigger="load delay:5s" {% endcomment %}
     <div 
     id="app" 
     class="app app-sidebar-collapsed {% block extra_app_class %}{% endblock extra_app_class %}">
@@ -35,15 +39,50 @@ data-toggle-class="app-sidebar-mobile-toggled"></button>
 <a href="#" data-toggle="scroll-to-top" class="btn-scroll-top fade"><i class="fa fa-arrow-up"></i></a>
     </div>
     <input type="hidden" id="success-response" />
+
 {% block modals %}
 {% endblock modals %}
+<div id="warning-toaster"></div>
 {% include 'modals/all-modals.html' %}
 
-
-
+<input type="hidden" id="load-temp" />
 {% include 'partials/bottom-js.html' %}
 {% block additional_js %}
 {% endblock additional_js %}
+<script>
+
+    function togglePasswordModal(){
+        var passwordModal = new bootstrap.Modal(document.getElementById("enter-password"))
+        var passwordInput = document.getElementById("password-input")
+        document.getElementById("enter-password").addEventListener("shown.bs.modal", () => {
+        passwordInput.focus();
+    }, { once: true }); // Use { once: true } to ensure this listener is called only once
+
+    passwordModal.toggle();
+
+    }
+
+        let inactivityTimeout;
+
+        function resetInactivityTimer() {
+            clearTimeout(inactivityTimeout);
+
+            inactivityTimeout = setTimeout(() => {
+                // Trigger HTMX manually
+                htmx.trigger(htmx.find("#content"), "inactivity");
+                console.log('This function triggeres in 5 seconds!')
+                togglePasswordModal()
+            }, 150000); // 5 seconds of inactivity
+        }
+
+        // Reset timer on user activity
+        ["mousemove", "keydown", "click", "scroll"].forEach(event => {
+            document.addEventListener(event, resetInactivityTimer);
+        });
+
+        // Start the timer initially
+        resetInactivityTimer();
+    </script>
 </body>
 
 </html>
