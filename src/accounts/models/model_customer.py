@@ -1,5 +1,6 @@
 from django.db import models
 from src.accounts.models import User
+from src.core.modules import upload_image_file_path
 
 
 class Customer(models.Model):
@@ -20,13 +21,15 @@ class Customer(models.Model):
     is_customer = models.BooleanField(default=True)
     is_supplier = models.BooleanField(default=False)
     due_date_period = models.SmallIntegerField(default=0)
-
+    image = models.ImageField(
+        null=True, blank=True, default='user.png',
+        upload_to=upload_image_file_path)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
-    
+
     class Meta:
         ordering = ('id',)
 

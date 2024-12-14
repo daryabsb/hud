@@ -32,10 +32,18 @@
 					</div>
 					<div class="col-lg-2 m-0 text-end">
 						<div class="btn-group btn-group-md">
-                            <button type="button" class="btn" hx-get="/mgt/modal-edit-order-item/{{ item.number }}" hx-target="#modalEditDocumentItem" data-bs-target="#modalEditDocumentItem" data-bs-toggle="modal">
+                            <button type="button" class="btn" 
+                            hx-get="/mgt/modal-edit-order-item/{{ item.number }}" 
+                            hx-target="#modalEditDocumentItem" 
+                            data-bs-target="#modalEditDocumentItem" 
+                            data-bs-toggle="modal">
                                 <i class="fas fa-lg fa-fw me-2 fa-edit"></i>
                             </button>
-                            <button type="button" class="btn" hx-get="/mgt/modal-delete-order-item/{{ item.number}}" hx-target="#modalAddDocumentProduct" data-bs-target="#modalAddDocumentProduct" data-bs-toggle="modal">
+                            <button type="button" class="btn" 
+                            hx-get="/mgt/modal-delete-order-item/{{ item.number}}" 
+                            hx-target="#modalAddDocumentProduct" 
+                            data-bs-target="#modalAddDocumentProduct" 
+                            data-bs-toggle="modal">
                                 <i class="fas fa-lg fa-fw me-2 fa-trash text-danger"></i>
                             </button>
                         </div>
@@ -108,7 +116,7 @@
 			</div>
 			<div class="card-body fw-bold">
 				<div class="d-flex align-items-center">
-					<a href="#" class="d-block"><img src="{{ active_order.customer.name }}" alt="" width="45" class="rounded-pill"></a>
+					<a href="#" class="d-block"><img src="{{ active_order.customer.image.url }}" alt="" width="45" class="rounded-pill"></a>
 					<div class="flex-1 ps-3">
 						<a href="#" class="d-block text-decoration-none">{{ active_order.customer.name }}</a>
 						{{ active_order.customer.email }}
