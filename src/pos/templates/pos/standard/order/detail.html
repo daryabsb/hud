@@ -1,9 +1,9 @@
 {% load humanize  %}
-<div class="col-xxl-12">
+<div class="col-xxl-12 w-100">
     {% include 'pos/partials/barcode-input.html' %}
 </div>
-<div class="row gx-4">
-	<div class="col-xxl-8 col-xl-12" style="height: 40rem;">
+<div class="row gx-2">
+	<div class="col-xl-9 col-lg-12" style="height: 40rem;">
 		<div class="card mb-4">
 			<div class="card-header d-flex align-items-center bg-inverse bg-opacity-10 fw-400">
 				Products (3)
@@ -12,7 +12,7 @@
 			<div class="card-body text-inverse overflow-y-auto" style="height: 20rem;">
 				{% for item in order.items.all %}
                 <div class="row align-items-center">
-					<div class="col-lg-6 d-flex align-items-center">
+					<div class="col-lg-5 d-flex align-items-center">
 						<div class="h-40px w-40px d-flex align-items-center justify-content-center position-relative bg-white p-1">
 							<img src="{{ item.product.img }}" alt="" class="mw-100 mh-100">
 							<span class="w-20px h-20px p-0 d-flex align-items-center justify-content-center badge bg-theme text-theme-color position-absolute end-0 top-0 fw-bold fs-12px rounded-pill mt-n2 me-n2">{{ item.quantity }}</span>
@@ -24,7 +24,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-2 m-0 ps-lg-3">
+					<div class="col-lg-3 m-0 ps-lg-3">
 						{{ order.currency }} {{ item.price|floatformat:'0' }} x {{ item.quantity }}
 					</div>
 					<div class="col-lg-2 m-0 text-end">
@@ -37,14 +37,14 @@
                             hx-target="#modalEditDocumentItem" 
                             data-bs-target="#modalEditDocumentItem" 
                             data-bs-toggle="modal">
-                                <i class="fas fa-lg fa-fw me-2 fa-edit"></i>
+                                <i class="fas fa-lg fa-fw me-1 fa-edit"></i>
                             </button>
                             <button type="button" class="btn" 
                             hx-get="/mgt/modal-delete-order-item/{{ item.number}}" 
                             hx-target="#modalAddDocumentProduct" 
                             data-bs-target="#modalAddDocumentProduct" 
                             data-bs-toggle="modal">
-                                <i class="fas fa-lg fa-fw me-2 fa-trash text-danger"></i>
+                                <i class="fas fa-lg fa-fw me-1 fa-trash text-danger"></i>
                             </button>
                         </div>
 					</div>
@@ -58,7 +58,7 @@
 			</div> {% endcomment %}
 			{% include 'components/card-arrow.html' %}
 		</div>
-		<div class="card"  style="height: 15rem;">
+		<div class="card" >
 			<div class="card-header d-flex align-items-center bg-inverse bg-opacity-10 fw-400">
 				Payment Records
 				<a href="#" class="ms-auto text-decoration-none text-inverse text-opacity-50"><i class="bi bi-paypal me-1 fa-lg"></i> View paypal records</a>
@@ -67,19 +67,19 @@
 				<table class="table table-borderless table-sm m-0">
 					<tbody>
 						<tr>
-							<td class="w-150px">Subtotal</td>
-							<td>{{ order.items.count }} items</td>
-							<td class="text-end">{{ order.currency }} {{ order.item_subtotal|floatformat:'0' }}</td>
+							<td class="h5 w-150px">Subtotal</td>
+							<td class="h5">{{ order.items.count }} items</td>
+							<td class="h5 text-end">{{ order.currency }} {{ order.item_subtotal|floatformat:'0' }}</td>
 						</tr>
 						<tr>
-							<td>Discount</td>
-							<td>promo code: <u class="text-success fw-bold small">FREESHIPPING</u> <small>(<span class="text-decoration-line-through">$120.00</span>)</small></td>
-							<td class="text-end">{{ order.currency }} {{ order.discounted_amount|floatformat:'0' }}</td>
+							<td class="h6 text-success">Discount</td>
+							<td class="h6">promo code: <u class="text-success fw-bold small">FREESHIPPING</u> <small>(<span class="text-decoration-line-through">$120.00</span>)</small></td>
+							<td class="h6 text-success text-end">{{ order.currency }} {{ order.discounted_amount|floatformat:'0' }}</td>
 						</tr>
-						<tr>
-							<td>Tax</td>
-							<td>GST 5%</td>
-							<td class="text-end">{{ order.currency }} {{ order.total_tax|floatformat:'0' }}</td>
+						<tr class="h6 text-danger">
+							<td class="h6 text-danger">Tax</td>
+							<td class="h6 text-danger">GST {{ order.total_tax_rate|floatformat:'0' }}%</td>
+							<td class="h6 text-danger text-end">{{ order.currency }} {{ order.total_tax|floatformat:'0' }}</td>
 						</tr>
 						<tr>
 							<td colspan="3">
@@ -87,8 +87,8 @@
 							</td>
 						</tr>
 						<tr>
-							<td class="pb-2" colspan="2"><b class="display-4">Total</b></td>
-							<td class="text-end pb-2">
+							<td class="pb-2"><b class="display-4">Total</b></td>
+							<td class="text-end pb-2" colspan="2">
                             <h3 class="display-4">{{ order.currency }} {{ order.total|floatformat:"0"|intcomma }}</h3> 
                             </td>
 						</tr>
@@ -98,7 +98,7 @@
 			{% include 'components/card-arrow.html' %}
 		</div>
 	</div>
-	<div class="col-xxl-4 col-lg-12 h-100 overflow-auto">
+	<div class="col-lg-3 col-md-12 h-100">
 		<div class="card mb-4">
 			<div class="card-header d-flex align-items-center bg-inverse bg-opacity-10 fw-400">
 				Notes
@@ -116,10 +116,10 @@
 			</div>
 			<div class="card-body fw-bold">
 				<div class="d-flex align-items-center">
-					<a href="#" class="d-block"><img src="{{ active_order.customer.image.url }}" alt="" width="45" class="rounded-pill"></a>
-					<div class="flex-1 ps-3">
-						<a href="#" class="d-block text-decoration-none">{{ active_order.customer.name }}</a>
-						{{ active_order.customer.email }}
+					{% comment %} <a href="#" class="hide"><img src="{{ active_order.customer.image.url }}" alt="" width="45" class="rounded-pill"></a> {% endcomment %}
+					<div class="flex-1 ps-2">
+						<a href="#" class="d-block text-decoration-none">{{ order.customer.name }}</a>
+						{{ order.customer.email }}
 					</div>
 				</div>
 			</div>
@@ -127,24 +127,19 @@
 		</div>
 		<div class="card mb-4">
 			<div class="card-header d-flex align-items-center bg-inverse bg-opacity-10 fw-400">
-				Shipping Information
+				Customer Address
 				<a href="#" class="ms-auto text-decoration-none text-inverse text-opacity-50">Edit</a>
 			</div>
 			<div class="card-body fw-bold">
-				<i class="bi bi-telephone-fill fa-fw"></i> +916-663-4289<br><br>
-				867 Highland View Drive<br>
-				Newcastle, CA<br>
-				California<br>
-				95658<br>
+				<i class="bi bi-telephone-fill fa-fw"></i> {{ order.customer.phone }}<br><br>
+				{{ order.customer.address }}<br>
+				{{ order.customer.postal_code }}, CA<br>
+				{{ order.customer.city }}<br>
+				Code: {{ order.customer.code }}<br>
 				<br>
 				<a href="#" class="text-decoration-none"><i class="bi bi-geo-alt-fill fa-fw"></i> View map</a>
 			</div>
-			<div class="card-arrow">
-				<div class="card-arrow-top-left"></div>
-				<div class="card-arrow-top-right"></div>
-				<div class="card-arrow-bottom-left"></div>
-				<div class="card-arrow-bottom-right"></div>
-			</div>
+			{% include 'components/card-arrow.html' %}
 		</div>
 	</div>
 </div>

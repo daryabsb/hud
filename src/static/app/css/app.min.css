@@ -34299,7 +34299,7 @@ body .note-modal-backdrop {
 
 @media (min-width:992px) {
     .pos .pos-content {
-        overflow: scroll
+        overflow: auto
     }
 }
 

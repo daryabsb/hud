@@ -10,6 +10,7 @@
     {% url 'account_login' as login_url %}
 		<form action="{{login_url}}" method="post" name="login_form">
         {% csrf_token %}
+		<input type="hidden" name="next" value="{{ request.GET.next }}">
 			<h1 class="text-center">Sign In</h1>
 			<div class="text-inverse text-opacity-50 text-center mb-4">
 				For your protection, please verify your identity.

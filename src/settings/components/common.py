@@ -83,6 +83,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "allauth.account.middleware.AccountMiddleware",
+    'src.core.middleware.SessionTimeoutMiddleware',
 ]
 
 ROOT_URLCONF = 'src.urls'
@@ -111,6 +112,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'custom_context_processor.dz_static',
                 'custom_context_processor.props',
+                'custom_context_processor.main_app_names',
             ],
         },
     },

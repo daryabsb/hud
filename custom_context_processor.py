@@ -31,3 +31,12 @@ def props(request):
 
     return prop_dict
     # return {'props':prop_dict}
+
+
+def main_app_names(request):
+    return {
+        'main_apps': [
+            {'name': 'Management', 'link': '/mgt/'},
+            {'name': 'POS', 'link': '/pos/'},
+        ]
+    }
