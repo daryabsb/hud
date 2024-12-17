@@ -3,8 +3,8 @@
 
 {% block pos_content %}
 
-    <div class="pos-container card-body">
-        <div class="pos-menu">
+    <div class="pos-container card-body" style="width: 100%;">
+        <div class="pos-menu" style="width: 8%">
             <div class="logo">
                 <a href="{% url 'index' %}">
                     <div class="logo-img">
@@ -47,7 +47,7 @@
                 </div>
             </div>
         </div>
-        <div class="pos-content">
+        <div class="pos-content" style="width: 46%;">
             <div class="pos-content-container h-100 p-1" >
                 
                 <div class="row">
@@ -78,7 +78,7 @@
                
             </div>
         </div>
-        <div class="pos-sidebar" style="width: 350px;" id="pos-sidebar">
+        <div class="pos-sidebar" style="width: 46%;" id="pos-sidebar">
             {% include 'pos/partials/order-detail.html' %}
         </div>
     </div>

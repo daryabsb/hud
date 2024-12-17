@@ -34318,7 +34318,7 @@ body .note-modal-backdrop {
     height: 100%;
     display: flex;
     flex-direction: column;
-    flex: 0 0 360px
+    /* flex: 0 0 360px */
 }
 
 @media (max-width:991.98px) {

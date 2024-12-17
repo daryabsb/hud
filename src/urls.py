@@ -8,6 +8,8 @@ from src.core.views import index, not_authorized
 from django.shortcuts import render
 from src.accounts.models import User
 
+from src.configurations.models import ApplicationProperty
+
 
 def test(request):
     return render(request, 'test.html')
@@ -20,8 +22,23 @@ def load_window(request):
     return render(request, 'partials/warning-toaster.html')
 
 
+def submit_password(request):
+    email = request.GET.get('email', None)
+    if email:
+        current_user = ApplicationProperty.objects.get(name='email')
+        print('current_user = ', current_user.value)
+        # current_user.value =
+        print(current_user)
+    else:
+        print("No email provided!!!")
+    return render(request, 'buttons/password-confirm.html', {'success': False})
+
+
 def confirm_pin(request):
     pin = request.GET.get('pin', None)
+    current_user = None
+    print('request = ', request.GET)
+
     user_pin = request.user.pin
     if pin and int(pin) == user_pin:
         return render(request, 'buttons/password-confirm.html', {'success': True})
@@ -32,6 +49,7 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('load-password-window/', load_window, name="not-authorized"),
     path('enter-pin/', confirm_pin, name='enter-pin'),
+    path('submit-password/', submit_password, name='submit-password'),
 
     path('admin/', admin.site.urls),
     path('not-authorized/', not_authorized, name="not-authorized"),

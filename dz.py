@@ -26,7 +26,6 @@ dz_array = {
             f"{app}/plugins/toastify/toastify.min.css",
             f"{app}/plugins/datatable/datatables.min.css",
             f"{app}/plugins/datatable/data-tables.css",
-            f"{app}/plugins/lity/dist/lity.min.css",
         ],
         "global_js": {
             "top": [
@@ -36,8 +35,6 @@ dz_array = {
                 # f"{app}/plugins/jquery/jquery.min.js",
                 f"{app}/plugins/jscolor/jscolor.min.js",
                 f"{app}/plugins/toastify/toastify-js.js",
-                # f"{app}/plugins/iconify/iconify.min.js",
-                f"{app}/plugins/lity/dist/lity.min.js",
                 f"{app}/js/scripts.js",
                 # f"{app}/js/render-datatable.js",
 
