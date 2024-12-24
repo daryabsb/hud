@@ -1,0 +1,87 @@
+{% extends 'pos/pos_base.html' %}
+{% load static %}
+
+{% block pos_content %}
+
+    <div class="pos-container card-body" style="width: 100%;">
+        <div class="pos-menu" style="width: 8%">
+            <div class="logo">
+                <a href="{% url 'index' %}">
+                    <div class="logo-img">
+                    <img class="" src="{% static 'app/img/icons/zeneon-icon-white-02.svg' %}" style="width: 3.1rem;" />
+                    </div>
+                    <div class="logo-text">Zeneon LLC.</div>
+                </a>
+            </div>
+            <div class="nav-container">
+                <div data-scrollbar="true" data-height="100%" data-skip-mobile="true">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" data-filter="all">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <i class="fa fa-fw fa-utensils"></i> All Products
+                                    </div>
+                                    <div class="card-arrow">
+                                        <div class="card-arrow-top-left"></div>
+                                        <div class="card-arrow-top-right"></div>
+                                        <div class="card-arrow-bottom-left"></div>
+                                        <div class="card-arrow-bottom-right"></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        {% for group in groups %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-filter="{{ group.id }}">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <i class="fa fa-fw fa-drumstick-bite"></i> {{ group.name }}
+                                    </div>
+                                    {% include 'components/card-arrow.html' %}
+                                </div>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="pos-content" style="width: 46%;">
+            <div class="pos-content-container h-100 p-1" >
+                
+                <div class="row">
+                    <div class="col-xxl-12 mb-2">
+                        <ul class="nav nav-tabs nav-tabs-v2 px-4" role="tablist">
+                        {% for order in orders %}
+                            <li class="nav-item me-3" role="presentation">
+                            <a href="#order-tab-{{ order.number }}" class="nav-link {% if forloop.first %}active{% endif %} px-2" 
+                            data-bs-toggle="tab" aria-selected="true" role="tab">{{ order.number }}</a></li>
+                        {% endfor %}
+                           
+                        </ul>
+                    </div>
+                    {% comment %} <div class="col-xxl-12">
+                    {% include 'pos/partials/barcode-input.html' %}
+                    </div> {% endcomment %}
+                </div>
+                <div class="tab-content p-2 row">
+                {% for order in orders %}
+
+                    <div class="col-xxl-12 tab-pane fade {% if forloop.first %}show active{% endif %}"
+                    id="order-tab-{{ order.number }}"
+                    >
+                    {% include 'pos/standard/order/detail.html' %}
+                    </div>
+                    {% endfor %}
+                </div>
+               
+            </div>
+        </div>
+        <div class="pos-sidebar" style="width: 46%;" id="pos-sidebar">
+            {% include 'pos/partials/order-detail.html' %}
+        </div>
+    </div>
+
+
+{% endblock pos_content %}
