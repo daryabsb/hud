@@ -27,17 +27,27 @@
             </li>
         </ul>
     </div>
-    <div class="btn-group gap-1 btn-group w-100 px-2 mt-2 position-static top-3">
+    <div class="d-flex flex-wrap gap-3 btn-group px-2 mt-2 top-3">
         <button type="button" class="btn btn-outline-danger rounded-0">Void</button>
         <button type="button" class="btn btn-outline-success rounded-0">Discount</button>
-        <button type="button" class="btn btn-outline-info rounded-0">Next</button>
+        <button type="button" class="btn btn-outline-info rounded-0 w-100px h-50px">Next</button>
+        <button type="button" class="btn btn-outline-info rounded-0 w-100px h-50px">Next</button>
+        <button type="button" class="btn btn-outline-info rounded-0 w-100px h-50px">Next</button>
+        <button type="button" class="btn btn-outline-info rounded-0 w-100px h-50px">Next</button>
+        <button type="button" class="btn btn-outline-info rounded-0 w-100px h-50px">Next</button>
+        <button type="button" class="btn btn-outline-info rounded-0 w-100px h-50px">Next</button>
+        <button type="button" class="btn btn-outline-info rounded-0 w-100px h-50px">Next</button>
+        <button type="button" class="btn btn-outline-info rounded-0 w-100px h-50px">Next</button>
+        <button type="button" class="btn btn-outline-info rounded-0 w-100px h-50px">Next</button>
+        <button type="button" class="btn btn-outline-info rounded-0 w-100px h-50px">Next</button>
+        <button type="button" class="btn btn-outline-info rounded-0 w-100px h-50px">Next</button>
         </div>
     <div class="pos-sidebar-body tab-content" data-scrollbar="true" data-height="100%">
         {% include 'pos/orders/active-order.html' %}
         {% include 'pos/orders/order-list.html' %}
     </div>
     <!-- ORDER CALCULATIONS -->
-    <div id="order-calculations">
+    {% comment %} <div id="order-calculations">
     {% include 'pos/orders/order-calculations.html' %}
-    <div>
+    <div> {% endcomment %}
 </div>

@@ -33,12 +33,7 @@
                                     <div class="card-body">
                                         <i class="fa fa-fw fa-utensils"></i> All Products
                                     </div>
-                                    <div class="card-arrow">
-                                        <div class="card-arrow-top-left"></div>
-                                        <div class="card-arrow-top-right"></div>
-                                        <div class="card-arrow-bottom-left"></div>
-                                        <div class="card-arrow-bottom-right"></div>
-                                    </div>
+                                    {% include 'components/card-arrow.html' %}
                                 </div>
                             </a>
                         </li>
@@ -58,14 +53,43 @@
                 </div>
             </div>
         </div>
-        <div id="container1" style="width: 44%; height: 100%; float: left; background-color: lightblue;">
-            <!-- Content of container 1 -->
+
+        <div class="pos-content" id="container1" style="width: 44%;">
+             <div class="pos-content-container h-100 p-1" >
+                
+                <div class="row">
+                    <div class="col-xxl-12 mb-2">
+                        <ul class="nav nav-tabs nav-tabs-v2 px-4" role="tablist">
+                        {% for order in orders %}
+                            <li class="nav-item me-3" role="presentation">
+                            <a href="#order-tab-{{ order.number }}" class="nav-link {% if forloop.first %}active{% endif %} px-2" 
+                            data-bs-toggle="tab" aria-selected="true" role="tab">{{ order.number }}</a></li>
+                        {% endfor %}
+                           
+                        </ul>
+                    </div>
+                    {% comment %} <div class="col-xxl-12">
+                    {% include 'pos/partials/barcode-input.html' %}
+                    </div> {% endcomment %}
+                </div>
+                <div class="tab-content p-2 row">
+                {% for order in orders %}
+
+                    <div class="col-xxl-12 tab-pane fade {% if forloop.first %}show active{% endif %}"
+                    id="order-tab-{{ order.number }}"
+                    >
+                    {% include 'pos/standard/order/detail.html' %}
+                    </div>
+                    {% endfor %}
+                </div>
+               
+            </div>
         </div>
-        <div class="d-flex align-items-center justify-content-center" id="drag-handle" style="width: 1.2%; height: 100%; float: left; cursor: ew-resize; background-color: gray;">
+        <div class="d-flex align-items-center justify-content-center" id="drag-handle" style="width: 1.2%; cursor: ew-resize; background-color: gray;">
             <i class="fas fa-lg fa-fw me-2 fa-ellipsis-v"></i>
         </div>
-        <div id="container2" style="width: 44%; height: 100%; float: left; background-color: lightcoral;">
-            <!-- Content of container 2 -->
+        <div class="pos-sidebar" id="container2" style="width: 44%;">
+            {% include 'pos/partials/order-detail.html' %}
         </div>
     </div>
 
