@@ -3,7 +3,7 @@
     {% include 'pos/partials/barcode-input.html' %}
 </div>
 <div class="row gx-2">
-	<div class="col-xl-9 col-lg-12" style="height: 40rem;">
+	<div class="col-xl-12" style="height: 40rem;">
 		<div class="card mb-4">
 			<div class="card-header d-flex align-items-center bg-inverse bg-opacity-10 fw-400">
 				Products (3)
@@ -94,50 +94,6 @@
 						</tr>
 					</tbody>
 				</table>
-			</div>
-			{% include 'components/card-arrow.html' %}
-		</div>
-	</div>
-	<div class="col-lg-3 col-md-12 h-100">
-		<div class="card mb-4">
-			<div class="card-header d-flex align-items-center bg-inverse bg-opacity-10 fw-400">
-				Notes
-				<a href="#" class="ms-auto text-decoration-none text-inverse text-opacity-50">Edit</a>
-			</div>
-			<div class="card-body">
-				No notes from customer
-			</div>
-            {% include 'components/card-arrow.html' %}
-		</div>
-		<div class="card mb-4">
-			<div class="card-header d-flex align-items-center bg-inverse bg-opacity-10 fw-400">
-				Customer
-				<a href="#" class="ms-auto text-decoration-none text-inverse text-opacity-50">Edit</a>
-			</div>
-			<div class="card-body fw-bold">
-				<div class="d-flex align-items-center">
-					{% comment %} <a href="#" class="hide"><img src="{{ active_order.customer.image.url }}" alt="" width="45" class="rounded-pill"></a> {% endcomment %}
-					<div class="flex-1 ps-2">
-						<a href="#" class="d-block text-decoration-none">{{ order.customer.name }}</a>
-						{{ order.customer.email }}
-					</div>
-				</div>
-			</div>
-			{% include 'components/card-arrow.html' %}
-		</div>
-		<div class="card mb-4">
-			<div class="card-header d-flex align-items-center bg-inverse bg-opacity-10 fw-400">
-				Customer Address
-				<a href="#" class="ms-auto text-decoration-none text-inverse text-opacity-50">Edit</a>
-			</div>
-			<div class="card-body fw-bold">
-				<i class="bi bi-telephone-fill fa-fw"></i> {{ order.customer.phone }}<br><br>
-				{{ order.customer.address }}<br>
-				{{ order.customer.postal_code }}, CA<br>
-				{{ order.customer.city }}<br>
-				Code: {{ order.customer.code }}<br>
-				<br>
-				<a href="#" class="text-decoration-none"><i class="bi bi-geo-alt-fill fa-fw"></i> View map</a>
 			</div>
 			{% include 'components/card-arrow.html' %}
 		</div>
