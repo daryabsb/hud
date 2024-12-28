@@ -20395,6 +20395,14 @@ body:not(.app-init) * {
     width: 350px !important
 }
 
+.w-363px {
+    width: 363px !important
+}
+
+.w-365px {
+    width: 365px !important
+}
+
 .w-400px {
     width: 400px !important
 }
