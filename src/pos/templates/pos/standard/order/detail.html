@@ -5,9 +5,19 @@
 <div class="row gx-2">
 	<div class="col-xl-12" style="height: 75%;">
 		<div class="card mb-4">
-			<div class="card-header d-flex align-items-center bg-inverse bg-opacity-10 fw-400">
-				Products (3)
-				<a href="#" class="ms-auto text-decoration-none text-inverse text-opacity-50"><i class="bi bi-truck fa-lg me-1"></i> Add Tracking Link</a>
+			<div class="card-header bg-inverse bg-opacity-10">
+				<div class="row align-items-center">
+					<div class="col-lg-5 d-flex align-items-center">
+						Products (3)
+					</div>
+					<div class="col-lg-3 ps-lg-3">
+					Quantity X Price
+					</div>
+					<div class="col-lg-2 text-end">
+					Total
+					</div>
+					<div class="col-lg-2 text-end"></div>
+				</div>
 			</div>
 			<div class="card-body text-inverse overflow-y-auto" style="height: 20rem;">
 				{% for item in order.items.all %}
