@@ -8,10 +8,10 @@ from src.configurations.models import ApplicationProperty
 
 
 @login_required
-def pos_home(request, id=None):
+def pos_home(request, number=None):
     print('Last Activity: ', request.session['last_activity'])
     user = request.user
-    active_order = aod(user, id)
+    active_order = aod(user, number)
     layout_object = ApplicationProperty.objects.get(name='layout')
 
     print(layout_object.value)

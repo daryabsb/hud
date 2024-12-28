@@ -83,6 +83,7 @@ class PosOrder(models.Model):
 
     paid_status = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
+    is_enabled = models.BooleanField(default=True)
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

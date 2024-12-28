@@ -1,9 +1,9 @@
 {% load humanize  %}
-<div class="col-xxl-12 w-100">
+{% comment %} <div class="col-xxl-12 w-100">
     {% include 'pos/partials/barcode-input.html' %}
-</div>
+</div> {% endcomment %}
 <div class="row gx-2">
-	<div class="col-xl-12" style="height: 40rem;">
+	<div class="col-xl-12" style="height: 75%;">
 		<div class="card mb-4">
 			<div class="card-header d-flex align-items-center bg-inverse bg-opacity-10 fw-400">
 				Products (3)
@@ -87,9 +87,9 @@
 							</td>
 						</tr>
 						<tr>
-							<td class="pb-2"><b class="display-4">Total</b></td>
+							<td class="pb-2"><b class="h3">Total</b></td>
 							<td class="text-end pb-2" colspan="2">
-                            <h3 class="display-4">{{ order.currency }} {{ order.total|floatformat:"0"|intcomma }}</h3> 
+                            <h3 class="h3">{{ order.currency }} {{ order.total|floatformat:"0"|intcomma }}</h3> 
                             </td>
 						</tr>
 					</tbody>
