@@ -5,8 +5,9 @@ from django.contrib import admin
 from django.http import JsonResponse
 from django.urls import path, include
 from src.core.views import index, not_authorized
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from src.accounts.models import User
+from django.contrib.auth.decorators import login_required
 
 from src.configurations.models import ApplicationProperty
 
@@ -22,6 +23,7 @@ def load_window(request):
     return render(request, 'partials/warning-toaster.html')
 
 
+@login_required
 def submit_password(request):
     email = request.GET.get('email', None)
     if email:
@@ -34,6 +36,7 @@ def submit_password(request):
     return render(request, 'buttons/password-confirm.html', {'success': False})
 
 
+@login_required
 def confirm_pin(request):
     pin = request.GET.get('pin', None)
     current_user = None
