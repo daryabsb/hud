@@ -29,99 +29,85 @@
         </ul>
     </div>
     {% include 'pos/orders/detail/payment-types.html' %}
+    <div class="flex-fill d-flex justify-content-start ps-2 my-4">
+        <div class="d-flex align-items-center justify-content-center bg-transparent" id="drag-handle">
+            <i class="fas fa-2xl fa-ellipsis-v"></i>
+        </div>
+    </div>
     <hr />
-    <div class="d-flex flex-wrap gap-1 btn-group px-2 mt-2 top-3">
-        <div class="d-flex align-items-center">
-            <a href="#" class="btn btn-outline-default rounded-2 w-175px me-2 mb-2">
-                <i class="bi bi-send-check fa-lg"></i><br>
-                <span class="small">Submit Order</span>
+    <div class="d-flex flex-nowrap flex-shrink-0 gap-2 btn-group px-4 mt-2 top-3">
+        <div class="flex-fill">
+            <a href="#" class="w-100 pt-3 px-4 btn btn-outline-default rounded-2 mb-2 text-white">
+                <i class="fas fa-2xl fa-percent"></i><br>
+                <span class="small">Discount</span>
             </a>
         </div>
-        <div>
-            <a href="#" class="btn btn-outline-theme rounded-2 w-175px me-2 mb-2">
-                <i class="bi bi-send-check fa-lg"></i><br>
-                <span class="small">Submit Order</span>
+        <div class="flex-fill">
+            <a href="#" class="w-100 pt-3 px-4 btn btn-outline-default rounded-2 mb-2 text-white">
+                <i class="far fa-2xl fa-comment-alt"></i><br>
+                <span class="small">Comment</span>
             </a>
         </div>
-        <div>
-            <a href="#" class="btn btn-outline-theme rounded-2 w-175px me-2 mb-2">
-                <i class="bi bi-send-check fa-lg"></i><br>
-                <span class="small">Submit Order</span>
+        <div class="flex-fill">
+            <a href="#" class="w-100 pt-3 px-4 btn btn-outline-default rounded-2 mb-2 text-white">
+                <i class="far fa-2xl fa-user"></i><br>
+                <span class="small mt-2">{{ active_order.customer.name }}</span>
             </a>
         </div>
-        <div>
-            <a href="#" class="btn btn-outline-theme rounded-2 w-175px me-2 mb-2">
-                <i class="bi bi-send-check fa-lg"></i><br>
-                <span class="small">Submit Order</span>
+        <div class="flex-fill">
+            <a href="#" class="w-100 pt-3 px-4 btn btn-outline-default rounded-2 mb-2 text-white">
+                <i class="fas fa-2xl fa-fax"></i><br>
+                <span class="small">Cash drawer</span>
             </a>
         </div>
-        <div>
-            <a href="#" class="btn btn-outline-theme rounded-2 w-175px me-2 mb-2">
-                <i class="bi bi-send-check fa-lg"></i><br>
-                <span class="small">Submit Order</span>
+    </div>
+    <div class="d-flex flex-nowrap flex-shrink-0 gap-2 btn-group px-4 mt-2 top-3">
+        <div class="flex-fill">
+            <a href="#" class="w-100 pt-3 px-4 btn btn-outline-default rounded-2 mb-2 text-white">
+                <i class="far fa-2xl fa-save"></i><br>
+                <span class="small">Save sale</span>
             </a>
         </div>
-        <div>
-            <a href="#" class="btn btn-outline-theme rounded-2 flex-1 w-175px me-2 mb-2">
-                <i class="bi bi-send-check fa-lg"></i><br>
-                <span class="small">Submit Order</span>
+        <div class="flex-fill">
+            <a href="#" class="w-100 pt-3 px-4 btn btn-outline-default rounded-2 mb-2 text-white">
+                <i class="fas fa-2xl fa-sync-alt"></i><br>
+                <span class="small">Return</span>
             </a>
         </div>
-        <div>
-            <a href="#" class="btn btn-outline-theme rounded-2 flex-1 w-175px me-2 mb-2">
-                <i class="bi bi-send-check fa-lg"></i><br>
-                <span class="small">Submit Order</span>
-            </a>
-        </div>
-        <div>
-            <a href="#" class="btn btn-outline-theme rounded-2 flex-1 w-175px me-2 mb-2">
-                <i class="bi bi-send-check fa-lg"></i><br>
-                <span class="small">Submit Order</span>
-            </a>
-        </div>
-        <div>
-            <a href="#" class="btn btn-outline-theme rounded-2 flex-1 w-175px me-2 mb-2">
-                <i class="bi bi-send-check fa-lg"></i><br>
-                <span class="small">Submit Order</span>
-            </a>
-        </div>
-        <div>
-            <a href="#" class="btn btn-outline-theme rounded-2 flex-1 w-175px me-2 mb-2">
-                <i class="bi bi-send-check fa-lg"></i><br>
-                <span class="small">Submit Order</span>
-            </a>
-        </div>
-        <div>
-            <a href="#" class="btn btn-outline-theme rounded-2 flex-1 w-363px me-2 mb-2">
+        <div class="flex-fill min-w-350px">
+            <a href="#" class="w-100 pt-2 px-4 btn btn-success rounded-2 mb-2">
                 {% comment %} <i class="bi bi-send-check fa-lg"></i><br> {% endcomment %}
-                <div class="small">F3</div>
+                <div class="h5">F3</div>
                 <span class="small">Payment</span>
             </a>
         </div>
-        <div>
-            <a href="#" class="btn btn-outline-theme rounded-2 flex-1 w-175px me-2 mb-2">
+    </div>
+    <div class="d-flex flex-nowrap flex-shrink-0 gap-2 btn-group px-4 mt-2 top-3">
+        <div class="flex-fill">
+            <a href="#" class="w-100 btn btn-outline-theme rounded-2 mb-2">
                 <i class="bi bi-send-check fa-lg"></i><br>
                 <span class="small">Submit Order</span>
             </a>
         </div>
-        <div>
-            <a href="#" class="btn btn-outline-theme rounded-2 flex-1 w-175px me-2 mb-2">
+        <div class="flex-fill">
+            <a href="#" class="w-100 btn btn-outline-theme rounded-2 mb-2">
                 <i class="bi bi-send-check fa-lg"></i><br>
                 <span class="small">Submit Order</span>
             </a>
         </div>
-        <div>
-            <a href="#" class="btn btn-outline-theme rounded-2 flex-1 w-175px me-2 mb-2">
+        <div class="flex-fill">
+            <a href="#" class="w-100 btn btn-outline-theme rounded-2 mb-2">
                 <i class="bi bi-send-check fa-lg"></i><br>
                 <span class="small">Submit Order</span>
             </a>
         </div>
-        <div>
-            <a href="#" class="btn btn-outline-theme rounded-2 flex-1 w-175px me-2 mb-2">
+        <div class="flex-fill">
+            <a href="#" class="w-100 btn btn-outline-theme rounded-2 mb-2">
                 <i class="bi bi-send-check fa-lg"></i><br>
                 <span class="small">Submit Order</span>
             </a>
         </div>
+    </div>
         
         
         </div>

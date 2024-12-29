@@ -10969,6 +10969,10 @@ fieldset:disabled .btn {
     min-width: 100vw !important
 }
 
+.min-w-350px {
+    min-width: 350px !important
+}
+
 .h-25 {
     height: 25% !important
 }
@@ -20393,6 +20397,10 @@ body:not(.app-init) * {
 
 .w-350px {
     width: 350px !important
+}
+
+.w-360px {
+    width: 360px !important
 }
 
 .w-363px {
