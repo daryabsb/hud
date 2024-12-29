@@ -1,34 +1,8 @@
 {% load static %}
 <div class="h-100 d-flex flex-column p-0" id="orders-detail">
-    <div class="pos-sidebar-header">
-        <div class="back-btn">
-            <button type="button" data-toggle-class="pos-mobile-sidebar-toggled"
-                data-toggle-target="#pos" class="btn">
-            <i class="bi bi-chevron-left"></i>
-            </button>
-        </div>
-        <div class="icon">
-            {% comment %} <img src="{% static 'hud/img/pos/icon-table-black.svg' %}" class="invert-dark"alt> {% endcomment %}
-            <img src="{% static 'app/img/user/customer.png' %}" class="invert-dark"alt>
-        </div>
-        {% comment %} <div class="title">Table 01</div> {% endcomment %}
-        <div class="title">{{ active_order.customer.name }}</div>||
-        <div class="order"><b>{{ active_order.number }}</b></div>
-    </div>
-    <div class="pos-sidebar-nav">
-        <ul class="nav nav-tabs nav-fill">
-            <li class="nav-item">
-                <a class="nav-link active" href="#" data-bs-toggle="tab"
-                    data-bs-target="#active-order-tab-{{ active_order.id }}">Order # ({{ active_order.id }})</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" data-bs-toggle="tab"
-
-                    data-bs-target="#orderHistoryTab">Order List ({{ orders.count }})</a>
-            </li>
-        </ul>
-    </div>
-    <div class="d-flex flex-nowrap flex-shrink-0 gap-2 btn-group px-4 mt-2 top-3">
+    
+    
+    <div class="d-flex flex-nowrap flex-shrink-0 gap-2 btn-group px-4 mt-2 border-bottom mb-3">
         <div class="flex-fill">
             <a href="#" class="w-100 pt-3 px-4 btn btn-outline-default border-0 mb-2 text-white">
                 <i class="fas fa-2xl fa-times"></i><br>
@@ -43,18 +17,17 @@
         </div>
         <div class="flex-fill">
             <a href="#" class="w-100 pt-3 px-4 btn btn-outline-default rounded-2 mb-2 text-white">
-                <i class="far fa-2xl fa-user"></i><br>
-                <span class="small mt-2">{{ active_order.customer.name }}</span>
+                <i class="fas fa-2xl fa-cart-plus"></i><br>
+                <span class="small mt-2">Quantity</span>
             </a>
         </div>
         <div class="flex-fill">
             <a href="#" class="w-100 pt-3 px-4 btn btn-outline-default rounded-2 mb-2 text-white">
-                <i class="fas fa-2xl fa-fax"></i><br>
-                <span class="small">Cash drawer</span>
+                <i class="fas fa-2xl fa-plus"></i><br>
+                <span class="small">New sale</span>
             </a>
         </div>
     </div>
-    <hr />
     {% include 'pos/orders/detail/payment-types.html' %}
     <div class="flex-fill d-flex justify-content-start ps-2 my-4">
         <div class="d-flex align-items-center justify-content-center bg-transparent" id="drag-handle">
