@@ -3,58 +3,48 @@
 {% block extra_content %}{{ orders.first }}{% endblock %}
 {% block pos_content %}
 <div class="card h-100 user-select-none">
-    <div class="card-header row gap-3 align-content-between align-items-center">
-      <div class="col-lg-6">
-      {% include 'pos/partials/barcode-input.html' %}
-      </div>
-      <div class="col-lg-3">
-        <select class="form-select mb-3">
-        {% for order in orders %}
-            <option role="presentation"
-            
-            >
-            <a href="#order-tab-{{ order.number }}" data-bs-toggle="tab" role="tab">
-            {{ order.number }}
-            </a>
-            </option>
-        {% endfor %}
+    <div class="card-header bg-transparent row align-content-between align-items-center w-100">
+        <div class="col-lg-6">
+        {% include 'pos/partials/barcode-input.html' %}
+        </div>
+        <div class="col-lg-3">
+            <select class="form-select mb-3" id="order-tab-select" 
+            hx-on:change="
+                let x = htmx.find('#order-tab-select'); 
+                let id = `#order-tab-${x.value}`;
+                // Deactivate all tab panes
+                document.querySelectorAll('.tab-pane').forEach(tab => {
+                    tab.classList.remove('show', 'active');
+                });
+                // Activate the selected tab pane
+                let el = document.querySelector(id);
+                if (el) {
+                    el.classList.add('show', 'active');
+                } else {
+                    console.error(`No tab pane found for ID: ${id}`);
+                }
+            ">
+            {% for order in orders %}
+                <option value="{{ order.number }}" {% if forloop.first %}selected{% endif %}>{{ order.number }}</option>
+            {% endfor %}
         </select>
-      </div>
-      <div class="col-lg-3 bg-warning"></div>
+        
+    </div>
+    <div class="col-lg-3 bg-warning"></div>
       
     </div>
+    
+    
     <div class="pos-container card-body" style="width: 100%;">
-        
-
-        <div class="pos-content" id="container1" style="width: 44%; min-width: 40%;">
-             <div class="pos-content-container h-100 p-1" >
-                
-                <div class="row">
-                    <div class="col-xxl-12 mb-2">
-                        <ul class="nav nav-tabs nav-tabs-v2 px-4" role="tablist">
-                        {% for order in orders %}
-                            <li class="nav-item me-3" role="presentation">
-                            <a href="#order-tab-{{ order.number }}" class="nav-link {% if forloop.first %}active{% endif %} px-2" 
-                            data-bs-toggle="tab" aria-selected="true" role="tab">{{ order.number }}</a></li>
-                        {% endfor %}
-                           
-                        </ul>
-                    </div>
-                    {% comment %} <div class="col-xxl-12">
-                    {% include 'pos/partials/barcode-input.html' %}
-                    </div> {% endcomment %}
-                </div>
-                <div class="tab-content p-2 row" style="height: 38rem;">
+        <div class="pos-content h-100" id="container1" style="width: 44%; min-width: 40%;">
+            <div class="tab-content p-2 row" style="height: 92%; width:100%">
                 {% for order in orders %}
-
                     <div class="col-xxl-12 tab-pane fade {% if forloop.first %}show active{% endif %} h-100"
                     id="order-tab-{{ order.number }}"
                     >
                     {% include 'pos/standard/order/detail.html' %}
                     </div>
-                    {% endfor %}
-                </div>
-               
+                {% endfor %}
             </div>
         </div>
         <div class="pos-sidebar" id="container2" style="width: 44%; min-width: 33%;">

@@ -9,7 +9,7 @@
         <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
         <label class="btn btn-outline-primary" for="btnradio3">Radio 3</label>
       </div> {% endcomment %}
-    <span class="input-group-text" id="addon-wrapping"><i class="bi bi-search"></i></span>
+    <span class="input-group-text border-0 bg-transparent" id="addon-wrapping"><i class="bi bi-search"></i></span>
     <input
     id="barcode-input"
     hx-post="{% url 'pos:add-item-with-barcode' %}" 
@@ -17,10 +17,10 @@
    
     hx-target="#orders-detail"
     name="barcode" 
-    class="form-control form-control-lg active position-relative" 
+    class="form-control form-control-lg active position-relative border-0 bg-transparent" 
     
     placeholder="Search for barcodes..">
-    <span class="input-group-text"
+    <span class="input-group-text border-0 bg-transparent"
     data-bs-toggle="modal" data-bs-target="#barcode-search-result"
     ><i class="fas fa-lg fa-fw me-2 fa-keyboard"></i></span>
     
