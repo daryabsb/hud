@@ -1,22 +1,22 @@
 {% load humanize  %}
-<div class="card  border-0 p-0 mb-4 flex-grow-1" style="height: 71%;">
-	<div class="card-header bg-inverse bg-opacity-10  overflow-x-hidden">
+<div class="card  border-0 p-0 flex-grow-1" style="height: 100%;">
+	<div class="card-header bg-inverse bg-opacity-10">
 		<div class="row align-items-center">
 			<div class="col-lg-5 d-flex align-items-center">
 				Products (3)
 			</div>
 			<div class="col-lg-3 ps-lg-3">
-			Quantity X Price
+				Quantity X Price
 			</div>
 			<div class="col-lg-2 text-end">
-			Total
+				Total
 			</div>
 			<div class="col-lg-2 text-end"></div>
 		</div>
 	</div>
-	<div class="card-body text-inverse overflow-y-auto">
+	<div class="card-body mx-0 px-0 w-100 text-inverse overflow-y-auto pb-3">
 		{% for item in order.items.all %}
-		<div class="row align-items-center">
+		<div class="row mx-0 ps-3 pe-2 align-items-center">
 			<div class="col-lg-5 d-flex align-items-center">
 				<div class="h-40px w-40px d-flex align-items-center justify-content-center position-relative bg-white p-1">
 					<img src="{{ item.product.img }}" alt="" class="mw-100 mh-100">
@@ -38,10 +38,12 @@
 			<div class="col-lg-2 m-0 text-end">
 				<div class="btn-group btn-group-md">
 					<button type="button" class="btn" 
-					hx-get="/mgt/modal-edit-order-item/{{ item.number }}" 
-					hx-target="#modalEditDocumentItem" 
-					data-bs-target="#modalEditDocumentItem" 
-					data-bs-toggle="modal">
+						hx-get="{% url 'pos:modal-product' item.number %}" 
+						hx-target="#modalPosItem" 
+						hx-trigger="click"
+						data-bs-target="#modalPosItem"
+						data-bs-toggle="modal"
+					>
 						<i class="fas fa-lg fa-fw me-1 fa-edit"></i>
 					</button>
 					<button type="button" class="btn" 
@@ -54,59 +56,10 @@
 				</div>
 			</div>
 		</div>
-		<hr class="my-3">
+		<hr class="my-2">
 		{% endfor %}
 	</div>
-	<div class="card-footer bg-none d-flex p-3">
-		<div class="d-flex align-items-center bg-inverse bg-opacity-10 fw-400">
-			Payment Records
-			<a href="#" class="ms-auto text-decoration-none text-inverse text-opacity-50"><i class="bi bi-paypal me-1 fa-lg"></i> View paypal records</a>
-		</div>
-		<div class="">
-			<table class="table table-borderless table-sm m-0">
-				<tbody>
-					<tr>
-						<td class="h5 w-150px">Subtotal</td>
-						<td class="h5">{{ order.items.count }} items</td>
-						<td class="h5 text-end">{{ order.currency }} {{ order.item_subtotal|floatformat:'0' }}</td>
-					</tr>
-					<tr>
-						<td class="h6 text-success">Discount</td>
-						<td class="h6">promo code: <u class="text-success fw-bold small">FREESHIPPING</u> <small>(<span class="text-decoration-line-through">$120.00</span>)</small></td>
-						<td class="h6 text-success text-end">{{ order.currency }} {{ order.discounted_amount|floatformat:'0' }}</td>
-					</tr>
-					<tr class="h6 text-danger">
-						<td class="h6 text-danger">Tax</td>
-						<td class="h6 text-danger">GST {{ order.total_tax_rate|floatformat:'0' }}%</td>
-						<td class="h6 text-danger text-end">{{ order.currency }} {{ order.total_tax|floatformat:'0' }}</td>
-					</tr>
-					<tr>
-						<td colspan="3">
-							<hr class="m-0">
-						</td>
-					</tr>
-					<tr>
-						<td class="pb-2"><b class="h3">Total</b></td>
-						<td class="text-end pb-2" colspan="2">
-						<h3 class="h3">{{ order.currency }} {{ order.total|floatformat:"0"|intcomma }}</h3> 
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	</div>
-	{% comment %} <div class="card-footer bg-none d-flex p-3">
-		<a href="#" class="btn btn-outline-default ms-auto dropdown-toggle">More</a>
-		<a href="#" class="btn btn-outline-theme ms-2">Add Tracking</a>
-	</div> {% endcomment %}
-	{% comment %} {% include 'components/card-arrow.html' %} {% endcomment %}
-</div>
-<div class="card border-0 p-0" style="height: 34%;">
-	<div class="card-header d-flex align-items-center bg-inverse bg-opacity-10 fw-400">
-		Payment Records
-		<a href="#" class="ms-auto text-decoration-none text-inverse text-opacity-50"><i class="bi bi-paypal me-1 fa-lg"></i> View paypal records</a>
-	</div>
-	<div class="card-body">
+	<div class="card-footer bg-none d-flex flex-column">
 		<table class="table table-borderless table-sm m-0">
 			<tbody>
 				<tr>
@@ -138,5 +91,4 @@
 			</tbody>
 		</table>
 	</div>
-	{% comment %} {% include 'components/card-arrow.html' %} {% endcomment %}
 </div>

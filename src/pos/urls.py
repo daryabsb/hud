@@ -31,7 +31,7 @@ urlpatterns += [
 
 # MODALS
 urlpatterns += [
-    path('modal-product/<int:id>/', modal_product, name="modal-product"),
+    path('modal-product/<str:number>/', modal_product, name="modal-product"),
     path('modal-calculator/', modal_calculator, name="modal-calculator"),
     path('calculate/', calculate, name='calculate'),
     path('add_digit/', add_digit, name='add_digit'),

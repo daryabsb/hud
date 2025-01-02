@@ -3,7 +3,7 @@
 {% block extra_content %}{{ orders.first }}{% endblock %}
 {% block pos_content %}
 <div class="card h-100 user-select-none">
-    <div class="card-header bg-transparent row align-content-between align-items-center w-100">
+    <div class="card-header bg-transparent row mx-0 align-content-between align-items-center w-100">
         <div class="col-lg-6">
         {% include 'pos/partials/barcode-input.html' %}
         </div>
@@ -37,9 +37,9 @@
     
     <div class="pos-container card-body" style="width: 100%;">
         <div class="pos-content h-100" id="container1" style="width: 44%; min-width: 40%;">
-            <div class="tab-content p-2 row" style="height: 92%; width:100%">
+            <div class="tab-content h-100 w-100 row ms-0">
                 {% for order in orders %}
-                    <div class="col-xxl-12 tab-pane fade {% if forloop.first %}show active{% endif %} h-100"
+                    <div class="col-xxl-12 px-0 tab-pane fade {% if forloop.first %}show active{% endif %} h-100"
                     id="order-tab-{{ order.number }}"
                     >
                     {% include 'pos/standard/order/detail.html' %}

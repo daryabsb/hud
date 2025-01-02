@@ -25,6 +25,30 @@ class="app-content p-1 ps-xl-4 pe-xl-4 pt-xl-3 pb-xl-3">
 </div>
 {% endblock content %}
 
+{% block modals %}
+<div class="modal fade" id="mainMenuModal">
+    {% include 'pos/modals/main-menu-modal.html' %}
+</div>
+<div class="modal fade" id="orderDiscountModal">
+    {% include 'pos/modals/calculator-modal.html' %}
+</div>
+<div class="modal fade" id="modal-calculator">
+    {% include 'pos/modals/calculator-modal.html' %}
+</div>
+<div class="modal modal-pos fade" id="modalPosItem">
+    {% include 'pos/modals/product-modal.html' %}
+</div>
+
+
+
+
+
+
+
+
+
+{% endblock modals %}
+
 {% comment %} {% block modals %}
 <div class="modal modal-pos fade" id="modal-product">
     {% include 'pos/modals/product-modal2.html' %}

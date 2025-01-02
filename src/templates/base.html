@@ -1,6 +1,4 @@
-{% load static globals %}
-
-<!DOCTYPE html>
+{% load static globals %}<!DOCTYPE html>
 <html lang="en" data-bs-theme="{{ color_scheme }}">
 
 <head>
@@ -41,9 +39,9 @@ data-toggle-class="app-sidebar-mobile-toggled"></button>
     <input type="hidden" id="success-response" />
 
 {% block modals %}
+{% include 'modals/all-modals.html' %}
 {% endblock modals %}
 <div id="warning-toaster"></div>
-{% include 'modals/all-modals.html' %}
 
 <input type="hidden" id="load-temp" />
 {% include 'partials/bottom-js.html' %}

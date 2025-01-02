@@ -5,12 +5,18 @@ from src.products.models import Product
 from src.orders.models import PosOrder, PosOrderItem
 
 
-def modal_product(request, id):
+def modal_product(request, number):
+    print('ID = ', number)
     active_order = PosOrder.objects.filter(is_active=True).first()
-    product = get_object_or_404(Product, id=id)
+    item = get_object_or_404(PosOrderItem, number=number)
+    product = item.product
 
     if product:
-        context = {"product": product, "active_order": active_order}
+        context = {
+            "item": item,
+            "product": product,
+            "active_order": active_order
+        }
         return render(request, 'pos/modals/product-modal.html', context)
 
 

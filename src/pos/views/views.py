@@ -1,10 +1,27 @@
 from django.shortcuts import render
+from collections import defaultdict
 from src.products.models import Product, ProductGroup
 from src.orders.models import PosOrder
 from src.pos.utils import activate_order_and_deactivate_others as aod
 from django.contrib.auth.decorators import login_required
 from src.configurations.models import ApplicationProperty
 # Create your views here.
+
+
+def prepare_products_variannts(queryset: Product = None):
+    if not queryset:
+        queryset = Product.objects.all()
+
+        grouped_products = defaultdict(lambda: defaultdict(list))
+
+        for product in products:
+
+            grouped_products[product.brand][product.name].append({
+                'size': product.size,
+                'dietary_option': product.dietary_option,
+                'price': product.price,
+                'stock': product.stock,
+            })
 
 
 @login_required
