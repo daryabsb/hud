@@ -1,0 +1,140 @@
+  {% load static %}
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+
+            <div class="row mb-3">
+                <div class="col-xl-6">
+                    <div class="card">
+                        <div class="card-header fw-bold small">
+                            CARD HEADER HERE
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Search area</h5>
+                            <div class="option-list">
+									<div class="option">
+										<input type="radio" id="size3" name="size" class="option-input" checked="">
+										<label class="option-label" for="size3">
+										<span class="option-text">Small</span>
+										<span class="option-price">+0.00</span>
+										</label>
+									</div>
+									<div class="option">
+										<input type="radio" id="size1" name="size" class="option-input">
+										<label class="option-label" for="size1">
+										<span class="option-text">Large</span>
+										<span class="option-price">+3.00</span>
+										</label>
+									</div>
+									<div class="option">
+										<input type="radio" id="size2" name="size" class="option-input">
+										<label class="option-label" for="size2">
+										<span class="option-text">Medium</span>
+										<span class="option-price">+1.50</span>
+										</label>
+									</div>
+								</div>
+                            <a href="#" class="card-link">Card link</a>
+                            <a href="#" class="card-link">Another link</a>
+                        </div>
+                        <div class="card-arrow">
+                            <div class="card-arrow-top-left"></div>
+                            <div class="card-arrow-top-right"></div>
+                            <div class="card-arrow-bottom-left"></div>
+                            <div class="card-arrow-bottom-right"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <div class="card">
+                        <div class="card-header fw-bold small">
+                            CARD WITH LIST GROUP
+                        </div>
+                        <div class="card-header bg-none p-0">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Cras justo odio</li>
+                                <li class="list-group-item">Dapibus ac facilisis in</li>
+                                <li class="list-group-item">Vestibulum at eros</li>
+                            </ul>
+                        </div>
+                        <div class="card-body">
+                            <a href="#" class="card-link">Card link</a>
+                            <a href="#" class="card-link">Another link</a>
+                        </div>
+                        <div class="card-arrow">
+                            <div class="card-arrow-top-left"></div>
+                            <div class="card-arrow-top-right"></div>
+                            <div class="card-arrow-bottom-left"></div>
+                            <div class="card-arrow-bottom-right"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="search-result row">
+                <div class="col-xl-12 position-relative my-3">
+                    <form action="#" method="POST" name="search_form">
+                        <a href="#" class="search-close" data-clear-form="#search">×</a>
+                        <input type="text" class="form-control form-control-lg" value="MacBook">
+                    </form>
+                </div>
+                <div class="col-xl-12">
+                    <div class="search-tab mx-0">
+                        <div class="search-tab-item"><a href="#" class="search-tab-link active">Explore</a></div>
+                        <div class="search-tab-item"><a href="#" class="search-tab-link">Accessories</a></div>
+                        <div class="search-tab-item"><a href="#" class="search-tab-link">Support</a></div>
+                        <div class="search-tab-item"><a href="#" class="search-tab-link">Store</a></div>
+                    </div>
+                    <div class="search-result">
+                        <!-- BEGIN search-result-list -->
+                        <div class="search-result-list">
+                            <div class="search-result-item">
+                                <div class="search-result-media">
+                                    <a href="#"><img src="{% static 'app/img/product/product.png' %}" alt=""></a>
+                                </div>
+                                <div class="search-result-content">
+                                    <h3><a href="#">MacBook</a></h3>
+                                    <p>
+                                        MacBook features sixth-generation Intel Core processors, improved graphics performance, and up to 10 hours of battery life.
+                                    </p>
+                                    <a href="#" class="me-4">Learn more</a>
+                                    <a href="#" class="me-4">MacBook Buy</a>
+                                    <a href="#">MacBook Support</a>
+                                </div>
+                            </div>
+                            <div class="search-result-item">
+                                <div class="search-result-content">
+                                    <h3><a href="#">MacBook Pro - macOS - Apple</a></h3>
+                                    <p>
+                                        MacBook Pro - macOS - Apple macOS. It’s why there’s nothing else like a Mac. macOS is the operating system that powers every Mac. It lets you do things you simply can’t with other computers. That’s...
+                                    </p>
+                                    <a href="#">https://www.apple.com/macbook-pro/macos/</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END search-result-list -->
+                        <!-- BEGIN pagination -->
+                        <div class="text-center mt-4 mb-5">
+                            <div class="pagination justify-content-center">
+                                <div class="disabled page-item">
+                                    <a href="#" class="page-link">
+                                    <span>«</span>
+                                    </a>
+                                </div>
+                                <div class="active page-item"><a href="#" class="page-link">1</a></div>
+                                <div class="page-item"><a href="#" class="page-link">2</a></div>
+                                <div class="page-item"><a href="#" class="page-link">3</a></div>
+                                <div class="page-item"><a href="#" class="page-link">4</a></div>
+                                <div class="page-item"><a href="#" class="page-link">5</a></div>
+                                <div class="page-item">
+                                    <a href="#" class="page-link">
+                                    <span>»</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END pagination -->
+                    </div>
+                </div>
+            </div>
+  
+
+  </div>

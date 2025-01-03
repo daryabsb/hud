@@ -1,0 +1,67 @@
+{% if calc_on %}
+<div class="card">
+  <!-- Display Section -->
+  <div class="card-header fw-bold" id="message"
+       hx-after-settle="htmx.find('#display').focus();">
+    {% include 'components/calculator/input_display.html' %}
+  </div>
+
+  <!-- Numeric Calculator -->
+  {% comment %} <div class="card-body">
+    <h5>Calculator</h5>
+    {% for row in digits %}
+    <div class="mb-3">
+      <div class="btn-group gap-2">
+        {% for digit in row %}
+        <button type="button" class="btn btn-outline-theme text-center" style="width:3.7rem;"
+                hx-post="{% url 'pos:add_digit' %}" 
+                hx-include="#display"
+                hx-target="#message"
+                hx-swap="innerHTML"
+                hx-vals='{"digit": "{{ digit }}"}'>
+          {{ digit }}
+        </button>
+        {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+  </div> {% endcomment %}
+
+  <!-- QWERTY Keyboard -->
+  <div class="card-body">
+    <h5>Keyboard</h5>
+    {% for row in qwerty %}
+    <div class="mb-3">
+      <div class="btn-group gap-2">
+        {% for letter in row %}
+        <button type="button" class="btn btn-outline-theme text-center" style="width:3.7rem;"
+                hx-post="{% url 'pos:add_digit' %}" 
+                hx-include="#display"
+                hx-target="#message"
+                hx-swap="innerHTML"
+                hx-vals='{"digit": "{{ letter }}"}'>
+          {{ letter }}
+        </button>
+        {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Submit Button -->
+  <div class="card-footer">
+    <a href="#" class="card-link"
+       hx-post="{% url 'pos:calculate' %}"
+       hx-trigger="click"
+       hx-include="#display"
+       hx-target="#display"
+       hx-on-after-request="htmx.find('#display').value = JSON.parse(event.detail.xhr.responseText).message;">
+      Submit Result
+    </a>
+  </div>
+</div>
+{% endif %}
+
+<!-- htmx.find('#{{ el_id }}').value = htmx.; -->
+<!-- form-control w-50px text-center mx-2    fw-bold  bg-inverse bg-opacity-15 border-0  -->
+<!-- form-control w-50px text-center mx-2    form-control-sm  bg-white bg-opacity-25  -->

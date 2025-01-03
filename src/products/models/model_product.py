@@ -1,12 +1,13 @@
 from django.db import models
 from django.utils.text import slugify
 from src.core.utils import slugify_function
-from src.accounts.models import User
+from src.accounts.models import User, Country
 from src.core.modules import upload_image_file_path
 from mptt.models import MPTTModel, TreeForeignKey, TreeManyToManyField
 from django.utils.translation import gettext_lazy as _
 from django_extensions.db.fields import AutoSlugField
 from colorfield.fields import ColorField
+from django_countries.fields import CountryField
 
 
 class Product(models.Model):
@@ -20,6 +21,8 @@ class Product(models.Model):
         "ProductGroup", on_delete=models.CASCADE, related_name="products",
         default='products'
     )
+    country_of_origin = models.CharField(
+        max_length=200,  null=True, choices=CountryField().choices + [('', 'Select Country')])
     code = models.CharField(max_length=100, null=True, blank=True)
     description = models.CharField(max_length=300, null=True, blank=True)
     plu = models.IntegerField(null=True, blank=True)

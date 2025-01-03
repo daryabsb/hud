@@ -10,7 +10,19 @@
             </a>
         </div>
         <div class="flex-fill">
-            <a href="#" class="w-100 pt-3 px-4 btn btn-outline-default rounded-2 mb-2">
+                {% comment %} hx-get="{% url 'pos:modal-keyboard' %}" 
+                hx-target="#modal-keyboard" 
+                hx-trigger="click"
+                hx-vals='{
+                    "is_ajax": true,
+                    "el-id": "orders-detail",
+                    "url": "/pos/change-quantity/item-1-06122024-01-3395/",
+                    "template_name":"pos/pos/order-detail.html"
+                    }' {% endcomment %}
+            <a href="#" class="w-100 pt-3 px-4 btn btn-outline-default rounded-2 mb-2"
+                data-bs-toggle="modal"
+                data-bs-target="#modalPosSearchModal"
+            >
                 <i class="fas fa-2xl fa-search"></i><br>
                 <span class="small">Search</span>
             </a>

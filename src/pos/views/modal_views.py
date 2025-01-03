@@ -42,6 +42,42 @@ def modal_calculator(request):
     return render(request, 'pos/modals/calculator-modal.html', context)
 
 
+def modal_keyboard(request):
+    is_ajax = request.GET.get('is_ajax', False)
+    div_class = request.GET.get('div-class', '')
+    el_id = request.GET.get('el-id', '')
+    url = request.GET.get('url', '')
+    template_name = request.GET.get('template-name', '')
+
+    # Numeric (calculator) layout
+    digits = [
+        [7, 8, 9, '/'],
+        [4, 5, 6, '*'],
+        [1, 2, 3, '-'],
+        [0, '.', '=', '+'],
+    ]
+
+    # QWERTY keyboard layout
+    qwerty = [
+        ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
+        ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
+        ['Z', 'X', 'C', 'V', 'B', 'N', 'M'],
+    ]
+
+    context = {
+        "calc_on": True,
+        "is_ajax": is_ajax,
+        "div_class": div_class,
+        "el_id": el_id,
+        "template_name": template_name,
+        "url": url,
+        "digits": digits,
+        "qwerty": qwerty,  # Include the QWERTY layout
+    }
+
+    return render(request, 'pos/modals/keyboard-modal.html', context)
+
+
 def calculate(request):
     from django.http import JsonResponse
     calculation = request.POST.get('display', '')
