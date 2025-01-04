@@ -79,21 +79,44 @@
                 </form>
             </div>
             <div class="col-xl-12">
-                <div class="search-tab mx-0">
-                    <div class="search-tab-item"><a href="#" class="search-tab-link active">Explore</a></div>
-                    <div class="search-tab-item"><a href="#" class="search-tab-link">Accessories</a></div>
-                    <div class="search-tab-item"><a href="#" class="search-tab-link">Support</a></div>
-                    <div class="search-tab-item"><a href="#" class="search-tab-link">Store</a></div>
-                </div>
-                <div class="search-result">
+                <ul class="mx-0 nav nav-tabs">
+                    <li class="nav-item"><a href="#search-product-by-name" class="nav-link active">Explore</a></li>
+                    <li class="nav-item"><a href="#search-product-by-group" class="nav-link">Accessories</a></li>
+                </ul>
+                <div class="tab-content">
                     <!-- BEGIN search-result-list -->
-                    <div class="search-result-list">
+                    <div class="tab-pane fade show active" id="search-product-by-name">
                         <div class="search-result-item">
                             <div class="search-result-media">
                                 <a href="#"><img src="{% static 'app/img/product/product.png' %}" alt=""></a>
                             </div>
                             <div class="search-result-content">
                                 <h3><a href="#">MacBook</a></h3>
+                                <p>
+                                    MacBook features sixth-generation Intel Core processors, improved graphics performance, and up to 10 hours of battery life.
+                                </p>
+                                <a href="#" class="me-4">Learn more</a>
+                                <a href="#" class="me-4">MacBook Buy</a>
+                                <a href="#">MacBook Support</a>
+                            </div>
+                        </div>
+                        <div class="search-result-item">
+                            <div class="search-result-content">
+                                <h3><a href="#">MacBook Pro - macOS - Apple</a></h3>
+                                <p>
+                                    MacBook Pro - macOS - Apple macOS. It’s why there’s nothing else like a Mac. macOS is the operating system that powers every Mac. It lets you do things you simply can’t with other computers. That’s...
+                                </p>
+                                <a href="#">https://www.apple.com/macbook-pro/macos/</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="search-product-by-group">
+                        <div class="search-result-item">
+                            <div class="search-result-media">
+                                <a href="#"><img src="{% static 'app/img/product/product.png' %}" alt=""></a>
+                            </div>
+                            <div class="search-result-content">
+                                <h3><a href="#">MacChiece</a></h3>
                                 <p>
                                     MacBook features sixth-generation Intel Core processors, improved graphics performance, and up to 10 hours of battery life.
                                 </p>
