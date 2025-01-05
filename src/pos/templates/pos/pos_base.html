@@ -47,20 +47,30 @@ class="app-content p-1 ps-xl-4 pe-xl-4 pt-xl-3 pb-xl-3">
 <div class="modal modal-cover fade" id="modalOrderComment">
     {% include 'pos/modals/order-comment-modal.html' %}
 </div>
+<script>
+    /*
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('shown.bs.modal', () => {
+                const firstInput = modal.querySelector('.first-input');
+                if (firstInput) {
+                    firstInput.value = '';
+                    firstInput.focus();
+                }
+                
+            });
+        });
+    });
+    */
+</script>
 {% endblock modals %}
 
 {% block additional_js %}
 <script>
-        document.querySelectorAll('.modal').forEach(modal => {
-            modal.addEventListener('shown.bs.modal', () => {
-                const firstInput = modal.querySelector('textarea.first-input');
-                
-                    firstInput.focus();
-                
-            });
-        });
+console.log('additional_js');
 </script>
 {% endblock additional_js %}
+
 
 
 
