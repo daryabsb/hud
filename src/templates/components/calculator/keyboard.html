@@ -1,5 +1,5 @@
 {% if calc_on %}
-<div class="card">
+<div class="card p-2">
   <!-- Display Section -->
   <div class="card-header fw-bold" id="message">
     {% include 'components/calculator/input_display.html' %}
@@ -26,27 +26,67 @@
     {% endfor %}
   </div> {% endcomment %}
 
+    <style>
+      .option {
+        width: 33.33%;
+        max-width: 33.33%;
+        padding: .333rem;
+        flex: 0 0 33.33%;
+      }
+
+      .option .option-input {
+        display: none;
+      }
+      .option .option-label {
+        border: 1px solid rgba(var(--bs-inverse-rgb), .25);
+        padding: .625rem;
+        height: 100%;
+        border-radius: 4px;
+        display: flex;   
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      .option .option-input:checked+.option-label {
+        color: var(--bs-theme);
+        border: 1px solid var(--bs-theme);
+        background: rgba(var(--bs-theme) !important, .1);
+      }
+      .option .option-label .option-text {
+        display: block;
+        line-height: 1.2;
+        opacity: .75;
+        font-size: .8125rem;
+        text-align: center;
+      }
+    </style>
   <!-- QWERTY Keyboard -->
   <div class="card-body">
-    <h5>Keyboard</h5>
     {% for row in qwerty %}
     <div class="mb-3">
-      <div class="btn-group gap-2">
-        {% for letter in row %}
+      <div class="btn-group gap-2 w-100">
+        {% for key in row %}
                 {% comment %} hx-post="{% url 'pos:add_digit' %}" 
                 hx-include="#display"
                 hx-target="#message"
                 hx-swap="innerHTML"
                 hx-vals='{"digit": "{{ letter }}"}' {% endcomment %}
-        <button type="button" class="btn btn-outline-theme text-center" style="width:3.7rem;"
-                hx-on:click="htmx.find('#display').value = htmx.find('#display').value + '{{ letter }}'; htmx.find('#display').focus();"
+        
+        <label type="button" class="btn btn-outline-theme text-center" style="width:{{ key.width }}%;"
+                hx-on:click="htmx.find('#display').value = htmx.find('#display').value + '{{ key.small }}'; htmx.find('#display').focus();"
                 >
-          {{ letter }}
-        </button>
+          {{ key.small }}
+        </label>
         {% endfor %}
       </div>
     </div>
     {% endfor %}
+        {% comment %} <div class="option">
+          <input type="checkbox" id="size3" name="size" class="option-input" >
+          <label class="option-label" for="size3" style="width:5.7rem;">
+            <span class="option-text">Shift</span>
+          </label>
+        </div> {% endcomment %}
   </div>
 
   <!-- Submit Button -->
@@ -60,6 +100,7 @@
       Submit Result
     </a>
   </div>
+  {% include 'components/card-arrow.html' %}
 </div>
 {% endif %}
 

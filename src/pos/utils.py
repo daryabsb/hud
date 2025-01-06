@@ -51,3 +51,79 @@ def get_context(active_order):
         "tax_amount": tax_amount,
         "dscnt": tax_amount
     }
+
+
+# QWERTY keyboard layout with shift, space, caps lock, and enter
+qwerty = [
+    # Top row: numbers, tick, and brackets
+    [
+        {"small": "`", "capital": "~", "width": 6, "keycode": 49},
+        {"small": "1", "capital": "!", "width": 7, "keycode": 49},
+        {"small": "2", "capital": "@", "width": 7, "keycode": 50},
+        {"small": "3", "capital": "#", "width": 7, "keycode": 51},
+        {"small": "4", "capital": "$", "width": 7, "keycode": 52},
+        {"small": "5", "capital": "%", "width": 7, "keycode": 53},
+        {"small": "6", "capital": "^", "width": 7, "keycode": 54},
+        {"small": "7", "capital": "&", "width": 7, "keycode": 55},
+        {"small": "8", "capital": "*", "width": 7, "keycode": 56},
+        {"small": "9", "capital": "(", "width": 7, "keycode": 57},
+        {"small": "0", "capital": ")", "width": 7, "keycode": 48},
+        {"small": "`", "capital": "~", "width": 7, "keycode": 192},
+        {"small": "<-", "capital": "<-", "width": 10, "keycode": 221},
+    ],
+    # QWERTY letters row 1
+    [
+        {"small": "Tab", "capital": "shift",
+            "width": 12, "keycode": 16},  # Left Shift key
+        {"small": "q", "capital": "Q", "width": 7, "keycode": 81},
+        {"small": "w", "capital": "W", "width": 7, "keycode": 87},
+        {"small": "e", "capital": "E", "width": 7, "keycode": 69},
+        {"small": "r", "capital": "R", "width": 7, "keycode": 82},
+        {"small": "t", "capital": "T", "width": 7, "keycode": 84},
+        {"small": "y", "capital": "Y", "width": 7, "keycode": 89},
+        {"small": "u", "capital": "U", "width": 7, "keycode": 85},
+        {"small": "i", "capital": "I", "width": 7, "keycode": 73},
+        {"small": "o", "capital": "O", "width": 7, "keycode": 79},
+        {"small": "p", "capital": "P", "width": 7, "keycode": 80},
+        {"small": "[", "capital": "{", "width": 7, "keycode": 219},
+        {"small": "]", "capital": "}", "width": 7, "keycode": 221},
+    ],
+    # QWERTY letters row 2
+    [
+        {"small": "a", "capital": "A", "width": 7, "keycode": 65},
+        {"small": "s", "capital": "S", "width": 7, "keycode": 83},
+        {"small": "d", "capital": "D", "width": 7, "keycode": 68},
+        {"small": "f", "capital": "F", "width": 7, "keycode": 70},
+        {"small": "g", "capital": "G", "width": 7, "keycode": 71},
+        {"small": "h", "capital": "H", "width": 7, "keycode": 72},
+        {"small": "j", "capital": "J", "width": 7, "keycode": 74},
+        {"small": "k", "capital": "K", "width": 7, "keycode": 75},
+        {"small": "l", "capital": "L", "width": 7, "keycode": 76},
+        {"small": "enter", "capital": "enter",
+            "width": 16, "keycode": 13},  # Enter key
+    ],
+    # QWERTY letters row 3
+    [
+        {"small": "shift", "capital": "shift",
+            "width": 13, "keycode": 16},  # Left Shift key
+        {"small": "z", "capital": "Z", "width": 7, "keycode": 90},
+        {"small": "x", "capital": "X", "width": 7, "keycode": 88},
+        {"small": "c", "capital": "C", "width": 7, "keycode": 67},
+        {"small": "v", "capital": "V", "width": 7, "keycode": 86},
+        {"small": "b", "capital": "B", "width": 7, "keycode": 66},
+        {"small": "n", "capital": "N", "width": 7, "keycode": 78},
+        {"small": "m", "capital": "M", "width": 7, "keycode": 77},
+        {"small": ",", "capital": "<", "width": 7, "keycode": 188},
+        {"small": ".", "capital": ">", "width": 7, "keycode": 190},
+        {"small": "/", "capital": "?", "width": 7, "keycode": 191},
+        {"small": "shift", "capital": "shift",
+            "width": 13, "keycode": 16},  # Right Shift key
+    ],
+    # Space row
+    [
+        {"small": "caps lock", "capital": "caps lock",
+            "width": 13, "keycode": 20},  # Caps Lock key
+        {"small": "space", "capital": "space",
+            "width": 54, "keycode": 32},  # Space bar
+    ],
+]

@@ -43,6 +43,7 @@ def modal_calculator(request):
 
 
 def modal_keyboard(request):
+    from src.pos.utils import qwerty
     is_ajax = request.GET.get('is_ajax', False)
     div_class = request.GET.get('div-class', '')
     el_id = request.GET.get('el-id', '')
@@ -58,11 +59,11 @@ def modal_keyboard(request):
     ]
 
     # QWERTY keyboard layout
-    qwerty = [
-        ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
-        ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
-        ['Z', 'X', 'C', 'V', 'B', 'N', 'M'],
-    ]
+    # qwerty = [
+    #     ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
+    #     ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
+    #     ['Z', 'X', 'C', 'V', 'B', 'N', 'M'],
+    # ]
 
     context = {
         "calc_on": True,
