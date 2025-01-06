@@ -6,6 +6,8 @@ from src.pos.utils import activate_order_and_deactivate_others as aod
 from django.contrib.auth.decorators import login_required
 from src.configurations.models import ApplicationProperty
 # Create your views here.
+from src.accounts.models import Customer
+from src.accounts.forms import CustomerFieldForm
 
 
 def prepare_products_variannts(queryset: Product = None):
@@ -37,11 +39,17 @@ def pos_home(request, number=None):
     pos_orders = PosOrder.objects.all()
     products = Product.objects.all()
 
+    # extra querysets
+    # customers = Customer.objects.all()
+    customer_form = CustomerFieldForm(
+        customer=active_order.customer)
+
     context = {
         "active_order": active_order,
         "groups": product_groups,
         "products": products,
         "orders": pos_orders,
+        "customer_form": customer_form,
     }
     if layout_object.value == 'standard':
         return render(request, 'pos/standard/pos-home.html', context)
