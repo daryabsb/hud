@@ -91,6 +91,7 @@ data-toggle-class="app-sidebar-mobile-toggled"></button>
                     if (firstInput) {
                         firstInput.value = '';
                         firstInput.focus();
+                        firstInput.selectionStart = firstInput.selectionEnd = 10000;
                     }
                     
                 });

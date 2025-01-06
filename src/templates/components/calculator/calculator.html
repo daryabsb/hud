@@ -10,9 +10,17 @@
     <div class="mb-3">
       <div class="btn-group gap-2">
         {% for digit in row %}
-        <button type="button" class="btn btn-outline-theme text-center" style="width:3.7rem;" hx-trigger="click"
-          hx-post="{% url 'pos:add_digit' %}" hx-include="#display" hx-target="#message" hx-swap="innerHTML"
-          hx-swap="innerHTML" hx-vals='{"digit": "{{ digit }}"}'>{{digit}}</button>
+        {% comment %} hx-post="{% url 'pos:add_digit' %}" 
+        hx-include="#display" 
+        hx-target="#message" 
+        hx-swap="innerHTML"
+        hx-swap="innerHTML" 
+        hx-vals='{"digit": "{{ digit }}"}' 
+        hx-trigger="click"
+        {% endcomment %}
+        <button type="button" class="btn btn-outline-theme text-center" style="width:3.7rem;" 
+          hx-on:click="htmx.find('#display').value = htmx.find('#display').value + {{ digit }};htmx.find('#display').focus();"
+          >{{digit}}</button>
         {% endfor %}
       </div>
     </div>
