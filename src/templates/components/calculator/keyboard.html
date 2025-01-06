@@ -1,8 +1,7 @@
 {% if calc_on %}
 <div class="card">
   <!-- Display Section -->
-  <div class="card-header fw-bold" id="message"
-       hx-after-settle="htmx.find('#display').focus();">
+  <div class="card-header fw-bold" id="message">
     {% include 'components/calculator/input_display.html' %}
   </div>
 
@@ -34,12 +33,14 @@
     <div class="mb-3">
       <div class="btn-group gap-2">
         {% for letter in row %}
-        <button type="button" class="btn btn-outline-theme text-center" style="width:3.7rem;"
-                hx-post="{% url 'pos:add_digit' %}" 
+                {% comment %} hx-post="{% url 'pos:add_digit' %}" 
                 hx-include="#display"
                 hx-target="#message"
                 hx-swap="innerHTML"
-                hx-vals='{"digit": "{{ letter }}"}'>
+                hx-vals='{"digit": "{{ letter }}"}' {% endcomment %}
+        <button type="button" class="btn btn-outline-theme text-center" style="width:3.7rem;"
+                hx-on:click="htmx.find('#display').value = htmx.find('#display').value + '{{ letter }}'; htmx.find('#display').focus();"
+                >
           {{ letter }}
         </button>
         {% endfor %}
