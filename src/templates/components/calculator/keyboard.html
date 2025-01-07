@@ -1,30 +1,5 @@
-{% if calc_on %}
-<div class="card p-2">
-  <!-- Display Section -->
-  <div class="card-header fw-bold" id="message">
-    {% include 'components/calculator/input_display.html' %}
-  </div>
 
-  <!-- Numeric Calculator -->
-  {% comment %} <div class="card-body">
-    <h5>Calculator</h5>
-    {% for row in digits %}
-    <div class="mb-3">
-      <div class="btn-group gap-2">
-        {% for digit in row %}
-        <button type="button" class="btn btn-outline-theme text-center" style="width:3.7rem;"
-                hx-post="{% url 'pos:add_digit' %}" 
-                hx-include="#display"
-                hx-target="#message"
-                hx-swap="innerHTML"
-                hx-vals='{"digit": "{{ digit }}"}'>
-          {{ digit }}
-        </button>
-        {% endfor %}
-      </div>
-    </div>
-    {% endfor %}
-  </div> {% endcomment %}
+
 
     <style>
       .option {
@@ -62,6 +37,7 @@
     </style>
   <!-- QWERTY Keyboard -->
   <div class="card-body">
+    
     {% for row in qwerty %}
     <div class="mb-1">
       <div class="btn-group gap-2 w-100">
@@ -73,7 +49,7 @@
                 hx-vals='{"digit": "{{ letter }}"}' {% endcomment %}
         
         <label type="button" class="btn btn-outline-theme text-center" style="width:{{ key.width }}%;"
-                hx-on:click="htmx.find('#display').value = htmx.find('#display').value + '{{ key.small }}'; htmx.find('#display').focus();"
+                hx-on:click="htmx.find('#{{ input }}').value = htmx.find('#{{ input }}').value + '{{ key.small }}'; htmx.find('#{{ input }}').focus();"
                 >
           {{ key.small }}
         </label>
@@ -89,20 +65,8 @@
         </div> {% endcomment %}
   </div>
 
-  <!-- Submit Button -->
-  <div class="card-footer">
-    <a href="#" class="card-link"
-       hx-post="{% url 'pos:calculate' %}"
-       hx-trigger="click"
-       hx-include="#display"
-       hx-target="#display"
-       hx-on-after-request="htmx.find('#display').value = JSON.parse(event.detail.xhr.responseText).message;">
-      Submit Result
-    </a>
-  </div>
-  {% include 'components/card-arrow.html' %}
-</div>
-{% endif %}
+
+
 
 <!-- htmx.find('#{{ el_id }}').value = htmx.; -->
 <!-- form-control w-50px text-center mx-2    fw-bold  bg-inverse bg-opacity-15 border-0  -->

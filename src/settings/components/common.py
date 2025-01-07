@@ -112,6 +112,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'custom_context_processor.dz_static',
                 'custom_context_processor.props',
+                'custom_context_processor.querty',
                 'custom_context_processor.main_app_names',
             ],
         },

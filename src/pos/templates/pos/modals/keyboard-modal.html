@@ -1,5 +1,25 @@
 <div class="modal-dialog modal-lg modal-bottom">
     <div class="modal-content">
-    {% include 'components/calculator/keyboard.html' %}
+        <div class="card p-2">
+            <!-- Display Section -->
+            <div class="card-header fw-bold" id="message">
+                {% comment %} {% include 'components/calculator/input_display.html' %} {% endcomment %}
+                <input class="form-control border-0 first-input" id="display-keyboard" name="display-keyboard">
+            </div>
+            {% include 'components/calculator/keyboard.html' with input="display-keyboard" %}
+            <!-- Submit Button -->
+            <div class="card-footer">
+                <a href="#" class="card-link"
+                    hx-post="{% url 'pos:calculate' %}"
+                    hx-trigger="click"
+                    hx-include="#display-keyboard"
+                    hx-target="#display-keyboard"
+                    hx-on-after-request="htmx.find('#display').value = JSON.parse(event.detail.xhr.responseText).message;">
+                Submit Result
+                </a>
+            </div>
+
+            {% include 'components/card-arrow.html' %}
+        </div>
     </div>
 </div>

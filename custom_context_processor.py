@@ -33,6 +33,12 @@ def props(request):
     # return {'props':prop_dict}
 
 
+def querty(request):
+    from src.pos.utils import qwerty
+    return {
+        'qwerty': qwerty
+    }
+
 def main_app_names(request):
     return {
         'main_apps': [

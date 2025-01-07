@@ -19,7 +19,7 @@
         hx-trigger="click"
         {% endcomment %}
         <button type="button" class="btn btn-outline-theme text-center" style="width:3.7rem;" 
-          hx-on:click="htmx.find('#display').value = htmx.find('#display').value + {{ digit }};htmx.find('#display').focus();"
+          hx-on:click="htmx.find('#display').value = htmx.find('#display').value + '{{ digit }}';htmx.find('#display').focus();"
           >{{digit}}</button>
         {% endfor %}
       </div>
