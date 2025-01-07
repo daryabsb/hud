@@ -73,7 +73,7 @@ data-toggle-class="app-sidebar-mobile-toggled"></button>
                 htmx.trigger(htmx.find("#content"), "inactivity");
                 console.log('This function triggeres in 5 seconds!')
                 togglePasswordModal()
-            }, 5000); // 5 seconds of inactivity
+            }, 480000); // 5 seconds of inactivity
         }
 
         // Reset timer on user activity
@@ -89,9 +89,7 @@ data-toggle-class="app-sidebar-mobile-toggled"></button>
                 modal.addEventListener('shown.bs.modal', () => {
                     const firstInput = modal.querySelector('.first-input');
                     if (firstInput) {
-                        firstInput.value = '';
-                        firstInput.focus();
-                        firstInput.selectionStart = firstInput.selectionEnd = 10000;
+                        firstInput.focus({ focusVisible: true });
                     }
                     
                 });

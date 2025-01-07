@@ -22,7 +22,13 @@ class CustomerFieldForm(forms.Form):
         required=False,
         label='Customer',
         widget=forms.Select(
-            attrs={'class': 'form-select form-select-sm'}
+            attrs={
+                'class': 'form-select form-select-sm',
+                # 'hx-get': '',
+                # 'hx-target': '#orderCustomerButton',
+                # 'hx-get': '',
+
+            }
         )
     )
 

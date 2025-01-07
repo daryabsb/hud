@@ -1,5 +1,7 @@
 
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST, require_GET
 from django.shortcuts import get_object_or_404, render
 from src.products.models import Product
 from src.orders.models import PosOrder, PosOrderItem
@@ -94,3 +96,35 @@ def add_digit(request):
         new_value = current_value + digit
         return render(request, 'components/calculator/input_display.html', {'new_value': new_value})
     return render(request, 'keypad.html', {'error': 'Invalid request'})
+
+
+@login_required
+@require_POST
+def add_order_comment(request, order_number):
+    if order_number:
+        order = get_object_or_404(PosOrder, number=order_number)
+
+    comment = request.POST.get('comment', None)
+
+    if comment:
+        order.comment = comment
+        order.save()
+
+    return render(request, 'pos/buttons/render-order-comment.html')
+
+
+@login_required
+@require_GET
+def add_order_customer(request, order_number):
+    if order_number:
+        order = get_object_or_404(PosOrder, number=order_number)
+
+    customer = request.POST.get('customer', None)
+
+    print('customer = ', customer)
+
+    if customer:
+        order.customer = customer
+        order.save()
+
+    return render(request, 'pos/buttons/render-order-customer.html')
