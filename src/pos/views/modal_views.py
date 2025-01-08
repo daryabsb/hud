@@ -5,7 +5,7 @@ from django.views.decorators.http import require_POST, require_GET
 from django.shortcuts import get_object_or_404, render
 from src.products.models import Product
 from src.orders.models import PosOrder, PosOrderItem
-
+from src.accounts.models import Customer
 
 def modal_product(request, number):
     print('ID = ', number)
@@ -107,7 +107,7 @@ def add_order_comment(request, order_number):
     comment = request.POST.get('comment', None)
 
     if comment:
-        order.comment = comment
+        order.note = comment
         order.save()
 
     return render(request, 'pos/buttons/render-order-comment.html')
@@ -116,15 +116,16 @@ def add_order_comment(request, order_number):
 @login_required
 @require_GET
 def add_order_customer(request, order_number):
+    from src.pos.utils import activate_order_and_deactivate_others as aod
     if order_number:
         order = get_object_or_404(PosOrder, number=order_number)
 
-    customer = request.POST.get('customer', None)
-
-    print('customer = ', customer)
+    customer = request.GET.get('customer', None)
 
     if customer:
-        order.customer = customer
+        instance = Customer.objects.get(pk=customer)
+        order.customer = instance
         order.save()
-
-    return render(request, 'pos/buttons/render-order-customer.html')
+        return render(request, 'pos/buttons/active-order-customer.html', {'active_order': order})
+    else:
+        return JsonResponse({'error': 'No customer selected'})

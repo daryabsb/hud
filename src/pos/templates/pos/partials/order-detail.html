@@ -81,14 +81,8 @@
                 <span class="small">Comment</span>
             </a>
         </div>
-        <div class="flex-fill">
-            <a  class="w-100 pt-3 px-4 btn btn-outline-default rounded-2 mb-2"
-                href="#modalOrderCustomer"
-                data-bs-toggle="modal"
-            >
-                <i class="far fa-2xl fa-user"></i><br>
-                <span class="small">{{ active_order.customer.name }}</span>
-            </a>
+        <div class="flex-fill" id="orderCustomerButton">
+            {% include 'pos/buttons/active-order-customer.html' %}
         </div>
         <div class="flex-fill">
             <a href="#" class="w-100 pt-3 px-4 btn btn-outline-default rounded-2 mb-2">

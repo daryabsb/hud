@@ -89,7 +89,7 @@ data-toggle-class="app-sidebar-mobile-toggled"></button>
                 modal.addEventListener('shown.bs.modal', () => {
                     const firstInput = modal.querySelector('.first-input');
                     if (firstInput) {
-                        firstInput.focus({ focusVisible: true });
+                        firstInput.focus();
                     }
                     
                 });
