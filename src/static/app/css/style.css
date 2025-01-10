@@ -1,0 +1,217 @@
+.pos-panel {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    z-index: 1030;
+    width: 0;
+    display: flex;
+    align-items: center;
+    right: -12rem;
+    transition: right .2s ease-in-out
+}
+
+.pos-panel .pos-panel-container {
+    width: 12rem;
+    position: absolute;
+    right: 0
+}
+
+.pos-panel .pos-panel-content {
+    width: 12rem;
+    background: var(--bs-pos-panel-bg);
+    box-shadow: 0 .5rem 1rem rgba(var(--bs-inverse-rgb), .075);
+    padding: .5rem;
+    z-index: 10
+}
+
+.pos-panel .pos-panel-content .pos-list {
+    margin: -.25rem;
+    display: flex;
+    flex-wrap: wrap
+}
+
+.pos-panel .pos-panel-content .pos-list .pos-list-item {
+    padding: .25rem;
+    width: 25%
+}
+
+.pos-panel .pos-panel-content .pos-list .pos-list-item .pos-list-link {
+    height: 2rem;
+    display: block;
+    text-decoration: none;
+    position: relative;
+    transition: all .2s linear
+}
+
+.pos-panel .pos-panel-content .pos-list .pos-list-item .pos-list-link:hover {
+    opacity: .6
+}
+
+.pos-panel .pos-panel-content .pos-list .pos-list-item.active .pos-list-link {
+    opacity: 1
+}
+
+.pos-panel .pos-panel-content .pos-list .pos-list-item.active .pos-list-link:before {
+    content: "\f00c";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    font-size: .875rem;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Font Awesome\ 6 Free, Font Awesome\ 6 Pro, FontAwesome !important;
+    font-weight: 900;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto
+}
+
+.pos-panel .pos-panel-content .pos-mode-link {
+    color: #fff;
+    text-decoration: none;
+    text-align: center;
+    position: relative;
+    display: block;
+    transition: all .2s linear
+}
+
+.pos-panel .pos-panel-content .pos-mode-link .img {
+    position: relative
+}
+
+.pos-panel .pos-panel-content .pos-mode-link .img:before {
+    content: "\f00c";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    font-size: .875rem;
+    color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    font-family: Font Awesome\ 6 Free, Font Awesome\ 6 Pro, FontAwesome !important;
+    font-weight: 900;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto
+}
+
+.pos-panel .pos-panel-content .pos-mode-link .text {
+    font-size: .65625rem;
+    font-weight: 500;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, .85);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center
+}
+
+.pos-panel .pos-panel-content .pos-mode-link:hover {
+    opacity: .6
+}
+
+.pos-panel .pos-panel-content .pos-mode-link.active {
+    opacity: 1
+}
+
+.pos-panel .pos-panel-content .pos-mode-link.active .img:before {
+    color: #fff
+}
+
+.pos-panel .pos-panel-content .pos-mode-link.active .img:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, .3)
+}
+
+.pos-panel .pos-panel-content .pos-cover {
+    margin: -.25rem;
+    display: flex;
+    flex-wrap: wrap
+}
+
+.pos-panel .pos-panel-content .pos-cover .pos-cover-item {
+    padding: .25rem;
+    width: 33.33%
+}
+
+.pos-panel .pos-panel-content .pos-cover .pos-cover-item .pos-cover-link {
+    display: block;
+    text-decoration: none;
+    position: relative;
+    padding-top: 46%;
+    background-size: cover;
+    background-position: center;
+    transition: all .2s linear
+}
+
+.pos-panel .pos-panel-content .pos-cover .pos-cover-item .pos-cover-link:hover {
+    opacity: .6
+}
+
+.pos-panel .pos-panel-content .pos-cover .pos-cover-item .pos-cover-link:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: #000;
+    opacity: .25
+}
+
+.pos-panel .pos-panel-content .pos-cover .pos-cover-item.active .pos-cover-link {
+    opacity: 1
+}
+
+.pos-panel .pos-panel-content .pos-cover .pos-cover-item.active .pos-cover-link:after {
+    content: "\f00c";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    font-size: .875rem;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Font Awesome\ 6 Free, Font Awesome\ 6 Pro, FontAwesome !important;
+    font-weight: 900;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto
+}
+
+.pos-panel .pos-toggle-btn {
+    position: absolute;
+    top: 50%;
+    margin-top: -1rem;
+    width: 2rem;
+    height: 2rem;
+    line-height: 2rem;
+    font-size: 1.09375rem;
+    color: var(--bs-pos-panel-color);
+    background: var(--bs-pos-panel-bg);
+    text-align: center;
+    left: 0;
+    margin-left: -2rem
+}
+
+.pos-panel.active {
+    right: 0
+}

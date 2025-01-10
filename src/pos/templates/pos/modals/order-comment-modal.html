@@ -12,7 +12,7 @@
                         <textarea class="form-control first-input" 
                         id="orderCommentTextarea"
                             name="comment"
-                            rows="6" >{{ active_order.note }}</textarea>
+                            rows="6" >{% if active_order.note %}{{ active_order.note }}{% endif %}</textarea>
                     </div>
                 </div>
                 <div class="row">

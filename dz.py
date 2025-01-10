@@ -35,12 +35,12 @@ dz_array = {
                 # f"{app}/plugins/jquery/jquery.min.js",
                 f"{app}/plugins/jscolor/jscolor.min.js",
                 f"{app}/plugins/toastify/toastify-js.js",
-                f"{app}/js/scripts.js",
                 # f"{app}/js/render-datatable.js",
 
             ],
             "down": [
                 f"{app}/js/rocket-loader.min.js",
+                f"{app}/js/scripts.js",
             ],
         },
         "page_level": {
