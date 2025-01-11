@@ -6,6 +6,8 @@ from django.shortcuts import get_object_or_404, render
 from src.products.models import Product
 from src.orders.models import PosOrder, PosOrderItem
 from src.accounts.models import Customer
+from src.finances.models import PaymentType
+
 
 def modal_product(request, number):
     print('ID = ', number)
@@ -117,6 +119,30 @@ def add_order_comment(request, order_number):
 @require_GET
 def add_order_customer(request, order_number):
     from src.pos.utils import activate_order_and_deactivate_others as aod
+    if order_number:
+        order = get_object_or_404(PosOrder, number=order_number)
+
+    customer = request.GET.get('customer', None)
+
+    if customer:
+        instance = Customer.objects.get(pk=customer)
+        order.customer = instance
+        order.save()
+        return render(request, 'pos/buttons/active-order-customer.html', {'active_order': order})
+    else:
+        return JsonResponse({'error': 'No customer selected'})
+
+
+@login_required
+@require_GET
+def add_order_payment(request, order_number):
+    from src.pos.utils import activate_order_and_deactivate_others as aod
+
+    payment_type_id = request.GET.get('payment-type', None)
+
+    if payment_type_id:
+        payment_type = get_object_or_404(PaymentType, id=payment_type_id)
+
     if order_number:
         order = get_object_or_404(PosOrder, number=order_number)
 
