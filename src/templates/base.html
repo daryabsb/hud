@@ -20,6 +20,7 @@ hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
 hx-on="htmx:load: jscolor.install();"
 class="theme-success"
 >
+
 {% comment %} hx-get="/load-password-window/"
 hx-target="#warning-toaster"
 hx-trigger="load delay:5s" {% endcomment %}
@@ -34,6 +35,12 @@ data-toggle-class="app-sidebar-mobile-toggled"></button>
 
 {% block content %}
 {% endblock content %}
+<div class="btn-group-vertical position-absolute start-0 top-50" role="group" aria-label="Basic example">
+    <button type="button" class="btn btn-theme mb-1"><i class="bi bi-sliders"></i></button>
+    <button type="button" class="btn btn-theme mb-1"><i class="bi bi-sliders"></i></button>
+    <button type="button" class="btn btn-theme mb-1"><i class="bi bi-sliders"></i></button>
+    <button type="button" class="btn btn-theme mb-1"><i class="bi bi-sliders"></i></button>
+</div>
 <a href="#" data-toggle="scroll-to-top" class="btn-scroll-top fade"><i class="fa fa-arrow-up"></i></a>
     </div>
     <input type="hidden" id="success-response" />

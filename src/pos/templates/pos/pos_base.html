@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block extra_app_class %}app-content-full-height{% endblock extra_app_class %}
+{% block extra_app_class %}app-content-full-height position-relative{% endblock extra_app_class %}
 
 
 {% block content %}
@@ -52,7 +52,8 @@ class="app-content p-1 ps-xl-4 pe-xl-4 pt-xl-3 pb-xl-3">
 </div>
 
 
-{% include 'pos/modals/pos-panel.html' %}
+{% comment %} {% include 'pos/modals/pos-panel.html' %} {% endcomment %}
+
 
 
 {% endblock modals %}
