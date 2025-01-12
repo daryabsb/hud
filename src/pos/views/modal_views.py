@@ -142,16 +142,23 @@ def add_order_payment(request, order_number):
 
     if payment_type_id:
         payment_type = get_object_or_404(PaymentType, id=payment_type_id)
+    else:
+        payment_type = PaymentType.objects.first()
 
     if order_number:
         order = get_object_or_404(PosOrder, number=order_number)
 
-    customer = request.GET.get('customer', None)
+    # customer = request.GET.get('customer', None)
 
-    if customer:
-        instance = Customer.objects.get(pk=customer)
-        order.customer = instance
-        order.save()
-        return render(request, 'pos/buttons/active-order-customer.html', {'active_order': order})
-    else:
-        return JsonResponse({'error': 'No customer selected'})
+    # if customer:
+    #     instance = Customer.objects.get(pk=customer)
+    #     order.customer = instance
+    #     order.save()
+    #     return render(request, 'pos/buttons/active-order-customer.html', {'active_order': order})
+    # else:
+    #     return JsonResponse({'error': 'No customer selected'})
+    context = {
+        'payment_type': payment_type,
+        'active_order': order,
+    }
+    return render(request, 'pos/modals/payment-modal.html', context)
