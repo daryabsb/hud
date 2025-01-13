@@ -137,6 +137,7 @@ def add_order_customer(request, order_number):
 @require_GET
 def add_order_payment(request, order_number):
     from src.pos.utils import activate_order_and_deactivate_others as aod
+    from src.finances.models import PaymentType
 
     payment_type_id = request.GET.get('payment-type', None)
 
@@ -147,7 +148,7 @@ def add_order_payment(request, order_number):
 
     if order_number:
         order = get_object_or_404(PosOrder, number=order_number)
-
+    payment_types = PaymentType.objects.filter(is_enabled=True)
     # customer = request.GET.get('customer', None)
 
     # if customer:
@@ -160,5 +161,6 @@ def add_order_payment(request, order_number):
     context = {
         'payment_type': payment_type,
         'active_order': order,
+        'payment_types': payment_types,
     }
     return render(request, 'pos/modals/payment-modal.html', context)

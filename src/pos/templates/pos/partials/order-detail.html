@@ -110,6 +110,8 @@
         </div>
         <div class="flex-fill min-w-350px">
             <a class="w-100 pt-2 px-4 btn btn-success rounded-2 mb-2"
+            hx-get="{% url 'pos:modal-order-payment' active_order.number %}"
+            hx-target="#modalOrderPayment"
             href="#modalOrderPayment"
                 data-bs-toggle="modal"
             >

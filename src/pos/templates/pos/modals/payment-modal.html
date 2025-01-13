@@ -1,5 +1,6 @@
 <!-- BEGIN #modalEdit -->
 
+{% load static %}
 <div class="modal-dialog modal-xl">
 	<div class="modal-content">
 		<div class="card">
@@ -9,34 +10,71 @@
 			</div>
 			<div class="modal-body">
 				<div class="row">
-					<div class="mb-3 col-6">
-						<label class="form-label">Name</label>
+					<div class="mb-3 col-4">
+						<label class="form-label">Items</label>
 						<div class="row row-space-10">
-							<div class="col-4">
-								<input class="form-control" placeholder="First" value="Sean">
-							</div>
-							<div class="col-4">
-								<input class="form-control" placeholder="Middle" value="">
-							</div>
-							<div class="col-4">
-								<input class="form-control" placeholder="Last" value="Ngu">
+							<div class="list-group">
+								{% for item in active_order.items.all %}
+								<a href="#" class="list-group-item d-flex align-items-center mb-2"
+								_="on click toggle .active on me end"
+								>
+									<div class="w-60px h-60px d-flex align-items-center justify-content-center ms-n1 bg-white p-1">
+										<img src="{{ item.product.img }}" alt="" class="mw-100 mh-100">
+									</div>
+									<div class="flex-fill px-3">
+										<div class="fw-bold">{{ item.product.name }}</div>
+										<div class="small text-inverse text-opacity-50">{{ item.product.parent_group.name}}</div>
+										<div class="d-flex align-items-center fs-11px">
+											<span class="me-2">{{ item.quantity }}</span>
+											<span class="me-2">X</span>
+											<span class="me-2">{{ item.price|floatformat:2 }}</span>
+
+											(128)
+										</div>
+									</div>
+									<div>
+										<span class="badge bg-transparent border border-theme text-theme fs-12px fw-500 rounded-sm">
+										{{ item.product.currency.name }}{{ item.item_total|floatformat:2 }}
+										</span>
+									</div>
+								</a>
+								{% endfor %}
 							</div>
 						</div>
 					</div>
-					<div class="col-3 alert bg-inverse bg-opacity-10 border-0">
-						<b>Please note:</b> 
-						If you change your name, you can't change it again for 60 days. 
-						Don't add any unusual capitalization, punctuation, characters or random words. 
-						<a href="#" class="alert-link">Learn more.</a>
+					<div class="col-2 border-start">
+						<label class="form-label">Payment types</label>
+					<div>
+						{% for pt in payment_types %}
+						<label class="btn btn-outline-default w-100 mb-3 text-start active" 
+						_="on click toggle .active on me end"
+						>
+							<input type="radio" class="" id="payment-type-{{ pt.id }}" name="payment-type">
+							{{ pt.name }}
+						</label>
+						{% endfor %}
 					</div>
-					<div class="col-3 mb-3">
-						<label class="form-label">Other Names</label>
-						<div>
-							<a href="#" class="btn btn-outline-default"><i class="fa fa-plus fa-fw"></i> Add other names</a>
+
+					</div>
+					<div class="col-6 alert bg-inverse bg-opacity-10 border-0">
+						<label class="form-label">Name</label>
+						<div class="mb-3">
+							<b>Please note:</b> 
+							If you change your name, you can't change it again for 60 days. 
+							Don't add any unusual capitalization, punctuation, characters or random words. 
+							<a href="#" class="alert-link">Learn more.</a>
+						</div>
+						<div class="mb-3">
+							<label class="form-label">Other Names</label>
+							<div>
+								<a href="#" class="btn btn-outline-default"><i class="fa fa-plus fa-fw"></i> Add other names</a>
+							</div>
 						</div>
 					</div>
+					
 				</div>
 			</div>
+			<hr />
 			<div class="modal-footer">
 				<button type="button" class="btn btn-outline-default" data-bs-dismiss="modal">Close</button>
 				<button type="button" class="btn btn-outline-theme">Save changes</button>
