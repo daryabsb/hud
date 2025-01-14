@@ -5,7 +5,7 @@
 	<div class="modal-content">
 		<div class="card ">
 			<div class="modal-header border-bottom">
-				<h5 class="modal-title">MODAL TITLE</h5>
+				<h5 class="modal-title">Payment for {{ active_order.number }}</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 			</div>
 			<div class="modal-body py-0">
@@ -46,10 +46,19 @@
 						<label class="form-label">Payment types</label>
 					<div>
 						{% for pt in payment_types %}
-						<label class="btn btn-outline-default w-100 mb-3 text-start active" 
-						_="on click toggle .active on me end"
+						<label class="btn 
+						{% if payment_type != pt %}btn-outline-default{% endif %}
+						{% if payment_type == pt %}btn-outline-success{% endif %}
+						w-100 mb-3 text-start labe" 
+						_="on click 
+							 remove .btn-outline-success from .labe 
+							then add .btn-outline-default to .labe
+							then remove .btn-outline-default from me 
+							then add .btn-outline-success to me end"
 						>
-							<input type="radio" class="d-none" id="payment-type-{{ pt.id }}" name="payment-type">
+							<input type="radio" class="d-none" id="payment-type-{{ pt.id }}" name="payment-type" 
+							value="{{ pt.id }}" 
+               				{% if payment_type == pt %}checked{% endif %}>
 							{{ pt.name }}
 						</label>
 						{% endfor %}
@@ -57,6 +66,14 @@
 
 					</div>
 					<div class="col-6 alert bg-inverse bg-opacity-10 border-0">
+						<div class="d-flex justify-content-between w-100 mb-4">
+							<button type="button" class="btn btn-outline-secondary px-4">Left</button>
+							<div class="btn-group">
+								<button type="button" class="btn btn-outline-secondary px-4">Left</button>
+								<button type="button" class="btn btn-outline-secondary px-4">Middle</button>
+								<button type="button" class="btn btn-outline-secondary px-4">Right</button>
+							</div>
+						</div>
 						<label class="form-label">Name</label>
 						<div class="">
 							<b>Please note:</b> 
