@@ -132,35 +132,3 @@ def add_order_customer(request, order_number):
     else:
         return JsonResponse({'error': 'No customer selected'})
 
-
-@login_required
-@require_GET
-def add_order_payment(request, order_number):
-    from src.pos.utils import activate_order_and_deactivate_others as aod
-    from src.finances.models import PaymentType
-
-    payment_type_id = request.GET.get('payment-type', None)
-
-    if payment_type_id:
-        payment_type = get_object_or_404(PaymentType, id=payment_type_id)
-    else:
-        payment_type = PaymentType.objects.first()
-
-    if order_number:
-        order = get_object_or_404(PosOrder, number=order_number)
-    payment_types = PaymentType.objects.filter(is_enabled=True)
-    # customer = request.GET.get('customer', None)
-
-    # if customer:
-    #     instance = Customer.objects.get(pk=customer)
-    #     order.customer = instance
-    #     order.save()
-    #     return render(request, 'pos/buttons/active-order-customer.html', {'active_order': order})
-    # else:
-    #     return JsonResponse({'error': 'No customer selected'})
-    context = {
-        'payment_type': payment_type,
-        'active_order': order,
-        'payment_types': payment_types,
-    }
-    return render(request, 'pos/modals/payment-modal.html', context)

@@ -1,0 +1,107 @@
+<!-- BEGIN #modalEdit -->
+
+{% load static %}
+<div class="modal-dialog modal-xl">
+	<div class="modal-content">
+		<div class="card ">
+			<div class="modal-header border-bottom">
+				<h5 class="modal-title">Payment for {{ active_order.number }}</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+			</div>
+			<div class="modal-body py-0">
+				<div class="row">
+					<div class="col-4">
+						<label class="form-label">Items</label>
+						{% include 'pos/payment/partials/modal-items.html' %}
+					</div>
+					<div class="col-2 border-start py-3">
+						<label class="form-label">Payment types</label>
+					{% include 'components/payment/payment-types.html' %}
+
+					</div>
+					<div class="col-6 alert bg-inverse bg-opacity-10 border-0">
+						{% include 'pos/payment/partials/top-buttons.html' %}
+						<label class="form-label">Name</label>
+						<div class="mb-3">
+							<form action="#" method="POST" name="email_form">
+								<div class="mailbox-form-header">
+									<div class="row mb-2">
+										<label class="col-form-label w-100px px-2 fw-500 text-lg-end">To:</label>
+										<div class="col-lg">
+											<input type="text" class="form-control tagit">
+										</div>
+									</div>
+									<div class="row mb-2">
+										<label class="col-form-label w-100px px-2 fw-500 text-lg-end">Cc:</label>
+										<div class="col-lg">
+											<input type="text" class="form-control tagit">
+										</div>
+									</div>
+									<div class="row mb-2">
+										<label class="col-form-label w-100px px-2 fw-500 text-lg-end">Bcc:</label>
+										<div class="col-lg">
+											<input type="text" class="form-control tagit">
+										</div>
+									</div>
+									<div class="row mb-0">
+										<label class="col-form-label w-100px px-2 fw-500 text-lg-end">Subject:</label>
+										<div class="col-lg">
+											<input type="text" class="form-control" placeholder="Email subject">
+										</div>
+									</div>
+								</div>
+								<textarea name="text" class="summernote form-control" title="Contents"></textarea>
+							</form> 
+							<a href="#" class="alert-link">Learn more.</a>
+						</div>
+						<div class="mb-3">
+							{% include 'pos/standard/order/calculations.html' %}
+							<table class="table table-borderless table-sm m-0">
+								<tbody>
+									<tr>
+										<td class="h5 w-150px">CHANGE</td>
+										
+										<td class="h5 text-end" colspan="2">{{ active_order.currency }} {{ active_order.item_subtotal|floatformat:'0' }}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="">
+							<div>
+								<a href="#" class="btn btn-outline-default"><i class="fa fa-plus fa-fw"></i> Add another payment</a>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+			<hr class="my-0" />
+			<div class="modal-footer">
+				<button type="button" class="btn btn-outline-default" data-bs-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-outline-theme">Save changes</button>
+			</div>
+			{% include 'components/card-arrow.html' %}
+		</div>
+	</div>
+</div>
+<!-- END #modalEdit -->
+<script>
+	// Function to increase the input value
+	// Function to increase the input value
+
+	var decreaseBtn = document.getElementById('decrease-modal-qty')
+	var increaseBtn = document.getElementById('increase-modal-qty')
+	increaseBtn.addEventListener("click", function () {
+		var qtyInput = document.getElementById('input-modal-qty');
+		var value = parseInt(qtyInput.value, 10);
+		value++;
+		qtyInput.value = value
+	});
+	decreaseBtn.addEventListener("click", function () {
+		var qtyInput = document.getElementById('input-modal-qty');
+		var value = parseInt(qtyInput.value, 10);
+		value--;
+		qtyInput.value = value
+	});
+	
+</script>

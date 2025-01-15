@@ -1,0 +1,30 @@
+
+<div class="row row-space-10">
+    <div class="list-group py-3">
+        {% for item in active_order.items.all %}
+        <a href="#" class="list-group-item d-flex align-items-center mb-2"
+        _="on click toggle .active on me end"
+        >
+            <div class="w-60px h-60px d-flex align-items-center justify-content-center ms-n1 bg-white p-1">
+                <img src="{{ item.product.img }}" alt="" class="mw-100 mh-100">
+            </div>
+            <div class="flex-fill px-3">
+                <div class="fw-bold">{{ item.product.name }}</div>
+                <div class="small text-inverse text-opacity-50">{{ item.product.parent_group.name}}</div>
+                <div class="d-flex align-items-center fs-11px">
+                    <span class="me-2">{{ item.quantity }}</span>
+                    <span class="me-2">X</span>
+                    <span class="me-2">{{ item.price|floatformat:2 }}</span>
+
+                    (128)
+                </div>
+            </div>
+            <div>
+                <span class="badge bg-transparent border border-theme text-theme fs-12px fw-500 rounded-sm">
+                {{ item.product.currency.name }}{{ item.item_total|floatformat:2 }}
+                </span>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>

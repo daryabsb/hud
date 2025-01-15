@@ -28,6 +28,7 @@ def prepare_products_variannts(queryset: Product = None):
 
 @login_required
 def pos_home(request, number=None):
+    from src.finances.models import PaymentType
     print('Last Activity: ', request.session['last_activity'])
     user = request.user
     active_order = aod(user, number)
@@ -44,12 +45,15 @@ def pos_home(request, number=None):
     customer_form = CustomerFieldForm(
         customer=active_order.customer)
 
+    payment_types = PaymentType.objects.filter(is_enabled=True)
+    
     context = {
         "active_order": active_order,
         "groups": product_groups,
         "products": products,
         "orders": pos_orders,
         "customer_form": customer_form,
+        "payment_types": payment_types,
     }
     if layout_object.value == 'standard':
         return render(request, 'pos/standard/pos-home.html', context)
