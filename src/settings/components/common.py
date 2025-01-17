@@ -55,6 +55,7 @@ LOCAL_APPS = [
     'src.printers',
     'src.tax',
     'src.stock',
+    'src.payments',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -101,6 +102,7 @@ TEMPLATES = [
             PROJECT_PATH + "\\documents\\templates",
             PROJECT_PATH + "\\orders\\templates",
             PROJECT_PATH + "\\games\\templates",
+            PROJECT_PATH + "\\payments\\templates",
 
         ],
         'APP_DIRS': True,

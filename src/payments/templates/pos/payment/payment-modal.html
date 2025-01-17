@@ -1,6 +1,6 @@
 <!-- BEGIN #modalEdit -->
 
-{% load static %}
+{% load humanize %}
 <div class="modal-dialog modal-xl">
 	<div class="modal-content">
 		<div class="card ">
@@ -21,39 +21,29 @@
 					</div>
 					<div class="col-6 alert bg-inverse bg-opacity-10 border-0">
 						{% include 'pos/payment/partials/top-buttons.html' %}
-						<label class="form-label">Name</label>
+						<hr />
 						<div class="mb-3">
-							<form action="#" method="POST" name="email_form">
+							<form id="order-payment">
 								<div class="mailbox-form-header">
-									<div class="row mb-2">
-										<label class="col-form-label w-100px px-2 fw-500 text-lg-end">To:</label>
+									<div class="row mb-3">
+										<label class="col-form-label w-100px px-2 fw-500 text-lg-end">Amount:</label>
 										<div class="col-lg">
-											<input type="text" class="form-control tagit">
+											<input type="text" class="h3 pos-form-control rounded-0 border-0 border-bottom first-input"
+											value="{{ active_order.total|floatformat:'0'|intcomma }}"
+
+											>
 										</div>
 									</div>
-									<div class="row mb-2">
-										<label class="col-form-label w-100px px-2 fw-500 text-lg-end">Cc:</label>
+									<div class="row mb-3">
+										<label class="col-form-label w-100px px-2 fw-500 text-lg-end">Note:</label>
 										<div class="col-lg">
-											<input type="text" class="form-control tagit">
-										</div>
-									</div>
-									<div class="row mb-2">
-										<label class="col-form-label w-100px px-2 fw-500 text-lg-end">Bcc:</label>
-										<div class="col-lg">
-											<input type="text" class="form-control tagit">
-										</div>
-									</div>
-									<div class="row mb-0">
-										<label class="col-form-label w-100px px-2 fw-500 text-lg-end">Subject:</label>
-										<div class="col-lg">
-											<input type="text" class="form-control" placeholder="Email subject">
+											<textarea name="text" class="summernote form-control" title="Contents"></textarea>
 										</div>
 									</div>
 								</div>
-								<textarea name="text" class="summernote form-control" title="Contents"></textarea>
 							</form> 
-							<a href="#" class="alert-link">Learn more.</a>
 						</div>
+						<hr />
 						<div class="mb-3">
 							{% include 'pos/standard/order/calculations.html' %}
 							<table class="table table-borderless table-sm m-0">
@@ -66,11 +56,11 @@
 								</tbody>
 							</table>
 						</div>
-						<div class="">
+						{% comment %} <div class="">
 							<div>
 								<a href="#" class="btn btn-outline-default"><i class="fa fa-plus fa-fw"></i> Add another payment</a>
 							</div>
-						</div>
+						</div> {% endcomment %}
 					</div>
 					
 				</div>
