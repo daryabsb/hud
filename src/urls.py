@@ -58,6 +58,7 @@ urlpatterns = [
     path('not-authorized/', not_authorized, name="not-authorized"),
     path('', index, name="index"),
     path('pos/', include('src.pos.urls'), name="pos"),
+    path('payments/', include('src.payments.urls'), name="payments"),
     path('mgt/', include('src.management.urls'), name="mgt"),
     path('my-accounts/', include('src.accounts.urls'), name="my-accounts"),
     path('settings/', include('src.configurations.urls'), name="settings"),

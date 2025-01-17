@@ -1,6 +1,4 @@
 <!-- BEGIN #modalEdit -->
-
-{% load humanize %}
 <div class="modal-dialog modal-xl">
 	<div class="modal-content">
 		<div class="card ">
@@ -16,59 +14,35 @@
 					</div>
 					<div class="col-2 border-start py-3">
 						<label class="form-label">Payment types</label>
-					{% include 'components/payment/payment-types.html' %}
-
+						{% include 'components/payment/payment-types.html' %}
 					</div>
 					<div class="col-6 alert bg-inverse bg-opacity-10 border-0">
 						{% include 'pos/payment/partials/top-buttons.html' %}
 						<hr />
+						<div class="mb-5">
+							{% include 'pos/standard/order/calculations.html' %}
+						</div>
 						<div class="mb-3">
 							<form id="order-payment">
-								<div class="mailbox-form-header">
-									<div class="row mb-3">
-										<label class="col-form-label w-100px px-2 fw-500 text-lg-end">Amount:</label>
-										<div class="col-lg">
-											<input type="text" class="h3 pos-form-control rounded-0 border-0 border-bottom first-input"
-											value="{{ active_order.total|floatformat:'0'|intcomma }}"
-
-											>
-										</div>
-									</div>
-									<div class="row mb-3">
-										<label class="col-form-label w-100px px-2 fw-500 text-lg-end">Note:</label>
-										<div class="col-lg">
-											<textarea name="text" class="summernote form-control" title="Contents"></textarea>
-										</div>
-									</div>
-								</div>
-							</form> 
+								{% include 'pos/payment/partials/paid-input.html' %}
+								{% include 'pos/payment/partials/change.html' %}
+							<hr />
+								{% include 'pos/payment/partials/note-input.html' %}
+							</form>
 						</div>
-						<hr />
-						<div class="mb-3">
-							{% include 'pos/standard/order/calculations.html' %}
-							<table class="table table-borderless table-sm m-0">
-								<tbody>
-									<tr>
-										<td class="h5 w-150px">CHANGE</td>
-										
-										<td class="h5 text-end" colspan="2">{{ active_order.currency }} {{ active_order.item_subtotal|floatformat:'0' }}</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-						{% comment %} <div class="">
-							<div>
-								<a href="#" class="btn btn-outline-default"><i class="fa fa-plus fa-fw"></i> Add another payment</a>
-							</div>
-						</div> {% endcomment %}
+							
 					</div>
-					
 				</div>
 			</div>
 			<hr class="my-0" />
 			<div class="modal-footer">
 				<button type="button" class="btn btn-outline-default" data-bs-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-outline-theme">Save changes</button>
+				<button type="button" class="btn btn-outline-theme"
+					data-bs-dismiss="modal"
+					hx-post="{% url 'payments:save-payment' active_order.number %}"
+					hx-target="#payment-success"
+					hx-include="#payment-amount"
+					>Save changes</button>
 			</div>
 			{% include 'components/card-arrow.html' %}
 		</div>
@@ -78,7 +52,7 @@
 <script>
 	// Function to increase the input value
 	// Function to increase the input value
-
+	
 	var decreaseBtn = document.getElementById('decrease-modal-qty')
 	var increaseBtn = document.getElementById('increase-modal-qty')
 	increaseBtn.addEventListener("click", function () {

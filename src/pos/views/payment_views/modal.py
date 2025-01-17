@@ -1,9 +1,10 @@
-
+from decimal import Decimal
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST, require_GET
 from django.shortcuts import get_object_or_404, render
 from src.orders.models import PosOrder, PosOrderItem
 from src.finances.models import PaymentType
+
 
 @login_required
 @require_GET
@@ -34,5 +35,6 @@ def add_order_payment(request, order_number):
         'payment_type': payment_type,
         'active_order': order,
         'payment_types': payment_types,
+        'change': Decimal(0)
     }
     return render(request, 'pos/payment/payment-modal.html', context)
