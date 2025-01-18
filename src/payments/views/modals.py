@@ -15,6 +15,7 @@ def order_payment_change(request, order_number):
 
     context = {
         'active_order': order,
+        'paid': Decimal(paid),
         'change': change,
     }
 

@@ -1,6 +1,10 @@
 <table class="table table-borderless table-sm m-0" id="paid-change">
     <tbody>
         <tr>
+            <td class="h5 w-150px">PAID</td>
+            <td class="h5 text-end" colspan="2">{{ active_order.currency }} {{ paid|floatformat:'0' }}</td>
+        </tr>
+        <tr>
             <td class="h5 w-150px">CHANGE</td>
             <td class="h5 text-end" colspan="2">{{ active_order.currency }} {{ change|floatformat:'0' }}</td>
         </tr>
