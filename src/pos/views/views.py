@@ -54,6 +54,7 @@ def pos_home(request, number=None):
         "orders": pos_orders,
         "customer_form": customer_form,
         "payment_types": payment_types,
+        "payment_type": payment_types.first(),
     }
     if layout_object.value == 'standard':
         return render(request, 'pos/standard/pos-home.html', context)
