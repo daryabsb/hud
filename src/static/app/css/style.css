@@ -1,3 +1,13 @@
+input:focus,
+textarea:focus,
+select:focus,
+button:focus {
+    outline: none !important;
+    box-shadow: none !important;
+    /* box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); */
+    /* Optional custom focus style */
+}
+
 .pos-panel {
     position: fixed;
     top: 0;
