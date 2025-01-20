@@ -1,22 +1,20 @@
 {% load humanize %}
-<ul class="nav nav-tabs">
-    {% for pt in payment_types %}
-    <li class="nav-item me-1"><a href="#pt-{{ pt.id }}" class="nav-link{% if pt == payment_type %} active{% endif %}" data-bs-toggle="tab">{{ pt.name }}</a></li>
-    {% endfor %}
-  </ul>
+
 <div class="tab-content pt-3">
     {% for pt in payment_types %}
-    <div class="tab-pane fade row mb-3 {% if pt == payment_type %} show active{% endif %}" id="pt-{{ pt.id }}" role="tabpanel" aria-labelledby="{{ pt.name }}-tab">
-        <label class="h4 w-120px px-2 text-lg-start">{{ pt.name }}</label>
-        <div class="col-lg">
-            <input type="text" class="h3 text-end pos-form-control rounded-0 border-0 border-bottom first-input"
-                value="{{ active_order.total|floatformat:'0'|intcomma }}"
-                id="payment-amount"
-                name="paid"
-                hx-get="{% url 'payments:change' active_order.number %}"
-                hx-target="#paid-change"
-                hx-trigger="keyup changed delay:500ms"
-                >
+    <div class="tab-pane fade {% if pt == payment_type %} show active{% endif %}" id="pt-{{ pt.id }}" role="tabpanel" aria-labelledby="{{ pt.name }}-tab">
+        <div class="row mb-3">
+            <div class="h4 col-lg-4 text-lg-start">{{ pt.name }}</div>
+            <div class="col-lg-8">
+                <input type="text" class="h4 text-end pos-form-control rounded-0 border-0 border-bottom first-input"
+                    value="{{ active_order.total|floatformat:'0'|intcomma }}"
+                    id="payment-amount"
+                    name="paid"
+                    hx-get="{% url 'payments:change' active_order.number %}"
+                    hx-target="#paid-change"
+                    hx-trigger="keyup changed delay:500ms"
+                    >
+            </div>
         </div>
     </div>
     {% endfor %}
