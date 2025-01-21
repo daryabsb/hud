@@ -1,19 +1,21 @@
 <!-- BEGIN #modalEdit -->
 <div class="modal-dialog modal-xl">
 	<div class="modal-content">
-		<div class="card ">
+		<div class="card bg-gray-800">
 			<div class="modal-header border-bottom">
 				<h5 class="modal-title">Payment for {{ active_order.number }}</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 			</div>
 			<div class="modal-body py-0">
 				<div class="row">
-					<div class="col-4">
-						<label class="form-label">Items</label>
+					<div class="col-4 px-0 pt-3">
+						<label class="h4">Items</label>
+						<hr />
 						{% include 'pos/payment/partials/modal-items.html' %}
 					</div>
-					<div class="col-2 border-start py-3">
-						<label class="form-label">Payment types</label>
+					<div class="col-2 border-start px-0 py-3">
+						<label class="h4 text-center w-100">Payment types</label>
+						<hr />
 						{% comment %} {% include 'components/payment/payment-types.html' %} {% endcomment %}
 						{% include 'pos/payment/partials/payment_type_nav.html' %}
 					</div>

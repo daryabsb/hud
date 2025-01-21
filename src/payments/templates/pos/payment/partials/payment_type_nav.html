@@ -1,5 +1,5 @@
 {% if payment_types %}
-<div class="nav  nav-pills flex-column px-2">
+<div class="nav  nav-outline nav-fill flex-column px-2">
     {% for pt in payment_types %}
     {% comment %} _="on click 
         remove .btn-success from .labe
@@ -11,8 +11,9 @@
         {% comment %} <input type="radio" class="d-none" id="payment-type-{{ pt.id }}" name="payment-type" 
         value="{{ pt.id }}" 
         {% if payment_type == pt %}checked{% endif %}> {% endcomment %}
-        <a class="text-start w-150px mb-3 me-2 nav-link {% if pt == payment_type %}active{% endif %}
-    " href="#pt-{{ pt.id }}" data-bs-toggle="tab">
+        <a  class="mb-3 me-2 nav-link {% if pt == payment_type %}active{% endif %}" 
+            href="#pt-{{ pt.id }}" 
+            data-bs-toggle="tab">
         {{ pt.name }}
         </a>
     
