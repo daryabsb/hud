@@ -5550,11 +5550,11 @@ fieldset:disabled .btn {
 .nav-outline .nav-link {
     padding-right: 0;
     padding-left: 0;
-    border: 1px solid var(--bs-btn-border-color, #798e98);
+    border: 1px solid var(--bs-btn-border-color, #ffffff);
     /* Default border color */
     border-radius: 0.25rem;
     /* Optional: to match button styles */
-    color: var(--bs-btn-color, #798e98);
+    color: var(--bs-btn-color, #ffffff);
     background-color: transparent;
     transition: color 0.2s, border-color 0.2s, background-color 0.2s;
     /* Smooth transition */
@@ -5562,9 +5562,9 @@ fieldset:disabled .btn {
 
 .nav-outline .nav-link:focus,
 .nav-outline .nav-link:hover {
-    color: var(--bs-btn-hover-color, #FFFFFF);
-    background-color: var(--bs-btn-hover-bg, #798e98);
-    border-color: var(--bs-btn-hover-border-color, #798e98);
+    color: var(--bs-btn-hover-color, #000000);
+    background-color: var(--bs-btn-hover-bg, #ffffff);
+    border-color: var(--bs-btn-hover-border-color, #000000);
 }
 
 .nav-outline .nav-link.active,

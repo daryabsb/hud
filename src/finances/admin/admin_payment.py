@@ -13,7 +13,7 @@ class PaymentAdmin(admin.ModelAdmin):
 
 @admin.register(PaymentType)
 class PaymentTypeAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'ordinal', 'created')
+    list_display = ('id', 'name', 'code', 'ordinal', 'created')
     ordering = ('id', )
     list_filter = ('name', )
 

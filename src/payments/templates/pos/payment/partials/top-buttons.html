@@ -1,15 +1,23 @@
-<div class="d-flex justify-content-between w-100 mb-4">
-    <button type="button" class="btn btn-danger px-4">Cancel</button>
+<div class="d-flex justify-content-between w-100 mb-3">
+    <button type="button" class="btn btn-outline-gray-100"
+    _="on click
+        toggle .d-none .border-end on #payment-order-items
+        then toggle .col-8 .col-12 on #payment-order-details
+    end
+    "
+    >
+    <i class="fas fa-lg fa-fw me-2 fa-columns"></i> Show items
+    </button>
     <div class="btn-group">
-        <button type="button" class="btn btn-outline-secondary ">
+        <button type="button" class="btn btn-outline-gray-100 ">
         <i class="fas fa-lg fa-fw me-2 fa-percent"></i>
         Discount
         </button>
-        <button type="button" class="btn btn-outline-secondary">
+        <button type="button" class="btn btn-outline-gray-100">
         <i class="fas fa-lg fa-fw me-2 fa-user"></i>
         Customer
         </button>
-        <button type="button" class="btn btn-outline-secondary px-4">
+        <button type="button" class="btn btn-outline-gray-100 px-4">
         <i class="fab fa-lg fa-fw me-2 fa-servicestack"></i>
         Round
         </button>

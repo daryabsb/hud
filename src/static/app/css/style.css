@@ -1,3 +1,34 @@
+[data-bs-theme=bs-gray-800] {
+    --bs-body-bg-gradient: linear-gradient(180deg, rgba(53, 67, 74, 0.9) 0%, rgb(19, 21, 27) 100%);
+    /* --bs-body-bg-image: url("images/pattern-dark.png"); */
+    --bs-body-bg-image-size: 4.6875rem;
+    /* --bs-body-bg-cover: url("images/cover-dark.jpg"); */
+    --bs-body-font-weight: 300;
+    --bs-body-letter-spacing: 0.046875rem;
+    --bs-component-bg: #28292b;
+    --bs-component-bg-rgb: 40, 41, 43;
+    --bs-component-color: rgba(255, 255, 255, 0.75);
+    --bs-component-color-rgb: 255, 255, 255;
+    --bs-app-header-bg: rgba(29, 40, 53, 0.95);
+    --bs-app-header-brand-img: url("images/logo-dark.png");
+    --bs-app-header-link-color: #FFFFFF;
+    --bs-app-header-link-color-rgb: 255, 255, 255;
+    --bs-app-header-link-hover-color: rgba(255, 255, 255, 0.5);
+    --bs-app-sidebar-menu-header-color: rgba(var(--bs-inverse-rgb), 0.3);
+    --bs-app-sidebar-menu-link-color: rgba(var(--bs-inverse-rgb), 0.5);
+    --bs-app-sidebar-menu-link-hover-color: #FFFFFF;
+    --bs-app-sidebar-menu-link-active-color: #FFFFFF;
+    --bs-app-sidebar-mobile-bg: rgba(44, 56, 70, 0.98);
+    --bs-app-top-nav-bg: rgba(29, 40, 53, 0.95);
+    --bs-app-top-nav-menu-link-color: rgba(var(--bs-inverse-rgb), 0.5);
+    --bs-app-top-nav-menu-link-hover-color: #FFFFFF;
+    --bs-app-top-nav-menu-link-active-color: #FFFFFF;
+    --bs-app-top-nav-menu-submenu-bg: rgba(29, 40, 53, 0.95);
+    --bs-app-theme-panel-bg: rgba(68, 85, 94, 0.95);
+    --bs-theme-bg-subtle: #071f18
+}
+
+
 input:focus,
 textarea:focus,
 select:focus,
