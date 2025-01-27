@@ -7,24 +7,19 @@
             <div class="h4 me-2 text-lg-start">{{ pt.name }}</div>
             <div class="flex-fill">
             <input type="hidden" name="payment_type" value="{{ pt.id }}">
-            <input type="text" class="h4 focus-ring-none w-100 text-end pos-form-control rounded-0 border-0 border-bottom"
-                    
-                    value="420"
-                    id="payment-amount-{{ pt.id }}"
-                    name="paid2"
-                    
-                    >
-            <input type="text" class="h4 focus-ring-none w-100 text-end pos-form-control rounded-0 border-0 border-bottom first-input"
-                    
-                    value="{% if changed %}{{ change|floatformat:'0'|intcomma }}{% else %}{{ active_order.total|floatformat:'0'|intcomma }}{% endif %}"
-                    id="payment-amount-{{ pt.id }}"
-                    name="paid"
-                    hx-get="{% url 'payments:change' active_order.number %}"
-                    hx-target="#paid-change"
-                    hx-trigger="keyup changed delay:500ms"
-                    hx-include="[name='payment_type'], [name='paid'], [name='paid2']"
-
-                    >
+            <input
+                type="text"
+                class="h4 focus-ring-none w-100 text-end pos-form-control rounded-0 border-0 border-bottom first-input"
+                value="{{ paid[pt.code]|floatformat:'2'|intcomma }}"
+                id="payment-amount-{{ pt.id }}"
+                name="payment-amount-{{ pt.code }}"
+                hx-get="{% url 'payments:change' active_order.number %}"
+                hx-target="#paid-change"
+                hx-trigger="keyup changed delay:500ms"
+                hx-include="#order-payment"
+            />
+                    {% comment %} name ="paid" {% endcomment %}
+                    {% comment %} hx-include="[name='payment_type'], [name='paid'], [name='paid2'], #order-payment" {% endcomment %}
             </div>
         </div>
     </div>

@@ -1,47 +1,61 @@
 from decimal import Decimal
 from django.shortcuts import render
 from src.orders.models import PosOrder
+from src.finances.models import PaymentType
+
+
+from decimal import Decimal, InvalidOperation
 
 
 def order_payment_change(request, order_number):
+    # Fetch all payment types
+    payment_types = PaymentType.objects.all()
 
-    paid = request.GET.get('cash', [])
-    paid2 = request.GET.get('paid2', [])
+    # Initialize paid amounts for each payment type
+    paid = {pt.code: Decimal("0.00") for pt in payment_types}
+    total_paid = Decimal("0.00")
 
-    print("Paid: ", paid)
-    print("Paid2: ", paid2)
+    # Retrieve the order
+    try:
+        order = PosOrder.objects.get(number=order_number)
+    except PosOrder.DoesNotExist:
+        return JsonResponse({"error": "Order not found."}, status=404)
 
-    change = Decimal(paid) if paid else Decimal(0.00)
+    order_total = order.total
 
-    payment_type = request.GET.get('payment_type', None)
+    # Parse paid amounts from the request
+    for payment_type in payment_types:
+        field_name = f"payment-amount-{payment_type.code}"
+        raw_amount = request.GET.get(field_name, "0").replace(",", ".")
 
-    paid = Decimal(paid) if paid else Decimal(0.00)
+        try:
+            paid_amount = Decimal(raw_amount)
+        except InvalidOperation:
+            paid_amount = Decimal("0.00")  # Fallback if invalid input
 
-    if payment_type:
-        print("Payment type: ", payment_type)
+        # Update the paid dictionary and total paid
+        paid[payment_type.code] = paid_amount
+        total_paid += paid_amount
 
-    order = PosOrder.objects.get(number=order_number)
+    # Calculate the remaining amount and change
+    remaining = max(order_total - total_paid, Decimal("0.00"))
+    change = max(total_paid - order_total, Decimal("0.00"))
 
-    if order:
-        change = paid - order.total
-    if change > 0.00:
-        print("It is bigger than 0")
-    else:
-        print("It is smaller than 0")
+    # Determine which payment type was modified (if any)
+    payment_type_id = request.GET.get("payment_type", None)
+    modified_payment_type = (
+        PaymentType.objects.filter(
+            id=payment_type_id).first() if payment_type_id else None
+    )
 
-    paid = {
-        'CASH': '',
-        'CC': '',
-        'DC': '',
-        'CHEQ': '',
-        'VOU': '',
-        'GC': '',
-    }
-
+    # Context for the template
     context = {
-        'active_order': order,
-        'paid': paid,
-        'change': change,
+        "active_order": order,
+        "payment_types": payment_types,
+        "paid": paid,
+        "remaining": remaining,
+        "change": change,
+        "modified_payment_type": modified_payment_type,
     }
 
-    return render(request, 'pos/payment/partials/change.html', context)
+    return render(request, "pos/payment/partials/change.html", context)
