@@ -34,6 +34,7 @@ def add_order_payment(request, order_number):
     context = {
         'payment_type': payment_type,
         'active_order': order,
+        'remaining': order.total,
         'payment_types': payment_types,
         'change': Decimal(0)
     }
