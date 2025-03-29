@@ -12,6 +12,8 @@ def add_order_payment(request, order_number):
     from src.pos.utils import activate_order_and_deactivate_others as aod
     from src.finances.models import PaymentType
 
+    print('View order payment called!!!')
+
     payment_type_id = request.GET.get('payment-type', None)
 
     if payment_type_id:
@@ -31,6 +33,7 @@ def add_order_payment(request, order_number):
     #     return render(request, 'pos/buttons/active-order-customer.html', {'active_order': order})
     # else:
     #     return JsonResponse({'error': 'No customer selected'})
+    remaining = order.total
     context = {
         'payment_type': payment_type,
         'active_order': order,
