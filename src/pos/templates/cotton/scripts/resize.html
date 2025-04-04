@@ -1,0 +1,31 @@
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        interact('#drag-handle').draggable({
+            axis: 'x', // Restrict movement to horizontal dragging
+            listeners: {
+                move(event) {
+                    const container1 = document.getElementById('container1');
+                    const container2 = document.getElementById('container2');
+    
+                    // Get the current widths
+                    const container1Width = parseFloat(window.getComputedStyle(container1).width);
+                    const container2Width = parseFloat(window.getComputedStyle(container2).width);
+    
+                    // Set minimum width in pixels
+                    const minWidth = 250;
+    
+                    // Calculate new widths
+                    const deltaX = event.dx;
+                    const newContainer1Width = container1Width + deltaX;
+                    const newContainer2Width = container2Width - deltaX;
+    
+                    // Apply new widths with minimum width constraint
+                    if (newContainer1Width >= minWidth && newContainer2Width >= minWidth) {
+                        container1.style.width = `${newContainer1Width}px`;
+                        container2.style.width = `${newContainer2Width}px`;
+                    }
+                }
+            }
+        });
+    });
+</script>

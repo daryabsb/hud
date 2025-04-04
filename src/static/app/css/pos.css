@@ -1,0 +1,217 @@
+.orders-panel {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    z-index: 1030;
+    width: 0;
+    display: flex;
+    align-items: center;
+    right: -12rem;
+    transition: right .2s ease-in-out
+}
+
+.orders-panel .orders-panel-container {
+    width: 12rem;
+    position: absolute;
+    right: 0
+}
+
+.orders-panel .orders-panel-content {
+    width: 12rem;
+    background: var(--bs-orders-panel-bg);
+    box-shadow: 0 .5rem 1rem rgba(var(--bs-inverse-rgb), .075);
+    padding: .5rem;
+    z-index: 10
+}
+
+.orders-panel .orders-panel-content .orders-list {
+    margin: -.25rem;
+    display: flex;
+    flex-wrap: wrap
+}
+
+.orders-panel .orders-panel-content .orders-list .orders-list-item {
+    padding: .25rem;
+    width: 25%
+}
+
+.orders-panel .orders-panel-content .orders-list .orders-list-item .orders-list-link {
+    height: 2rem;
+    display: block;
+    text-decoration: none;
+    position: relative;
+    transition: all .2s linear
+}
+
+.orders-panel .orders-panel-content .orders-list .orders-list-item .orders-list-link:hover {
+    opacity: .6
+}
+
+.orders-panel .orders-panel-content .orders-list .orders-list-item.active .orders-list-link {
+    opacity: 1
+}
+
+.orders-panel .orders-panel-content .orders-list .orders-list-item.active .orders-list-link:before {
+    content: "\f00c";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    font-size: .875rem;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Font Awesome\ 6 Free, Font Awesome\ 6 Pro, FontAwesome !important;
+    font-weight: 900;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto
+}
+
+.orders-panel .orders-panel-content .orders-mode-link {
+    color: #fff;
+    text-decoration: none;
+    text-align: center;
+    position: relative;
+    display: block;
+    transition: all .2s linear
+}
+
+.orders-panel .orders-panel-content .orders-mode-link .img {
+    position: relative
+}
+
+.orders-panel .orders-panel-content .orders-mode-link .img:before {
+    content: "\f00c";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    font-size: .875rem;
+    color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    font-family: Font Awesome\ 6 Free, Font Awesome\ 6 Pro, FontAwesome !important;
+    font-weight: 900;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto
+}
+
+.orders-panel .orders-panel-content .orders-mode-link .text {
+    font-size: .65625rem;
+    font-weight: 500;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, .85);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center
+}
+
+.orders-panel .orders-panel-content .orders-mode-link:hover {
+    opacity: .6
+}
+
+.orders-panel .orders-panel-content .orders-mode-link.active {
+    opacity: 1
+}
+
+.orders-panel .orders-panel-content .orders-mode-link.active .img:before {
+    color: #fff
+}
+
+.orders-panel .orders-panel-content .orders-mode-link.active .img:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, .3)
+}
+
+.orders-panel .orders-panel-content .orders-cover {
+    margin: -.25rem;
+    display: flex;
+    flex-wrap: wrap
+}
+
+.orders-panel .orders-panel-content .orders-cover .orders-cover-item {
+    padding: .25rem;
+    width: 33.33%
+}
+
+.orders-panel .orders-panel-content .orders-cover .orders-cover-item .orders-cover-link {
+    display: block;
+    text-decoration: none;
+    position: relative;
+    padding-top: 46%;
+    background-size: cover;
+    background-position: center;
+    transition: all .2s linear
+}
+
+.orders-panel .orders-panel-content .orders-cover .orders-cover-item .orders-cover-link:hover {
+    opacity: .6
+}
+
+.orders-panel .orders-panel-content .orders-cover .orders-cover-item .orders-cover-link:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: #000;
+    opacity: .25
+}
+
+.orders-panel .orders-panel-content .orders-cover .orders-cover-item.active .orders-cover-link {
+    opacity: 1
+}
+
+.orders-panel .orders-panel-content .orders-cover .orders-cover-item.active .orders-cover-link:after {
+    content: "\f00c";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    font-size: .875rem;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Font Awesome\ 6 Free, Font Awesome\ 6 Pro, FontAwesome !important;
+    font-weight: 900;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto
+}
+
+.orders-panel .orders-toggle-btn {
+    position: absolute;
+    top: 50%;
+    margin-top: -1rem;
+    width: 2rem;
+    height: 2rem;
+    line-height: 2rem;
+    font-size: 1.09375rem;
+    color: var(--bs-orders-panel-color);
+    background: var(--bs-orders-panel-bg);
+    text-align: center;
+    left: 0;
+    margin-left: -2rem
+}
+
+.orders-panel.active {
+    right: 0
+}

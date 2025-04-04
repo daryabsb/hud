@@ -1,14 +1,22 @@
+from django.http import JsonResponse, HttpResponse, HttpResponseServerError
 from django.shortcuts import get_object_or_404, render
+from django.views.decorators.http import require_POST, require_GET
 from src.products.models import Barcode, Product
 from src.orders.models import PosOrderItem
 from src.pos.calculations import (create_order_item,)
-from src.pos.utils import get_active_order
+from src.pos.utils import get_active_order, get_active_item
 
 update_active_order_template = 'pos/partials/order-detail.html'
 update_items_list = 'pos/orders/items/list.html'
 update_order_item_template = 'pos/renders/update-order-item.html'
 update_order_list_template = 'pos/renders/update-order-list.html'
 order_item_confirm_remove_template = 'pos/renders/order-item-with-confirm.html'
+order_item_confirm_remove_template = 'pos/renders/order-item-with-confirm.html'
+
+# New cotton updates
+stanndard_order_item_add_template = 'cotton/orders/detail.html'
+stanndard_order_update_calculations_template = 'cotton/orders/calculations.html'
+update_orderitem_qty_template = 'pos/standard/renders/standard-item.html'
 
 
 def change_quantity(request, item_number):
@@ -29,9 +37,12 @@ def add_quantity(request, item_number):
     item.quantity += 1  # Set quantity to the new value received from the client
     item.save()
     # item = recalculate_item(order_item=item)
+
+    item = get_active_item(item_number)
     active_order = get_active_order()
-    context = {"active_order": active_order, "item": item}
-    return render(request, update_order_list_template, context)
+    context = {"active_order": active_order,
+               "order": active_order, "item": item}
+    return render(request, update_orderitem_qty_template, context)
 
 
 def subtract_quantity(request, item_number):
@@ -39,19 +50,16 @@ def subtract_quantity(request, item_number):
     if item.quantity > 1:
         item.quantity -= 1
         item.save()
-        # item = recalculate_item(order_item=item)
-
-        active_order = get_active_order()
-        context = {"active_order": active_order, "item": item}
-        return render(request, update_order_list_template, context)
     elif item.quantity == 1:
+        item.delete()
+        item = None
+    if item:
+        item = get_active_item(item_number)
 
-        active_order = get_active_order()
-        context = {
-            "active_order": active_order,
-            "item": item,
-            "confirm_remove": item.number}
-        return render(request, update_order_list_template, context)
+    active_order = get_active_order()
+    context = {"active_order": active_order,
+               "order": active_order, "item": item or None}
+    return render(request, update_orderitem_qty_template, context)
 
 
 def remove_item(request, item_number):
@@ -63,6 +71,28 @@ def remove_item(request, item_number):
     # context = get_context(active_order)
 
     return render(request, update_order_list_template, context)
+
+
+def delete_order_item_with_no_response(request, item_number):
+
+    # try:
+    import time
+    time.sleep(2)
+    item = get_object_or_404(PosOrderItem, number=item_number)
+    item.delete()
+
+    active_order = get_active_order()
+    context = {"active_order": active_order}
+
+    # response = HttpResponse(status=204)
+    response = render(
+        request, stanndard_order_update_calculations_template, context)
+    response['Hx-Trigger'] = 'delete-order-item'
+
+    return response
+
+    # except Exception as e:
+    #     print(f'Item does not exist: {e}')
 
 
 def add_item_with_barcode(request):
@@ -81,8 +111,10 @@ def add_item_with_barcode(request):
         )
 
     active_order = get_active_order()
-    context = {"active_order": active_order, "item": item}
-    return render(request, update_order_item_template, context)
+    context = {"active_order": active_order,
+               "order": active_order, "item": item}
+    # return render(request, update_order_item_template, context)
+    return render(request, stanndard_order_item_add_template, context)
 
 
 def add_order_item(request):

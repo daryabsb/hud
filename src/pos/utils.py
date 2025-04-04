@@ -10,6 +10,16 @@ def get_computer_info():
     return computer_name, machine_id
 
 
+def get_active_item(item_number=None):
+    from src.orders.models import PosOrderItem
+
+    item = PosOrderItem.objects.get(number=item_number)
+    item.refresh_from_db()
+    # logger.success("Active order item_subtotal:> {} ", active_order.item_subtotal, feature="f-strings")
+    # logger.success("Active order total:> {} ", active_order.total, feature="f-strings")
+    return item
+
+
 def get_active_order(active_order=None):
     from src.orders.models import PosOrder
     if not active_order:

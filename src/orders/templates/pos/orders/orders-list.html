@@ -1,11 +1,7 @@
 <div class="pos-content h-100" id="container1" style="width: 44%; min-width: 40%;">
     <div class="tab-content h-100 w-100 row ms-0">
         {% for order in orders %}
-            <div class="col-xxl-12 px-0 tab-pane fade {% if forloop.first %}show active{% endif %} h-100"
-            id="order-tab-{{ order.number }}"
-            >
-            {% include 'pos/standard/order/detail.html' %}
-            </div>
+            <c-orders.order />
         {% endfor %}
     </div>
 </div>

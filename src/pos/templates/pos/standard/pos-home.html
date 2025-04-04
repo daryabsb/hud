@@ -2,81 +2,37 @@
 {% load static %}
 {% block extra_content %}{{ orders.first }}{% endblock %}
 {% block pos_content %}
+<c-buttons.order_panel />
 <div class="card h-100 user-select-none">
     <div class="card-header bg-transparent row mx-0 align-content-between align-items-center w-100">
         <div class="col-lg-6">
-        {% include 'pos/partials/barcode-input.html' %}
+        <c-forms.barcode_input />
         </div>
         <div class="col-lg-3">
-            <select class="form-select mb-3" id="order-tab-select" 
-            hx-on:change="
-                let x = htmx.find('#order-tab-select'); 
-                let id = `#order-tab-${x.value}`;
-                // Deactivate all tab panes
-                document.querySelectorAll('.tab-pane').forEach(tab => {
-                    tab.classList.remove('show', 'active');
-                });
-                // Activate the selected tab pane
-                let el = document.querySelector(id);
-                if (el) {
-                    el.classList.add('show', 'active');
-                } else {
-                    console.error(`No tab pane found for ID: ${id}`);
-                }
-            ">
-            {% for order in orders %}
-                <option value="{{ order.number }}" {% if forloop.first %}selected{% endif %}>{{ order.number }}</option>
-            {% endfor %}
-        </select>
-        
+            <c-forms.select_order id="order-tab-select" />
+        </div>
     </div>
-    <div class="col-lg-3 bg-warning"></div>
-      
-    </div>
-    
-    
     <div class="pos-container card-body" style="width: 100%;">
-        {% include 'pos/orders/orders-list.html' %}
-        {% include 'pos/orders/orders-detail.html' %}
-       
+        <div class="pos-content h-100" id="container1" style="width: 44%; min-width: 40%;">
+            <c-orders.list  id="order-tab-list-1">
+                {% for order in orders %}
+                    <c-orders.order id="order-tab-{{ order.number }}" />
+                {% endfor %}
+            </c-orders.list>
+        </div>
+        <div class="pos-sidebar" id="container2" style="width: 44%; min-width: 33%;">
+            <c-orders.order_detail />
+        </div>
     </div>
-    {% include 'components/card-arrow.html' %}
+    <c-card-arrow />
 </div>
 {% endblock pos_content %}
 
 {% block additional_js %}
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        interact('#drag-handle').draggable({
-            axis: 'x', // Restrict movement to horizontal dragging
-            listeners: {
-                move(event) {
-                    const container1 = document.getElementById('container1');
-                    const container2 = document.getElementById('container2');
-    
-                    // Get the current widths
-                    const container1Width = parseFloat(window.getComputedStyle(container1).width);
-                    const container2Width = parseFloat(window.getComputedStyle(container2).width);
-    
-                    // Set minimum width in pixels
-                    const minWidth = 250;
-    
-                    // Calculate new widths
-                    const deltaX = event.dx;
-                    const newContainer1Width = container1Width + deltaX;
-                    const newContainer2Width = container2Width - deltaX;
-    
-                    // Apply new widths with minimum width constraint
-                    if (newContainer1Width >= minWidth && newContainer2Width >= minWidth) {
-                        container1.style.width = `${newContainer1Width}px`;
-                        container2.style.width = `${newContainer2Width}px`;
-                    }
-                }
-            }
-        });
-    });
-    </script>
-    
-    
+    <c-scripts.resize />
 {% endblock additional_js %}
+
+{% block modals %}
+    <c-panels.orders />
+    {% include 'modals/all-modals.html' %}
+{% endblock modals %}

@@ -14,52 +14,12 @@
 			<div class="col-lg-2 text-end"></div>
 		</div>
 	</div>
-	<div class="card-body mx-0 px-0 w-100 text-inverse overflow-y-auto pb-3">
+	<div id='standard-container' class="card-body mx-0 px-0 w-100 text-inverse overflow-y-auto pb-3">
 		{% for item in order.items.all %}
-		<div class="row mx-0 ps-3 pe-2 align-items-center">
-			<div class="col-lg-5 d-flex align-items-center">
-				<div class="h-40px w-40px d-flex align-items-center justify-content-center position-relative bg-white p-1">
-					<img src="{{ item.product.img }}" alt="" class="mw-100 mh-100">
-					<span class="w-20px h-20px p-0 d-flex align-items-center justify-content-center badge bg-theme text-theme-color position-absolute end-0 top-0 fw-bold fs-12px rounded-pill mt-n2 me-n2">{{ item.quantity }}</span>
-				</div>
-				<div class="ps-3 flex-1">
-					<div><a href="#" class="text-decoration-none text-inverse">{{ item.product.name }}</a></div>
-					<div class="text-inverse text-opacity-50 small">
-						SKU: {{ item.number }}
-					</div>
-				</div>
-			</div>
-			<div class="col-lg-3 m-0 ps-lg-3">
-				{{ order.currency }} {{ item.price|floatformat:'0' }} x {{ item.quantity }}
-			</div>
-			<div class="col-lg-2 m-0 text-end">
-				{{ order.currency }} {{ item.item_total|floatformat:'0' }}
-			</div>
-			<div class="col-lg-2 m-0 text-end">
-				<div class="btn-group btn-group-md">
-					<button type="button" class="btn" 
-						hx-get="{% url 'pos:modal-product' item.number %}" 
-						hx-target="#modalPosItem" 
-						hx-trigger="click"
-						data-bs-target="#modalPosItem"
-						data-bs-toggle="modal"
-					>
-						<i class="fas fa-lg fa-fw me-1 fa-edit"></i>
-					</button>
-					<button type="button" class="btn" 
-					hx-get="/mgt/modal-delete-order-item/{{ item.number}}" 
-					hx-target="#modalAddDocumentProduct" 
-					data-bs-target="#modalAddDocumentProduct" 
-					data-bs-toggle="modal">
-						<i class="fas fa-lg fa-fw me-1 fa-trash text-danger"></i>
-					</button>
-				</div>
-			</div>
-		</div>
-		<hr class="my-2">
+		<c-orders.item />
 		{% endfor %}
 	</div>
 	<div class="card-footer bg-none d-flex flex-column">
-		{% include 'pos/standard/order/calculations.html' with pos_home=True %}
+		<c-orders.calculations pos_home=True />
 	</div>
 </div>

@@ -1,0 +1,20 @@
+<select class="form-select mb-3" id="{{ id }}"
+hx-on:change="
+    let x = htmx.find('#order-tab-select'); 
+    let id = `#order-tab-${x.value}`;
+    // Deactivate all tab panes
+    document.querySelectorAll('.tab-pane').forEach(tab => {
+        tab.classList.remove('show', 'active');
+    });
+    // Activate the selected tab pane
+    let el = document.querySelector(id);
+    if (el) {
+        el.classList.add('show', 'active');
+    } else {
+        console.error(`No tab pane found for ID: ${id}`);
+    }
+">
+{% for order in orders %}
+    <option value="{{ order.number }}" {% if forloop.first %}selected{% endif %}>{{ order.number }}</option>
+{% endfor %}
+</select>

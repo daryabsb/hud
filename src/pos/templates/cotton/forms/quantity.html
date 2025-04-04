@@ -1,0 +1,20 @@
+<div class="d-flex">
+    <button 
+        hx-get="{% url 'pos:subtract-quantity' item.number %}" 
+        hx-target="#orderitem-{{ item.number }}"
+        hx-swap="outerHTML"
+        class="btn btn-sm btn-outline-theme btn-sm"><i class="fa fa-minus"></i></button>
+    <input 
+        id="{{ id }}" 
+        value="{{ item.quantity }}" 
+        type="text"
+        class="form-control w-50px text-center mx-2 form-control-sm bg-white bg-opacity-25" 
+        name="qty"
+        readonly
+        >
+    <button 
+        hx-get="{% url 'pos:add-quantity' item.number %}" 
+        hx-target="#orderitem-{{ item.number }}"
+        hx-swap="outerHTML"
+        class="btn btn-sm btn-outline-theme btn-sm"><i class="fa fa-lg fa-plus"></i></button>
+</div>

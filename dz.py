@@ -47,6 +47,7 @@ dz_array = {
         "page_level": {
             "css": {
                 "pos_home": [
+                    # f"{app}/css/pos.css",
                 ],
                 "mgt_products": [
                     f"{app}/plugins/bootstrap-icons/font/bootstrap-icons.css",

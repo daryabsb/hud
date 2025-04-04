@@ -40,6 +40,7 @@ THIRD_PARTY_APPS = [
     "django_tables2",
     'datatableview',
     'src.games',
+    'django_cotton',
 ]
 
 LOCAL_APPS = [

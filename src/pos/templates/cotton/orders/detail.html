@@ -1,0 +1,29 @@
+{% load humanize  %}
+	
+<div  id='standard-container' class="card  border-0 p-0 flex-grow-1" style="height: 100%;" >
+	<div class="card-header bg-inverse bg-opacity-10">
+		<div class="row align-items-center">
+			<div class="col-lg-4 d-flex align-items-center">
+				Products (3)
+			</div>
+			<div class="col-lg-2 ps-lg-3">
+				Price
+			</div>
+			<div class="col-lg-2 ps-lg-3">
+				Quantity
+			</div>
+			<div class="col-lg-2 text-end">
+				Total
+			</div>
+			<div class="col-lg-2 text-end"></div>
+		</div>
+	</div>
+	<div class="card-body mx-0 px-0 w-100 text-inverse overflow-y-auto pb-3">
+		{% for item in order.items.all %}
+		<c-orders.item />
+		{% endfor %}
+	</div>
+	<div class="card-footer bg-none d-flex flex-column" id="calculations-{{ order.number }}">
+		<c-orders.calculations  pos_home=True />
+	</div>
+</div>

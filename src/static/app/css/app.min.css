@@ -10644,6 +10644,22 @@ fieldset:disabled .btn {
     top: 0 !important
 }
 
+.top-10 {
+    top: 10% !important
+}
+
+.top-20 {
+    top: 20% !important
+}
+
+.top-30 {
+    top: 30% !important
+}
+
+.top-40 {
+    top: 40% !important
+}
+
 .top-50 {
     top: 50% !important
 }
@@ -10692,8 +10708,28 @@ fieldset:disabled .btn {
     right: 0 !important
 }
 
+.end-10 {
+    right: 10% !important
+}
+
+.end-20 {
+    right: 20% !important
+}
+
+.end-30 {
+    right: 30% !important
+}
+
+.end-40 {
+    right: 40% !important
+}
+
 .end-50 {
     right: 50% !important
+}
+
+.end-50- {
+    right: -50% !important
 }
 
 .end-100 {

@@ -1,0 +1,45 @@
+<div class="modal fade" id="modalOrdersPanel">
+    <div class="modal-dialog modal-left">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Product Group</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+            <ul class="nav nav-tabs d-block">
+                {% for order in orders %}
+                <li class="nav-item me-1"
+                    data-bs-dismiss="modal"
+                >
+                    <a href="#order-tab-{{ order.number }}" 
+                    class="btn btn-link {% if forloop.first %}active{% endif %}"
+                    data-bs-toggle="tab"
+                    >{{ order.number }}</a>
+                </li>
+            {% empty %}
+                <li class="mb-3">
+                    <label class="form-label">No orders yet!</label>
+                </li>
+            {% endfor %}
+            </ul>
+                <div class="mb-3">
+                    <label class="form-label">Name</label>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Assign users to the group</label>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea class="form-control" rows="10"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-outline-default" data-bs-dismiss="modal">Cancel</a>
+                
+                <button type="submit" class="btn btn-outline-theme" data-bs-dismiss="modal">
+                {% if group %}Update{% else %}Create{% endif %}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

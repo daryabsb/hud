@@ -24,39 +24,40 @@ class="theme-success"
 {% comment %} hx-get="/load-password-window/"
 hx-target="#warning-toaster"
 hx-trigger="load delay:5s" {% endcomment %}
-    <div 
-    id="app" 
+<div id="app" 
     class="app app-sidebar-collapsed {% block extra_app_class %}{% endblock extra_app_class %}">
-{% include 'partials/header.html' %}
-{% include 'partials/sidebar.html' %} 
-<button class="app-sidebar-mobile-backdrop" data-toggle-target=".app"
-data-toggle-class="app-sidebar-mobile-toggled"></button>
+    {% include 'partials/header.html' %}
+    {% include 'partials/sidebar.html' %} 
+    <button class="app-sidebar-mobile-backdrop" data-toggle-target=".app"
+    data-toggle-class="app-sidebar-mobile-toggled"></button>
 
 
-{% block content %}
-{% endblock content %}
-{% comment %} <div class="btn-group-vertical position-absolute start-0 top-50" role="group" aria-label="Basic example">
-    <button type="button" class="btn btn-theme mb-1"><i class="bi bi-sliders"></i></button>
-    <button type="button" class="btn btn-theme mb-1"><i class="bi bi-sliders"></i></button>
-    <button type="button" class="btn btn-theme mb-1"><i class="bi bi-sliders"></i></button>
-    <button type="button" class="btn btn-theme mb-1"><i class="bi bi-sliders"></i></button>
-</div> {% endcomment %}
-<a href="#" data-toggle="scroll-to-top" class="btn-scroll-top fade"><i class="fa fa-arrow-up"></i></a>
-    </div>
-    <input type="hidden" id="success-response" />
+    {% block content %}
+    {% endblock content %}
+    {% comment %} <div class="btn-group-vertical position-absolute start-0 top-50" role="group" aria-label="Basic example">
+        <button type="button" class="btn btn-theme mb-1"><i class="bi bi-sliders"></i></button>
+        <button type="button" class="btn btn-theme mb-1"><i class="bi bi-sliders"></i></button>
+        <button type="button" class="btn btn-theme mb-1"><i class="bi bi-sliders"></i></button>
+        <button type="button" class="btn btn-theme mb-1"><i class="bi bi-sliders"></i></button>
+    </div> {% endcomment %}
+    <a href="#" data-toggle="scroll-to-top" class="btn-scroll-top fade"><i class="fa fa-arrow-up"></i></a>
+    {% comment %} <c-theme-panel /> {% endcomment %}
+</div>
+        <input type="hidden" id="success-response" />
 
-{% block modals %}
-{% include 'modals/all-modals.html' %}
-{% endblock modals %}
-{% include 'modals/confirm-logout.html' %}
-{% include 'modals/enter-password.html' %}
+    {% block modals %}
+    {% include 'modals/all-modals.html' %}
+    {% endblock modals %}
+    {% include 'modals/confirm-logout.html' %}
+    {% include 'modals/enter-password.html' %}
 
-<div id="warning-toaster"></div>
 
-<input type="hidden" id="load-temp" />
-{% include 'partials/bottom-js.html' %}
-{% block additional_js %}
-{% endblock additional_js %}
+    <div id="warning-toaster"></div>
+
+    <input type="hidden" id="load-temp" />
+    {% include 'partials/bottom-js.html' %}
+    {% block additional_js %}
+    {% endblock additional_js %}
 <script>
 
     function togglePasswordModal(){

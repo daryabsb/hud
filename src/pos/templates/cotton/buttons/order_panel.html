@@ -1,0 +1,67 @@
+<div id="draggable-btn-group" 
+     class="btn-group-vertical bg-secondary bg-opacity-50 py-2 px-2 gap-2 align-items-center justify-content-center"
+     style="position: fixed; top: 50%; left: 0; transform: translateY(-50%); z-index: 100;">
+     
+    <!-- Top Drag Handle -->
+    <button id="drag-handle-top" class="btn btn-outline-theme border-0 w-100 d-flex align-items-center justify-content-center" style="height: 20px; cursor: grab;">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Main Buttons -->
+    <a href="#" class="w-40px btn btn-outline-theme" data-bs-toggle="modal" data-bs-target="#modalOrdersPanel">
+        <i class="fab fa-apple fa-lg"></i>
+    </a>
+    <a href="#" class="w-40px btn btn-outline-theme" data-bs-toggle="modal" data-bs-target="#modalOrdersPanel">
+        <i class="fab fa-apple fa-lg"></i>
+    </a>
+    <a href="#" class="w-40px btn btn-outline-theme" data-bs-toggle="modal" data-bs-target="#modalOrdersPanel">
+        <i class="fab fa-apple fa-lg"></i>
+    </a>
+
+    <!-- Bottom Drag Handle -->
+    <button id="drag-handle-bottom" class="btn btn-outline-theme border-0 w-100 d-flex align-items-center justify-content-center" style="height: 20px; cursor: grab;">
+        <i class="fas fa-bars"></i>
+    </button>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const dragElement = document.getElementById("draggable-btn-group");
+    const dragHandles = [document.getElementById("drag-handle-top"), document.getElementById("drag-handle-bottom")];
+
+    let isDragging = false;
+    let startY, startTop;
+
+    function startDrag(e) {
+        isDragging = true;
+        startY = e.clientY;
+        startTop = dragElement.offsetTop;
+        dragHandles.forEach(handle => handle.style.cursor = "grabbing");
+    }
+
+    function onDrag(e) {
+        if (!isDragging) return;
+
+        let newTop = startTop + (e.clientY - startY);
+        let maxTop = window.innerHeight - dragElement.clientHeight;
+
+        newTop = Math.max(0, Math.min(newTop, maxTop));
+
+        dragElement.style.top = newTop + "px";
+        dragElement.style.transform = "none"; // Remove translateY
+    }
+
+    function stopDrag() {
+        isDragging = false;
+        dragHandles.forEach(handle => handle.style.cursor = "grab");
+    }
+
+    // Attach events to both handles
+    dragHandles.forEach(handle => {
+        handle.addEventListener("mousedown", startDrag);
+    });
+
+    document.addEventListener("mousemove", onDrag);
+    document.addEventListener("mouseup", stopDrag);
+});
+</script>

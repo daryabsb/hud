@@ -1,0 +1,8 @@
+
+{% if item %}
+<c-orders.item />
+{% endif %}
+<div class="card-footer bg-none d-flex flex-column" id="calculations-{{ active_order.number }}"
+	hx-swap-oob="innerHTML">
+	<c-orders.calculations  pos_home=True />
+</div>
