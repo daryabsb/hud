@@ -2,7 +2,7 @@ from django.http import JsonResponse, HttpResponse, HttpResponseServerError
 from django.shortcuts import get_object_or_404, render
 from django.views.decorators.http import require_POST, require_GET
 from src.products.models import Barcode, Product
-from src.orders.models import PosOrderItem
+from src.orders.models import PosOrderItem, PosOrder
 from src.pos.calculations import (create_order_item,)
 from src.pos.utils import get_active_order, get_active_item
 
@@ -15,6 +15,7 @@ order_item_confirm_remove_template = 'pos/renders/order-item-with-confirm.html'
 
 # New cotton updates
 stanndard_order_item_add_template = 'cotton/orders/detail.html'
+stanndard_activate_order_template = 'cotton/orders/order.html'
 stanndard_order_update_calculations_template = 'cotton/orders/calculations.html'
 update_orderitem_qty_template = 'pos/standard/renders/standard-item.html'
 
@@ -137,3 +138,24 @@ def add_order_item(request):
     context = {"active_order": active_order, "item": item}
 
     return render(request, update_order_item_template, context)
+
+
+def activate_order(request, order_number):
+    # Fetch the order to activate
+    print(f"Activating order: {order_number}")
+    order_to_activate = get_object_or_404(PosOrder, number=order_number)
+
+    print(f"order_to_activate: {order_to_activate.number}")
+    # Get all enabled orders for the user
+    orders = PosOrder.objects.filter(user=request.user, is_enabled=True)
+
+    # Loop through each order and update the 'active' flag
+    for order in orders:
+        order.is_active = (order == order_to_activate)
+        order.save()
+
+    # Get the updated active order (assuming this function works as intended)
+    active_order = get_active_order()
+
+    context = {"order": active_order, "active_order": active_order}
+    return render(request, stanndard_activate_order_template, context)

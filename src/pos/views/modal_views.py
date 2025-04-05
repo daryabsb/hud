@@ -8,6 +8,8 @@ from src.orders.models import PosOrder, PosOrderItem
 from src.accounts.models import Customer
 from src.finances.models import PaymentType
 
+modal_item_template = 'cotton/modals/pos_item.html'
+
 
 def modal_product(request, number):
     print('ID = ', number)
@@ -21,7 +23,7 @@ def modal_product(request, number):
             "product": product,
             "active_order": active_order
         }
-        return render(request, 'pos/modals/product-modal.html', context)
+        return render(request, modal_item_template, context)
 
 
 def modal_calculator(request):

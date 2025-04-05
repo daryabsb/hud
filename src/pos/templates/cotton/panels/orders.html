@@ -14,6 +14,9 @@
                     <a href="#order-tab-{{ order.number }}" 
                     class="btn btn-link {% if forloop.first %}active{% endif %}"
                     data-bs-toggle="tab"
+                    hx-get="{% url 'pos:activate-order' order.number %}"
+                    hx-target="#order-tab-{{ order.number }}"
+                    hx-swap="outerHTML"
                     >{{ order.number }}</a>
                 </li>
             {% empty %}

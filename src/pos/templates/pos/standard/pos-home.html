@@ -16,7 +16,7 @@
         <div class="pos-content h-100" id="container1" style="width: 44%; min-width: 40%;">
             <c-orders.list  id="order-tab-list-1">
                 {% for order in orders %}
-                    <c-orders.order id="order-tab-{{ order.number }}" />
+                    <c-orders.order />
                 {% endfor %}
             </c-orders.list>
         </div>
@@ -34,5 +34,8 @@
 
 {% block modals %}
     <c-panels.orders />
+    <div class="modal fade" id="modalPosItem" aria-hidden="false">
+        <c-modals.pos_item />
+    </div>
     {% include 'modals/all-modals.html' %}
 {% endblock modals %}

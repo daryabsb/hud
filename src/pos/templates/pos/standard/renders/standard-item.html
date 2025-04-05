@@ -1,8 +1,17 @@
 
 {% if item %}
 <c-orders.item />
-{% endif %}
 <div class="card-footer bg-none d-flex flex-column" id="calculations-{{ active_order.number }}"
-	hx-swap-oob="innerHTML">
-	<c-orders.calculations  pos_home=True />
+hx-swap-oob="innerHTML">
+<c-orders.calculations  pos_home=True />
 </div>
+<input 
+id="modal-qty-input-{{ item.number }}" 
+value="{{ item.quantity }}" 
+type="text"
+class="form-control w-50px text-center mx-2 form-control-sm bg-white bg-opacity-25" 
+name="qty"
+readonly
+hx-swap-oob="true"
+>
+{% endif %}

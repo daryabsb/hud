@@ -1,8 +1,7 @@
-{% if item %}
-<div class="d-flex" hx-swap-oob="{{ oob }}">
+<div class="d-flex">
     <button 
         hx-get="{% url 'pos:subtract-quantity' item.number %}" 
-        hx-target="#orderitem-{{ item.number }}, {{ id }}"
+        hx-target="#orderitem-{{ item.number }}"
         hx-swap="outerHTML"
         class="btn btn-sm btn-outline-theme btn-sm"><i class="fa fa-minus"></i></button>
     <input 
@@ -18,6 +17,4 @@
         hx-target="#orderitem-{{ item.number }}"
         hx-swap="outerHTML"
         class="btn btn-sm btn-outline-theme btn-sm"><i class="fa fa-lg fa-plus"></i></button>
-    </div>
-    {% comment %} hx-on::before-request="parseInt(htmx.find('{{ id}}').value) += 1;" {% endcomment %}
-{% endif %}
+</div>

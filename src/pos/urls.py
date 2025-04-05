@@ -8,7 +8,7 @@ from src.pos.views import (
     # modal views
     modal_product, modal_calculator, calculate, add_digit, modal_keyboard,
     add_order_comment, add_order_customer, add_order_payment,
-    delete_order_item_with_no_response
+    delete_order_item_with_no_response, activate_order,
 )
 
 app_name = "pos"
@@ -31,6 +31,8 @@ urlpatterns += [
          name="add-item-with-barcode"),
     path('delete-order-item/<str:item_number>/', delete_order_item_with_no_response,
          name="delete-order-item"),
+    path('activate-order/<str:order_number>/', activate_order,
+         name="activate-order"),
 ]
 
 # MODALS

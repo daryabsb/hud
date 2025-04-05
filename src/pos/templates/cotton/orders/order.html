@@ -1,5 +1,5 @@
-<div class="col-xxl-12 px-0 tab-pane fade {% if forloop.first %}show active{% endif %} h-100"
-id="{{ id }}"
+<div class="col-xxl-12 px-0 tab-pane fade {% if order.is_active %}show active{% endif %} h-100"
+id="order-tab-{{ order.number }}"
 >
 <c-orders.detail />
 </div>
