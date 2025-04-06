@@ -7,6 +7,7 @@ from src.products.models import Product
 from src.orders.models import PosOrder, PosOrderItem
 from src.accounts.models import Customer
 from src.finances.models import PaymentType
+from src.pos.utils import get_active_order
 
 modal_item_template = 'cotton/modals/pos_item.html'
 
@@ -130,12 +131,19 @@ def add_order_comment(request, order_number):
         order = get_object_or_404(PosOrder, number=order_number)
 
     comment = request.POST.get('comment', None)
+    print("View called!sss")
 
     if comment:
         order.note = comment
         order.save()
 
-    return render(request, 'cotton/modals/comment.html')
+    active_order = get_active_order()
+
+    context = {
+        "active_order": active_order
+    }
+
+    return render(request, 'cotton/modals/comment.html', context)
 
 
 @login_required
@@ -154,4 +162,3 @@ def add_order_customer(request, order_number):
         return render(request, 'pos/buttons/active-order-customer.html', {'active_order': order})
     else:
         return JsonResponse({'error': 'No customer selected'})
-

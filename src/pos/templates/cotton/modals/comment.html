@@ -11,13 +11,13 @@
                         <label class="form-label" for="orderCommentTextarea">Comment</label>
                         <textarea class="form-control first-input" 
                         id="orderCommentTextarea"
-                            name="comment"
-                            rows="6" >{% if active_order.note %}{{ active_order.note }}{% endif %}</textarea>
+                        name="comment"
+                        rows="6" >{% if active_order.note %}{{ active_order.note }}{% endif %}</textarea>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
-                        {% include 'components/calculator/keyboard.html' with input="orderCommentTextarea" %}
+                        <c-components.keyboard input="orderCommentTextarea" />
                     </div>
                 </div>
             </div>
@@ -26,7 +26,7 @@
                 <button type="button" class="btn btn-outline-theme"
                 hx-post="{% url 'pos:add-order-comment' active_order.number %}"
                 hx-target="#orderCommentButton"
-                hx-include="#orderCommentTextarea"
+                hx-include="#orderCommentTextarea."
                 data-bs-dismiss="modal"
                 >Save</button>
             </div>
