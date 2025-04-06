@@ -2,7 +2,15 @@
 	
 <div  id='standard-container-{{ order.number }}' class="card  border-0 p-0 flex-grow-1" style="height: 100%;" >
 	<div class="card-header bg-inverse bg-opacity-10">
-		<div class="row align-items-center">
+		<div class="row align-items-center border-bottom">
+			<div class="col-lg-6 d-flex align-items-center pb-2">
+				Order number: {{ order.number }}
+			</div>
+			<div class="col-lg-6 d-flex align-items-center py-2">
+				Customer: {{ order.customer.name }}
+			</div>
+		</div>
+		<div class="row align-items-center pt-2">
 			<div class="col-lg-4 d-flex align-items-center">
 				Products (3)
 			</div>

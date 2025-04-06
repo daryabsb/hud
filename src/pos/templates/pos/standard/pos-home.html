@@ -31,11 +31,3 @@
 {% block additional_js %}
     <c-scripts.resize />
 {% endblock additional_js %}
-
-{% block modals %}
-    <c-panels.orders />
-    <div class="modal fade" id="modalPosItem" aria-hidden="false">
-        <c-modals.pos_item />
-    </div>
-    {% include 'modals/all-modals.html' %}
-{% endblock modals %}
