@@ -23,7 +23,7 @@
                     <span class="small">Search</span>
                 </a>
             </div>
-            <div class="flex-fill">
+            {% comment %} <div class="flex-fill">
                 <a href="#" class="w-100 pt-3 px-4 btn btn-outline-gray-100 rounded-2 mb-2"
                     hx-get="{% url 'pos:modal-calculator' %}" 
                     hx-target="#modal-calculator" 
@@ -39,6 +39,24 @@
                 >
                     <i class="fas fa-2xl fa-cart-plus"></i><br>
                     <span class="small">Quantity</span>
+                </a>
+            </div> {% endcomment %}
+            <div class="flex-fill">
+                <a href="#" class="w-100 pt-3 px-4 btn btn-outline-gray-100 rounded-2 mb-2"
+                    hx-get="{% url 'pos:modal-calculator' %}" 
+                    hx-target="#orderDiscountModal" 
+                    hx-trigger="click"
+                    hx-vals='{
+                        "is_ajax": true,
+                        "el-id": "calculations-{{ active_order.number }}",
+                        "url": "{% url "pos:order-discount" %}",
+                        "template_name":"cotton/orders/calculations.html"
+                        }'
+                    data-bs-toggle="modal"
+                    data-bs-target="#orderDiscountModal"
+                >
+                    <i class="fas fa-2xl fa-cart-plus"></i><br>
+                    <span class="small">Discount</span>
                 </a>
             </div>
             <div class="flex-fill">

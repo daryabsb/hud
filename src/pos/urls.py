@@ -9,6 +9,7 @@ from src.pos.views import (
     modal_product, modal_calculator, calculate, add_digit, modal_keyboard,
     add_order_comment, add_order_customer, add_order_payment,
     delete_order_item_with_no_response, activate_order,
+    order_discount, calculator_modal,
 )
 
 app_name = "pos"
@@ -33,12 +34,15 @@ urlpatterns += [
          name="delete-order-item"),
     path('activate-order/<str:order_number>/', activate_order,
          name="activate-order"),
+    path('order-discount/', order_discount,
+         name="order-discount"),
 ]
 
 # MODALS
 urlpatterns += [
     path('modal-product/<str:number>/', modal_product, name="modal-product"),
-    path('modal-calculator/', modal_calculator, name="modal-calculator"),
+#     path('modal-calculator/', modal_calculator, name="modal-calculator"),
+    path('modal-calculator/', calculator_modal, name="modal-calculator"),
     path('modal-keyboard/', modal_keyboard, name="modal-keyboard"),
     path('calculate/', calculate, name='calculate'),
     path('add_digit/', add_digit, name='add_digit'),

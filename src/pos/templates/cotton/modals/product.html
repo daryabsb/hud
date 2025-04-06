@@ -1,0 +1,126 @@
+<!-- BEGIN #modalPosItem -->
+<div class="modal-dialog modal-lg">
+    <div class="modal-content border-0">
+        <div class="card">
+            <div class="card-body p-0">
+                <button data-bs-dismiss="modal" class="btn-close position-absolute top-0 end-0 m-4"></button>
+                <div class="modal-pos-product">
+                    <div class="modal-pos-product-img">
+                        <div class="img" style="background-image: url({{ product.img }})"></div>
+                    </div>
+                    <div class="modal-pos-product-info">
+                        <div class="h4 mb-2">{{ product.name }}</div>
+                        <div class="text-inverse text-opacity-50 mb-2">
+                            chicken, egg, mushroom, salad
+                        </div>
+                        <div class="h4 mb-3">{{ product.currency.name }} {{ item.price|floatformat:'0' }}</div>
+                        <div class="d-flex mb-3">
+                            <a href="#" class="btn btn-outline-theme" id="decrease-modal-qty"><i class="fa fa-minus"></i></a>
+                            <input type="text" class="form-control w-50px fw-bold mx-2 bg-inverse bg-opacity-15 border-0 text-center" 
+                                name="qty" value="{% if item.quantity %}{{ item.quantity}}{% else %}1{% endif %}"
+                                id="input-modal-qty"
+                                >
+                            <a href="#" class="btn btn-outline-theme" id="increase-modal-qty"><i class="fa fa-plus"></i></a>
+                        </div>
+                        <hr class="mx-n4">
+                        <div class="mb-2">
+                            <div class="fw-bold">Size:</div>
+                            <div class="option-list">
+                                <div class="option">
+                                    <input type="radio" id="size3" name="size" class="option-input" checked>
+                                    <label class="option-label" for="size3">
+                                    <span class="option-text">Small</span>
+                                    <span class="option-price">+0.00</span>
+                                    </label>
+                                </div>
+                                <div class="option">
+                                    <input type="radio" id="size1" name="size" class="option-input">
+                                    <label class="option-label" for="size1">
+                                    <span class="option-text">Large</span>
+                                    <span class="option-price">+3.00</span>
+                                    </label>
+                                </div>
+                                <div class="option">
+                                    <input type="radio" id="size2" name="size" class="option-input">
+                                    <label class="option-label" for="size2">
+                                    <span class="option-text">Medium</span>
+                                    <span class="option-price">+1.50</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <div class="fw-bold">Add On:</div>
+                            <div class="option-list">
+                                <div class="option">
+                                    <input type="checkbox" name="addon[sos]" value="true" class="option-input" id="addon1">
+                                    <label class="option-label" for="addon1">
+                                    <span class="option-text">More BBQ sos</span>
+                                    <span class="option-price">+0.00</span>
+                                    </label>
+                                </div>
+                                <div class="option">
+                                    <input type="checkbox" name="addon[ff]" value="true" class="option-input" id="addon2">
+                                    <label class="option-label" for="addon2">
+                                    <span class="option-text">Extra french fries</span>
+                                    <span class="option-price">+1.00</span>
+                                    </label>
+                                </div>
+                                <div class="option">
+                                    <input type="checkbox" name="addon[ms]" value="true" class="option-input" id="addon3">
+                                    <label class="option-label" for="addon3">
+                                    <span class="option-text">Mushroom soup</span>
+                                    <span class="option-price">+3.50</span>
+                                    </label>
+                                </div>
+                                <div class="option">
+                                    <input type="checkbox" name="addon[ms]" value="true" class="option-input" id="addon4">
+                                    <label class="option-label" for="addon4">
+                                    <span class="option-text">Lemon Juice (set)</span>
+                                    <span class="option-price">+2.50</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="mx-n4">
+                        <div class="row">
+                            <div class="col-4">
+                                <a href="#" class="btn btn-default h4 mb-0 d-block rounded-0 py-3" data-bs-dismiss="modal">Cancel</a>
+                            </div>
+                            <div class="col-8">
+                                <a href="#" class="btn btn-theme d-flex justify-content-center align-items-center rounded-0 py-3 h4 m-0">Add to cart <i class="bi bi-plus fa-2x ms-2 my-n3"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-arrow">
+                <div class="card-arrow-top-left"></div>
+                <div class="card-arrow-top-right"></div>
+                <div class="card-arrow-bottom-left"></div>
+                <div class="card-arrow-bottom-right"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- END #modalPosItem -->
+<script>
+// Function to increase the input value
+// Function to increase the input value
+var decreaseBtn = document.getElementById('decrease-modal-qty')
+var increaseBtn = document.getElementById('increase-modal-qty')
+increaseBtn.addEventListener("click", function () {
+    var qtyInput = document.getElementById('input-modal-qty');
+    var value = parseInt(qtyInput.value, 10);
+    value++;
+    qtyInput.value = value
+});
+decreaseBtn.addEventListener("click", function () {
+    var qtyInput = document.getElementById('input-modal-qty');
+    var value = parseInt(qtyInput.value, 10);
+    value--;
+    qtyInput.value = value
+});
+
+</script>

@@ -159,3 +159,15 @@ def activate_order(request, order_number):
 
     context = {"order": active_order, "active_order": active_order}
     return render(request, stanndard_activate_order_template, context)
+
+
+def order_discount(request):
+    # Fetch the order to activate
+
+    # Get the updated active order (assuming this function works as intended)
+    active_order = get_active_order()
+
+    print(f"order_discount: {active_order.number}")
+
+    context = {"order": active_order, "active_order": active_order}
+    return render(request, stanndard_activate_order_template, context)

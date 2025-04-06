@@ -48,6 +48,27 @@ def modal_calculator(request):
     return render(request, 'pos/modals/calculator-modal.html', context)
 
 
+def calculator_modal(request):
+    is_ajax = request.GET.get('is_ajax', False)
+    div_class = request.GET.get('div-class', '')
+    el_id = request.GET.get('el-id', '')
+    url = request.GET.get('url', '')
+    template_name = request.GET.get('template-name', '')
+    digits = [[7, 8, 9, '/'], [4, 5, 6, '*'],
+              [1, 2, 3, '-'], [0, '.', '=', '+'],]
+    context = {
+        "calc_on": True,
+        "is_ajax": is_ajax,
+        "div_class": div_class,
+        "el_id": el_id,
+        "template_name": template_name,
+        "url": url,
+        "digits": digits,
+    }
+
+    return render(request, 'cotton/modals/calculator.html', context)
+
+
 def modal_keyboard(request):
     from src.pos.utils import qwerty
     is_ajax = request.GET.get('is_ajax', False)
@@ -114,7 +135,7 @@ def add_order_comment(request, order_number):
         order.note = comment
         order.save()
 
-    return render(request, 'pos/buttons/render-order-comment.html')
+    return render(request, 'cotton/modals/comment.html')
 
 
 @login_required
