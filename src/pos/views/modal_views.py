@@ -129,8 +129,11 @@ def add_digit(request):
 def add_order_comment(request, order_number):
     if order_number:
         order = get_object_or_404(PosOrder, number=order_number)
+    else:
+        order = get_active_order()
 
     comment = request.POST.get('comment', None)
+
     print("View called!sss")
 
     if comment:
