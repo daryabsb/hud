@@ -123,6 +123,14 @@ def add_digit(request):
         return render(request, 'components/calculator/input_display.html', {'new_value': new_value})
     return render(request, 'keypad.html', {'error': 'Invalid request'})
 
+def toggle_modal_comment(request, order_number):
+    order = get_object_or_404(PosOrder, number=order_number)
+    active_order = get_active_order()
+
+    return render(request, 'cotton/modals/comment.html', {
+        'order': order,
+        'active_order': active_order,
+    })
 
 @login_required
 @require_POST
@@ -132,21 +140,25 @@ def add_order_comment(request, order_number):
     else:
         order = get_active_order()
 
-    comment = request.POST.get('comment', None)
 
     print("View called!sss")
 
-    if comment:
-        order.note = comment
-        order.save()
+
+    comment = request.POST.get('comment', '')
+    # if comment:
+    order.note = comment
+    order.save()
 
     active_order = get_active_order()
 
+
+
     context = {
-        "active_order": active_order
+        "active_order": active_order,
+        "badge": "?",
     }
 
-    return render(request, 'cotton/modals/comment.html', context)
+    return render(request, 'cotton/buttons/pos/comment.html', context)
 
 
 @login_required

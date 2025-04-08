@@ -1,163 +1,303 @@
 {% load static %}
 <div class="modal-dialog modal-xl">
-    <div class="modal-content">
-        <div class="row mb-3">
-            <div class="col-xl-6">
-                <div class="card">
-                    <div class="card-header fw-bold small">
-                        CARD HEADER HERE
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Search area</h5>
-                        <div class="option-list">
-                            <div class="option">
-                                <input type="radio" id="size3" name="size" class="option-input" checked="">
-                                <label class="option-label" for="size3">
-                                    <span class="option-text">Small</span>
-                                    <span class="option-price">+0.00</span>
-                                </label>
+    <div class="modal-content vh-100" >
+        <div class="card mt-4">
+            <div class="card-header">
+                <!-- BEGIN input-group -->
+                <div class="input-group">
+                    {% comment %} <button class="btn btn-outline-default dropdown-toggle rounded-0" type="button" data-bs-toggle="dropdown" 
+                    aria-haspopup="true" aria-expanded="false">Filter products &nbsp;</button> 
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                        <div role="separator" class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Separated link</a>
+                    </div>{% endcomment %}
+                    <div class="flex-fill position-relative">
+                        <div class="input-group">
+                            <div class="input-group-text position-absolute top-0 bottom-0 bg-none border-0 pe-0" style="z-index: 1020;">
+                                <i class="fa fa-search opacity-5"></i>
                             </div>
-                            <div class="option">
-                                <input type="radio" id="size1" name="size" class="option-input">
-                                <label class="option-label" for="size1">
-                                    <span class="option-text">Large</span>
-                                    <span class="option-price">+3.00</span>
-                                </label>
-                            </div>
-                            <div class="option">
-                                <input type="radio" id="size2" name="size" class="option-input">
-                                <label class="option-label" for="size2">
-                                    <span class="option-text">Medium</span>
-                                    <span class="option-price">+1.50</span>
-                                </label>
-                            </div>
+                            <input type="text" class="form-control display-6 border-0" placeholder="Search products">
                         </div>
-                        <a href="#" class="card-link">Card link</a>
-                        <a href="#" class="card-link">Another link</a>
-                    </div>
-                    <div class="card-arrow">
-                        <div class="card-arrow-top-left"></div>
-                        <div class="card-arrow-top-right"></div>
-                        <div class="card-arrow-bottom-left"></div>
-                        <div class="card-arrow-bottom-right"></div>
                     </div>
                 </div>
+                <!-- END input-group -->
             </div>
-            <div class="col-xl-6">
-                <div class="card">
-                    <div class="card-header fw-bold small">
-                        CARD WITH LIST GROUP
+            <ul class="nav nav-tabs nav-tabs-v2 px-4">
+                <li class="nav-item me-3"><a href="#allTab" class="nav-link active px-2" data-bs-toggle="tab">All</a></li>
+                <li class="nav-item me-3"><a href="#publishedTab" class="nav-link px-2" data-bs-toggle="tab">Published</a></li>
+                <li class="nav-item me-3"><a href="#expiredTab" class="nav-link px-2" data-bs-toggle="tab">Expired</a></li>
+                <li class="nav-item me-3"><a href="#deletedTab" class="nav-link px-2" data-bs-toggle="tab">Deleted</a></li>
+            </ul>
+            <div class="tab-content p-4">
+                <div class="tab-pane fade show active" id="allTab">
+                    <!-- BEGIN input-group -->
+                    <div class="input-group mb-4">
+                        <button class="btn btn-outline-default dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Filter products &nbsp;</button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                            <div role="separator" class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Separated link</a>
+                        </div>
+                        <div class="flex-fill position-relative">
+                            <div class="input-group">
+                                <div class="input-group-text position-absolute top-0 bottom-0 bg-none border-0 pe-0" style="z-index: 1020;">
+                                    <i class="fa fa-search opacity-5"></i>
+                                </div>
+                                <input type="text" class="form-control ps-35px" placeholder="Search products">
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-header bg-none p-0">
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Cras justo odio</li>
-                            <li class="list-group-item">Dapibus ac facilisis in</li>
-                            <li class="list-group-item">Vestibulum at eros</li>
+                    <!-- END input-group -->
+                    <!-- BEGIN table -->
+                    <div class="table-responsive">
+                        <table class="table table-hover text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th class="pt-0 pb-2"></th>
+                                    <th class="pt-0 pb-2">Product</th>
+                                    <th class="pt-0 pb-2">Inventory</th>
+                                    <th class="pt-0 pb-2">Type</th>
+                                    <th class="pt-0 pb-2">Vendor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="w-10px align-middle">
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" id="product1">
+                                            <label class="form-check-label" for="product1"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                <img alt="" class="mw-100 mh-100" src="{% static 'app/img/product/product-6.jpg' %}">
+                                            </div>
+                                            <div class="ms-3">
+                                                <a href="page_product_details.html" class="text-inverse text-opacity-75 text-decoration-none">Force Majeure White T Shirt</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="align-middle">83 in stock for 3 variants</td>
+                                    <td class="align-middle">Cotton</td>
+                                    <td class="align-middle">Force Majeure</td>
+                                </tr>
+                                {% comment %} <tr>
+                                    <td class="w-10px align-middle">
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" id="product2">
+                                            <label class="form-check-label" for="product2"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                <img alt="" class="mw-100 mh-100" src="{% static 'app/img/product/product-7.jpg' %}">
+                                            </div>
+                                            <div class="ms-3">
+                                                <a href="page_product_details.html" class="text-inverse text-opacity-75 text-decoration-none">Eco-friendly fashion, organic cotton, slow fashion polo shirts</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="align-middle">79 in stock for 3 variants</td>
+                                    <td class="align-middle">Cotton</td>
+                                    <td class="align-middle">Polo</td>
+                                </tr>
+                                <tr>
+                                    <td class="w-10px align-middle">
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" id="product3">
+                                            <label class="form-check-label" for="product3"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                <img alt="" class="mw-100 mh-100" src="{% static 'app/img/product/product-8.jpg' %}">
+                                            </div>
+                                            <div class="ms-3">
+                                                <a href="page_product_details.html" class="text-inverse text-opacity-75 text-decoration-none">Nike Shoes (Red Color)</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="align-middle">19 in stock for 1 variants</td>
+                                    <td class="align-middle">Sports</td>
+                                    <td class="align-middle">Nike</td>
+                                </tr>
+                                <tr>
+                                    <td class="w-10px align-middle">
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" id="product4">
+                                            <label class="form-check-label" for="product4"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                <img alt="" class="mw-100 mh-100" src="{% static 'app/img/product/product-9.jpg' %}">
+                                            </div>
+                                            <div class="ms-3">
+                                                <a href="page_product_details.html" class="text-inverse text-opacity-75 text-decoration-none">Nike Air Max (Blue Color)</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="align-middle">19 in stock for 1 variants</td>
+                                    <td class="align-middle">Sports</td>
+                                    <td class="align-middle">Nike</td>
+                                </tr>
+                                <tr>
+                                    <td class="w-10px align-middle">
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" id="product5">
+                                            <label class="form-check-label" for="product5"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                <img alt="" class="mw-100 mh-100" src="{% static 'app/img/product/product-10.jpg' %}">
+                                            </div>
+                                            <div class="ms-3">
+                                                <a href="page_product_details.html" class="text-inverse text-opacity-75 text-decoration-none">Skate Sneaker (Orange Color)</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="align-middle">19 in stock for 1 variants</td>
+                                    <td class="align-middle">Sports</td>
+                                    <td class="align-middle">Skate</td>
+                                </tr>
+                                <tr>
+                                    <td class="w-10px align-middle">
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" id="product6">
+                                            <label class="form-check-label" for="product6"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                <img alt="" class="mw-100 mh-100" src="{% static 'app/img/product/product-11.jpg' %}">
+                                            </div>
+                                            <div class="ms-3">
+                                                <a href="page_product_details.html" class="text-inverse text-opacity-75 text-decoration-none">Teen Fashion T-shirt (Black)</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="align-middle">30 in stock for 4 variants</td>
+                                    <td class="align-middle">T-Shirt</td>
+                                    <td class="align-middle">Tulsa</td>
+                                </tr>
+                                <tr>
+                                    <td class="w-10px align-middle">
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" id="product7">
+                                            <label class="form-check-label" for="product7"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                <img alt="" class="mw-100 mh-100" src="{% static 'app/img/product/product-12.jpg' %}">
+                                            </div>
+                                            <div class="ms-3">
+                                                <a href="page_product_details.html" class="text-inverse text-opacity-75 text-decoration-none">Levis Blue Jeans</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="align-middle">49 in stock for 8 variants</td>
+                                    <td class="align-middle">Jeans</td>
+                                    <td class="align-middle">Levis</td>
+                                </tr>
+                                <tr>
+                                    <td class="w-10px align-middle">
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" id="product8">
+                                            <label class="form-check-label" for="product8"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                <img alt="" class="mw-100 mh-100" src="{% static 'app/img/product/product-13.jpg' %}">
+                                            </div>
+                                            <div class="ms-3">
+                                                <a href="page_product_details.html" class="text-inverse text-opacity-75 text-decoration-none">Boots (White Color)</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="align-middle">19 in stock for 1 variants</td>
+                                    <td class="align-middle">Sports</td>
+                                    <td class="align-middle">Nike</td>
+                                </tr>
+                                <tr>
+                                    <td class="w-10px align-middle">
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" id="product9">
+                                            <label class="form-check-label" for="product9"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                <img alt="" class="mw-100 mh-100" src="{% static 'app/img/product/product-14.jpg' %}">
+                                            </div>
+                                            <div class="ms-3">
+                                                <a href="page_product_details.html" class="text-inverse text-opacity-75 text-decoration-none">Hiking Boots</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="align-middle">94 in stock for 1 variants</td>
+                                    <td class="align-middle">Sports</td>
+                                    <td class="align-middle">Skate</td>
+                                </tr>
+                                <tr>
+                                    <td class="w-10px align-middle">
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" id="product10">
+                                            <label class="form-check-label" for="product10"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                                                <img alt="" class="mw-100 mh-100" src="{% static 'app/img/product/product-15.jpg' %}">
+                                            </div>
+                                            <div class="ms-3">
+                                                <a href="page_product_details.html" class="text-inverse text-opacity-75 text-decoration-none">Dress (Pink)</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="align-middle">23 in stock for 5 variants</td>
+                                    <td class="align-middle">Dress</td>
+                                    <td class="align-middle">Sktoe</td>
+                                </tr> {% endcomment %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- END table -->
+                    <div class="d-md-flex align-items-center">
+                        <div class="me-md-auto text-md-left text-center mb-2 mb-md-0">
+                            Showing 1 to 10 of 57 entries
+                        </div>
+                        <ul class="pagination mb-0 justify-content-center">
+                            <li class="page-item disabled"><a class="page-link">Previous</a></li>
+                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item active"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#">4</a></li>
+                            <li class="page-item"><a class="page-link" href="#">5</a></li>
+                            <li class="page-item"><a class="page-link" href="#">6</a></li>
+                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
                         </ul>
                     </div>
-                    <div class="card-body">
-                        <a href="#" class="card-link">Card link</a>
-                        <a href="#" class="card-link">Another link</a>
-                    </div>
-                    <div class="card-arrow">
-                        <div class="card-arrow-top-left"></div>
-                        <div class="card-arrow-top-right"></div>
-                        <div class="card-arrow-bottom-left"></div>
-                        <div class="card-arrow-bottom-right"></div>
-                    </div>
                 </div>
             </div>
-        </div>
-        <div class="search-result row">
-            <div class="col-xl-12 position-relative my-3">
-                <form action="#" method="POST" name="search_form" id="search-form">
-                    <a href="#" class="search-close" data-clear-form="#search-form">×</a>
-                    <input type="text" class="form-control form-control-lg first-input" value="dod ododo" 
-                    placeholder="Search for products"
-                    >
-                </form>
-            </div>
-            <div class="col-xl-12">
-                <ul class="mx-0 nav nav-tabs">
-                    <li class="nav-item"><a href="#search-product-by-name" class="nav-link active">Explore</a></li>
-                    <li class="nav-item"><a href="#search-product-by-group" class="nav-link">Accessories</a></li>
-                </ul>
-                <div class="tab-content">
-                    <!-- BEGIN search-result-list -->
-                    <div class="tab-pane fade show active" id="search-product-by-name">
-                        <div class="search-result-item">
-                            <div class="search-result-media">
-                                <a href="#"><img src="{% static 'app/img/product/product.png' %}" alt=""></a>
-                            </div>
-                            <div class="search-result-content">
-                                <h3><a href="#">MacBook</a></h3>
-                                <p>
-                                    MacBook features sixth-generation Intel Core processors, improved graphics performance, and up to 10 hours of battery life.
-                                </p>
-                                <a href="#" class="me-4">Learn more</a>
-                                <a href="#" class="me-4">MacBook Buy</a>
-                                <a href="#">MacBook Support</a>
-                            </div>
-                        </div>
-                        <div class="search-result-item">
-                            <div class="search-result-content">
-                                <h3><a href="#">MacBook Pro - macOS - Apple</a></h3>
-                                <p>
-                                    MacBook Pro - macOS - Apple macOS. It’s why there’s nothing else like a Mac. macOS is the operating system that powers every Mac. It lets you do things you simply can’t with other computers. That’s...
-                                </p>
-                                <a href="#">https://www.apple.com/macbook-pro/macos/</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="search-product-by-group">
-                        <div class="search-result-item">
-                            <div class="search-result-media">
-                                <a href="#"><img src="{% static 'app/img/product/product.png' %}" alt=""></a>
-                            </div>
-                            <div class="search-result-content">
-                                <h3><a href="#">MacChiece</a></h3>
-                                <p>
-                                    MacBook features sixth-generation Intel Core processors, improved graphics performance, and up to 10 hours of battery life.
-                                </p>
-                                <a href="#" class="me-4">Learn more</a>
-                                <a href="#" class="me-4">MacBook Buy</a>
-                                <a href="#">MacBook Support</a>
-                            </div>
-                        </div>
-                        <div class="search-result-item">
-                            <div class="search-result-content">
-                                <h3><a href="#">MacBook Pro - macOS - Apple</a></h3>
-                                <p>
-                                    MacBook Pro - macOS - Apple macOS. It’s why there’s nothing else like a Mac. macOS is the operating system that powers every Mac. It lets you do things you simply can’t with other computers. That’s...
-                                </p>
-                                <a href="#">https://www.apple.com/macbook-pro/macos/</a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- END search-result-list -->
-                    <!-- BEGIN pagination -->
-                    <div class="text-center mt-4 mb-5">
-                        <div class="pagination justify-content-center">
-                            <div class="disabled page-item">
-                                <a href="#" class="page-link">
-                                    <span>«</span>
-                                </a>
-                            </div>
-                            <div class="active page-item"><a href="#" class="page-link">1</a></div>
-                            <div class="page-item"><a href="#" class="page-link">2</a></div>
-                            <div class="page-item"><a href="#" class="page-link">3</a></div>
-                            <div class="page-item"><a href="#" class="page-link">4</a></div>
-                            <div class="page-item"><a href="#" class="page-link">5</a></div>
-                            <div class="page-item">
-                                <a href="#" class="page-link">
-                                    <span>»</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- END pagination -->
-                </div>
-            </div>
+            <c-card-arrow />
         </div>
     </div>
 </div>

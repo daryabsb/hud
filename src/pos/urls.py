@@ -9,7 +9,7 @@ from src.pos.views import (
     modal_product, modal_calculator, calculate, add_digit, modal_keyboard,
     add_order_comment, add_order_customer, add_order_payment,
     delete_order_item_with_no_response, activate_order,
-    order_discount, calculator_modal,
+    order_discount, calculator_modal, toggle_modal_comment,
 )
 
 app_name = "pos"
@@ -49,6 +49,8 @@ urlpatterns += [
 
     path('add-order-comment/<str:order_number>/',
          add_order_comment, name='add-order-comment'),
+    path('modal-comment/<str:order_number>/',
+         toggle_modal_comment, name='modal-comment'),
     path('add-order-customer/<str:order_number>/',
          add_order_customer, name='add-order-customer'),
     path('modal-order-payment/<str:order_number>/',
