@@ -1,0 +1,26 @@
+
+<div class="modal-dialog modal-xl">
+    <div class="modal-content vh-100" >
+        <div class="card mt-4">
+            <div class="card-header">
+                <c-modals.search.input_group />
+            </div>
+            <c-modals.search.nav />
+            <c-tabs>
+                <c-tabs.content active=True id="search-products-tab">
+                    <c-modals.search.table />
+                </c-tabs.content>
+                <c-tabs.content id="search-orders-tab">
+                    <h1>This is orders search tab</h1>
+                </c-tabs.content>
+                <c-tabs.content id="search-documents-tab">
+                    <h1>This is documents search tab</h1>
+                </c-tabs.content>
+                <c-tabs.content id="search-misc-tab">
+                    <h1>This is misc search tab</h1>
+                </c-tabs.content>
+            </c-tabs>
+            <c-card-arrow />
+        </div>
+    </div>
+</div>

@@ -1,5 +1,7 @@
 
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from src.pos.api.views import ProductViewSet, products_columns_view
 from src.pos.views import (
     pos_home,
     # htmx views
@@ -12,10 +14,18 @@ from src.pos.views import (
     order_discount, calculator_modal, toggle_modal_comment,
 )
 
+router = DefaultRouter()
+router.register('list', ProductViewSet, basename='api-list')
+
 app_name = "pos"
 
 urlpatterns = [
     path('', pos_home, name='pos-home'),
+]
+
+urlpatterns += [
+    path('api/', include(router.urls)),
+    path('api/products-columns/', products_columns_view, name='products-columns'),
 ]
 
 # HTMX VIEWS
@@ -56,3 +66,4 @@ urlpatterns += [
     path('modal-order-payment/<str:order_number>/',
          add_order_payment, name='modal-order-payment'),
 ]
+

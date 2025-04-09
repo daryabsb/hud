@@ -1,0 +1,117 @@
+{% load static %}
+<!-- BEGIN table -->
+<div class="table-responsive">
+    <table class="table table-hover text-nowrap" id="search-products-table">
+        <thead>
+            <tr>
+                <th class="pt-0 pb-2"></th>
+                <th class="pt-0 pb-2">Product</th>
+                <th class="pt-0 pb-2">Inventory</th>
+                <th class="pt-0 pb-2">Type</th>
+                <th class="pt-0 pb-2">Vendor</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+<!-- END table -->
+<script>
+    
+function format(d) {
+    return (
+        'Internal Note: ' +
+        d.internal_note +
+        '<br>' +
+        'Note: ' +
+        d.note +
+        '<br>' +
+        'The child row can contain any data you wish, including links, images, inner tables etc.'
+    );
+}
+    Object.assign(DataTable.defaults, {
+        ordering: false,
+        scrollX: true, // width - 335,
+        scrollY: 180,
+        // fixedHeader: {
+        //     header: false,
+        //     footer: true,
+        // },
+        processing: true,
+        compact: true,
+        serverSide: true,
+        rowId: 'extn',
+        select: {
+            style: 'os',
+        },
+        buttons: getButtons(),
+        pageLength: 5,
+        lengthMenu: [10, 25, 50, 100],
+        layout: {
+            //top: toolbar,
+            bottomStart: null,
+            bottomEnd: null,
+            topEnd: 'paging',
+            topStart: null,
+            topEnd: null,
+        },
+    });
+    async function renderDocumentsDataTable(elId = [], ajaxUrl = [], options = {}) {
+        var table1 = document.getElementById(elId[0]); 
+        var columns1;
+    
+  
+
+    
+    
+        const tableForms = document.getElementById('table-forms')
+    
+        table1 = new DataTable(table1, {
+            ...options,
+            ajax: {
+                url: ajaxUrl[0],
+                dataSrc: 'data',
+            },
+            columns: ['name'],
+            layout: {
+                //top: toolbar,
+                bottomStart: null,
+                bottomEnd: null,
+                // topEnd: {
+                //     paging: {
+                //         numbers: false
+                //     }
+                // },
+                topStart: documentsTopButtons,
+            },
+    
+        });
+
+    
+        // Array to track the ids of the details displayed rows
+        const detailRows = [];
+
+    
+    
+ 
+    }
+
+    var documentsTopButtons = document.createElement('div');
+    documentsTopButtons.innerHTML = `{% include 'documents/partials/top-buttons.html' %}`;
+
+    document.addEventListener('DOMContentLoaded', async function () {
+    renderDocumentsDataTable(
+        [
+            'search-products-table',
+            ],
+        [
+            '{% url "pos:api-list-list" %}?format=datatables',
+            ],
+            columns=[
+            '{% url "pos:products-columns" %}',
+
+        ]
+        );
+    
+    });
+</script>
