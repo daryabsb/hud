@@ -10,6 +10,7 @@ from src.accounts.models import User
 from django.contrib.auth.decorators import login_required
 
 from src.configurations.models import ApplicationProperty
+from src.core.views import search_datatable
 
 
 def test(request):
@@ -57,6 +58,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('not-authorized/', not_authorized, name="not-authorized"),
     path('', index, name="index"),
+    path('search-datatable//<str:app_name>/<str:model>/',
+         search_datatable, name="search-datatable"),
     path('pos/', include('src.pos.urls'), name="pos"),
     path('payments/', include('src.payments.urls'), name="payments"),
     path('mgt/', include('src.management.urls'), name="mgt"),
@@ -65,6 +68,7 @@ urlpatterns = [
     path('finance/', include('src.finances.urls'), name="finances"),
     path('printers/', include('src.printers.urls'), name="printers"),
     path('documents/', include('src.documents.urls'), name="documents"),
+    path('products/', include('src.products.urls'), name="products"),
     path('game/', include('src.games.urls'), name="games"),
 
     path('test/', test, name='test')

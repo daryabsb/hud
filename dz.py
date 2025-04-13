@@ -80,6 +80,10 @@ dz_array = {
                 "pos_home": [
                     f"{app}/plugins/interactjs/dist/interact.js",
                     f"{app}/js/demo/pos-customer-order.demo.js",
+                    f"{app}/js/datatables/functions.js",
+                    f"{app}/js/datatables/formats.js",
+                    f"{app}/js/datatables/render.js",
+                    # f"{app}/js/products-scripts.js",
                 ],
                 "mgt_documents": [
                     # f"{app}/plugins/jquery-slim/jquery.slim.min.js",
@@ -113,7 +117,7 @@ dz_array = {
                 "mgt_products": [
                     f"{app}/plugins/iconify/iconify.min.js",
                     f"{app}/js/demo/file-manager.demo.js",
-                    # f"{app}/js/mgt/products-client.js",
+                    f"{app}/js/mgt/products-client.js",
 
                 ],
                 "view": [

@@ -26,7 +26,7 @@ class AppTableAdmin(admin.ModelAdmin):
 
 @admin.register(AppTableColumn)
 class AppTableColumnAdmin(admin.ModelAdmin):
-    list_display = ('id', 'app', 'name', 'title', 'is_enabled',
+    list_display = ('id', 'app', 'name', 'title', 'is_enabled', 'searchable',
                     'is_related', 'related_value')
     ordering = ('id', )
     list_filter = ('app', 'is_related',)

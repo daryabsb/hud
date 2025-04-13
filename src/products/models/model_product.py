@@ -8,6 +8,7 @@ from django.utils.translation import gettext_lazy as _
 from django_extensions.db.fields import AutoSlugField
 from colorfield.fields import ColorField
 from django_countries.fields import CountryField
+from src.products.managers import ProductManager
 
 
 class Product(models.Model):
@@ -55,6 +56,8 @@ class Product(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
+    objects = ProductManager()
+
     class Meta:
         ordering = ('parent_group__id',)  # 7822809558444
 
@@ -82,3 +85,60 @@ class Product(models.Model):
             delta = self.price - self.cost
             self.margin = delta / self.price * 100
         super(Product, self).save(*args, **kwargs)
+
+    @staticmethod
+    def get_fields():
+        """Returns a list of field names for the given app_name."""
+        from src.configurations.models import AppTableColumn
+        columns = AppTableColumn.objects.filter(
+            app__name='products', searchable=True)
+        return [
+            column.related_value if column.is_related else column.name
+            for column in columns
+        ]
+
+    @staticmethod
+    def get_columns():
+        """Returns a list of column configurations for the given app_name."""
+        from src.configurations.models import AppTableColumn
+        columns = AppTableColumn.objects.filter(
+            app__name='products', searchable=True)
+        return [
+            {
+                "id": index,
+                "data": column.related_value if column.is_related else column.name,
+                "name": column.name,
+                "title": column.title,
+                "searchable": column.searchable,
+                "orderable": column.orderable,
+            }
+            for index, column in enumerate(columns)
+        ]
+
+    @staticmethod
+    def get_indexes():
+        """Returns a dictionary mapping column names to their indexes."""
+        print('indees called')
+        from src.configurations.models import AppTableColumn
+        columns = AppTableColumn.objects.filter(
+            app__name='products', searchable=True)
+        indexes = {column.name: index for index, column in enumerate(columns)}
+        indexes['start_date'] = len(indexes)
+        indexes['end_date'] = len(indexes)
+        return indexes
+
+    @staticmethod
+    def get_related_fields():
+        """Returns a list of related fields for select_related."""
+        return ['currency', 'barcode', 'parent_group', 'user']
+
+    @staticmethod
+    def get_annotations_fields():
+        from django.db.models import Q, F
+        """Returns a list of related fields for select_related."""
+        return {
+            'user__name': F('user__name'),
+            'barcode__value': F('barcode__value'),
+            'parent_group__name': F('parent_group__name'),
+            'currency__name': F('currency__name'),
+        }

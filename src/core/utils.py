@@ -8,11 +8,13 @@ from src.settings.components.env import config
 # stripe.api_key = STRIPE_SECRET_KEY
 
 
-def get_columns(app_name):
+def get_columns(app_name, fields=None):
     from src.configurations.models import AppTableColumn
     queryset = AppTableColumn.objects.filter(
         is_enabled=True, app__name=app_name
     )
+    if fields:
+        queryset = queryset.filter(name__in=fields)
     columns = [
         {
             "id": index,
@@ -26,11 +28,13 @@ def get_columns(app_name):
     return columns
 
 
-def get_indexes(app_name):
+def get_indexes(app_name, fields=None):
     from src.configurations.models import AppTableColumn
     queryset = AppTableColumn.objects.filter(
         is_enabled=True, app__name=app_name
     )
+    if fields:
+        queryset = queryset.filter(name__in=fields)
     indexes = {column.name: index for index, column in enumerate(queryset)}
     if app_name == 'documents':
         indexes['product'] = len(indexes)
@@ -39,12 +43,45 @@ def get_indexes(app_name):
     return indexes
 
 
-def get_fields(app_name):
+def get_fields(app_name, fields=None):
     from src.configurations.models import AppTableColumn
     queryset = AppTableColumn.objects.filter(
         is_enabled=True, app__name=app_name
     )
+    if fields:
+        queryset = queryset.filter(name__in=fields)
     return [column.related_value if column.is_related else column.name for column in queryset]
+
+
+def get_searchable_fields(app_name, fields=None):
+    from src.configurations.models import AppTableColumn
+    queryset = AppTableColumn.objects.filter(
+        is_enabled=True, app__name=app_name, searchable=True
+    )
+
+    if fields:
+        queryset = queryset.filter(name__in=fields)
+
+    indexes = {column.name: index for index, column in enumerate(queryset)}
+    if app_name == 'documents':
+        indexes['product'] = len(indexes)
+    indexes['start_date'] = len(indexes)
+    indexes['end_date'] = len(indexes)
+
+    fields = [
+        column.related_value if column.is_related else column.name for column in queryset]
+
+    columns = [
+        {
+            "id": index,
+            "data": column.related_value if column.is_related else column.name,
+            "name": column.name,
+            "title": column.title,
+            "searchable": column.searchable,
+            "orderable": column.orderable,
+        } for index, column in enumerate(queryset)
+    ]
+    return fields, columns, indexes
 
 
 def generate_number(target=None, code=''):
