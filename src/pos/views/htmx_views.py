@@ -120,7 +120,8 @@ def add_item_with_barcode(request):
 
 def add_order_item(request):
     product_id = request.POST.get('product_id', None)
-    quantity = int(request.POST.get('quantity', 1))
+    # quantity = int(request.POST.get('quantity', 1))
+    quantity = int(request.POST.get('qty', 1))
     active_order = get_active_order()
     product = get_object_or_404(Product, id=product_id)
 
@@ -135,9 +136,10 @@ def add_order_item(request):
         item.save()
 
     active_order = get_active_order()
-    context = {"active_order": active_order, "item": item}
+    context = {"active_order": active_order,
+               "order": active_order, "item": item}
 
-    return render(request, update_order_item_template, context)
+    return render(request, stanndard_order_item_add_template, context)
 
 
 def activate_order(request, order_number):

@@ -39,12 +39,29 @@ async function renderDataTable(elId, inputId, ajaxUrl, options = {}) {
             { targets: [1, 2], visible: false },
             { targets: '_all', visible: true }
         ],
+        createdRow: function (row, data, dataIndex) {
+            // Add the data-id attribute to the <tr>
+            row.setAttribute('data-id', data.id);
+            row.setAttribute('hx-get', `/pos/modal-product/${data.id}/`);
+            row.setAttribute('hx-target', '#modalProduct');
+            row.setAttribute('hx-trigger', 'click');
+            row.setAttribute('data-bs-toggle', 'modal');
+            row.setAttribute('data-bs-target', '#modalProduct');
+        },
         ...options, // Allow user overrides
     });
     // Bind search input
+    table
+        .on('draw.dt', function () {
+            htmx.process(document.body);
+        });
     var searchInput = document.getElementById(inputId);
     searchInput.addEventListener('keyup', function (e) {
         table.search(this.value).draw();
     });
+
+
+
+
 }
 

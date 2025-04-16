@@ -1,0 +1,82 @@
+
+<c-base>
+<c-slot name="extra_app_class">app-content-full-height position-relative</c-slot>
+<c-slot name="content">
+<div id="content"
+hx-on::load="bInput=htmx.find('#barcode-input');bInput.value= '';bInput.focus();" 
+class="app-content p-1 ps-xl-4 pe-xl-4 pt-xl-3 pb-xl-3">
+    <div class="pos card h-100 user-select-none" id="pos">
+        {{ slot }}
+        
+    </div>
+
+    <a href="#" class="pos-mobile-sidebar-toggler" data-toggle-class="pos-mobile-sidebar-toggled" data-toggle-target="#pos">
+        <i class="bi bi-bag"></i>
+        <span class="badge">5</span>
+    </a>
+</div>
+<c-buttons.order_panel />
+</c-slot>
+
+<c-slot name="modals">
+    <div class="modal fade" id="mainMenuModal">
+        <c-modals.main_menu />
+    </div>
+    <div class="modal fade" id="orderDiscountModal">
+        <c-components.calculator  />
+    </div>
+    <div class="modal modal-pos fade" id="modalPosItem">
+        <c-modals.pos_item />
+    </div>
+    <div class="modal modal-pos fade" id="modalProduct">
+        <c-modals.product />
+    </div>
+    <div class="modal modal-cover fade" id="modalPosSearchModal">
+        <c-modals.search />
+    </div>
+    <div class="modal modal-cover fade" id="modalOrderComment">
+        <c-modals.comment />
+    </div>
+    <div class="modal modal-cover fade" id="modalOrderCustomer">
+        <c-modals.customer />
+    </div>
+    <div class="modal modal-cover fade" id="modalOrderPayment">
+        {% include 'pos/payment/payment-modal.html' %}
+    </div>
+    <c-modals.all_modals />
+    <div class="modal fade" id="modalPosItem">
+        <c-modals.pos_item />
+    </div>
+ </c-slot>
+<c-panels.orders />
+
+
+{% comment %} {% include 'pos/modals/pos-panel.html' %} {% endcomment %}
+
+<c-slot name="additional_js">
+<script>
+console.log('additional_js from pos_base');
+</script>
+{{ additional_pos_script }}
+</c-slot>
+</c-base>
+
+
+
+
+
+
+
+
+
+
+
+
+{% comment %} {% block modals %}
+<div class="modal modal-pos fade" id="modal-product">
+    {% include 'pos/modals/product-modal2.html' %}
+</div>
+<div class="modal modal-cover modal-pos fade" id="modal-calculator">
+    {% include 'pos/modals/discount-modal.html' %} 
+</div>
+{% endblock modals %} {% endcomment %}

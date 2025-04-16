@@ -57,5 +57,5 @@ def pos_home(request, number=None):
         "payment_type": payment_types.first(),
     }
     if layout_object.value == 'standard':
-        return render(request, 'pos/standard/pos-home.html', context)
-    return render(request, 'pos/visual/pos-home.html', context)
+        return render(request, 'cotton/pos_base/standard/index.html', context)
+    return render(request, 'cotton/pos_base/visual/index.html', context)

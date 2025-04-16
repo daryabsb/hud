@@ -8,13 +8,15 @@ from src.settings.components.env import config
 # stripe.api_key = STRIPE_SECRET_KEY
 
 
-def get_columns(app_name, fields=None):
+def get_columns(app_name, fields=None, qs=None, actions=False):
     from src.configurations.models import AppTableColumn
-    queryset = AppTableColumn.objects.filter(
-        is_enabled=True, app__name=app_name
-    )
+    if not qs:
+        qs = AppTableColumn.objects.filter(
+            is_enabled=True, app__name=app_name
+        )
     if fields:
-        queryset = queryset.filter(name__in=fields)
+        qs = qs.filter(name__in=fields)
+
     columns = [
         {
             "id": index,
@@ -23,23 +25,37 @@ def get_columns(app_name, fields=None):
             "title": column.title,
             "searchable": column.searchable,
             "orderable": column.orderable,
-        } for index, column in enumerate(queryset)
+        } for index, column in enumerate(qs)
     ]
+    if actions:
+        columns.append({
+            "id": len(columns) + 1,
+            "data": 'actions',
+            "name": 'actions',
+            "title": 'Actions',
+            "searchable": False,
+            "orderable": False,
+        })
     return columns
 
 
-def get_indexes(app_name, fields=None):
+def get_indexes(app_name, qs=None, fields=None, actions=None):
     from src.configurations.models import AppTableColumn
-    queryset = AppTableColumn.objects.filter(
-        is_enabled=True, app__name=app_name
-    )
+
+    if not qs:
+        qs = AppTableColumn.objects.filter(
+            is_enabled=True, app__name=app_name
+        )
     if fields:
-        queryset = queryset.filter(name__in=fields)
-    indexes = {column.name: index for index, column in enumerate(queryset)}
+        qs = qs.filter(name__in=fields)
+
+    indexes = {column.name: index for index, column in enumerate(qs)}
     if app_name == 'documents':
         indexes['product'] = len(indexes)
     indexes['start_date'] = len(indexes)
     indexes['end_date'] = len(indexes)
+    if actions:
+        indexes['actions'] = len(indexes)
     return indexes
 
 
@@ -53,34 +69,18 @@ def get_fields(app_name, fields=None):
     return [column.related_value if column.is_related else column.name for column in queryset]
 
 
-def get_searchable_fields(app_name, fields=None):
+def get_searchable_fields(app_name, fields=None, actions=False):
     from src.configurations.models import AppTableColumn
     queryset = AppTableColumn.objects.filter(
         is_enabled=True, app__name=app_name, searchable=True
     )
 
-    if fields:
-        queryset = queryset.filter(name__in=fields)
+    indexes = get_indexes(app_name, fields=fields,
+                          qs=queryset, actions=actions)
+    columns = get_columns(app_name, fields=fields,
+                          qs=queryset, actions=actions)
+    fields = get_fields(app_name, fields=fields)
 
-    indexes = {column.name: index for index, column in enumerate(queryset)}
-    if app_name == 'documents':
-        indexes['product'] = len(indexes)
-    indexes['start_date'] = len(indexes)
-    indexes['end_date'] = len(indexes)
-
-    fields = [
-        column.related_value if column.is_related else column.name for column in queryset]
-
-    columns = [
-        {
-            "id": index,
-            "data": column.related_value if column.is_related else column.name,
-            "name": column.name,
-            "title": column.title,
-            "searchable": column.searchable,
-            "orderable": column.orderable,
-        } for index, column in enumerate(queryset)
-    ]
     return fields, columns, indexes
 
 

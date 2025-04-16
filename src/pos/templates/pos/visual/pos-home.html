@@ -1,8 +1,6 @@
-{% extends 'pos/pos_base.html' %}
 {% load static %}
-
-{% block pos_content %}
-
+<c-pos-base>
+<div class="card h-100">
     <div class="pos-container card-body">
         <div class="pos-menu">
             <div class="logo">
@@ -64,9 +62,8 @@
             </div>
         </div>
         <div class="pos-sidebar" style="width: 350px;" id="pos-sidebar">
-            {% include 'pos/partials/order-detail.html' %}
+            {% comment %} {% include 'pos/partials/order-detail.html' %} {% endcomment %}
         </div>
     </div>
-
-
-{% endblock pos_content %}
+</div>
+</c-pos-base>

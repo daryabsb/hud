@@ -10,9 +10,10 @@ from src.finances.models import PaymentType
 from src.pos.utils import get_active_order
 
 modal_item_template = 'cotton/modals/pos_item.html'
+modal_product_template = 'cotton/modals/product.html'
 
 
-def modal_product(request, number):
+def modal_order_item(request, number):
     print('ID = ', number)
     active_order = PosOrder.objects.filter(is_active=True).first()
     item = get_object_or_404(PosOrderItem, number=number)
@@ -25,6 +26,18 @@ def modal_product(request, number):
             "active_order": active_order
         }
         return render(request, modal_item_template, context)
+
+
+def modal_product(request, id):
+    print('ID = ', id)
+    active_order = get_active_order()
+    product = get_object_or_404(Product, id=id)
+
+    context = {
+        "product": product,
+        "active_order": active_order
+    }
+    return render(request, modal_product_template, context)
 
 
 def modal_calculator(request):
@@ -123,6 +136,7 @@ def add_digit(request):
         return render(request, 'components/calculator/input_display.html', {'new_value': new_value})
     return render(request, 'keypad.html', {'error': 'Invalid request'})
 
+
 def toggle_modal_comment(request, order_number):
     order = get_object_or_404(PosOrder, number=order_number)
     active_order = get_active_order()
@@ -132,6 +146,7 @@ def toggle_modal_comment(request, order_number):
         'active_order': active_order,
     })
 
+
 @login_required
 @require_POST
 def add_order_comment(request, order_number):
@@ -140,9 +155,7 @@ def add_order_comment(request, order_number):
     else:
         order = get_active_order()
 
-
     print("View called!sss")
-
 
     comment = request.POST.get('comment', '')
     # if comment:
@@ -150,8 +163,6 @@ def add_order_comment(request, order_number):
     order.save()
 
     active_order = get_active_order()
-
-
 
     context = {
         "active_order": active_order,
@@ -177,3 +188,10 @@ def add_order_customer(request, order_number):
         return render(request, 'pos/buttons/active-order-customer.html', {'active_order': order})
     else:
         return JsonResponse({'error': 'No customer selected'})
+
+
+@login_required
+@require_GET
+def pos_search_modal(request):
+    active_order = get_active_order()
+    return render(request, 'cotton/modals/search/index.html', {'active_order': active_order, 'initialized': True})

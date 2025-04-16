@@ -10,9 +10,10 @@ Object.assign(DataTable.defaults, {
     compact: true,
     serverSide: true,
     rowId: 'extn',
-    select: {
-        style: 'os',
-    },
+    // select: {
+    //     style: 'os',
+    // },
+    select: false,
     buttons: getButtons(),
     // pageLength: 5,
     //lengthMenu: [[5, 10, 25, 50, 100], [5, 10, 25, 50, 100]], // Page size options
@@ -118,6 +119,16 @@ async function formatColumns(columns) {
                     return data;
                 }
             };
+        }
+        if (column.data === 'actions') {
+            return {
+                ...column,
+                render: function (data, type, row) {
+                    if (type === 'display') {
+                        return getActions(data, row);
+                    }
+                }
+            }
         }
 
         return column; // Return column unchanged if no modification

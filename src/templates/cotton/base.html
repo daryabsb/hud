@@ -1,0 +1,65 @@
+{% load static globals %}<!DOCTYPE html>
+<html lang="en" dir="ltr" data-bs-theme="{{ color_scheme }}">
+
+<head>
+<c-partials.metas />
+{{ extra_top_scripts }}
+<c-partials.top_css />
+
+<title>
+{{ head_title }}
+
+</title>
+</head>
+
+<body
+id="body"
+hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+hx-on="htmx:load: jscolor.install();"
+class="theme-success"
+>
+
+{% comment %} hx-get="/load-password-window/"
+hx-target="#warning-toaster"
+hx-trigger="load delay:5s" {% endcomment %}
+<div id="app" 
+    class="app app-sidebar-collapsed {{ extra_app_class }}">
+    <c-partials.header />
+    <c-partials.sidebar />
+    <button class="app-sidebar-mobile-backdrop" data-toggle-target=".app"
+    data-toggle-class="app-sidebar-mobile-toggled"></button>
+    
+    {{ content }}
+    
+    <a href="#" data-toggle="scroll-to-top" class="btn-scroll-top fade"><i class="fa fa-arrow-up"></i></a>
+    {% comment %} <c-theme-panel /> {% endcomment %}
+</div>
+        <input type="hidden" id="success-response" />
+    {{ modals }}
+
+    <c-modals.confirm_logout />
+    <c-enter-pin />
+
+
+    <div id="warning-toaster"></div>
+
+    <input type="hidden" id="load-temp" />
+    <c-partials.bottom_js />
+    {{ additional_js }}
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.modal').forEach(modal => {
+        modal.addEventListener('shown.bs.modal', () => {
+            const firstInput = modal.querySelector('.first-input');
+            if (firstInput) {
+                firstInput.focus();
+                firstInput.select();
+            }
+
+        });
+    });
+});
+    </script>
+</body>
+
+</html>

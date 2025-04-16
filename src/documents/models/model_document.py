@@ -3,6 +3,7 @@ from src.accounts.models import User, Warehouse, Customer
 from src.pos.models import CashRegister
 # from src.orders.models import PosOrder
 from datetime import datetime, timedelta
+from src.documents.managers import DocumentManager
 
 today = datetime.now()
 due_date = today + timedelta(days=15)
@@ -25,7 +26,7 @@ class Document(models.Model):
         CashRegister, on_delete=models.SET_NULL,
         null=True, blank=True, related_name="documents"
     )
-    order = models.CharField(max_length=50,null=True, blank=True)
+    order = models.CharField(max_length=50, null=True, blank=True)
 
     document_type = models.ForeignKey(
         "DocumentType", on_delete=models.DO_NOTHING, related_name="documents"
@@ -50,6 +51,8 @@ class Document(models.Model):
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+
+    objects = DocumentManager()
 
     def __str__(self):
         return f"{self.document_type.stock_direction} | {self.total}  | {self.number} | Pay status: {'Paid' if self.paid_status else 'Not Paid'}"

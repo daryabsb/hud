@@ -1,0 +1,29 @@
+{% load allauth i18n %}
+<div class="modal modal-cover fade" id="modal-confirm">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3 class="modal-title">Sign Out!</h3>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+			</div>
+			<form method="post" action="{% url 'account_logout' %}" class="modal-body">
+                {% csrf_token %}{{ redirect_field }}
+				<p class="mb-3">
+					You are about to be kicked out from the application<br>
+					Please pardon the language and click confirm!
+				</p>
+				<div class="row mb-5">
+					<div class="col-md-9">
+						<input type="text" placeholder="Your email address here" class="form-control form-control-lg" name="icon-filter">
+					</div>
+					<div class="col-md-3">
+						<button type="submit" class="btn btn-outline-theme btn-lg btn-block">Confirm</button>
+					</div>
+				</div>
+				<div class="pt-3">
+					<a href="#" class="text-muted fs-12px">What is it? Terms and conditions</a>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

@@ -58,7 +58,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('not-authorized/', not_authorized, name="not-authorized"),
     path('', index, name="index"),
-    path('search-datatable//<str:app_name>/<str:model>/',
+    path('search-datatable/<str:app_name>/<str:model>/',
          search_datatable, name="search-datatable"),
     path('pos/', include('src.pos.urls'), name="pos"),
     path('payments/', include('src.payments.urls'), name="payments"),

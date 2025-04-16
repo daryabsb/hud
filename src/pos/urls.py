@@ -6,10 +6,11 @@ from src.pos.views import (
     add_item_with_barcode, add_order_item, change_quantity,
     add_quantity, subtract_quantity, remove_item,
     # modal views
-    modal_product, modal_calculator, calculate, add_digit, modal_keyboard,
+    modal_product, modal_order_item, modal_calculator, calculate, add_digit, modal_keyboard,
     add_order_comment, add_order_customer, add_order_payment,
     delete_order_item_with_no_response, activate_order,
     order_discount, calculator_modal, toggle_modal_comment,
+    pos_search_modal,
 )
 
 
@@ -41,7 +42,8 @@ urlpatterns += [
 
 # MODALS
 urlpatterns += [
-    path('modal-product/<str:number>/', modal_product, name="modal-product"),
+    path('modal-order-item/<str:number>/',
+         modal_order_item, name="modal-order-item"),
     #     path('modal-calculator/', modal_calculator, name="modal-calculator"),
     path('modal-calculator/', calculator_modal, name="modal-calculator"),
     path('modal-keyboard/', modal_keyboard, name="modal-keyboard"),
@@ -56,4 +58,7 @@ urlpatterns += [
          add_order_customer, name='add-order-customer'),
     path('modal-order-payment/<str:order_number>/',
          add_order_payment, name='modal-order-payment'),
+    path('pos-modal-search/', pos_search_modal, name='pos-modal-search'),
+    #     actual product modal
+    path('modal-product/<int:id>/', modal_product, name="modal-product"),
 ]

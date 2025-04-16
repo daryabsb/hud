@@ -1,0 +1,90 @@
+{% load static %}
+<c-pos-base name="pos">
+    <div class="card-header py-0">
+        <c-forms.barcode_input />
+    </div>
+    <div class="pos-container card-body h-100 overflow-hidden">
+        <div class="pos-menu">
+            <div class="logo">
+                <a href="{% url 'index' %}">
+                    <div class="logo-img">
+                    <img class="" src="{% static 'app/img/icons/zeneon-icon-white-02.svg' %}" style="width: 3.1rem;" />
+                    </div>
+                    <div class="logo-text">Zeneon LLC.</div>
+                </a>
+            </div>
+            <div class="nav-container">
+                <div data-scrollbar="true" data-height="100%" data-skip-mobile="true">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" data-filter="all">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <i class="fa fa-fw fa-utensils"></i> All Products
+                                    </div>
+                                    {% include 'components/card-arrow.html' %}
+                                </div>
+                            </a>
+                        </li>
+                        {% for group in groups %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-filter="{{ group.id }}">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <i class="fa fa-fw fa-drumstick-bite"></i> {{ group.name }}
+                                    </div>
+                                    {% include 'components/card-arrow.html' %}
+                                </div>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="pos-content">
+            <div class="pos-content-container p-4" data-scrollbar="true" data-height="100%">
+                <div class="row gx-4">
+                    {% for product in products %}
+                        <c-cards.product />
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="pos-sidebar card border-start border-0" style="width: 550px;" id="pos-sidebar">
+            {% comment %} {% include 'pos/partials/order-detail.html' %} {% endcomment %}
+            <div class="card-header">
+                This is the order something
+            </div>
+            <div class="container card-body">
+                {% for item in active_order.items.all %}
+                <div class="row align-items-center">
+                    <div class="col-lg-6 d-flex align-items-center">
+                        <div class="h-65px w-65px d-flex align-items-center justify-content-center position-relative bg-white p-1">
+                            <img src="{% static 'app/img/product/product-1.jpg' %}" alt="" class="mw-100 mh-100">
+                            <span class="w-20px h-20px p-0 d-flex align-items-center justify-content-center badge bg-theme text-theme-color position-absolute end-0 top-0 fw-bold fs-12px rounded-pill mt-n2 me-n2">{{ item.quantity }}</span>
+                        </div>
+                        <div class="ps-3 flex-1">
+                            <div><a href="#" class="text-decoration-none text-inverse">{{ item.product.name }}</a></div>
+                            <div class="text-inverse text-opacity-50 small">
+                                SKU: {{ item.number}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 m-0 ps-lg-3">
+                        {{ item.product.currency.name}} {{ item.price|floatformat:"0" }} x {{ item.quantity }}
+                    </div>
+                    <div class="col-lg-3 m-0 text-end">
+                        {{ item.product.currency.name}} {{ item.item_total|floatformat:"0" }}
+                    </div>
+                </div>
+                <hr class="my-4">
+                {% endfor %}
+            </div>
+            <div class="card-footer">
+            <c-pos_base.visual.calculations />
+                {% comment %} {% include 'pos/orders/order-calculations.html' %} {% endcomment %}
+            </div>
+        </div>
+    </div>
+</c-pos-base>

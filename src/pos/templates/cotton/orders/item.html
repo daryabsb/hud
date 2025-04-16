@@ -1,4 +1,4 @@
-<div id="orderitem-{{ item.number }}" class="row mx-0 ps-3 pe-2 align-items-center"
+<div id="orderitem-{{ item.number }}" class="row mx-0 px-3 my-2 py-2 align-items-center border-bottom bg-theme bg-opacity-20"
 hx-swap-oob="{{ oob }}"
 >
     <div class="col-xl-4 col-3 d-flex align-items-center">
@@ -25,7 +25,7 @@ hx-swap-oob="{{ oob }}"
     <div class="col-lg-2 m-0 text-end">
         <div class="btn-group btn-group-md">
             <button type="button" class="btn" 
-                hx-get="{% url 'pos:modal-product' item.number %}" 
+                hx-get="{% url 'pos:modal-order-item' item.number %}" 
                 hx-target="#modalPosItem" 
                 hx-trigger="click"
                 data-bs-target="#modalPosItem"
@@ -61,5 +61,4 @@ hx-swap-oob="{{ oob }}"
             data-bs-toggle="modal" {% endcomment %}
         </div>
     </div>
-    <hr class="my-2">
 </div>

@@ -14,11 +14,11 @@ dz_array = {
     "app": {
         "htmx": [
             f"{htmx}/htmx.min.js",
-            f"{htmx}/class-tools.js",
-            f"{htmx}/preload.js",
+            # f"{htmx}/class-tools.js",
+            # f"{htmx}/preload.js",
             f"{htmx}/_hyperscript.js",
-            f"{htmx}/ext/debug.js",
-            f"{htmx}/ext/event-header.js",
+            # f"{htmx}/ext/debug.js",
+            # f"{htmx}/ext/event-header.js",
         ],
         "global_css": [
             f"{app}/css/vendor.min.css",

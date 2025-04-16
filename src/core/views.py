@@ -44,7 +44,7 @@ def search_datatable(request, app_name=None, model=None):
 
     # fields = get_fields(app_name)
     # columns = get_columns(app_name)
-    fields, columns, indexes = get_searchable_fields(app_name)
+    fields, columns, indexes = get_searchable_fields(app_name, actions=True)
 
     if search_value:
         qs = ModelClass.objects.filter_by_search_value(search_value)

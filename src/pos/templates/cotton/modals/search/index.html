@@ -8,13 +8,24 @@
             <c-modals.search.nav />
             <c-tabs>
                 <c-tabs.content active=True id="search-products-tab">
-                    <c-modals.search.table />
+                    <c-modals.search.render_table 
+                        id="ssearch-products-table"
+                        input="search-modal-product-input"
+                        app_name="products"
+                        model_name="product"
+                    />
                 </c-tabs.content>
                 <c-tabs.content id="search-orders-tab">
                     <h1>This is orders search tab</h1>
                 </c-tabs.content>
                 <c-tabs.content id="search-documents-tab">
                     <h1>This is documents search tab</h1>
+                    <c-modals.search.render_table 
+                        id="search-documents-table"
+                        input="search-modal-product-input"
+                        app_name="documents"
+                        model_name="Document"
+                    />
                 </c-tabs.content>
                 <c-tabs.content id="search-misc-tab">
                     <h1>This is misc search tab</h1>

@@ -1,4 +1,5 @@
 
+
 async function fetchData(url) {
     var columns = [];
 
@@ -11,9 +12,10 @@ async function fetchData(url) {
         })
         .then(data => {
             console.log('Initial data:', data.data);
-            columns = data.columns;
-            //columns1[0].class = 'btn btn-outline-theme text-success'
             indexes1 = data.indexes
+            columns = data.columns;
+
+            //columns1[0].class = 'btn btn-outline-theme text-success'
         })
         .catch(error => {
             console.error('Error initializing table:', error);
@@ -26,12 +28,15 @@ async function fetchData(url) {
 
 function getImage(data, row) {
     return `
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center" id="row-image">
             <div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
                 <img alt="" class="mw-100 mh-100" src="/media/${data}">
             </div>
             <div class="ms-3">
-                <a href="page_product_details.html" class="text-inverse text-opacity-75 text-decoration-none">${row.name}</a>
+                <a href="#" 
+                    class="text-inverse text-opacity-75 text-decoration-none"
+                    hx-on::click="alert(row.name)"
+                    >${row.name}</a>
             </div>
         </div>`
 }
@@ -60,7 +65,8 @@ function getName(data, row) {
                 <img alt="" class="mw-100 mh-100" src="/media/${row.image}">
             </div>
             <div class="ms-3">
-                <a href="page_product_details.html" class="text-inverse text-opacity-75 text-decoration-none">${data}</a>
+                <a href="#" 
+                    class="text-inverse text-opacity-75 text-decoration-none">${data}</a>
             </div>
         </div>`
 }
@@ -87,6 +93,38 @@ function getRow(data, row) {
                 <td class="align-middle">${row.parent_group}</td>
                 <td class="align-middle">Force Majeure</td>
             </tr>`
+}
+
+function getActions(data, row) {
+    var id = row.id ? row.id : row.number;
+
+    return `
+        <div class="btn-group btn-group-md">
+            <button type="button" class="btn" 
+                hx-get="/pos/modal-product/${id}/" 
+                hx-target="#modalPosItem" hx-trigger="click" 
+                data-bs-target="#modalPosItem" 
+                data-bs-toggle="modal"
+                >
+                <i class="fas fa-md fa-fw me-1 fa-edit"></i>
+            </button>
+            <button type="button" class="btn" hx-delete="/pos/delete-order-item/${id}/" hx-target="#calculations-sales-06122024-3773" hx-swap="innerHTML" hx-on:delete-order-item="htmx.find('#order-item-1-31032025-01-3904').remove()" hx-on::before-request="htmx.find('#order-item-1-31032025-01-3904').classList.add('d-none');
+                console.log(event.detail.successful)
+            " hx-on::after-request="
+            htmx.find('#order-${id}').classList.remove('d-none');
+            if (!event.detail.successful) {
+                console.log(event.detail.successful)
+                const errorSpan = document.createElement('span');
+                console.log(errorSpan)
+                errorSpan.textContent = 'Failed to remove item!';
+                errorSpan.classList.add('text-danger');
+                htmx.find('#order-${id}').appendChild(errorSpan);
+            }
+            ">
+                <i class="fas fa-md fa-fw me-1 fa-trash text-danger"></i>
+            </button>
+        </div>
+        `
 }
 
 function getButtons() {
