@@ -1,4 +1,5 @@
 <c-pos-base>
+<c-wrappers.pos_card>
 {% comment %} {% block extra_content %}{{ orders.first }}{% endblock %} {% endcomment %}
 
     {% comment %} <div class="card-header bg-transparent row mx-0 align-content-between align-items-center w-100">
@@ -10,96 +11,8 @@
         </div>
     </div> {% endcomment %}
     <div class="pos-container card-body" style="width: 100%;">
-    
-         <div class="pos-menu" >
-            <!-- BEGIN logo -->
-            <div class="logo">
-                <a href="index.html">
-                    <div class="logo-img"><i class="bi bi-x-diamond" style="font-size: 2.1rem;"></i></div>
-                    <div class="logo-text">Pine &amp; Dine</div>
-                </a>
-            </div>
-            <!-- END logo -->
-            <!-- BEGIN nav-container -->
-            <div class="nav-container">
-                <div data-scrollbar="true" data-height="100%" data-skip-mobile="true" class="ps" data-init="true" style="height: 100%;">
-                    <ul class="nav nav-tabs">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#" data-filter="all">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <i class="fa fa-fw fa-utensils"></i> All Dishes
-                                    </div>
-                                    <c-card-arrow />
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" data-filter="meat">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <i class="fa fa-fw fa-drumstick-bite"></i> Meat
-                                    </div>
-                                    <c-card-arrow />
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" data-filter="burger">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <i class="fa fa-fw fa-hamburger"></i> Burger
-                                    </div>
-                                    <c-card-arrow />
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" data-filter="pizza">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <i class="fa fa-fw fa-pizza-slice"></i> Pizza
-                                    </div>
-                                    <c-card-arrow />
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" data-filter="drinks">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <i class="fa fa-fw fa-cocktail"></i> Drinks
-                                    </div>
-                                    <c-card-arrow />
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" data-filter="desserts">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <i class="fa fa-fw fa-ice-cream"></i> Desserts
-                                    </div>
-                                    <c-card-arrow />
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" data-filter="snacks">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <i class="fa fa-fw fa-cookie-bite"></i> Snacks
-                                    </div>
-                                    <c-card-arrow />
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
-                <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div></div></div>
-            </div>
-            <!-- END nav-container -->
-        </div> 
-
+          
+        <c-pos-menu />
          <div class="pos-content" id="container1" style="width: 42%; min-width: 40%;">
             <c-orders.list  id="order-tab-list-1">
                 {% for order in orders %}
@@ -111,12 +24,13 @@
             <c-orders.order_detail />
         </div> 
     </div>
-<c-card-arrow />
+    <c-card-arrow />
+</c-wrappers.pos_card>
+
 <c-slot name="additional_pos_script">
 <c-scripts.resize />
 <script>
 console.log('additional_pos_script from inside comp');
 </script>
 </c-slot>
-
 </c-pos-base>

@@ -1,0 +1,29 @@
+
+<div class="modal fade" id="mainMenuModal">
+    <c-modals.main_menu />
+</div>
+<div class="modal fade" id="orderDiscountModal">
+    <c-components.calculator  />
+</div>
+<div class="modal modal-pos fade" id="modalPosItem">
+    <c-modals.pos_item />
+</div>
+<div class="modal modal-pos fade" id="modalProduct">
+    <c-modals.product />
+</div>
+<div class="modal modal-cover fade" id="modalPosSearchModal">
+    <c-modals.search />
+</div>
+<div class="modal modal-cover fade" id="modalOrderComment">
+    <c-modals.comment />
+</div>
+<div class="modal modal-cover fade" id="modalOrderCustomer">
+    <c-modals.customer />
+</div>
+<div class="modal modal-cover fade" id="modalOrderPayment">
+    {% include 'pos/payment/payment-modal.html' %}
+</div>
+<c-modals.all_modals />
+<div class="modal fade" id="modalPosItem">
+    <c-modals.pos_item />
+</div>
