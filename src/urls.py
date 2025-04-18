@@ -68,6 +68,7 @@ urlpatterns = [
     path('finance/', include('src.finances.urls'), name="finances"),
     path('printers/', include('src.printers.urls'), name="printers"),
     path('documents/', include('src.documents.urls'), name="documents"),
+    path('orders/', include('src.orders.urls'), name="orders"),
     path('products/', include('src.products.urls'), name="products"),
     path('game/', include('src.games.urls'), name="games"),
 

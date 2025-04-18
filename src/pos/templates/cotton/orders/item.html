@@ -1,6 +1,14 @@
 <div id="orderitem-{{ item.number }}" 
-class="row mx-0 px-3 my-2 py-2 align-items-center border-bottom bg-theme bg-opacity-20"
-
+class="orderitem row mx-0 px-3 my-2 py-2 align-items-center border-bottom bg-opacity-20"
+hx-on:click="
+const input = htmx.find('#selected-item');
+const deleteBtn = htmx.find('#item-delete-btn')
+const selected = this.classList.contains('bg-theme');
+htmx.findAll('.orderitem').forEach(el => el.classList.remove('bg-theme'));
+selected 
+  ? (input.value = '', deleteBtn.classList.remove('btn-outline-danger'), deleteBtn.classList.add('btn-outline-gray-100'))
+  : (this.classList.add('bg-theme'), input.value = '{{ item.number }}', deleteBtn.classList.remove('btn-outline-gray-100'), deleteBtn.classList.add('btn-outline-danger'));
+"
 hx-swap-oob="{{ oob }}"
 >
     <div class="col-xl-4 col-3 d-flex align-items-center">
@@ -58,9 +66,6 @@ hx-swap-oob="{{ oob }}"
             >
                 <i class="fas fa-md fa-fw me-1 fa-trash text-danger"></i>
             </button>
-            {% comment %} data-bs-target="#modalAddDocumentProduct" 
-            hx-target="#modalAddDocumentProduct" 
-            data-bs-toggle="modal" {% endcomment %}
         </div>
     </div>
 </div>

@@ -1,8 +1,15 @@
 <div class="h-100 d-flex flex-column p-0" id="orders-detail">
     <div class="d-flex flex-nowrap flex-shrink-0 gap-2 btn-group px-4 border-bottom mt-2 mb-3">
     
-        <c-buttons.icon_button icon="fas fa-2xl fa-times" btn="btn-outline-gray-100 border-0"
+        <c-buttons.icon_button icon="fas fa-2xl fa-times" btn="btn-outline-gray-100"
+        hx-delete="{% url 'orders:delete-active-order' %}"
+        hx-target="#order-tab-{{ active_order.number }}"
+        hx-swap="outerHTML"
+        id="item-delete-btn"
         >Delete</c-buttons.icon_button>
+
+
+
         <c-buttons.icon_button icon="fas fa-2xl fa-search" btn="btn-outline-gray-100 rounded-2"
             data-bs-toggle="modal" data-bs-target="#modalPosSearchModal"
             hx-get="{% url 'pos:pos-modal-search' %}" hx-target="#modalPosSearchModal"
@@ -21,6 +28,9 @@
         <c-buttons.icon_button 
         icon="fas fa-2xl fa-plus"
         btn="btn-outline-gray-100 rounded-2"
+        hx-delete="{% url 'orders:add-new-order' %}"
+        hx-target="#order-tab-{{ active_order.number }}"
+        hx-swap="outerHTML"
         >New sale</c-buttons.icon_button>
     </div>
     <c-components.payment_types />

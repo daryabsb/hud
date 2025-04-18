@@ -27,6 +27,7 @@
 		</div>
 	</div>
 	<div class="card-body mx-0 px-0 w-100 text-inverse overflow-y-auto">
+		<input type="hidden" name="selected-item" id="selected-item" />
 		{% for item in order.items.all %}
 		<c-orders.item />
 		{% endfor %}

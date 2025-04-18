@@ -37,8 +37,6 @@ def modal_add_user(request):
     return render(request, 'mgt/modals/add-user-modal.html', context)
 
 
-
-
 def add_doc_filter_products(request):
     keywords = request.GET.get('add-doc-product-filter', None)
     qs = Product.objects.filter(is_enabled=True)

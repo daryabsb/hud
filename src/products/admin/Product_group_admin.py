@@ -3,13 +3,15 @@ from src.accounts.models import User
 from src.products.models import ProductGroup
 
 INITIAL_DATA = [
-    {"id": 1, "name": "Products", "slug": "products", "rank": 1},
-    {"id": 2, "name": "Grocery", "slug": "grocery", "rank": 2},
-    {"id": 3, "name": "Electronics", "slug": "electronics", "rank": 8},
-    {"id": 4, "name": "Home", "slug": "home", "rank": 14},
-    {"id": 5, "name": "Accessories", "slug": "accessories", "rank": 20},
-    {"id": 6, "name": "Goodies", "slug": "goodies", "rank": 26},
-    {"id": 7, "name": "Vapery", "slug": "vapery", "rank": 32},
+    {"id": 1, "name": "Products", "slug": "products", "rank": 1, "is_enabled": True},
+    {"id": 2, "name": "Grocery", "slug": "grocery", "rank": 2, "is_enabled": True},
+    {"id": 3, "name": "Electronics", "slug": "electronics",
+        "rank": 8, "is_enabled": True},
+    {"id": 4, "name": "Home", "slug": "home", "rank": 14, "is_enabled": True},
+    {"id": 5, "name": "Accessories", "slug": "accessories",
+        "rank": 20, "is_enabled": True},
+    {"id": 6, "name": "Goodies", "slug": "goodies", "rank": 26, "is_enabled": True},
+    {"id": 7, "name": "Vapery", "slug": "vapery", "rank": 32, "is_enabled": True},
 ]
 
 

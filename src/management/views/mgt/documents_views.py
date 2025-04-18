@@ -235,6 +235,7 @@ def mgt_documents(request):
 
 
 def mgt_add_new_order(request):
+    from src.orders.utils import create_new_order
     document_type_id = request.POST.get('document-type')
     filter = DocumentFilter(request.GET, queryset=Document.objects.all())
     document_form = DocumentFilter.form
@@ -242,8 +243,9 @@ def mgt_add_new_order(request):
     documents_dict = DocumentSerializer(documents, many=True)
     if document_type_id:
         document_type = get_object_or_404(DocumentType, id=document_type_id)
-        order = PosOrder(user=request.user, document_type=document_type)
-        order.save(doc_type=document_type.name.lower())
+        order = create_new_order(
+            user=request.user, document_type=document_type)
+
         products = Product.objects.all()
         orders = create_order_dict(request, PosOrder, order)
 

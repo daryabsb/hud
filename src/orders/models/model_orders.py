@@ -26,7 +26,7 @@ class PosOrder(models.Model):
     )
     warehouse = models.ForeignKey(
         Warehouse, null=True, on_delete=models.DO_NOTHING,
-        related_name="orders"
+        related_name="orders", default=1
     )
     date = models.DateTimeField(auto_now_add=True)
     reference_document_number = models.CharField(

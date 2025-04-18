@@ -10,6 +10,7 @@ from src.management.views import DocumentSerializer
 from src.orders.forms import DocumentForm
 from src.orders.models import PosOrder
 
+
 '''
 cases:
 
