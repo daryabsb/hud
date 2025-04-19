@@ -15,8 +15,27 @@
         <c-pos-menu />
          <div class="pos-content" id="container1" style="width: 42%; min-width: 40%;">
             <c-orders.list  id="order-tab-list-1">
+                
                 {% for order in orders %}
-                    <c-orders.order />
+                    {% comment %} <c-orders.order /> {% endcomment %}
+                    <div class="col-xxl-12 px-0 tab-pane fade {% if order.is_active %}show active{% endif %} h-100"
+                        id="order-tab-{{ order.number }}"
+                        >
+                        <div class="tab-content h-100">
+                            <div class="tab-pane fade show active h-100" id="order-tab-home-{{active_order.number}}">
+                                <c-orders.detail />
+                            </div>
+                            <div class="tab-pane fade" id="order-tab-orders-{{active_order.number}}">
+                                <c-tabs.orders />
+                            </div>
+                            <div class="tab-pane fade" id="order-tab-recent-{{active_order.number}}">
+                                <c-tabs.recent />
+                            </div>
+                            <div class="tab-pane fade" id="order-tab-customers-{{active_order.number}}">
+                                <c-tabs.customers />
+                            </div>
+                        </div>
+                    </div>
                 {% endfor %}
             </c-orders.list>
         </div>

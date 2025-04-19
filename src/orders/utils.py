@@ -14,6 +14,12 @@ def create_new_order(user, document_type=None):
 
 # Sample context-generating functions
 
+def get_menu_list():
+    from src.configurations.models import ApplicationPropertySection
+    menus = ApplicationPropertySection.objects.get(name='Menu')
+    return menus.application_properties.all()
+    
+
 def get_pos_orders():
     from src.orders.models import PosOrder
     return PosOrder.objects.filter(is_enabled=True)
@@ -50,7 +56,8 @@ CONTEXT_BANK = {
     'groups': get_product_groups(),
     'customers': get_customer_list(),
     'payment_types': get_payment_types(),
-    "payment_type": get_first_payment_type,
+    "payment_type": get_first_payment_type(),
+    "menus": get_menu_list(),
 }
 
 

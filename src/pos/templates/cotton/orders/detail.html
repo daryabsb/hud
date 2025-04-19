@@ -1,30 +1,9 @@
 {% load humanize  %}
 	
-<div  id='standard-container-{{ order.number }}' class="card  border-0 p-0 flex-grow-1" style="height: 100%;" >
+
+<div id='standard-container-{{ order.number }}' class="card  border-0 p-0 flex-grow-1" style="height: 100%;" >
 	<div class="card-header bg-inverse bg-opacity-10">
-		<div class="row align-items-center border-bottom">
-			<div class="col-lg-6 d-flex align-items-center pb-2">
-				Order number: {{ order.number }}
-			</div>
-			<div class="col-lg-6 d-flex align-items-center py-2">
-				Customer: {{ order.customer.name }}
-			</div>
-		</div>
-		<div class="row align-items-center pt-2">
-			<div class="col-lg-4 d-flex align-items-center">
-				Products (3)
-			</div>
-			<div class="col-lg-2 ps-lg-3">
-				Price
-			</div>
-			<div class="col-lg-2 ps-lg-3">
-				Quantity
-			</div>
-			<div class="col-lg-2 text-end">
-				Total
-			</div>
-			<div class="col-lg-2 text-end"></div>
-		</div>
+		<c-orders.header />
 	</div>
 	<div class="card-body mx-0 px-0 w-100 text-inverse overflow-y-auto">
 		<input type="hidden" name="selected-item" id="selected-item" />

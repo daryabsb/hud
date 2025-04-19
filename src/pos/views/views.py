@@ -38,7 +38,7 @@ def pos_home(request, number=None):
     #     customer=active_order.customer)
 
     context = context_factory(
-        ["active_order", "orders", "payment_types", "payment_type"])
+        ["active_order", "orders", "payment_types", "payment_type", "menus"], context={'initialized': True})
 
     if layout_object.value == 'visual':
         context = context_factory(['products', 'groups'], context)
