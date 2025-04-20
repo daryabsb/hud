@@ -5,11 +5,13 @@
 </div>
 <script>
 {% if initialized %}
-renderDataTable(
-    elId='{{ id }}', 
-    inputId='{{ input }}', 
-    ajaxUrl="/search-datatable/{{ app_name }}/{{ model_name }}/?datatables=1"
-    )
+document.addEventListener('DOMContentLoaded', function () {
+    renderDataTable(
+        elId='{{ id }}', 
+        inputId='{{ input }}', 
+        ajaxUrl="/search-datatable/{{ app_name }}/{{ model_name }}/?datatables=1"
+        )
+    });
 {% endif %}
 
 </script>

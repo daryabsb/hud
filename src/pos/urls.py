@@ -10,7 +10,7 @@ from src.pos.views import (
     add_order_comment, add_order_customer, add_order_payment,
     delete_order_item_with_no_response, activate_order,
     order_discount, calculator_modal, toggle_modal_comment,
-    pos_search_modal,
+    pos_search_modal, pos_order,
 )
 
 
@@ -18,6 +18,7 @@ app_name = "pos"
 
 urlpatterns = [
     path('', pos_home, name='pos-home'),
+    path('<str:number>/', pos_order, name='pos-order'),
 ]
 
 # HTMX VIEWS
@@ -45,12 +46,12 @@ urlpatterns += [
     path('modal-order-item/<str:number>/',
          modal_order_item, name="modal-order-item"),
     #     path('modal-calculator/', modal_calculator, name="modal-calculator"),
-    path('modal-calculator/', calculator_modal, name="modal-calculator"),
-    path('modal-keyboard/', modal_keyboard, name="modal-keyboard"),
-    path('calculate/', calculate, name='calculate'),
-    path('add_digit/', add_digit, name='add_digit'),
+    path('modals/modal-calculator/', calculator_modal, name="modal-calculator"),
+    path('modals/modal-keyboard/', modal_keyboard, name="modal-keyboard"),
+    path('modals/calculate/', calculate, name='calculate'),
+    path('modals/add_digit/', add_digit, name='add_digit'),
 
-    path('add-order-comment/<str:order_number>/',
+    path('modals/add-order-comment/<str:order_number>/',
          add_order_comment, name='add-order-comment'),
     path('modal-comment/<str:order_number>/',
          toggle_modal_comment, name='modal-comment'),
@@ -58,7 +59,7 @@ urlpatterns += [
          add_order_customer, name='add-order-customer'),
     path('modal-order-payment/<str:order_number>/',
          add_order_payment, name='modal-order-payment'),
-    path('pos-modal-search/', pos_search_modal, name='pos-modal-search'),
+    path('modals/pos-modal-search/', pos_search_modal, name='pos-modal-search'),
     #     actual product modal
     path('modal-product/<int:id>/', modal_product, name="modal-product"),
 ]

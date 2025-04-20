@@ -33,7 +33,8 @@ def get_active_order(active_order=None):
 
 def activate_order_and_deactivate_others(user, order_number=None, activate=None):
     from src.orders.models import PosOrder
-    if order_number:
+    print('order_number = ', order_number)
+    if order_number is not None:
         order = PosOrder.objects.get(pk=order_number)
         order.is_active = True
         order.save(update_fields=['is_active'])

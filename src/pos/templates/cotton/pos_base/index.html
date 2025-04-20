@@ -1,13 +1,11 @@
 
 <c-base>
 <c-slot name="extra_app_class">app-content-full-height position-relative</c-slot>
-<c-slot name="content">
+<c-slot name="content fade">
 <div id="content"
 hx-on::load="bInput=htmx.find('#barcode-input');bInput.value= '';bInput.focus();" 
 class="app-content p-1 ps-xl-4 pe-xl-4 pt-xl-3 pb-xl-3">
-    
-        {{ slot }}
-    
+    {{ slot }}
     <c-buttons.mobile_sidebar />
 </div>
 <c-buttons.order_panel />
@@ -15,7 +13,7 @@ class="app-content p-1 ps-xl-4 pe-xl-4 pt-xl-3 pb-xl-3">
 
 <c-slot name="modals">
     <c-modals />
- </c-slot>
+</c-slot>
 <c-panels.orders />
 
 

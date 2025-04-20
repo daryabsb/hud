@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from collections import defaultdict
-
+from src.orders.utils import context_factory
 from src.orders.models import PosOrder
 from src.pos.utils import get_active_order, activate_order_and_deactivate_others as aod
 from django.contrib.auth.decorators import login_required
@@ -8,6 +8,8 @@ from src.configurations.models import ApplicationProperty
 # Create your views here.
 from src.accounts.models import Customer
 from src.accounts.forms import CustomerFieldForm
+
+layout_object = ApplicationProperty.objects.get(name='layout')
 
 
 def prepare_products_variannts(queryset=None):
@@ -29,24 +31,37 @@ def prepare_products_variannts(queryset=None):
 
 @login_required
 def pos_home(request, number=None):
-    from src.orders.utils import context_factory
-    layout_object = ApplicationProperty.objects.get(name='layout')
 
-    # extra querysets
-    # customers = Customer.objects.all()
-    # customer_form = CustomerFieldForm(
-    #     customer=active_order.customer)
+    context = {
+        'initialized': True,
+    }
 
     context = context_factory(
-        ["active_order", "orders", "payment_types", "payment_type", "menus"], context={'initialized': True})
+        ["active_order", "orders", "payment_types", "payment_type", "menus"], context=context)
 
     if layout_object.value == 'visual':
         context = context_factory(['products', 'groups'], context)
         return render(request, 'cotton/pos_base/visual/index.html', context)
-
     return render(request, 'cotton/pos_base/standard/index.html', context)
 
+@login_required
+def pos_order(request, number):
 
+    active_order = aod(request.user, order_number=number)
+    active_order.refresh_from_db()
+    context = {
+        'active_order': active_order,
+        'initialized': True,
+    }
+
+    context = context_factory(
+        ["orders", "payment_types", "payment_type", "menus"], context=context)
+
+    if layout_object.value == 'visual':
+        context = context_factory(['products', 'groups'], context)
+        return render(request, 'cotton/pos_base/pos_container.html', context)
+    
+    return render(request, 'cotton/pos_base/standard/container.html', context)
 # class PosHomeView(LoginRequiredMixin, View):
 #     template_name_standard = 'cotton/pos_base/standard/index.html'
 #     template_name_visual = 'cotton/pos_base/visual/index.html'

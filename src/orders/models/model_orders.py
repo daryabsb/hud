@@ -3,7 +3,7 @@ from src.accounts.models import User, Customer, Warehouse
 from src.core.utils import generate_number
 from django.db.models import F, Sum, Case, When, Value
 from src.documents.models import DocumentType
-
+from src.orders.const import ORDER_STATUS
 
 class PosOrder(models.Model):
 
@@ -82,6 +82,11 @@ class PosOrder(models.Model):
         db_persist=False)
 
     paid_status = models.BooleanField(default=False)
+    status = models.IntegerField(
+        choices=ORDER_STATUS,
+        default=1,  # Default to 'Unfulfilled'
+        help_text="Current status of the order"
+    )
     is_active = models.BooleanField(default=True)
     is_enabled = models.BooleanField(default=True)
 
@@ -103,6 +108,16 @@ class PosOrder(models.Model):
             self.number = generate_number(doc_type)
         self.set_tax_fields()
         super().save(*args, **kwargs)
+
+    def get_status_class(self):
+        status_classes = {
+            1: 'border-warning text-warning',  # Unfulfilled
+            2: 'border-info text-info',       # Ready for pickup
+            3: 'border-primary text-primary', # Ready for delivery
+            4: 'border-danger text-danger',  # Cancelled
+            5: 'border-success text-success', # Fulfilled
+        }
+        return status_classes.get(self.status, '')
 
     def set_tax_fields(self):
         # Calculate fixed taxes and total tax rate

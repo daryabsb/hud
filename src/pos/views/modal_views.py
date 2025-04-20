@@ -7,7 +7,7 @@ from src.products.models import Product
 from src.orders.models import PosOrder, PosOrderItem
 from src.accounts.models import Customer
 from src.finances.models import PaymentType
-from src.pos.utils import get_active_order
+from src.pos.utils import get_active_order, activate_order_and_deactivate_others as aod
 
 modal_item_template = 'cotton/modals/pos_item.html'
 modal_product_template = 'cotton/modals/product.html'

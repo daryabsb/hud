@@ -6,7 +6,7 @@
 </div>
 <!-- END table -->
 <script>
-    
+    {% if initialized %}
     document.addEventListener('DOMContentLoaded', function () {
     renderDataTable(
         elId='search-products-table', 
@@ -14,4 +14,5 @@
         ajaxUrl='{% url "search-datatable" app_name="products" model="product" %}?datatables=1'
         )
     });
+    {% endif %}
 </script>

@@ -14,17 +14,6 @@
             data-bs-toggle="modal" data-bs-target="#modalPosSearchModal"
             hx-get="{% url 'pos:pos-modal-search' %}" hx-target="#modalPosSearchModal"
         >Search</c-buttons.icon_button>
-        <c-buttons.icon_button icon="fas fa-2xl fa-cart-plus" btn="btn-outline-gray-100 rounded-2"
-            hx-get="{% url 'pos:modal-calculator' %}" hx-target="#orderDiscountModal"
-            hx-vals='{
-                "is_ajax": true,
-                "el-id": "calculations-{{ active_order.number }}",
-                "url": "{% url "pos:order-discount" %}",
-                "template_name":"cotton/orders/calculations.html"
-                }'
-            data-bs-toggle="modal"
-            data-bs-target="#orderDiscountModal"
-        >Discount</c-buttons.icon_button>
         <c-buttons.icon_button 
         icon="fas fa-2xl fa-plus"
         btn="btn-outline-gray-100 rounded-2"
@@ -37,27 +26,42 @@
     <c-buttons.drag_handle />
     <hr />
     <div class="d-flex flex-nowrap flex-shrink-0 gap-2 btn-group px-4 top-3">
-        <c-buttons.icon_button icon="fas fa-2xl fa-percent" btn=" btn-outline-default rounded-2"
-            hx-get="{% url 'pos:modal-keyboard' %}" hx-target="#modal-keyboard" 
-            href="#modal-keyboard" data-bs-toggle="modal"
-            >Discount2</c-buttons.icon_button>
-        <c-buttons.pos.comment />
-        <c-buttons.pos.customer />
-
-        <c-buttons.icon_button icon="fas fa-2xl fa-fax" btn="btn-outline-default rounded-2"
-        >Cash drawer</c-buttons.icon_button>
-    </div>
-    <div class="d-flex flex-nowrap flex-shrink-0 gap-2 btn-group px-4 top-3">
+        <c-buttons.pos.delete />
         <c-buttons.icon_button icon="far fa-2xl fa-save" btn="btn-outline-default rounded-2"
         >Save sale</c-buttons.icon_button>
+        <c-buttons.pos.lock />
+    </div>
+    <div class="d-flex flex-nowrap flex-shrink-0 gap-2 btn-group px-4 top-3">
+        <c-buttons.icon_button icon="fas fa-2xl fa-cart-plus" btn="btn-outline-gray-100 rounded-2"
+        hx-get="{% url 'pos:modal-calculator' %}" hx-target="#orderDiscountModal"
+        hx-vals='{
+            "is_ajax": true,
+            "el-id": "calculations-{{ active_order.number }}",
+            "url": "{% url "pos:order-discount" %}",
+            "template_name":"cotton/orders/calculations.html"
+        }'
+        data-bs-toggle="modal"
+        data-bs-target="#orderDiscountModal"
+    >Discount</c-buttons.icon_button>
+    
+    <c-buttons.pos.comment />
+    <c-buttons.pos.customer />
+    
+    {% comment %} <c-buttons.icon_button icon="fas fa-2xl fa-fax" btn="btn-outline-default rounded-2"
+    >Cash drawer</c-buttons.icon_button> {% endcomment %}
+</div>
+<div class="d-flex flex-nowrap flex-shrink-0 gap-2 btn-group px-4 top-3">
+        <c-buttons.icon_button icon="fas fa-2xl fa-percent" btn=" btn-outline-default rounded-2"
+        hx-get="{% url 'pos:modal-keyboard' %}" hx-target="#modal-keyboard" 
+        href="#modal-keyboard" data-bs-toggle="modal"
+        >Discount2</c-buttons.icon_button>
+        <c-buttons.pos.transfer />
         <c-buttons.icon_button icon="fas fa-2xl fa-sync-alt" btn="btn-outline-default rounded-2"
         >Return</c-buttons.icon_button>
-        <c-buttons.pos.payment />
     </div>
     <div class="d-flex flex-nowrap flex-shrink-0 gap-2 btn-group px-4 mb-3">
-        <c-buttons.pos.lock />
-        <c-buttons.pos.transfer />
-        <c-buttons.pos.delete />
+        <c-buttons.pos.payment />
+        
         <c-buttons.main_menu />
     </div>
             {% comment %} DESKTOP-H79AUGO\Hi
