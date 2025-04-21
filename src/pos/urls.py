@@ -18,7 +18,7 @@ app_name = "pos"
 
 urlpatterns = [
     path('', pos_home, name='pos-home'),
-    path('<str:number>/', pos_order, name='pos-order'),
+    path('<str:number>/', pos_home, name='pos-order'),
 ]
 
 # HTMX VIEWS

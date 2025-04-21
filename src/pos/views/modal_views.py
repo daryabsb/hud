@@ -193,5 +193,5 @@ def add_order_customer(request, order_number):
 @login_required
 @require_GET
 def pos_search_modal(request):
-    active_order = get_active_order()
+    active_order = get_active_order(request.user)
     return render(request, 'cotton/modals/search/index.html', {'active_order': active_order, 'initialized': True})

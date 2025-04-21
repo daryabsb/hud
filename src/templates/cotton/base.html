@@ -15,6 +15,7 @@
 <body
 id="body"
 hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+hx-ext="preload"
 hx-on="htmx:load: jscolor.install();"
 class="theme-success"
 >

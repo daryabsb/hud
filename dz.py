@@ -15,7 +15,7 @@ dz_array = {
         "htmx": [
             f"{htmx}/htmx.min.js",
             # f"{htmx}/class-tools.js",
-            # f"{htmx}/preload.js",
+            f"{htmx}/preload.js",
             f"{htmx}/_hyperscript.js",
             # f"{htmx}/ext/debug.js",
             # f"{htmx}/ext/event-header.js",
@@ -26,13 +26,13 @@ dz_array = {
             f"{app}/css/style.css",
             f"{app}/plugins/toastify/toastify.min.css",
             f"{app}/plugins/datatable/datatables.min.css",
-            f"{app}/plugins/datatable/data-tables.css",
+            # f"{app}/plugins/datatable/data-tables.css",
         ],
         "global_js": {
             "top": [
                 f"{app}/js/vendor.min.js",
                 f"{app}/js/app.min.js",
-                f"{app}/plugins/datatable/datatables.min.js",
+                # f"{app}/plugins/datatable/datatables.min.js",
                 # f"{app}/plugins/jquery/jquery.min.js",
                 f"{app}/plugins/jscolor/jscolor.min.js",
                 f"{app}/plugins/toastify/toastify-js.js",
@@ -79,10 +79,10 @@ dz_array = {
             "js": {
                 "pos_home": [
                     f"{app}/plugins/interactjs/dist/interact.js",
-                    f"{app}/js/demo/pos-customer-order.demo.js",
-                    f"{app}/js/datatables/functions.js",
-                    f"{app}/js/datatables/formats.js",
-                    f"{app}/js/datatables/render.js",
+                    # f"{app}/js/demo/pos-customer-order.demo.js",
+                    # f"{app}/js/datatables/functions.js",
+                    # f"{app}/js/datatables/formats.js",
+                    # f"{app}/js/datatables/render.js",
                     # f"{app}/js/products-scripts.js",
                 ],
                 "mgt_documents": [

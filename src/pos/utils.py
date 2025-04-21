@@ -20,10 +20,10 @@ def get_active_item(item_number=None):
     return item
 
 
-def get_active_order(active_order=None):
+def get_active_order(user, active_order=None):
     from src.orders.models import PosOrder
     if not active_order:
-        active_order = PosOrder.objects.filter(is_active=True).first()
+        active_order = PosOrder.objects.filter(user=user, is_active=True).first()
     active_order.update_items_subtotal()
     active_order.refresh_from_db()
     # logger.success("Active order item_subtotal:> {} ", active_order.item_subtotal, feature="f-strings")
@@ -33,7 +33,6 @@ def get_active_order(active_order=None):
 
 def activate_order_and_deactivate_others(user, order_number=None, activate=None):
     from src.orders.models import PosOrder
-    print('order_number = ', order_number)
     if order_number is not None:
         order = PosOrder.objects.get(pk=order_number)
         order.is_active = True
