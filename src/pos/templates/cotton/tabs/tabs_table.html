@@ -29,7 +29,7 @@
                     >#{{ order.number }}</a></td>
                 <td class="align-middle">Thu 26 Nov, 12:23pm</td>
                 <td class="align-middle">Amanda Lee</td>
-                <td class="align-middle"><span class="badge border border-success text-success px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"><i class="fa fa-circle fs-9px fa-fw me-5px"></i> Fulfilled</span></td>
+                <td class="align-middle"><span class="badge border {{ order.get_status_class }} px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"><i class="fa fa-circle fs-9px fa-fw me-5px"></i> {{ order.get_status_display }}</span></td>
                 <td class="align-middle">3 items</td>
                 <td class="align-middle">Free shipping</td>
             </tr>
