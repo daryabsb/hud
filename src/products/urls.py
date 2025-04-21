@@ -14,6 +14,7 @@ app_name = "products"
 urlpatterns = [
     path('api/', include(router.urls)),
     path('api/products-columns/', products_columns_view, name='products-columns'),
+    path('product-list/', views.product_list, name='product-list'),
     path('search-products-datatable/<str:app_name>/<str:model>/',
          views.product_search_datatable, name='search-products'),
 ]

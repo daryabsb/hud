@@ -2,8 +2,6 @@ from src.settings.components.env import config
 from tzlocal import get_localzone
 from src.settings.components import PROJECT_PATH
 
-from src.settings.components.redis import REDIS_HOST, REDIS_PORT
-
 BASE_ENDPOINT = config('BASE_ENDPOINT', default='http://127.0.0.1:8000')
 WS_ENDPOINT = config('WS_ENDPOINT', default='ws://127.0.0.1:8000')
 
@@ -125,16 +123,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'src.wsgi.application'
 ASGI_APPLICATION = 'src.asgi.application'
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        # Replace with your Memurai server's address and port
-        'LOCATION': f'redis://{REDIS_HOST}:{REDIS_PORT}/1',
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-        }
-    }
-}
 
 CHANNEL_LAYERS = {
     "default": {

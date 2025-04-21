@@ -5,8 +5,7 @@
 # software: BioTime
 from src.settings.components.env import config
 
-CACHE_HOST = config('CACHE_HOST', default='127.0.0.1')
-CACHE_PORT = config('CACHE_PORT', default=6379)
+CACHE_HOST = config('REDIS_HOST', default='192.168.1.8')
+CACHE_PORT = config('REDIS_PORT', default=6378)
 CACHE_PASSWORD = config('CACHE_PASSWORD', default='')
 CACHE_DB = config('CACHE_DB', default=1)
-

@@ -6,8 +6,25 @@ from src.products.utils import apply_product_filters
 from src.core.utils import get_fields, get_columns, get_searchable_fields
 from django.http import JsonResponse
 from django.apps import apps
+import django_filters
 
 # Create your views here.
+
+
+class ProductFilter(django_filters.FilterSet):
+    class Meta:
+        model = Product
+        fields = {
+            'name': ['icontains'],
+            'parent_group__name': ['icontains'],
+            'price': ['lt', 'gt'],
+        }
+
+
+def product_list(request):
+    f = ProductFilter(
+        request.GET, queryset=Product.objects.filter(is_enabled=True))
+    return render(request, 'cotton/modals/search/render_products.html', {'filter': f})
 
 
 def documents_datatable_view(request):
