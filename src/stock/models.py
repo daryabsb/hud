@@ -5,14 +5,15 @@ from src.products.models import Product
 
 class Stock(models.Model):
     user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="stocks")
+        User, on_delete=models.CASCADE, related_name="stocks",
+        default=1)
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, related_name="stocks"
     )
     warehouse = models.ForeignKey(
         Warehouse, on_delete=models.CASCADE, related_name="stocks"
     )
-    quantity = models.SmallIntegerField(default=0)
+    quantity = models.SmallIntegerField(default=1)
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

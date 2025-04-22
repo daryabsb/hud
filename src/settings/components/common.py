@@ -102,6 +102,7 @@ TEMPLATES = [
             PROJECT_PATH + "\\orders\\templates",
             PROJECT_PATH + "\\games\\templates",
             PROJECT_PATH + "\\payments\\templates",
+            PROJECT_PATH + "\\stock\\templates",
 
         ],
         'APP_DIRS': True,

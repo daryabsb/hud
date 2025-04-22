@@ -21,16 +21,24 @@ def create_new_order(user, document_type=None):
 
 # Context providers
 def get_menu_list(user=None):
-    return ApplicationPropertySection.objects.get(name='Menu').application_properties.all()
+    return ApplicationPropertySection.objects.get(
+        name='Menu'
+        ).application_properties.values('order', 'name', 'value', 'title')
 
 def get_pos_orders(user=None):
-    return PosOrder.objects.filter(user=user, is_enabled=True)
+    return PosOrder.objects.filter(
+        user=user, is_enabled=True
+        ).select_related('user', 'customer', 'document_type', 'warehouse').order_by('-date')
 
 def get_product_list(user=None):
-    return Product.objects.filter(is_enabled=True)
+    return Product.objects.filter(
+        is_enabled=True
+        ).select_related('user', 'parent_group', 'currency', 'barcode')
 
 def get_product_groups(user=None):
-    return ProductGroup.objects.filter(parent__isnull=True)
+    return ProductGroup.objects.filter(
+        parent__isnull=True
+        ).select_related('user').order_by('rank')
 
 def get_customer_list(user=None):
     # Replace with actual query logic

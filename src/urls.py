@@ -70,6 +70,7 @@ urlpatterns = [
     path('documents/', include('src.documents.urls'), name="documents"),
     path('orders/', include('src.orders.urls'), name="orders"),
     path('products/', include('src.products.urls'), name="products"),
+    path('stock/', include('src.stock.urls'), name="stock"),
     path('game/', include('src.games.urls'), name="games"),
 
     path('test/', test, name='test')
