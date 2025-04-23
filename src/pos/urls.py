@@ -10,7 +10,7 @@ from src.pos.views import (
     add_order_comment, add_order_customer, add_order_payment,
     delete_order_item_with_no_response, activate_order,
     order_discount, calculator_modal, toggle_modal_comment,
-    pos_search_modal, pos_order,
+    pos_search_modal, pos_order, search_stock,
 )
 
 
@@ -62,4 +62,11 @@ urlpatterns += [
     path('modals/pos-modal-search/', pos_search_modal, name='pos-modal-search'),
     #     actual product modal
     path('modal-product/<int:id>/', modal_product, name="modal-product"),
+]
+
+
+# SEARCH VIEWS
+urlpatterns += [
+    path('search/stocks/',
+         search_stock, name="modal-search-stocks"),
 ]

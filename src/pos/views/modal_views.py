@@ -193,5 +193,13 @@ def add_order_customer(request, order_number):
 @login_required
 @require_GET
 def pos_search_modal(request):
+    from src.stock.filters import StockFilter
     active_order = get_active_order(request.user)
-    return render(request, 'cotton/modals/search/index.html', {'active_order': active_order, 'initialized': True})
+    stock_filter = StockFilter(request.GET, queryset=None)
+    context = {
+        'active_order': active_order,
+        "filter": stock_filter,
+        "form": stock_filter.form,
+
+    }
+    return render(request, 'cotton/modals/search/index.html', context)
