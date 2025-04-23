@@ -4,6 +4,8 @@ from src.products.models import Product, ProductGroup
 from src.documents.models import DocumentType
 from src.finances.models import PaymentType
 from src.pos.utils import get_active_order
+from src.stock.models import Stock, StockControl
+from src.stock.filters import StockFilter
 
 
 def create_new_order(user, document_type=None):
@@ -18,43 +20,53 @@ def create_new_order(user, document_type=None):
 # Sample context-generating functions
 
 
-
 # Context providers
+
+
 def get_menu_list(user=None):
     return ApplicationPropertySection.objects.get(
         name='Menu'
-        ).application_properties.values('order', 'name', 'value', 'title')
+    ).application_properties.values('order', 'name', 'value', 'title')
+
 
 def get_pos_orders(user=None):
     return PosOrder.objects.filter(
         user=user, is_enabled=True
-        ).select_related('user', 'customer', 'document_type', 'warehouse').order_by('-date')
+    ).select_related('user', 'customer', 'document_type', 'warehouse').order_by('-date')
+
 
 def get_product_list(user=None):
     return Product.objects.filter(
         is_enabled=True
-        ).select_related('user', 'parent_group', 'currency', 'barcode')
+    ).select_related('user', 'parent_group', 'currency', 'barcode')
+
 
 def get_product_groups(user=None):
     return ProductGroup.objects.filter(
         parent__isnull=True
-        ).select_related('user').order_by('rank')
+    ).select_related('user').order_by('rank')
+
 
 def get_customer_list(user=None):
     # Replace with actual query logic
     return ['John Doe', 'Jane Smith']
 
+
 def get_payment_types(user=None):
     from src.finances.models.models_payment_type import get_tree_nodes
     return get_tree_nodes()
+
 
 def get_first_payment_type(user=None):
     return get_payment_types()[0]
 
 # Add your actual implementation for this
+
+
 def get_active_order(user=None):
     # Placeholder
     return None
+
 
 # Context bank mapping
 CONTEXT_BANK = {
@@ -68,6 +80,7 @@ CONTEXT_BANK = {
     'menus': get_menu_list,
 }
 
+
 def context_factory(context_keys, user, context=None):
     """
     Generate user-specific context dictionary based on provided keys and merge with existing context.
@@ -76,7 +89,8 @@ def context_factory(context_keys, user, context=None):
         raise ValueError("User is required to generate context")
 
     context = context or {}
-    context.update({key: CONTEXT_BANK.get(key, lambda *_: None)(user) for key in context_keys})
+    context.update({key: CONTEXT_BANK.get(key, lambda *_: None)(user)
+                   for key in context_keys})
     return context
 
 

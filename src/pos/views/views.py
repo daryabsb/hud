@@ -1,13 +1,18 @@
 from django.shortcuts import render
 from collections import defaultdict
+from django.core.paginator import Paginator
+from django.db.models import OuterRef, Subquery, BooleanField, ExpressionWrapper, F
 from src.orders.utils import context_factory
 from src.orders.models import PosOrder
 from src.pos.utils import get_active_order, activate_order_and_deactivate_others as aod
 from django.contrib.auth.decorators import login_required
 from src.configurations.models import ApplicationProperty
+from src.stock.models import Stock, StockControl
 # Create your views here.
 from src.accounts.models import Customer
 from src.accounts.forms import CustomerFieldForm
+
+from src.stock.filters import StockFilter
 
 layout_object = ApplicationProperty.objects.get(name='layout')
 
@@ -31,32 +36,52 @@ def prepare_products_variannts(queryset=None):
 
 @login_required
 def pos_home(request, number=None):
-
+    stock_controls = StockControl.objects.filter(product=OuterRef('product'))
     if number:
         active_order = aod(request.user, order_number=number)
     else:
         active_order = get_active_order(request.user)
 
+    stock_queryset = Stock.objects.annotate(
+        preferred_quantity=Subquery(
+            stock_controls.values('preferred_quantity')[:1]),
+        is_low_stock_warning_enabled=Subquery(
+            stock_controls.values('is_low_stock_warning_enabled')[:1]),
+        low_stock_warning_quantity=Subquery(
+            stock_controls.values('low_stock_warning_quantity')[:1]),
+    )
+
+    stock_filter = StockFilter(request.GET, queryset=stock_queryset)
+    filtered_qs = stock_filter.qs
+
+    page_number = request.GET.get("page", 1)
+    paginator = Paginator(filtered_qs, 10)
+    stock_page_obj = paginator.get_page(page_number)
+
     context = {
         'user': request.user,
         'active_order': active_order,
         'initialized': True,
+        "stock_filter": stock_filter,
+        "stock_page_obj": stock_page_obj,
+        "stocks": stock_page_obj.object_list,
     }
 
     context = context_factory(
         ["orders", "payment_types", "payment_type", "menus"], request.user, context=context)
-    
+
     if request.htmx:
         if layout_object.value == 'visual':
             context = context_factory(['products', 'groups'], context)
             return render(request, 'cotton/pos_base/pos_container.html', context)
-        
+
         return render(request, 'cotton/pos_base/standard/container.html', context)
 
     if layout_object.value == 'visual':
         context = context_factory(['products', 'groups'], context)
         return render(request, 'cotton/pos_base/visual/index.html', context)
     return render(request, 'cotton/pos_base/standard/index.html', context)
+
 
 @login_required
 def pos_order(request, number):
@@ -75,7 +100,7 @@ def pos_order(request, number):
     if layout_object.value == 'visual':
         context = context_factory(['products', 'groups'], context)
         return render(request, 'cotton/pos_base/pos_container.html', context)
-    
+
     return render(request, 'cotton/pos_base/standard/container.html', context)
 # class PosHomeView(LoginRequiredMixin, View):
 #     template_name_standard = 'cotton/pos_base/standard/index.html'
