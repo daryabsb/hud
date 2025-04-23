@@ -8,6 +8,8 @@ from src.orders.models import PosOrder, PosOrderItem
 from src.accounts.models import Customer
 from src.finances.models import PaymentType
 from src.pos.utils import get_active_order, activate_order_and_deactivate_others as aod
+from src.stock.models import Stock, StockControl
+from django.db.models import OuterRef, Subquery, BooleanField, ExpressionWrapper, F
 
 modal_item_template = 'cotton/modals/pos_item.html'
 modal_product_template = 'cotton/modals/product.html'
@@ -30,7 +32,7 @@ def modal_order_item(request, number):
 
 def modal_product(request, id):
     print('ID = ', id)
-    active_order = get_active_order()
+    active_order = get_active_order(request.user)
     product = get_object_or_404(Product, id=id)
 
     context = {
@@ -139,7 +141,7 @@ def add_digit(request):
 
 def toggle_modal_comment(request, order_number):
     order = get_object_or_404(PosOrder, number=order_number)
-    active_order = get_active_order()
+    active_order = get_active_order(request.user)
 
     return render(request, 'cotton/modals/comment.html', {
         'order': order,
@@ -153,7 +155,7 @@ def add_order_comment(request, order_number):
     if order_number:
         order = get_object_or_404(PosOrder, number=order_number)
     else:
-        order = get_active_order()
+        order = get_active_order(request.user)
 
     print("View called!sss")
 
@@ -162,7 +164,7 @@ def add_order_comment(request, order_number):
     order.note = comment
     order.save()
 
-    active_order = get_active_order()
+    active_order = get_active_order(request.user)
 
     context = {
         "active_order": active_order,
@@ -194,8 +196,16 @@ def add_order_customer(request, order_number):
 @require_GET
 def pos_search_modal(request):
     from src.stock.filters import StockFilter
+    stock_controls = StockControl.objects.filter(product=OuterRef('product'))
+
     active_order = get_active_order(request.user)
-    stock_filter = StockFilter(request.GET, queryset=None)
+    queryset = Stock.objects.annotate(
+        preferred_quantity=Subquery(stock_controls.values('preferred_quantity')[:1]),
+        is_low_stock_warning_enabled=Subquery(stock_controls.values('is_low_stock_warning_enabled')[:1]),
+        low_stock_warning_quantity=Subquery(stock_controls.values('low_stock_warning_quantity')[:1]),
+    )
+
+    stock_filter = StockFilter(request.GET, queryset=queryset)
     context = {
         'active_order': active_order,
         "filter": stock_filter,

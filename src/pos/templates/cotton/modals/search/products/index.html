@@ -1,11 +1,6 @@
 {% load widget_tweaks %}
-
-{% comment %} {% for product in filter.qs %}
-{% endfor %} {% endcomment %}
 <c-modals.search.products.input />
 <div class="table-responsive">
-    {% comment %} <table class="table table-hover text-nowrap" id="{{ id }}">
-    </table> {% endcomment %}
     <table class="table table-hover text-nowrap">
         <thead>
             <tr>
@@ -17,7 +12,6 @@
             </tr>
         </thead>
         <tbody id="search-products-table-rows">
-            {% comment %} {{ filter.form }} {% endcomment %}
             {% for stock in stocks %}
             <tr class="align-middle">
                 <td class="w-10px">
@@ -35,20 +29,19 @@
                             <a href="page_product_details.html" class="fs-16px text-inverse text-opacity-75 text-decoration-none">{{ stock.product.name }}</a>
                         </div>
                     </div>
-
-
-
                 </td>
                 <td>
                     {% if stock.quantity > stock.low_stock_warning_quantity %}
                     <span class="badge border border-success text-success px-2 pt-5px pb-5px rounded fs-13px d-inline-flex align-items-center">
-                        {{ stock.quantity }} in the {{ stock.warehouse.name }}</span>
+                    {{ stock.quantity }} in the {{ stock.warehouse.name }}</span>
                     {% else %}
                     <span class="badge border border-danger text-danger px-2 pt-5px pb-5px rounded fs-13px d-inline-flex align-items-center">
-                        {{ stock.quantity }} in the {{ stock.warehouse.name }}</span>
+                    {{ stock.quantity }} in the {{ stock.warehouse.name }}</span>
                     {% endif %}
                 </td>
-                {% comment %} <td>{{ stock.quantity }} in the {{ stock.warehouse.name }}</td> {% endcomment %}
+                {% comment %} 
+                <td>{{ stock.quantity }} in the {{ stock.warehouse.name }}</td>
+                {% endcomment %}
                 <td>{{ stock.product.parent_group.name }}</td>
                 <td>something</td>
             </tr>
