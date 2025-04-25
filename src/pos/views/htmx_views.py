@@ -5,6 +5,10 @@ from src.products.models import Barcode, Product
 from src.orders.models import PosOrderItem, PosOrder
 from src.pos.calculations import (create_order_item,)
 from src.pos.utils import get_active_order, get_active_item
+from src.orders.utils import context_factory
+
+from src.configurations.utils import get_application_property
+layout_object = get_application_property(name='layout')
 
 update_active_order_template = 'pos/partials/order-detail.html'
 update_items_list = 'pos/orders/items/list.html'
@@ -28,7 +32,7 @@ def change_quantity(request, item_number):
         item.quantity = quantity
         item.save()
 
-    active_order = get_active_order()
+    active_order = get_active_order(request.user)
     context = {"active_order": active_order, "item": item}
     return render(request, update_order_item_template, context)
 
@@ -40,7 +44,7 @@ def add_quantity(request, item_number):
     # item = recalculate_item(order_item=item)
 
     item = get_active_item(item_number)
-    active_order = get_active_order()
+    active_order = get_active_order(request.user)
     context = {"active_order": active_order,
                "order": active_order, "item": item}
     return render(request, update_orderitem_qty_template, context)
@@ -57,7 +61,7 @@ def subtract_quantity(request, item_number):
     if item:
         item = get_active_item(item_number)
 
-    active_order = get_active_order()
+    active_order = get_active_order(request.user)
     context = {"active_order": active_order,
                "order": active_order, "item": item or None}
     return render(request, update_orderitem_qty_template, context)
@@ -67,7 +71,7 @@ def remove_item(request, item_number):
     item = get_object_or_404(PosOrderItem, number=item_number)
     item.delete()
 
-    active_order = get_active_order()
+    active_order = get_active_order(request.user)
     context = {"active_order": active_order}
     # context = get_context(active_order)
 
@@ -82,7 +86,7 @@ def delete_order_item_with_no_response(request, item_number):
     item = get_object_or_404(PosOrderItem, number=item_number)
     item.delete()
 
-    active_order = get_active_order()
+    active_order = get_active_order(request.user)
     context = {"active_order": active_order}
 
     # response = HttpResponse(status=204)
@@ -99,7 +103,7 @@ def delete_order_item_with_no_response(request, item_number):
 def add_item_with_barcode(request):
     barcode_value = request.POST.get("barcode", None)
     barcode = get_object_or_404(Barcode, value=barcode_value)
-    active_order = get_active_order()
+    active_order = get_active_order(request.user)
 
     item = PosOrderItem.objects.filter(
         user=request.user, order=active_order, product=barcode.product).first()
@@ -111,18 +115,27 @@ def add_item_with_barcode(request):
             request.user, active_order, barcode.product
         )
 
-    active_order = get_active_order()
+    active_order = get_active_order(request.user)
     context = {"active_order": active_order,
                "order": active_order, "item": item}
     # return render(request, update_order_item_template, context)
-    return render(request, stanndard_order_item_add_template, context)
+
+    context = context_factory(
+        ["orders", "payment_types", "payment_type", "menus"], request.user, context=context)
+
+    # if request.htmx:
+    if layout_object.value == 'visual':
+        context = context_factory(['products', 'groups'], context)
+        return render(request, 'cotton/pos_base/pos_container.html', context)
+
+    return render(request, 'cotton/pos_base/standard/container.html', context)
 
 
 def add_order_item(request):
     product_id = request.POST.get('product_id', None)
     # quantity = int(request.POST.get('quantity', 1))
     quantity = int(request.POST.get('qty', 1))
-    active_order = get_active_order()
+    active_order = get_active_order(request.user)
     product = get_object_or_404(Product, id=product_id)
 
     item = PosOrderItem.objects.filter(
@@ -135,11 +148,21 @@ def add_order_item(request):
         item.quantity += quantity
         item.save()
 
-    active_order = get_active_order()
+    active_order = get_active_order(request.user)
+
     context = {"active_order": active_order,
                "order": active_order, "item": item}
 
-    return render(request, stanndard_order_item_add_template, context)
+    context = context_factory(
+        ["orders", "payment_types", "payment_type", "menus"], request.user, context=context)
+
+    # if request.htmx:
+    if layout_object.value == 'visual':
+        context = context_factory(['products', 'groups'], context)
+        return render(request, 'cotton/pos_base/pos_container.html', context)
+
+    return render(request, 'cotton/pos_base/standard/container.html', context)
+    # return render(request, stanndard_order_item_add_template, context)
 
 
 def activate_order(request, order_number):
@@ -157,7 +180,7 @@ def activate_order(request, order_number):
         order.save()
 
     # Get the updated active order (assuming this function works as intended)
-    active_order = get_active_order()
+    active_order = get_active_order(request.user)
 
     context = {"order": active_order, "active_order": active_order}
     return render(request, stanndard_activate_order_template, context)
@@ -167,7 +190,7 @@ def order_discount(request):
     # Fetch the order to activate
 
     # Get the updated active order (assuming this function works as intended)
-    active_order = get_active_order()
+    active_order = get_active_order(request.user)
 
     print(f"order_discount: {active_order.number}")
 

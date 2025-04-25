@@ -39,6 +39,7 @@ THIRD_PARTY_APPS = [
     'datatableview',
     'src.games',
     'django_cotton',
+    "debug_toolbar",
 ]
 
 LOCAL_APPS = [
@@ -77,6 +78,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.csrf.CsrfViewMiddleware',
     "django_htmx.middleware.HtmxMiddleware",
     'django.contrib.auth.middleware.AuthenticationMiddleware',

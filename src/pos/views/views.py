@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from src.orders.utils import context_factory
 from django.contrib.auth.decorators import login_required
-from src.configurations.utils import get_application_property
 from src.stock.utils import get_paginated_stock_results
 from src.pos.utils import get_active_order, activate_order_and_deactivate_others as aod
 
+from src.configurations.utils import get_application_property
 layout_object = get_application_property(name='layout')
 
 

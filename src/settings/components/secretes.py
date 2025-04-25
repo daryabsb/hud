@@ -32,7 +32,11 @@ ALLOWED_HOSTS = ['172.16.10.49']
 ALLOWED_HOST = config("ALLOWED_HOST", cast=str, default="")
 if ALLOWED_HOSTS:
     ALLOWED_HOSTS.append(ALLOWED_HOST.strip())
-
+INTERNAL_IPS = [
+    # ...
+    "127.0.0.1",
+    # ...
+]
 # if environ.get('SECRET_KEY') is None:
 #     SECRET_KEY_SUFFIX = config('SECRET_KEY', default=str(uuid.getnode()))
 #     if not SECRET_KEY_SUFFIX:

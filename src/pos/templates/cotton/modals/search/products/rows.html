@@ -35,6 +35,10 @@ class="align-middle">
     <button type="button" 
     class="btn btn-outline-theme btn-sm"
     data-bs-dismiss="modal"
+    hx-post="{% url 'pos:add-item' %}"
+    hx-target="#standard-pos-container"
+    hx-include="#input-modal-qty"
+    hx-vals='{"product_id": {{ stock.product.id }}}'
     >Add</button>
     </td>
 </tr>
