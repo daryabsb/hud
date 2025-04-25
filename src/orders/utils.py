@@ -1,11 +1,10 @@
-from src.configurations.models import ApplicationPropertySection
+from src.configurations.models import ApplicationProperty
 from src.orders.models import PosOrder
 from src.products.models import Product, ProductGroup
 from src.documents.models import DocumentType
 from src.finances.models import PaymentType
 from src.pos.utils import get_active_order
-from src.stock.models import Stock, StockControl
-from src.stock.filters import StockFilter
+from src.accounts.models import Customer
 
 
 def create_new_order(user, document_type=None):
@@ -17,16 +16,10 @@ def create_new_order(user, document_type=None):
     return order
 
 
-# Sample context-generating functions
-
-
-# Context providers
-
-
 def get_menu_list(user=None):
-    return ApplicationPropertySection.objects.get(
-        name='Menu'
-    ).application_properties.values('order', 'name', 'value', 'title')
+    return ApplicationProperty.objects.filter(
+        section__name='Menu'
+    ).values('order', 'name', 'value', 'title')
 
 
 def get_pos_orders(user=None):
@@ -48,8 +41,9 @@ def get_product_groups(user=None):
 
 
 def get_customer_list(user=None):
-    # Replace with actual query logic
-    return ['John Doe', 'Jane Smith']
+    return Customer.objects.filter.filter(
+        is_enabled=True
+    ).select_related('user')
 
 
 def get_payment_types(user=None):

@@ -1,24 +1,16 @@
 from django.shortcuts import render
-from collections import defaultdict
-from django.core.paginator import Paginator
-from django.db.models import OuterRef, Subquery, BooleanField, ExpressionWrapper, F
 from src.orders.utils import context_factory
-from src.orders.models import PosOrder
-from src.pos.utils import get_active_order, activate_order_and_deactivate_others as aod
 from django.contrib.auth.decorators import login_required
-from src.configurations.models import ApplicationProperty
-from src.stock.models import Stock, StockControl
-# Create your views here.
-from src.accounts.models import Customer
-from src.accounts.forms import CustomerFieldForm
+from src.configurations.utils import get_application_property
+from src.stock.utils import get_paginated_stock_results
+from src.pos.utils import get_active_order, activate_order_and_deactivate_others as aod
 
-from src.stock.filters import StockFilter
-
-layout_object = ApplicationProperty.objects.get(name='layout')
+layout_object = get_application_property(name='layout')
 
 
 def prepare_products_variannts(queryset=None):
     from src.products.models import Product, ProductGroup
+    from collections import defaultdict
     if not queryset:
         queryset = Product.objects.all()
 
@@ -36,35 +28,16 @@ def prepare_products_variannts(queryset=None):
 
 @login_required
 def pos_home(request, number=None):
-    stock_controls = StockControl.objects.filter(product=OuterRef('product'))
     if number:
         active_order = aod(request.user, order_number=number)
     else:
         active_order = get_active_order(request.user)
 
-    stock_queryset = Stock.objects.annotate(
-        preferred_quantity=Subquery(
-            stock_controls.values('preferred_quantity')[:1]),
-        is_low_stock_warning_enabled=Subquery(
-            stock_controls.values('is_low_stock_warning_enabled')[:1]),
-        low_stock_warning_quantity=Subquery(
-            stock_controls.values('low_stock_warning_quantity')[:1]),
-    )
-
-    stock_filter = StockFilter(request.GET, queryset=stock_queryset)
-    filtered_qs = stock_filter.qs
-
-    page_number = request.GET.get("page", 1)
-    paginator = Paginator(filtered_qs, 10)
-    stock_page_obj = paginator.get_page(page_number)
+    stock_context = get_paginated_stock_results(request)
 
     context = {
-        'user': request.user,
         'active_order': active_order,
-        'initialized': True,
-        "stock_filter": stock_filter,
-        "stock_page_obj": stock_page_obj,
-        "stocks": stock_page_obj.object_list,
+        **stock_context,
     }
 
     context = context_factory(
@@ -85,7 +58,6 @@ def pos_home(request, number=None):
 
 @login_required
 def pos_order(request, number):
-
     active_order = aod(request.user, order_number=number)
     active_order.refresh_from_db()
     context = {
@@ -102,63 +74,3 @@ def pos_order(request, number):
         return render(request, 'cotton/pos_base/pos_container.html', context)
 
     return render(request, 'cotton/pos_base/standard/container.html', context)
-# class PosHomeView(LoginRequiredMixin, View):
-#     template_name_standard = 'cotton/pos_base/standard/index.html'
-#     template_name_visual = 'cotton/pos_base/visual/index.html'
-
-#     def get_template_for_view(self):
-#         layout = ApplicationProperty.objects.get(name='layout')
-#         return self.template_name_visual if layout.value == 'visual' else self.template_name_standard
-
-#     def get_context_data(self, user, active_order=None):
-#         layout = ApplicationProperty.objects.get(name='layout')
-#         pos_orders = PosOrder.objects.all()
-#         payment_types = PaymentType.objects.filter(is_enabled=True)
-
-#         context = {
-#             "active_order": active_order or get_active_order(),
-#             "orders": pos_orders,
-#             "payment_types": payment_types,
-#             "payment_type": payment_types.first(),
-#         }
-
-#         if layout.value == 'visual':
-#             context["products"] = Product.objects.all()
-#             context["groups"] = ProductGroup.objects.filter(
-#                 parent__isnull=True)
-
-#         return context
-
-#     def get(self, request, number=None):
-#         print('Last Activity: ', request.session.get('last_activity'))
-#         context = self.get_context_data(request.user)
-#         return render(request, self.get_template_for_view(), context)
-
-#     def post(self, request):
-#         """
-#         Handle adding a new order (HTMX).
-#         """
-#         template = self.get_template_for_view()
-#         order = create_new_order(request.user)
-#         active_order = aod(request.user, order_number=order.number)
-
-#         context = {"order": active_order, "active_order": active_order}
-#         return render(request, template, context)
-
-#     def delete(self, request):
-#         """
-#         Handle deleting the active order (HTMX).
-#         """
-#         template = self.get_template_for_view()
-#         active_order = get_active_order()
-#         active_order.delete()
-#         aod(request.user, activate=True)
-
-#         context = {"order": active_order, "active_order": active_order}
-#         return render(request, template, context)
-
-#     def http_method_not_allowed(self, request, *args, **kwargs):
-#         # HTMX sends DELETE as POST + `HX-Method`
-#         if request.headers.get("HX-Request") and request.POST.get("_method") == "DELETE":
-#             return self.delete(request)
-#         return HttpResponseNotAllowed(['GET', 'POST', 'DELETE'])

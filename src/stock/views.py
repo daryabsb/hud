@@ -6,13 +6,17 @@ from src.stock.filters import StockFilter
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 
+
 def stock_list_view(request):
     stock_controls = StockControl.objects.filter(product=OuterRef('product'))
 
     queryset = Stock.objects.annotate(
-        preferred_quantity=Subquery(stock_controls.values('preferred_quantity')[:1]),
-        is_low_stock_warning_enabled=Subquery(stock_controls.values('is_low_stock_warning_enabled')[:1]),
-        low_stock_warning_quantity=Subquery(stock_controls.values('low_stock_warning_quantity')[:1]),
+        preferred_quantity=Subquery(
+            stock_controls.values('preferred_quantity')[:1]),
+        is_low_stock_warning_enabled=Subquery(
+            stock_controls.values('is_low_stock_warning_enabled')[:1]),
+        low_stock_warning_quantity=Subquery(
+            stock_controls.values('low_stock_warning_quantity')[:1]),
     )
 
     stock_filter = StockFilter(request.GET, queryset=queryset)
@@ -30,7 +34,17 @@ def stock_list_view(request):
     }
 
     if request.htmx:
-        html = render_to_string("stock/partials/stock_table_rows.html", context, request=request)
+        html = render_to_string(
+            "stock/partials/stock_table_rows.html", context, request=request)
         return HttpResponse(html)
 
     return render(request, "stock/stock_list.html", context)
+
+    widget = forms.Select(attrs={
+        'class': 'form-control form-control-lg ps-35px first-input',
+        'placeholder': 'Search products',
+        'autocomplete': 'off',
+        'hx-get': '/pos/search/stocks/',
+        'hx-trigger': 'keyup changed delay:1s',
+        'hx-target': '#search-products-tab'
+    }),

@@ -55,18 +55,18 @@ urlpatterns += [
          add_order_comment, name='add-order-comment'),
     path('modal-comment/<str:order_number>/',
          toggle_modal_comment, name='modal-comment'),
-    path('add-order-customer/<str:order_number>/',
+    path('modals/add-order-customer/<str:order_number>/',
          add_order_customer, name='add-order-customer'),
-    path('modal-order-payment/<str:order_number>/',
+    path('modals/modal-order-payment/<str:order_number>/',
          add_order_payment, name='modal-order-payment'),
     path('modals/pos-modal-search/', pos_search_modal, name='pos-modal-search'),
     #     actual product modal
     path('modal-product/<int:id>/', modal_product, name="modal-product"),
+    path('search/stocks/',
+         search_stock, name="modal-search-stocks"),
 ]
 
 
 # SEARCH VIEWS
-urlpatterns += [
-    path('search/stocks/',
-         search_stock, name="modal-search-stocks"),
-]
+# urlpatterns += [
+# ]

@@ -1,29 +1,13 @@
 {% load widget_tweaks %}
 <!-- BEGIN input-group -->
-<div class="input-group mb-4">
-    {% comment %} <button class="btn btn-outline-default dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Filter products &nbsp;</button>
-    <div class="dropdown-menu">
-        <a class="dropdown-item" href="#">Action</a>
-        <a class="dropdown-item" href="#">Another action</a>
-        <a class="dropdown-item" href="#">Something else here</a>
-        <div role="separator" class="dropdown-divider"></div>
-        <a class="dropdown-item" href="#">Separated link</a>
-    </div> {% endcomment %}
-    <div class="flex-fill position-relative">
+<div class="input-group row gap-0 mb-4" hx-include="this">
+   {{ form.categories}}
+    <div class="col-8 flex-fill position-relative">
         <div class="input-group">
-            <div class="input-group-text position-absolute top-0 bottom-0 bg-none border-0 pe-0" style="z-index: 1020;">
+            <div class="input-group-text position-absolute top-0 end-0 bottom-0 bg-none border-0 ps-0" style="z-index: 1020;">
                 <i class="fa fa-search opacity-5"></i>
             </div>
-            {% comment %} {% render_field form.product_name id="search-modals-products-input" placeholder="Search products" autocomplete="off" class="form-control form-control-lg ps-35px border-0 first-input" hx-get="/pos/search/stocks/" hx-trigger="keyup changed delay:500ms" hx-target="#search-products-tab" %} {% endcomment %}
-            <input id="search-modals-products-input" 
-                type="text" class="form-control form-control-lg ps-35px border-0 first-input"
-                name="product_name"
-                placeholder="Search products" autocomplete="off"
-                hx-get="{% url 'pos:modal-search-stocks' %}" 
-                hx-trigger="keyup changed delay:500ms" 
-                hx-target="#search-products-tab"
-                value="{% if form.product_name.value %}{{ form.product_name.value}}{% endif %}"
-                >
+            {{ form.product_name}}
         </div>
     </div>
 </div>
