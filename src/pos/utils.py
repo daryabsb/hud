@@ -23,7 +23,7 @@ def get_active_item(item_number=None):
 def get_active_order(user, active_order=None):
     from src.orders.models import PosOrder
     if not active_order:
-        active_order = PosOrder.objects.filter(user=user, is_active=True).first()
+        active_order = PosOrder.objects.filter(user=user, is_active=True).prefetch_related('items').first()
     active_order.update_items_subtotal()
     active_order.refresh_from_db()
     # logger.success("Active order item_subtotal:> {} ", active_order.item_subtotal, feature="f-strings")
@@ -34,25 +34,25 @@ def get_active_order(user, active_order=None):
 def activate_order_and_deactivate_others(user, order_number=None, activate=None):
     from src.orders.models import PosOrder
     if order_number is not None:
-        order = PosOrder.objects.get(pk=order_number)
+        order = PosOrder.objects.prefetch_related('items').get(pk=order_number)
         order.is_active = True
         order.save(update_fields=['is_active'])
 
-        PosOrder.objects.filter(user=order.user).exclude(
+        PosOrder.objects.filter(user=order.user).prefetch_related('items').exclude(
             pk=order.pk).update(is_active=False)
 
-    elif PosOrder.objects.all().count() == 0:
+    elif PosOrder.objects.count() == 0:
         customer = Customer.objects.first()
         order = PosOrder.objects.create(
             user=user, customer=customer, is_active=True)
 
     elif activate:
-        order = PosOrder.objects.filter(user=user).first()
+        order = PosOrder.objects.filter(user=user).prefetch_related('items').first()
         order.is_active = True
         order.save(update_fields=['is_active'])
 
     else:
-        order = PosOrder.objects.filter(user=user, is_active=True).first()
+        order = PosOrder.objects.filter(user=user, is_active=True).prefetch_related('items').first()
         # If all orders are already active, just return None
     return order
 

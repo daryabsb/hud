@@ -19,6 +19,7 @@ DJANGO_APPS = [
     'allauth.account',
     "django_extensions",
     "django_htmx",
+    "debug_toolbar",
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'after_response',
@@ -39,7 +40,6 @@ THIRD_PARTY_APPS = [
     'datatableview',
     'src.games',
     'django_cotton',
-    "debug_toolbar",
 ]
 
 LOCAL_APPS = [
@@ -78,8 +78,8 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.csrf.CsrfViewMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django_htmx.middleware.HtmxMiddleware",
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -187,3 +187,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+DEBUG_TOOLBAR_CONFIG = {
+    "ROOT_TAG_EXTRA_ATTRS": "hx-preserve"
+}

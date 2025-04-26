@@ -73,7 +73,8 @@ urlpatterns = [
     path('stock/', include('src.stock.urls'), name="stock"),
     path('game/', include('src.games.urls'), name="games"),
 
-    path('test/', test, name='test')
+    path('test/', test, name='test'),
+    path("__debug__/", include("debug_toolbar.urls")),
 ]
 
 if settings.DEBUG:
@@ -81,4 +82,4 @@ if settings.DEBUG:
                           document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL,
                           document_root=settings.MEDIA_ROOT)
-    urlpatterns += debug_toolbar_urls()
+    # urlpatterns += debug_toolbar_urls()

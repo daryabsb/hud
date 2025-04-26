@@ -31,12 +31,12 @@ hx-trigger="load delay:5s" {% endcomment %}
     data-toggle-class="app-sidebar-mobile-toggled"></button>
     
     {{ content }}
+    {{ modals }}
     
     <a href="#" data-toggle="scroll-to-top" class="btn-scroll-top fade"><i class="fa fa-arrow-up"></i></a>
     {% comment %} <c-theme-panel /> {% endcomment %}
 </div>
         <input type="hidden" id="success-response" />
-    {{ modals }}
 
     <c-modals.confirm_logout />
     <c-enter-pin />
@@ -59,19 +59,19 @@ hx-trigger="load delay:5s" {% endcomment %}
 
         });
     });
+    {% if debug %}
+        if (typeof htmx !== "undefined") {
+            htmx.on("htmx:afterSettle", function(detail) {
+                if (
+                    typeof window.djdt !== "undefined"
+                    && detail.target instanceof HTMLBodyElement
+                ) {
+                    djdt.show_toolbar();
+                }
+            });
+        }
+    {% endif %}
 });
-{% if debug %}
-    if (typeof window.htmx !== "undefined") {
-        htmx.on("htmx:afterSettle", function(detail) {
-            if (
-                typeof window.djdt !== "undefined"
-                && detail.target instanceof HTMLBodyElement
-            ) {
-                djdt.show_toolbar();
-            }
-        });
-    }
-{% endif %}
     </script>
 </body>
 

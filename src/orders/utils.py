@@ -25,7 +25,7 @@ def get_menu_list(user=None):
 def get_pos_orders(user=None):
     return PosOrder.objects.filter(
         user=user, is_enabled=True
-    ).select_related('user', 'customer', 'document_type', 'warehouse').order_by('-date')
+    ).prefetch_related('items').select_related('user', 'customer').order_by('-date')
 
 
 def get_product_list(user=None):

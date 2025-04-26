@@ -28,31 +28,32 @@ def prepare_products_variannts(queryset=None):
 
 @login_required
 def pos_home(request, number=None):
-    if number:
-        active_order = aod(request.user, order_number=number)
-    else:
-        active_order = get_active_order(request.user)
+    # if number:
+    #     active_order = aod(request.user, order_number=number)
+    # else:
 
     stock_context = get_paginated_stock_results(request)
 
+    active_order = get_active_order(request.user)
     context = {
         'active_order': active_order,
         **stock_context,
     }
 
     context = context_factory(
-        ["orders", "payment_types", "payment_type", "menus"], request.user, context=context)
+        [
+            "orders", "payment_types", "payment_type", "menus"], request.user, context=context)
 
     if request.htmx:
-        if layout_object.value == 'visual':
-            context = context_factory(['products', 'groups'], context)
-            return render(request, 'cotton/pos_base/pos_container.html', context)
+        # if layout_object.value == 'visual':
+        #     context = context_factory(['products', 'groups'], context)
+        #     return render(request, 'cotton/pos_base/pos_container.html', context)
 
         return render(request, 'cotton/pos_base/standard/container.html', context)
 
-    if layout_object.value == 'visual':
-        context = context_factory(['products', 'groups'], context)
-        return render(request, 'cotton/pos_base/visual/index.html', context)
+    # if layout_object.value == 'visual':
+    #     context = context_factory(['products', 'groups'], context)
+    #     return render(request, 'cotton/pos_base/visual/index.html', context)
     return render(request, 'cotton/pos_base/standard/index.html', context)
 
 
