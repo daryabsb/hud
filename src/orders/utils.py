@@ -1,10 +1,11 @@
 from src.configurations.models import ApplicationProperty
-from src.orders.models import PosOrder
+from src.orders.models import PosOrder, PosOrderItem
 from src.products.models import Product, ProductGroup
 from src.documents.models import DocumentType
 from src.finances.models import PaymentType
 from src.pos.utils import get_active_order
 from src.accounts.models import Customer
+from django.db.models import Prefetch
 
 
 def create_new_order(user, document_type=None):
@@ -23,9 +24,12 @@ def get_menu_list(user=None):
 
 
 def get_pos_orders(user=None):
+    items_qs = PosOrderItem.objects.select_related('product')
     return PosOrder.objects.filter(
         user=user, is_enabled=True
-    ).prefetch_related('items').select_related('user', 'customer').order_by('-date')
+    ).prefetch_related(
+        Prefetch('items', queryset=items_qs, to_attr='order_items')
+    ).select_related('user', 'customer').order_by('-date')
 
 
 def get_product_list(user=None):

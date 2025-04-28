@@ -4,6 +4,7 @@ from django.db.models import Prefetch
 from django.forms import model_to_dict
 from decimal import Decimal
 
+
 def get_paginated_stock_results(request=None):
 
     stock_control_qs = StockControl.objects.select_related('customer').only(
@@ -16,17 +17,19 @@ def get_paginated_stock_results(request=None):
         'quantity',
         'warehouse',
     )
+
     products = Product.objects.prefetch_related(
         Prefetch('stocks', queryset=stocks_qs, to_attr='prefetched_stocks'),
-        Prefetch('stock_controls', queryset=stock_control_qs, to_attr='prefetched_stockcontrols')
-        ).select_related(
-            'parent_group'
-            ).only(
-                'id', 
-                'name', 
-                'image', 
-                'parent_group',
-            )
+        Prefetch('stock_controls', queryset=stock_control_qs,
+                 to_attr='prefetched_stockcontrols')
+    ).select_related(
+        'parent_group'
+    ).only(
+        'id',
+        'name',
+        'image',
+        'parent_group',
+    )
     for product in products:
         for stock in product.prefetched_stocks:
             stock_info = {
@@ -36,7 +39,7 @@ def get_paginated_stock_results(request=None):
                 'stock_quantity': stock.quantity,
                 'warehouse_name': stock.warehouse.name if stock.warehouse else None,
             }
-            print(stock_info)
+            # print(stock_info)
 
         for stock_control in product.prefetched_stockcontrols:
             stock_control_info = {
@@ -46,8 +49,9 @@ def get_paginated_stock_results(request=None):
                 'is_low_stock_warning_enabled': stock_control.is_low_stock_warning_enabled,
                 'low_stock_warning_quantity': stock_control.low_stock_warning_quantity,
             }
-            print(stock_control_info)
-        print(product)
+            # print(stock_control_info)
+        print(
+            f'[id: {product.id},name: {product.name},image: {product.image.url},parent_group: {product.parent_group}]')
 
     return products
 
@@ -61,10 +65,8 @@ def get_paginated_stock_results(request=None):
     # page_number = request.GET.get("page", 1)
 
 
-
 def run():
     get_paginated_stock_results()
-
 
 
 '''

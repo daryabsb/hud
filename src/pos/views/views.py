@@ -48,6 +48,7 @@ def pos_home(request, number=None):
     #     'active_order': active_order,
     #     'orders': [{'number': 'sales-18042025-1892'}, {'number': 'sales-30112024-0149'}]
     # }
+    print(layout_object.value)
     if request.htmx:
         if layout_object.value == 'visual':
             context = context_factory(['products', 'groups'], context)
