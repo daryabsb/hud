@@ -28,7 +28,6 @@ def props(request):
     prop_dict = {}
     for prop in properties:
         prop_dict[prop.name] = prop.value
-
     return prop_dict
     # return {'props':prop_dict}
 
@@ -38,6 +37,7 @@ def querty(request):
     return {
         'qwerty': qwerty
     }
+
 
 def main_app_names(request):
     return {
