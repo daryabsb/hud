@@ -7,8 +7,9 @@
 	</div>
 	<div class="card-body mx-0 px-0 w-100 text-inverse overflow-y-auto">
 		<input type="hidden" name="selected-item" id="selected-item" />
-		{% for item in active_order.items.all %}
+		{% for item in active_order.items %}
 		<c-orders.item />
+		
 		{% endfor %}
 	</div>
 	<div class="card-footer bg-none d-flex flex-column" id="calculations-{{ active_order.number }}">

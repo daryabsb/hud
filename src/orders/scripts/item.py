@@ -1,9 +1,12 @@
-from src.orders.models import PosOrderItem
+from src.orders.models import PosOrderItem, PosOrder
 from time import sleep
+from src.orders.api.serializers import PosOrderItemSerializer, PosOrderSerializer
 
 
 def run():
-    while True:
-        item = PosOrderItem.objects.get(number="item-1-04042025-01-2839")
-        print(f"item_total: {item.item_total}")
-        sleep(3)
+    # items = PosOrderItem.objects.filter(order__number='sales-06122024-3773')
+    orders = PosOrder.objects.all()
+    data = PosOrderSerializer(orders, many=True).data
+    # for order in data:
+    print(data[0])
+

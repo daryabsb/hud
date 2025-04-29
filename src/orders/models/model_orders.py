@@ -4,6 +4,62 @@ from src.core.utils import generate_number
 from django.db.models import F, Sum, Case, When, Value
 from src.documents.models import DocumentType
 from src.orders.const import ORDER_STATUS
+from src.core.utils import generate_cache_key
+
+from django.core.cache import cache
+from src.products.models import Product
+
+
+
+CACHE_TIMEOUT = 604800  # 1 week
+
+def get_orders_from_db(user=None, warehouse=None, customer=None):
+    from src.orders.api.serializers import PosOrderSerializer
+    print("3 - Cache miss, fetching from DB")
+    queryset = PosOrder.objects.filter(is_enabled=True)
+
+    if user and not (user.is_staff or user.is_superuser):
+        queryset = queryset.filter(user=user)
+
+    if warehouse:
+        queryset = queryset.filter(warehouse=warehouse)
+
+    if customer:
+        queryset = queryset.filter(customer=customer)
+
+    serializer = PosOrderSerializer(queryset, many=True)
+    return serializer.data  # This should be a list of dicts
+
+
+def get_orders(refresh=False, user=None, warehouse=None, customer=None):
+    cache_key = generate_cache_key("orders_list", user, warehouse, customer)
+
+    if refresh:
+        print("1 - Cache miss, fetching from DB")
+        orders = get_orders_from_db(user, warehouse, customer)
+        cache.set(cache_key, orders, CACHE_TIMEOUT)
+    else:
+        orders = cache.get(cache_key)
+        # print(f"Cache key: {cache_key}")
+        # print(f"Cache value: {orders}")
+        
+        if orders is None:
+            print("2 - Cache miss, fetching from DB")
+            orders = get_orders_from_db(user, warehouse, customer)
+            cache.set(cache_key, orders, CACHE_TIMEOUT)
+
+    return orders
+
+
+
+def refresh_order_cache(user=None, warehouse=None, customer=None):
+    """Manually refresh the order cache."""
+    cache_key = generate_cache_key("order_list", user, warehouse, customer)
+    orders = get_orders_from_db(user, warehouse, customer)
+    cache.set(cache_key, orders, CACHE_TIMEOUT)
+
+
+
 
 class PosOrder(models.Model):
 
@@ -108,6 +164,10 @@ class PosOrder(models.Model):
             self.number = generate_number(doc_type)
         self.set_tax_fields()
         super().save(*args, **kwargs)
+        self.refresh_cache
+
+    def refresh_cache(self):
+        refresh_order_cache(user=self.user, warehouse=self.warehouse, customer=self.customer)
 
     def get_status_class(self):
         status_classes = {

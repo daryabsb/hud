@@ -1,8 +1,10 @@
 from src.products.models import Product
 from src.stock.models import Stock, StockControl
+from src.stock.api.serializers import StockSerializer
 from django.db.models import Prefetch
 from django.forms import model_to_dict
 from decimal import Decimal
+from collections import OrderedDict
 
 
 def get_paginated_stock_results(request=None):
@@ -64,22 +66,29 @@ def get_paginated_stock_results(request=None):
     # )
     # page_number = request.GET.get("page", 1)
 
+def test_stocks_serializer():
+    stocks = Stock.objects.all()
+    serializer = StockSerializer(stocks, many=True)
+    print(serializer.data[0])
 
 def run():
-    get_paginated_stock_results()
+    # get_paginated_stock_results()
+    test_stocks_serializer()
 
 
-'''
-    sample_object = products.first()
-    print(model_to_dict(sample_object))
-sample_object ={
-    'id': 1, 'user': 1, 'name': 'Organic Bananas', 'parent_group': 2, 
-    'country_of_origin': None, 'code': 'baba1212', 'description': None, 
-    'plu': None, 'measurement_unit': 'KG', 'price': Decimal('1200.000'), 
-    'currency': 1, 'is_tax_inclusive_price': False, 'is_price_change_allowed': False, 
-    'is_service': False, 'is_using_default_quantity': True, 'is_product': True, 
-    'cost': Decimal('0.000'), 'margin': Decimal('100.000'), 
-    'image': '<ImageFieldFile: uploads/product/7fb638f8-c3a0-4181-b13b-8b7e7bbabe0d.jpg>', 
-    'color': '#FFFFFF', 'is_enabled': True, 'age_restriction': None, 
-    'last_purchase_price': Decimal('0.000'), 'rank': 1}
-'''
+stock_0 = OrderedDict(
+    [
+        ('id', 1), ('warehouse', OrderedDict([('id', 1), ('name', 'My Warehouse'), ('created', '2024-07-13T09:31:09.037526+03:00'), 
+        ('updated', '2025-04-22T14:07:10.731908+03:00')])), 
+        ('product', OrderedDict(
+            [('id', 1), ('code', 'baba1212'), ('image', '/media/uploads/product/7fb638f8-c3a0-4181-b13b-8b7e7bbabe0d.jpg'), 
+            ('name', 'Organic Bananas'), ('slug', 'organic bananas'), ('barcode__value', '9583992909021'), ('parent_group__name', 'Grocery'), 
+            ('price', '1200.000'), ('cost', '0.000'), ('last_purchase_price', '0.000'), ('margin', '100.000'), ('measurement_unit', 'KG'), 
+            ('currency__name', 'IQD'), ('rank', 1), ('plu', None), ('user__name', 'Super Admin'), ('color', '#FFFFFF'), ('description', None), 
+            ('is_tax_inclusive_price', False), ('is_price_change_allowed', False), ('is_service', False), ('is_using_default_quantity', True), 
+            ('is_enabled', True), ('age_restriction', None), ('created', '2024-07-13T09:31:16.325602+03:00'), 
+            ('updated', '2025-04-22T14:07:13.859242+03:00')])), ('quantity', 60), ('low_stock_warning_quantity', 12), ('preferred_quantity', 75), 
+            ('is_low_stock_warning_enabled', True), ('customer', 4), ('created', '2025-04-22T13:54:20.142611+03:00'), 
+            ('updated', '2025-04-23T15:58:41.894346+03:00')
+        ]
+    )

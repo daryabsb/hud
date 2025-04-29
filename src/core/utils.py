@@ -7,6 +7,20 @@ from src.settings.components.env import config
 # STRIPE_SECRET_KEY = config("STRIPE_SECRET_KEY", default=None)
 # stripe.api_key = STRIPE_SECRET_KEY
 
+def generate_cache_key(base_name, user=None, warehouse=None, customer=None):
+    parts = [base_name]
+
+    if user and not (user.is_staff or user.is_superuser):
+        parts.append(f"user_{user.id}")
+    
+    if warehouse:
+        parts.append(f"warehouse_{warehouse.id if hasattr(warehouse, 'id') else warehouse}")
+    
+    if customer:
+        parts.append(f"customer_{customer.id if hasattr(customer, 'id') else customer}")
+    
+    return "_".join(parts)
+
 
 def get_columns(app_name, fields=None, qs=None, actions=False):
     from src.configurations.models import AppTableColumn

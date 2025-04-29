@@ -37,7 +37,7 @@ class="align-middle">
     {% comment %} 
     <td>{{ stock.quantity }} in the {{ stock.warehouse.name }}</td>
     {% endcomment %}
-    <td>{{ stock.product.parent_group.name }}</td>
+    <td>{{ stock.low_stock_warning_quantity }}</td>
     <td>{{ stock.customer }}</td>
     <td>
     <button type="button" 
