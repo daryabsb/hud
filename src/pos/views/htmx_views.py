@@ -87,6 +87,7 @@ def delete_order_item_with_no_response(request, item_number):
     item.delete()
 
     active_order = get_active_order(request.user)
+    
     context = {"active_order": active_order}
 
     # response = HttpResponse(status=204)
@@ -103,7 +104,8 @@ def delete_order_item_with_no_response(request, item_number):
 def add_item_with_barcode(request):
     barcode_value = request.POST.get("barcode", None)
     barcode = get_object_or_404(Barcode, value=barcode_value)
-    active_order = get_active_order(request.user)
+    order = get_active_order(request.user)
+    active_order = PosOrder.objects.get(number=order['number'])
 
     item = PosOrderItem.objects.filter(
         user=request.user, order=active_order, product=barcode.product).first()
@@ -135,7 +137,11 @@ def add_order_item(request):
     product_id = request.POST.get('product_id', None)
     # quantity = int(request.POST.get('quantity', 1))
     quantity = int(request.POST.get('qty', 1))
-    active_order = get_active_order(request.user)
+    
+    # TODO fix repetative get active order
+    order = get_active_order(request.user)
+    active_order = PosOrder.objects.get(number=order['number'])
+    
     product = get_object_or_404(Product, id=product_id)
 
     item = PosOrderItem.objects.filter(

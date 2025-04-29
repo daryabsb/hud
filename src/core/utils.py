@@ -3,22 +3,35 @@
 import random
 import ast
 from src.settings.components.env import config
+from collections import OrderedDict
 
 # STRIPE_SECRET_KEY = config("STRIPE_SECRET_KEY", default=None)
 # stripe.api_key = STRIPE_SECRET_KEY
+
+
+def recursive_to_dict(obj):
+    if isinstance(obj, list):
+        return [recursive_to_dict(item) for item in obj]
+    elif isinstance(obj, OrderedDict):
+        return {key: recursive_to_dict(value) for key, value in obj.items()}
+    else:
+        return obj
+
 
 def generate_cache_key(base_name, user=None, warehouse=None, customer=None):
     parts = [base_name]
 
     if user and not (user.is_staff or user.is_superuser):
         parts.append(f"user_{user.id}")
-    
+
     if warehouse:
-        parts.append(f"warehouse_{warehouse.id if hasattr(warehouse, 'id') else warehouse}")
-    
+        parts.append(
+            f"warehouse_{warehouse.id if hasattr(warehouse, 'id') else warehouse}")
+
     if customer:
-        parts.append(f"customer_{customer.id if hasattr(customer, 'id') else customer}")
-    
+        parts.append(
+            f"customer_{customer.id if hasattr(customer, 'id') else customer}")
+
     return "_".join(parts)
 
 

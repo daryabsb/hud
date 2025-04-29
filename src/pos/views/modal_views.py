@@ -197,33 +197,40 @@ def add_order_customer(request, order_number):
 @require_GET
 def pos_search_modal(request):
     from src.stock.filters import StockFilter
+    from src.stock.utils import get_paginated_stock_results
+    from src.orders.models import get_orders
+    from src.stock.models import get_stocks
     stock_controls = StockControl.objects.filter(
         product=OuterRef('product')).select_related('customer', 'user')
 
-    active_order = get_active_order(request.user)
-    queryset = Stock.objects.annotate(
-        preferred_quantity=Subquery(
-            stock_controls.values('preferred_quantity')[:1]),
-        is_low_stock_warning_enabled=Subquery(
-            stock_controls.values('is_low_stock_warning_enabled')[:1]),
-        low_stock_warning_quantity=Subquery(
-            stock_controls.values('low_stock_warning_quantity')[:1]),
-        customer=Subquery(stock_controls.values('customer__name')[:1]),
-    ).select_related('warehouse', 'user')
+    orders = get_orders(user=request.user)
+    active_order = next(
+        (item for item in orders if item["is_enabled"] == True), None)
+    if active_order is None:
+        print("No active order found")
 
-    stock_filter = StockFilter(request.GET, queryset=queryset)
+    stock_context = get_paginated_stock_results(request)
 
-    # Pagination
-    page_number = request.GET.get("page", 1)
-    paginator = Paginator(stock_filter.qs, 5)
-    page_obj = paginator.get_page(page_number)
+    # queryset = Stock.objects.annotate(
+    #     preferred_quantity=Subquery(
+    #         stock_controls.values('preferred_quantity')[:1]),
+    #     is_low_stock_warning_enabled=Subquery(
+    #         stock_controls.values('is_low_stock_warning_enabled')[:1]),
+    #     low_stock_warning_quantity=Subquery(
+    #         stock_controls.values('low_stock_warning_quantity')[:1]),
+    #     customer=Subquery(stock_controls.values('customer__name')[:1]),
+    # ).select_related('warehouse', 'user')
+
+    # stock_filter = StockFilter(request.GET, queryset=queryset)
+
+    # # Pagination
+    # page_number = request.GET.get("page", 1)
+    # paginator = Paginator(stock_filter.qs, 5)
+    # page_obj = paginator.get_page(page_number)
 
     context = {
         'active_order': active_order,
-        "filter": stock_filter,
-        "form": stock_filter.form,
-        "page_obj": page_obj,
-        "stocks": stock_filter.qs,
+        **stock_context,
 
     }
 

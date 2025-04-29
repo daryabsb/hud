@@ -2,7 +2,8 @@ import platform
 import uuid
 from django.db import transaction
 from src.accounts.models import Customer
-from django.db.models import Prefetch
+
+
 
 
 def get_computer_info():
@@ -22,32 +23,18 @@ def get_active_item(item_number=None):
 
 
 def get_active_order(user, active_order=None):
-    from src.orders.models import PosOrder, PosOrderItem
-    if not active_order:
-        # active_order = PosOrder.objects.filter(
-        #     user=user, is_active=True).prefetch_related('items').first()
-        active_order = (
-            PosOrder.objects
-            .filter(user=user, is_active=True)
-            .prefetch_related(
-                Prefetch(
-                    'items',
-                    queryset=PosOrderItem.objects.select_related(
-                        'product'
-                    )
-                )
-            )
-            .first()
-        )
-    # active_order.update_items_subtotal()
-    # active_order.refresh_from_db()
-    # logger.success("Active order item_subtotal:> {} ", active_order.item_subtotal, feature="f-strings")
-    # logger.success("Active order total:> {} ", active_order.total, feature="f-strings")
+    from src.orders.models import get_orders
+    orders = [order for order in get_orders(user)]
+    active_order = next(
+        (item for item in orders if item["is_active"] == True), None)
+    if active_order is None:
+        print("No active order found")
+        return {}
     return active_order
 
 
 def activate_order_and_deactivate_others(user, order_number=None):
-    from src.orders.models import PosOrder
+    from src.orders.models import PosOrder, get_orders
 
     if order_number:
         # Activate this order
@@ -56,19 +43,28 @@ def activate_order_and_deactivate_others(user, order_number=None):
         # Deactivate others
         PosOrder.objects.filter(user=user).exclude(
             pk=order_number).update(is_active=False)
-        return PosOrder.objects.select_related('customer', 'warehouse', 'document_type').prefetch_related('items').get(pk=order_number)
+        orders = [order for order in get_orders(user)]
+        order = next(
+        (item for item in orders if item["number"] == order_number), None)
+        return order # PosOrder.objects.select_related('customer', 'warehouse', 'document_type').prefetch_related('items').get(pk=order_number)
 
     else:
         # If no order_number is given, try to find any active order
-        active_order = PosOrder.objects.filter(
-            user=user, is_active=True).first()
+        orders = [order for order in get_orders(user)]
+
+        active_order = next(
+        (item for item in orders if item["is_active"] == True), None)
 
         if not active_order:
             # Optional: you could create a new order here if needed.
             customer = Customer.objects.first()
             active_order = PosOrder.objects.create(
                 user=user, customer=customer, is_active=True)
-
+        
+        orders = [order for order in get_orders(user)]
+        active_order = next(
+        (item for item in orders if item["is_active"] == True), None)
+        
         return active_order
 
 

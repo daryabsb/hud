@@ -36,8 +36,10 @@ def pos_home(request, number=None):
 
     stock_context = get_paginated_stock_results(request)
 
-    orders = get_orders(user=request.user)
-    active_order = next((item for item in orders if item["is_enabled"] == True), None)
+    # orders = get_orders(user=request.user)
+    orders = [order for order in get_orders(user=request.user)]
+    active_order = next(
+        (item for item in orders if item["is_active"] == True), None)
     if active_order is None:
         print("No active order found")
 
@@ -45,6 +47,7 @@ def pos_home(request, number=None):
         'orders': orders,
         # 'orders': [{'number': 'sales-18042025-1892'}, {'number': 'sales-30112024-0149'}],
         'active_order': active_order,
+        'order': active_order,
         **stock_context,
     }
 

@@ -9,14 +9,16 @@ from src.core.utils import generate_cache_key
 from django.core.cache import cache
 from src.products.models import Product
 
-
+from src.core.utils import recursive_to_dict
 
 CACHE_TIMEOUT = 604800  # 1 week
+
 
 def get_orders_from_db(user=None, warehouse=None, customer=None):
     from src.orders.api.serializers import PosOrderSerializer
     print("3 - Cache miss, fetching from DB")
-    queryset = PosOrder.objects.filter(is_enabled=True)
+    queryset = PosOrder.objects.filter(
+        is_enabled=True).prefetch_related('items')
 
     if user and not (user.is_staff or user.is_superuser):
         queryset = queryset.filter(user=user)
@@ -28,7 +30,8 @@ def get_orders_from_db(user=None, warehouse=None, customer=None):
         queryset = queryset.filter(customer=customer)
 
     serializer = PosOrderSerializer(queryset, many=True)
-    return serializer.data  # This should be a list of dicts
+    # This should be a list of dicts
+    return [recursive_to_dict(item) for item in serializer.data]
 
 
 def get_orders(refresh=False, user=None, warehouse=None, customer=None):
@@ -42,7 +45,7 @@ def get_orders(refresh=False, user=None, warehouse=None, customer=None):
         orders = cache.get(cache_key)
         # print(f"Cache key: {cache_key}")
         # print(f"Cache value: {orders}")
-        
+
         if orders is None:
             print("2 - Cache miss, fetching from DB")
             orders = get_orders_from_db(user, warehouse, customer)
@@ -51,14 +54,11 @@ def get_orders(refresh=False, user=None, warehouse=None, customer=None):
     return orders
 
 
-
 def refresh_order_cache(user=None, warehouse=None, customer=None):
     """Manually refresh the order cache."""
     cache_key = generate_cache_key("order_list", user, warehouse, customer)
     orders = get_orders_from_db(user, warehouse, customer)
     cache.set(cache_key, orders, CACHE_TIMEOUT)
-
-
 
 
 class PosOrder(models.Model):
@@ -167,15 +167,16 @@ class PosOrder(models.Model):
         self.refresh_cache
 
     def refresh_cache(self):
-        refresh_order_cache(user=self.user, warehouse=self.warehouse, customer=self.customer)
+        refresh_order_cache(
+            user=self.user, warehouse=self.warehouse, customer=self.customer)
 
     def get_status_class(self):
         status_classes = {
             1: 'border-warning text-warning',  # Unfulfilled
             2: 'border-info text-info',       # Ready for pickup
-            3: 'border-primary text-primary', # Ready for delivery
+            3: 'border-primary text-primary',  # Ready for delivery
             4: 'border-danger text-danger',  # Cancelled
-            5: 'border-success text-success', # Fulfilled
+            5: 'border-success text-success',  # Fulfilled
         }
         return status_classes.get(self.status, '')
 
