@@ -29,17 +29,17 @@ def prepare_products_variannts(queryset=None):
 
 @login_required
 def pos_home(request, number=None):
-    # if number:
-    #     active_order = aod(request.user, order_number=number)
-    # else:
-    #     active_order = get_active_order(request.user)
+    orders = [order for order in get_orders(user=request.user)]
+    active_order = next(
+        (item for item in orders if item["is_active"] == True), None)
+    if number:
+        active_order = aod(request.user, order_number=number)
+    else:
+        active_order = get_active_order(request.user)
 
     stock_context = get_paginated_stock_results(request)
 
     # orders = get_orders(user=request.user)
-    orders = [order for order in get_orders(user=request.user)]
-    active_order = next(
-        (item for item in orders if item["is_active"] == True), None)
     if active_order is None:
         print("No active order found")
 
