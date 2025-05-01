@@ -1,4 +1,4 @@
-from src.configurations.models import ApplicationProperty
+from src.configurations.models import get_menus
 from src.orders.models import PosOrder, PosOrderItem
 from src.products.models import Product, ProductGroup
 from src.documents.models import DocumentType
@@ -18,9 +18,8 @@ def create_new_order(user, document_type=None):
 
 
 def get_menu_list(user=None):
-    return ApplicationProperty.objects.filter(
-        section__name='Menu'
-    ).values('order', 'name', 'value', 'title')
+    
+    return get_menus(user)
 
 
 def get_pos_orders(user=None):

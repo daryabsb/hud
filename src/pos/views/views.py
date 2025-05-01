@@ -29,10 +29,11 @@ def prepare_products_variannts(queryset=None):
 
 @login_required
 def pos_home(request, number=None):
+    
     orders = [order for order in get_orders(user=request.user)]
-    active_order = next(
-        (item for item in orders if item["is_active"] == True), None)
+        
     if number:
+        # active_order = next((item for item in orders if item["is_active"] == True), None)
         active_order = aod(request.user, order_number=number)
     else:
         active_order = get_active_order(request.user)

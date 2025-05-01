@@ -1,3 +1,4 @@
+from django.db import models
 from django.contrib.auth.models import BaseUserManager
 
 # from src.core.modules import generate_activation_code
@@ -27,3 +28,18 @@ class UserManager(BaseUserManager):
         user.is_superuser = True
         user.save(using=self._db)
         return user
+
+class EmployeeManager(models.Manager):
+    def create_employee(self, username, password=None, email=None, **extra_fields):
+        from src.accounts.models import User
+        if not username:
+            raise ValueError("The username must be set")
+        
+        user = User.objects.create_user(
+            email=email,
+            password=password
+        )
+
+        employee = self.model(user=user, **extra_fields)
+        employee.save(using=self._db)
+        return employee

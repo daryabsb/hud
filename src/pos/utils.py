@@ -2,9 +2,17 @@ import platform
 import uuid
 from django.db import transaction
 from src.accounts.models import Customer
+import after_response
 
-
-
+@after_response.enable
+def activate_order(user, order_number):
+    from src.orders.models import PosOrder
+    PosOrder.objects.filter(
+            pk=order_number, user=user).update(is_active=True)
+        # Deactivate others
+    PosOrder.objects.filter(user=user).exclude(
+            pk=order_number).update(is_active=False)
+    
 
 def get_computer_info():
     computer_name = platform.node()
@@ -38,14 +46,10 @@ def activate_order_and_deactivate_others(user, order_number=None):
 
     if order_number:
         # Activate this order
-        PosOrder.objects.filter(
-            pk=order_number, user=user).update(is_active=True)
-        # Deactivate others
-        PosOrder.objects.filter(user=user).exclude(
-            pk=order_number).update(is_active=False)
         orders = [order for order in get_orders(user)]
         order = next(
         (item for item in orders if item["number"] == order_number), None)
+        activate_order.after_response()
         return order # PosOrder.objects.select_related('customer', 'warehouse', 'document_type').prefetch_related('items').get(pk=order_number)
 
     else:

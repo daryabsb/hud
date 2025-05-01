@@ -2,62 +2,50 @@ from django.db import models
 from src.accounts.models import User
 from fontawesome_5.fields import IconField
 from src.core.utils import generate_cache_key
-from src.configurations.api.serializers import ApplicationPropertySerializer
 from src.core.utils import recursive_to_dict
 
+from django.core.cache import cache
 
 # Create your models here.
 
 CACHE_TIMEOUT = 604800  # 1 week
 
 
-def get_props_from_db(user=None, warehouse=None, customer=None):
-    from src.configurations.api.serializers import PosOrderSerializer
+def get_props_from_db(user=None):
+    from src.configurations.api.serializers import ApplicationPropertySerializer
     print("3 - Cache miss, fetching from DB")
-    queryset = ApplicationProperty.objects.filter(
-        is_enabled=True).prefetch_related('items')
+    queryset = ApplicationProperty.objects.select_related('section')
 
     if user and not (user.is_staff or user.is_superuser):
         queryset = queryset.filter(user=user)
-
-    if warehouse:
-        queryset = queryset.filter(warehouse=warehouse)
-
-    if customer:
-        queryset = queryset.filter(customer=customer)
 
     serializer = ApplicationPropertySerializer(queryset, many=True)
     # This should be a list of dicts
     return [recursive_to_dict(item) for item in serializer.data]
 
 
-def get_props(refresh=False, user=None, warehouse=None, customer=None):
-    cache_key = generate_cache_key("props_list", user, warehouse, customer)
+def get_props(refresh=False, user=None):
+    cache_key = generate_cache_key("props_list", user)
 
     if refresh:
-        print("1 - Cache miss, fetching from DB")
-        props = get_props_from_db(user, warehouse, customer)
+        props = get_props_from_db(user)
         cache.set(cache_key, props, CACHE_TIMEOUT)
     else:
         props = cache.get(cache_key)
-        # print(f"Cache key: {cache_key}")
-        # print(f"Cache value: {props}")
-
         if props is None:
-            print("2 - Cache miss, fetching from DB")
-            props = get_props_from_db(user, warehouse, customer)
+            props = get_props_from_db(user)
             cache.set(cache_key, props, CACHE_TIMEOUT)
-
     return props
 
-
-def refresh_order_cache(user=None, warehouse=None, customer=None):
+def refresh_props_cache(user=None):
     """Manually refresh the order cache."""
-    cache_key = generate_cache_key("order_list", user, warehouse, customer)
-    props = get_props_from_db(user, warehouse, customer)
+    cache_key = generate_cache_key("props_list", user)
+    props = get_props_from_db(user)
     cache.set(cache_key, props, CACHE_TIMEOUT)
 
-
+def get_menus(user=None, warehouse=None, customer=None):
+    return [prop for prop in get_props(user=user) if prop["section"] == 'menu']
+    
 
 class ApplicationPropertySection(models.Model):
     parent = models.ForeignKey(
@@ -111,3 +99,4 @@ class ApplicationProperty(models.Model):
 from src.configurations.models import ApplicationProperty as ap
 p = ap.objects.create(name='Theme.color',value='info')
 '''
+

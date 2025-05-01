@@ -5,7 +5,7 @@ from django.db.models import F, Sum, Case, When, Value
 from src.documents.models import DocumentType
 from src.orders.const import ORDER_STATUS
 from src.core.utils import generate_cache_key
-
+from src.orders import cache_key as ck
 from django.core.cache import cache
 from src.products.models import Product
 
@@ -35,8 +35,11 @@ def get_orders_from_db(user=None, warehouse=None, customer=None):
 
 
 def get_orders(refresh=False, user=None, warehouse=None, customer=None):
-    cache_key = generate_cache_key("orders_list", user, warehouse, customer)
-
+    if user and not (user.is_staff or user.is_superuser):
+        cache_key = ck.USER_ORDERS_CACHE_KEY % user.id # generate_cache_key("orders_list", user, warehouse, customer)
+    else:
+        cache_key = ck.ORDERS_LIST_CACHE_KEY # generate_cache_key("orders_list", user, warehouse, customer)
+    
     if refresh:
         print("1 - Cache miss, fetching from DB")
         orders = get_orders_from_db(user, warehouse, customer)
