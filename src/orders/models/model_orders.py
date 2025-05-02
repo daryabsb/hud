@@ -8,8 +8,9 @@ from src.core.utils import generate_cache_key
 from src.orders import cache_key as ck
 from django.core.cache import cache
 from src.products.models import Product
-
+from django.db.models import OuterRef, Subquery
 from src.core.utils import recursive_to_dict
+
 
 CACHE_TIMEOUT = 604800  # 1 week
 
@@ -67,6 +68,15 @@ class PosOrder(models.Model):
         null=True, blank=True, default=1)
     item_subtotal = models.DecimalField(
         decimal_places=3,  max_digits=15, default=0)
+    # item_subtotal2 = models.GeneratedField(
+    #     expression=Subquery(
+    #         Item.objects.filter(order=OuterRef('pk'))
+    #         .annotate(total=Sum('item_total'))
+    #         .values('total')[:1]
+    #     ),
+    #     output_field=models.DecimalField(max_digits=15, decimal_places=3, default=0),
+    #     db_persist=True  # Must be True for Subquery in most databases
+    # )
     # total_tax_payer = models.DecimalField(
     #     decimal_places=3,  max_digits=15, default=0)
     # total_tax = models.DecimalField(
@@ -152,14 +162,14 @@ class PosOrder(models.Model):
         return f"{self.number}: {self.total}"
 
     def save(self, *args, **kwargs):
-        # if not self.pk:  # If the object is being created
-
         if self.number is None or self.number == '':
             doc_type = kwargs.pop('doc_type', 'order')
             self.number = generate_number(doc_type)
+
         self.set_tax_fields()
+        # self.update_items_subtotal()
         super().save(*args, **kwargs)
-        self.refresh_cache
+        self.refresh_cache()  # <-- parentheses to call it
 
     def refresh_cache(self):
         refresh_order_cache(
@@ -197,20 +207,6 @@ class PosOrder(models.Model):
         self.fixed_taxes = taxes['fixed_tax'] or Decimal('0.00')
         self.total_tax_rate = taxes['percentage_tax'] or Decimal('0.00')
 
-    def update_items_subtotal(self):
-        # Calculate the subtotal based on order items
-
-        self.item_subtotal = sum(item.item_total for item in self.items.all())
-
-        # customer_discounts = self.customer.discounts.all()
-        # for discount in customer_discounts:
-        #     if discount.type == 1:  # Percentage discount
-        #         self.item_subtotal -= (discount.value / 100) * \
-        #             self.item_subtotal
-        #     else:  # Fixed amount discount
-        #         self.item_subtotal -= discount.value
-
-        self.save()
 
     @property
     def currency(self):
@@ -222,7 +218,3 @@ class PosOrder(models.Model):
     def subtotal(self):
         return self.items.aggregate(
             total=Sum(F('price') * F('quantity')))['total'] or 0
-    # def __str__(self):
-    #     return f"{self.number}:" + \
-    #         f" [{self.total}]" + \
-    #         f" ({'Completed' if self.status else 'Pending'})"

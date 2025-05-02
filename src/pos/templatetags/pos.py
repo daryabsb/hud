@@ -18,4 +18,4 @@ def gettotals(active_order):
     }
 
 
-register.filter('gettotals', gettotals)
+# register.filter('gettotals', gettotals)

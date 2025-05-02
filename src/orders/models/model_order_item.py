@@ -87,24 +87,4 @@ class PosOrderItem(models.Model):
             print(digits)
             if target:
                 self.number = f'{target}-{self.user.id}-{date.today().strftime("%d%m%Y")}-01-{digits}'
-
         super(PosOrderItem, self).save(*args, **kwargs)
-        self.order.update_items_subtotal()
-        self.order.refresh_cache()
-        
-    def delete(self, *args, **kwargs):
-        from src.stock.models import Stock
-
-        # Restore stock quantity
-        stock = Stock.objects.filter(product=self.product, warehouse=self.warehouse).first()
-        if stock:
-            stock.quantity += self.quantity
-            stock.save()
-
-        # Delete the item
-        super(PosOrderItem, self).delete(*args, **kwargs)
-
-        # Update order subtotal and refresh cache
-        if self.order:
-            self.order.update_items_subtotal()
-            self.order.refresh_cache()

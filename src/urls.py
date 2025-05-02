@@ -29,7 +29,6 @@ def submit_password(request):
     email = request.GET.get('email', None)
     if email:
         current_user = ApplicationProperty.objects.get(name='email')
-        print('current_user = ', current_user.value)
         # current_user.value =
         print(current_user)
     else:
@@ -41,7 +40,6 @@ def submit_password(request):
 def confirm_pin(request):
     pin = request.GET.get('pin', None)
     current_user = None
-    print('request = ', request.GET)
 
     user_pin = request.user.pin
     if pin and int(pin) == user_pin:

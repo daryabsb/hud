@@ -1,0 +1,50 @@
+<div class="row">
+    <div class="col-md-4">
+        <button type="button" class="btn fs-25px d-none calculator-btn"
+        id="calculator-{{ item.number }}"
+        hx-get="{% url 'pos:modal-order-item' item.number %}" 
+        hx-target="#modalPosItem" 
+        hx-trigger="click"
+        data-bs-target="#modalPosItem"
+        data-bs-toggle="modal"
+        >
+            <i class="fas fa-md fa-fw fa-calculator"></i>
+        </button>
+    </div>
+    <div class="col-md-4">
+        <button type="button" class="btn fs-25px" 
+        hx-get="{% url 'pos:modal-order-item' item.number %}" 
+        hx-target="#modalPosItem" 
+        hx-trigger="click"
+        data-bs-target="#modalPosItem"
+        data-bs-toggle="modal"
+        >
+            <i class="fas fa-md fa-fw fa-edit"></i>
+        </button>
+    </div>
+    <div class="col-md-4">
+        <button type="button" class="btn fs-25px" 
+        hx-delete="{% url 'pos:delete-order-item' item.number %}"
+        hx-target="#calculations-{{ order.number }}"
+        hx-swap="innerHTML"
+        hx-on:delete-order-item="htmx.find('#orderitem-{{ item.number }}').remove()"
+        hx-on::before-request="htmx.find('#orderitem-{{ item.number }}').classList.add('d-none');
+        console.log(event.detail.successful)
+        
+        "
+        hx-on::after-request="
+        htmx.find('#orderitem-{{ item.number }}').classList.remove('d-none');
+        if (!event.detail.successful) {
+            console.log(event.detail.successful)
+            const errorSpan = document.createElement('span');
+            console.log(errorSpan)
+            errorSpan.textContent = 'Failed to remove item!';
+            errorSpan.classList.add('text-danger');
+            htmx.find('#orderitem-{{ item.number }}').appendChild(errorSpan);
+            }
+            "
+            >
+            <i class="fas fa-md fa-fw fa-trash text-danger"></i>
+        </button>
+    </div>
+</div>

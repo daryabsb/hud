@@ -50,30 +50,16 @@ def get_merged_stock_data(user=None, warehouse=None, customer=None):
     return merged_stocks
 
 def get_stocks_with_controls(stock_ids):
-    stock_control_qs = StockControl.objects.only(
-        'product_id', 'preferred_quantity', 'is_low_stock_warning_enabled',
-        'low_stock_warning_quantity', 'customer'
-    )
 
-    print(stock_control_qs.count())  # Debugging line to check the SQL query
-
-    return Stock.objects.select_related('product').prefetch_related(
-        Prefetch(
-            'product__stock_controls',
-            queryset=stock_control_qs,
-            to_attr='prefetched_stockcontrols'
-        )
-    ).filter(id__in=stock_ids)
+    return Stock.objects.select_related('product').filter(id__in=stock_ids)
 
 
 def get_paginated_stock_results(request=None):
     page_number = request.GET.get("page", 1) if request else 1
 
     # 1. Use cached stock list for speed
-    stocks = [dict(stock) for stock in get_stocks(user=request.user)]
-    # print(f"stock[0]: {stocks[0]}")  # Debugging line to check the filtered IDs
-    # Debugging line to check the filtered IDs
-    # 2. Refetch filtered queryset from DB using cached IDs
+    stocks = [stock for stock in get_stocks(user=request.user)]
+
     stock_ids = [stock['id'] for stock in stocks]
     stock_queryset = get_stocks_with_controls(stock_ids)
 
@@ -84,8 +70,7 @@ def get_paginated_stock_results(request=None):
     # 4. Reverse-filter the cached list using the filtered IDs
     stocks = [stock for stock in stocks if stock['id'] in filtered_ids]
 
-    # Debugging line to check the filtered IDs
-    # print(f"stock[1]: {stockss[0]}")
+
     filtered_qs = stock_filter.qs
 
     paginator = Paginator(stocks, 5)

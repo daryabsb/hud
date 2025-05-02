@@ -1,82 +1,44 @@
 <div id="orderitem-{{ item.number }}" 
-class="orderitem row mx-0 px-3 my-2 py-2 align-items-center border-bottom bg-opacity-20"
-hx-on:click="
-const input = htmx.find('#selected-item');
-const calculatorBtn = htmx.find('#calculator-{{ item.number }}')
-const selected = this.classList.contains('bg-theme');
-htmx.findAll('.orderitem').forEach(el => el.classList.remove('bg-theme'));
-htmx.findAll('.calculator-btn').forEach(el => el.classList.add('d-none'));
-selected 
-  ? (input.value = '', calculatorBtn.classList.toggle('d-none'))
-  : (this.classList.add('bg-theme'), input.value = '{{ item.number }}', calculatorBtn.classList.toggle('d-none'));
-"
+class="row mx-0 px-3 mb-2 py-2 align-items-center border-bottom orderitem bg-opacity-20"
 hx-swap-oob="{{ oob }}"
 >
-    <div class="col-xl-4 col-3 d-flex align-items-center">
-        <div class="h-40px w-40px d-flex align-items-center justify-content-center position-relative bg-white p-1">
-            <img src="{{ item.product_image }}" alt="" class="mw-100 mh-100">
-            <span class="w-20px h-20px p-0 d-flex align-items-center justify-content-center badge bg-theme text-theme-color position-absolute end-0 top-0 fw-bold fs-12px rounded-pill mt-n2 me-n2">{{ item.quantity }}</span>
-        </div>
-        <div class="ps-3 flex-1">
-            <div><a href="#" class="text-decoration-none text-inverse">{{ item.product_name }}</a></div>
-            <div class="text-inverse text-opacity-50 small d-none d-xl-block">
-                {{ item.number }}
+    <div id="detail-{{ item.number }}" class="col-lg-6 m-0 row"
+    hx-on:click="
+    const input = htmx.find('#selected-item');
+    const detail = htmx.find('#orderitem-{{ item.number }}');
+    const calculatorBtn = htmx.find('#calculator-{{ item.number }}')
+    const selected = detail.classList.contains('bg-theme');
+    htmx.findAll('.orderitem').forEach(el => el.classList.remove('bg-theme'));
+    htmx.findAll('.calculator-btn').forEach(el => el.classList.add('d-none'));
+    selected 
+    ? (input.value = '', calculatorBtn.classList.add('d-none'))
+    : (detail.classList.add('bg-theme'), input.value = '{{ item.number }}', calculatorBtn.classList.toggle('d-none'));
+    "
+    >
+        <div class="col-xl-9 col-3 d-flex align-items-center">
+            <div class="h-40px w-40px d-flex align-items-center justify-content-center position-relative bg-white p-1">
+                <img src="{{ item.product_image }}" alt="" class="mw-100 mh-100">
+                <span class="w-20px h-20px p-0 d-flex align-items-center justify-content-center badge bg-theme text-theme-color position-absolute end-0 top-0 fw-bold fs-12px rounded-pill mt-n2 me-n2">{{ item.quantity }}</span>
+            </div>
+            <div class="ps-3 flex-1">
+                <div><a href="#" class="text-decoration-none text-inverse">{{ item.product_name }}</a></div>
+                <div class="text-inverse text-opacity-50 small d-none d-xl-block">
+                    {{ item.number }}
+                </div>
             </div>
         </div>
+        <div class="col-lg-3 m-0 ps-lg-2 text-start">
+            {{ item.currency }} {{ item.price|floatformat:'0' }}
+        </div>
     </div>
-    <div class="col-lg-2 m-0 ps-lg-2 text-start">
-        {{ order.currency }} {{ item.price|floatformat:'0' }}
-    </div>
-    <div class="col-xl-2 col-3 m-0 ps-lg-2 text-start">
+    
+    <div class="col-xl-2 col-2 m-0 ps-lg-2 text-start">
         <c-forms.quantity id="qty-input-{{ item.number }}" />
     </div>
     <div class="col-lg-2 m-0 text-start">
-        {{ order.currency }} {{ item.item_total|floatformat:'0' }}
+        {{ item.currency }} {{ item.item_total|floatformat:'0' }}
     </div>
     <div class="col-lg-2 m-0 text-end">
-        <div class="btn-group btn-group-md">
-            <button type="button" class="btn fs-25px d-none calculator-btn"
-                id="calculator-{{ item.number }}"
-                hx-get="{% url 'pos:modal-order-item' item.number %}" 
-                hx-target="#modalPosItem" 
-                hx-trigger="click"
-                data-bs-target="#modalPosItem"
-                data-bs-toggle="modal"
-            >
-                <i class="fas fa-md fa-fw fa-calculator"></i>
-            </button>
-            <button type="button" class="btn fs-25px" 
-                hx-get="{% url 'pos:modal-order-item' item.number %}" 
-                hx-target="#modalPosItem" 
-                hx-trigger="click"
-                data-bs-target="#modalPosItem"
-                data-bs-toggle="modal"
-            >
-                <i class="fas fa-md fa-fw fa-edit"></i>
-            </button>
-            <button type="button" class="btn fs-25px" 
-            hx-delete="{% url 'pos:delete-order-item' item.number %}"
-            hx-target="#calculations-{{ order.number }}"
-            hx-swap="innerHTML"
-            hx-on:delete-order-item="htmx.find('#order-{{ item.number }}').remove()"
-            hx-on::before-request="htmx.find('#order-{{ item.number }}').classList.add('d-none');
-                console.log(event.detail.successful)
-            
-            "
-            hx-on::after-request="
-            htmx.find('#order-{{ item.number }}').classList.remove('d-none');
-            if (!event.detail.successful) {
-                console.log(event.detail.successful)
-                const errorSpan = document.createElement('span');
-                console.log(errorSpan)
-                errorSpan.textContent = 'Failed to remove item!';
-                errorSpan.classList.add('text-danger');
-                htmx.find('#order-{{ item.number }}').appendChild(errorSpan);
-            }
-            "
-            >
-                <i class="fas fa-md fa-fw fa-trash text-danger"></i>
-            </button>
-        </div>
+        <c-orders.actions />
     </div>
 </div>

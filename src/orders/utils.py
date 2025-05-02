@@ -150,6 +150,7 @@ def _get_orders_from_db(user=None, warehouse=None, customer=None):
                 "product_image": item.product.image.url if item.product.image else None,
                 "quantity": item.quantity,
                 "price": float(item.price),
+                "currency": item.product.currency.name if item.product else None,
                 "round_number": float(item.round_number),
                 "is_locked": item.is_locked,
                 "is_enabled": item.is_enabled,

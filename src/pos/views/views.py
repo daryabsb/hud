@@ -20,7 +20,7 @@ def pos_home(request, number=None):
     else:
         active_order = get_active_order(request.user)
 
-    stock_context = get_paginated_stock_results(request)
+    # stock_context = get_paginated_stock_results(request)
 
     # orders = get_orders(user=request.user)
     if active_order is None:
@@ -31,7 +31,7 @@ def pos_home(request, number=None):
         # 'orders': [{'number': 'sales-18042025-1892'}, {'number': 'sales-30112024-0149'}],
         'active_order': active_order,
         'order': active_order,
-        **stock_context,
+        # **stock_context,
     }
 
     context = context_factory(

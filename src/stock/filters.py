@@ -8,11 +8,10 @@ from src.products.models import ProductGroup
 
 class StockFilter(django_filters.FilterSet):
     categories = django_filters.ModelChoiceFilter(
-        queryset=ProductGroup.objects.filter(
-            is_enabled=True).select_related('user'),
+        queryset=None, #filter(is_enabled=True).only('id', 'name'),
         label='Categories',
         to_field_name='id',
-        initial=ProductGroup.objects.get(id=1).id,
+        # initial=ProductGroup.objects.get(id=1).id,
         widget=forms.Select(attrs={
             # 'id': 'search-categories',
             'class': 'form-select form-select-lg',
@@ -39,7 +38,7 @@ class StockFilter(django_filters.FilterSet):
         }),
         label='Product')
     warehouse = django_filters.ModelChoiceFilter(
-        queryset=Warehouse.objects.all())
+        queryset=Warehouse.objects.only('id', 'name'))
     quantity__gt = django_filters.NumberFilter(
         field_name='quantity', lookup_expr='gt', label='Quantity >')
     quantity__lt = django_filters.NumberFilter(
@@ -62,12 +61,12 @@ class StockFilter(django_filters.FilterSet):
             Q(product__parent_group__parent__name=value)
         ).distinct()
 
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     if not self.data.get('categories'):
-    #         default = ProductGroup.objects.filter(is_enabled=True).first()
-    #         if default:
-    #             self.form.fields['categories'].initial = default.id
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        categories = ProductGroup.objects.filter(is_enabled=True).only('id', 'name')
+        self.form.fields['categories'].queryset = categories
+        self.form.fields['categories'].initial = categories.first()
+
 # class StockFilter(django_filters.FilterSet):
 #     category = django_filters.CharFilter(
 #         method='filter_product_name', label='Product')

@@ -6,7 +6,7 @@ from src.orders.models import PosOrderItem, PosOrder
 from src.pos.calculations import (create_order_item,)
 from src.pos.utils import get_active_order, get_active_item
 from src.orders.utils import context_factory
-
+import after_response
 from src.configurations.models import get_prop
 layout_object = get_prop('layout')
 
@@ -36,37 +36,56 @@ def change_quantity(request, item_number):
     context = {"active_order": active_order, "item": item}
     return render(request, update_order_item_template, context)
 
+@after_response.enable
+def add_quantity_on_db(item_number):
+    try:
+        item = get_object_or_404(PosOrderItem, number=item_number)
+        item.quantity += 1
+        item.save()
+    except Exception as e:
+        print(f'Failed to update item quantity for item {item_number}: {e}')
+
+
+@after_response.enable
+def subtract_quantity_on_db(item_number):
+    try:
+        item = get_object_or_404(PosOrderItem, number=item_number)
+        if item.quantity > 1:
+            item.quantity -= 1
+            item.save()
+        else:
+            item.delete()
+    except Exception as e:
+        print(f'Failed to update item quantity for item {item_number}: {e}')
 
 def add_quantity(request, item_number):
-    print(f'subtract item_number: {item_number}')
     item = get_object_or_404(PosOrderItem, number=item_number)
     item.quantity += 1  # Set quantity to the new value received from the client
     item.save()
-    # item = recalculate_item(order_item=item)
 
     active_order = get_active_order(request.user)
-    item = get_active_item(item_number, active_order)
+    item = next((item for item in active_order['items'] if item['number'] == item_number), None)
     context = {"active_order": active_order,
                "order": active_order, "item": item}
     return render(request, update_orderitem_qty_template, context)
 
 
 def subtract_quantity(request, item_number):
-    print(f'subtract item_number: {item_number}')
+
     item = get_object_or_404(PosOrderItem, number=item_number)
     if item.quantity > 1:
         item.quantity -= 1
         item.save()
-    elif item.quantity == 1:
+    else:
         item.delete()
-        item = None
-    
+        
     active_order = get_active_order(request.user)
-    if item:
-        item = get_active_item(item_number, active_order)
+    
+    item = next((item for item in active_order['items'] if item['number'] == item_number), None)
 
     context = {"active_order": active_order,
                "order": active_order, "item": item or None}
+
     return render(request, update_orderitem_qty_template, context)
 
 
@@ -79,7 +98,6 @@ def remove_item(request, item_number):
     # context = get_context(active_order)
 
     return render(request, update_order_list_template, context)
-
 
 def delete_order_item_with_no_response(request, item_number):
 
@@ -102,7 +120,6 @@ def delete_order_item_with_no_response(request, item_number):
 
     # except Exception as e:
     #     print(f'Item does not exist: {e}')
-
 
 def add_order_item(request):
     barcode_value = request.POST.get("barcode")
@@ -152,7 +169,6 @@ def add_order_item(request):
     return render(request, 'cotton/pos_base/standard/container.html', context)
     # return render(request, stanndard_order_item_add_template, context)
 
-
 def activate_order(request, order_number):
     # Fetch the order to activate
     print(f"Activating order: {order_number}")
@@ -172,7 +188,6 @@ def activate_order(request, order_number):
 
     context = {"order": active_order, "active_order": active_order}
     return render(request, stanndard_activate_order_template, context)
-
 
 def order_discount(request):
     # Fetch the order to activate

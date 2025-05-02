@@ -25,9 +25,17 @@ console.log('additional_js from pos_base');
 {{ additional_pos_script }}
 </c-slot>
 {% if debug %}
-    <iframe 
-        src="/__debug__/"
-        style="position:fixed;bottom:0;left:0;width:100%;height:300px;border:none;z-index:9999;"
-    ></iframe>
+<script>
+    if (typeof window.htmx !== "undefined") {
+        htmx.on("htmx:afterSettle", function(detail) {
+            if (
+                typeof window.djdt !== "undefined"
+                && detail.target instanceof HTMLBodyElement
+            ) {
+                djdt.show_toolbar();
+            }
+        });
+    }
+</script>
 {% endif %}
 </c-base>

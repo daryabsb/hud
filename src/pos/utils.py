@@ -4,7 +4,6 @@ from django.db import transaction
 from src.accounts.models import Customer
 import after_response
 
-@after_response.enable
 def activate_order(user, order_number):
     from src.orders.models import PosOrder
     PosOrder.objects.filter(
@@ -12,7 +11,8 @@ def activate_order(user, order_number):
         # Deactivate others
     PosOrder.objects.filter(user=user).exclude(
             pk=order_number).update(is_active=False)
-    
+    active_order = PosOrder.objects.get(pk=order_number)
+    active_order.refresh_cache()
 
 def get_computer_info():
     computer_name = platform.node()
@@ -40,31 +40,13 @@ def activate_order_and_deactivate_others(user, order_number=None):
     from src.orders.models import PosOrder, get_orders
 
     if order_number:
-        # Activate this order
-        orders = [order for order in get_orders(user)]
-        order = next(
-        (item for item in orders if item["number"] == order_number), None)
-        activate_order.after_response(user, order_number)
-        return order # PosOrder.objects.select_related('customer', 'warehouse', 'document_type').prefetch_related('items').get(pk=order_number)
-
-    else:
-        # If no order_number is given, try to find any active order
-        orders = [order for order in get_orders(user)]
-
-        active_order = next(
-        (item for item in orders if item["is_active"] == True), None)
-
-        if not active_order:
-            # Optional: you could create a new order here if needed.
-            customer = Customer.objects.first()
-            active_order = PosOrder.objects.create(
-                user=user, customer=customer, is_active=True)
-        
-        orders = [order for order in get_orders(user)]
-        active_order = next(
-        (item for item in orders if item["is_active"] == True), None)
-        
-        return active_order
+        activate_order(user, order_number)
+    elif not active_order:
+        customer = Customer.objects.first()
+        active_order = PosOrder.objects.create(
+            user=user, customer=customer, is_active=True)  
+    active_order = get_active_order(user=user)
+    return active_order
 
 
 def get_context(active_order):
