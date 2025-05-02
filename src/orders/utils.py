@@ -91,16 +91,83 @@ def context_factory(context_keys, user, context=None):
     return context
 
 
-# context = context_factory(needed_context)
-# Example usage in a view (assuming Django)
-# def context_factory(context_keys, context=None):
-#     final_context = context if context is not None else {}
+def _get_orders_from_db(user=None, warehouse=None, customer=None):
+    orders = PosOrder.objects.all()
 
-#     for key in context_keys:
-#         # Only add the key if it doesn't already exist in the provided context
-#         if key not in final_context and key in CONTEXT_BANK:
-#             final_context[key] = CONTEXT_BANK[key]()
-#         elif key not in CONTEXT_BANK:
-#             final_context[key] = None
+    if user and not (user.is_staff or user.is_superuser):
+        orders = orders.filter(user=user)
 
-#     return final_context
+    if warehouse:
+        orders = orders.filter(warehouse=warehouse)
+
+    if customer:
+        orders = orders.filter(customer=customer)
+
+    # Prefetch related items to avoid N+1 queries
+    orders = orders.prefetch_related(
+        Prefetch('items', queryset=PosOrderItem.objects.select_related('product'))
+    ).select_related('customer', 'document_type', 'warehouse')
+
+    order_list = []
+
+    for order in orders:
+        order_data = {
+            "number": order.number,
+            "customer_id": order.customer.id if order.customer else None,
+            "customer": order.customer.name if order.customer else None,
+            "document_type": order.document_type.code if order.document_type else None,
+            "warehouse": order.warehouse.name if order.warehouse else None,
+            "item_subtotal": float(order.item_subtotal),
+            "total": float(order.total),
+            "date": order.date.isoformat(),
+            "reference_document_number": order.reference_document_number,
+            "internal_note": order.internal_note,
+            "note": order.note,
+            "due_date": order.due_date.isoformat(),
+            "discount": float(order.discount),
+            "discount_type": order.discount_type,
+            "discounted_amount": float(order.discounted_amount),
+            "discount_sign": order.discount_sign,
+            "subtotal_after_discount": float(order.subtotal_after_discount),
+            "fixed_taxes": float(order.fixed_taxes),
+            "total_tax_rate": float(order.total_tax_rate),
+            "total_tax": float(order.total_tax),
+            "total": float(order.total),
+            "paid_status": order.paid_status,
+            "status": order.status,
+            "is_active": order.is_active,
+            "is_enabled": order.is_enabled,
+            "created": order.created.isoformat(),
+            "updated": order.updated.isoformat(),
+            "items": []
+        }
+
+        for item in order.items.all():
+            order_data["items"].append({
+                "number": item.number,
+                "product_id": item.product.id if item.product else None,
+                "product_name": item.product.name if item.product else None,
+                "product_image": item.product.image.url if item.product.image else None,
+                "quantity": item.quantity,
+                "price": float(item.price),
+                "round_number": float(item.round_number),
+                "is_locked": item.is_locked,
+                "is_enabled": item.is_enabled,
+                "is_active": item.is_active,
+                "discount": item.discount,
+                "discount_type": item.discount_type,
+                "discounted_amount": float(item.discounted_amount),
+                "discount_sign": item.discount_sign,
+                "item_total": float(item.item_total),
+                "is_featured": item.is_featured,
+                "voided_by": item.voided_by,
+                "comment": item.comment,
+                "bundle": item.bundle,
+                "created": item.created.isoformat(),
+                "updated": item.updated.isoformat(),
+            })
+
+        order_list.append(order_data)
+
+    return order_list
+

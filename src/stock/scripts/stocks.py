@@ -5,6 +5,7 @@ from django.db.models import Prefetch
 from django.forms import model_to_dict
 from decimal import Decimal
 from collections import OrderedDict
+from src.stock.models import get_stocks
 
 
 def get_paginated_stock_results(request=None):
@@ -73,22 +74,6 @@ def test_stocks_serializer():
 
 def run():
     # get_paginated_stock_results()
-    test_stocks_serializer()
+    # test_stocks_serializer()
+    print(get_stocks(refresh=True)[0])
 
-
-stock_0 = OrderedDict(
-    [
-        ('id', 1), ('warehouse', OrderedDict([('id', 1), ('name', 'My Warehouse'), ('created', '2024-07-13T09:31:09.037526+03:00'), 
-        ('updated', '2025-04-22T14:07:10.731908+03:00')])), 
-        ('product', OrderedDict(
-            [('id', 1), ('code', 'baba1212'), ('image', '/media/uploads/product/7fb638f8-c3a0-4181-b13b-8b7e7bbabe0d.jpg'), 
-            ('name', 'Organic Bananas'), ('slug', 'organic bananas'), ('barcode__value', '9583992909021'), ('parent_group__name', 'Grocery'), 
-            ('price', '1200.000'), ('cost', '0.000'), ('last_purchase_price', '0.000'), ('margin', '100.000'), ('measurement_unit', 'KG'), 
-            ('currency__name', 'IQD'), ('rank', 1), ('plu', None), ('user__name', 'Super Admin'), ('color', '#FFFFFF'), ('description', None), 
-            ('is_tax_inclusive_price', False), ('is_price_change_allowed', False), ('is_service', False), ('is_using_default_quantity', True), 
-            ('is_enabled', True), ('age_restriction', None), ('created', '2024-07-13T09:31:16.325602+03:00'), 
-            ('updated', '2025-04-22T14:07:13.859242+03:00')])), ('quantity', 60), ('low_stock_warning_quantity', 12), ('preferred_quantity', 75), 
-            ('is_low_stock_warning_enabled', True), ('customer', 4), ('created', '2025-04-22T13:54:20.142611+03:00'), 
-            ('updated', '2025-04-23T15:58:41.894346+03:00')
-        ]
-    )

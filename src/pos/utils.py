@@ -20,15 +20,10 @@ def get_computer_info():
     return computer_name, machine_id
 
 
-def get_active_item(item_number=None):
+def get_active_item(item_number=None,  active_order=None):
     from src.orders.models import PosOrderItem
-
-    item = PosOrderItem.objects.get(number=item_number)
-    item.refresh_from_db()
-    # logger.success("Active order item_subtotal:> {} ", active_order.item_subtotal, feature="f-strings")
-    # logger.success("Active order total:> {} ", active_order.total, feature="f-strings")
-    return item
-
+    
+    return [item for item in active_order['items'] if item['number'] == item_number][0]
 
 def get_active_order(user, active_order=None):
     from src.orders.models import get_orders
@@ -49,7 +44,7 @@ def activate_order_and_deactivate_others(user, order_number=None):
         orders = [order for order in get_orders(user)]
         order = next(
         (item for item in orders if item["number"] == order_number), None)
-        activate_order.after_response()
+        activate_order.after_response(user, order_number)
         return order # PosOrder.objects.select_related('customer', 'warehouse', 'document_type').prefetch_related('items').get(pk=order_number)
 
     else:

@@ -44,21 +44,21 @@ class User(PermissionsMixin, AbstractBaseUser):
 
     USERNAME_FIELD = "email"
 
-    def has_model_op_perms(self, app_label, model_name):
-        """
-        Returns True if the user has any operation permissions in the given app label.
-        Uses pretty much the same logic as has_perm, above.
-        """
-        if self.is_active:
-            if self.is_superuser:
-                return True
-        return _user_has_model_op_perms(self, app_label, model_name)
+    # def has_model_op_perms(self, app_label, model_name):
+    #     """
+    #     Returns True if the user has any operation permissions in the given app label.
+    #     Uses pretty much the same logic as has_perm, above.
+    #     """
+    #     if self.is_active:
+    #         if self.is_superuser:
+    #             return True
+    #     return _user_has_model_op_perms(self, app_label, model_name)
     
-    def has_perm(self, perm, obj=None):
-        if self.is_active:
-            if self.is_superuser:
-                return check_perms_available(perm)
-        return _user_has_perm(self, perm, obj)
+    # def has_perm(self, perm, obj=None):
+    #     if self.is_active:
+    #         if self.is_superuser:
+    #             return check_perms_available(perm)
+    #     return _user_has_perm(self, perm, obj)
     
 def check_perms_available(perm):
     from src.core.management import maintain_perms_cache

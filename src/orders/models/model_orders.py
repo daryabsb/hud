@@ -16,32 +16,21 @@ CACHE_TIMEOUT = 604800  # 1 week
 
 def get_orders_from_db(user=None, warehouse=None, customer=None):
     from src.orders.api.serializers import PosOrderSerializer
+    from src.orders.utils import _get_orders_from_db
     print("3 - Cache miss, fetching from DB")
-    queryset = PosOrder.objects.filter(
-        is_enabled=True).prefetch_related('items')
-
-    if user and not (user.is_staff or user.is_superuser):
-        queryset = queryset.filter(user=user)
-
-    if warehouse:
-        queryset = queryset.filter(warehouse=warehouse)
-
-    if customer:
-        queryset = queryset.filter(customer=customer)
-
-    serializer = PosOrderSerializer(queryset, many=True)
+    orders = _get_orders_from_db()
     # This should be a list of dicts
-    return [recursive_to_dict(item) for item in serializer.data]
+    return orders
 
 
-def get_orders(refresh=False, user=None, warehouse=None, customer=None):
+def get_orders(user=None, warehouse=None, customer=None, refresh=False):
     if user and not (user.is_staff or user.is_superuser):
         cache_key = ck.USER_ORDERS_CACHE_KEY % user.id # generate_cache_key("orders_list", user, warehouse, customer)
     else:
         cache_key = ck.ORDERS_LIST_CACHE_KEY # generate_cache_key("orders_list", user, warehouse, customer)
     
     if refresh:
-        print("1 - Cache miss, fetching from DB")
+        print(f"1 - Cache miss, fetching from DB - refresh: {refresh}")
         orders = get_orders_from_db(user, warehouse, customer)
         cache.set(cache_key, orders, CACHE_TIMEOUT)
     else:
@@ -50,7 +39,7 @@ def get_orders(refresh=False, user=None, warehouse=None, customer=None):
         # print(f"Cache value: {orders}")
 
         if orders is None:
-            print("2 - Cache miss, fetching from DB")
+            print("2 - Cache miss, fetching orders DB")
             orders = get_orders_from_db(user, warehouse, customer)
             cache.set(cache_key, orders, CACHE_TIMEOUT)
 
@@ -59,7 +48,10 @@ def get_orders(refresh=False, user=None, warehouse=None, customer=None):
 
 def refresh_order_cache(user=None, warehouse=None, customer=None):
     """Manually refresh the order cache."""
-    cache_key = generate_cache_key("order_list", user, warehouse, customer)
+    if user and not (user.is_staff or user.is_superuser):
+        cache_key = ck.USER_ORDERS_CACHE_KEY % user.id # generate_cache_key("orders_list", user, warehouse, customer)
+    else:
+        cache_key = ck.ORDERS_LIST_CACHE_KEY
     orders = get_orders_from_db(user, warehouse, customer)
     cache.set(cache_key, orders, CACHE_TIMEOUT)
 

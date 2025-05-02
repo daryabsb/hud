@@ -1,8 +1,10 @@
 
-from src.orders.models import PosOrderItem
+from src.orders.models import PosOrder, PosOrderItem
 
 
-def create_order_item(user, order, product, quantity=1):
+def create_order_item(user, order_number, product, quantity=1):
+    if order_number:
+        order = PosOrder.objects.get(number=order_number)
     return PosOrderItem.objects.create(
         user=user,
         order=order,

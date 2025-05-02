@@ -2,6 +2,7 @@ from django.db import models
 from src.accounts.models import User
 from fontawesome_5.fields import IconField
 from src.core.utils import generate_cache_key
+from src.configurations import cache_key as ck
 from src.core.utils import recursive_to_dict
 
 from django.core.cache import cache
@@ -25,7 +26,7 @@ def get_props_from_db(user=None):
 
 
 def get_props(refresh=False, user=None):
-    cache_key = generate_cache_key("props_list", user)
+    cache_key = ck.APPLICATION_PROPERTIES_CACHE_KEY % user
 
     if refresh:
         props = get_props_from_db(user)
@@ -45,6 +46,12 @@ def refresh_props_cache(user=None):
 
 def get_menus(user=None, warehouse=None, customer=None):
     return [prop for prop in get_props(user=user) if prop["section"] == 'menu']
+
+def get_layout(user=None):
+    return [prop for prop in get_props(user=user) if prop["name"] == 'layout']
+
+def get_prop(name, user=None ):
+    return [prop for prop in get_props(user=user) if prop["name"] == name][0]
     
 
 class ApplicationPropertySection(models.Model):

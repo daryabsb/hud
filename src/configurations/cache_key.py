@@ -1,0 +1,1 @@
+APPLICATION_PROPERTIES_CACHE_KEY = "props_list%s"

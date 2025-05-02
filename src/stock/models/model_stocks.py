@@ -4,6 +4,7 @@ from src.products.models import Product
 
 from src.core.utils import generate_cache_key
 
+
 from django.core.cache import cache
 from src.products.models import Product
 
@@ -11,27 +12,32 @@ from src.products.models import Product
 
 CACHE_TIMEOUT = 604800  # 1 week
 
+# def get_stocks_from_db(user=None, warehouse=None, customer=None):
+#     from src.stock.api.serializers import StockSerializer
+#     queryset = Stock.objects.all()
+
+#     if user and not (user.is_staff or user.is_superuser):
+#         queryset = queryset.filter(user=user)
+
+#     if warehouse:
+#         queryset = queryset.filter(warehouse=warehouse)
+
+#     # if customer:
+#     #     queryset = queryset.filter(customer=customer)
+
+#     serializer = StockSerializer(queryset, many=True)
+#     return serializer.data  # This should be a list of dicts
+
 def get_stocks_from_db(user=None, warehouse=None, customer=None):
-    from src.stock.api.serializers import StockSerializer
-    queryset = Stock.objects.all()
-
-    if user and not (user.is_staff or user.is_superuser):
-        queryset = queryset.filter(user=user)
-
-    if warehouse:
-        queryset = queryset.filter(warehouse=warehouse)
-
-    # if customer:
-    #     queryset = queryset.filter(customer=customer)
-
-    serializer = StockSerializer(queryset, many=True)
-    return serializer.data  # This should be a list of dicts
+    from src.stock.utils import get_merged_stock_data
+    return get_merged_stock_data(user, warehouse, customer)
 
 
 def get_stocks(refresh=False, user=None, warehouse=None, customer=None):
     cache_key = generate_cache_key("stocks_list", user, warehouse, customer)
 
     if refresh:
+        print(f"1 - Cache miss, fetching stocks DB - refresh: {refresh}")
         stocks = get_stocks_from_db(user, warehouse, customer)
         cache.set(cache_key, stocks, CACHE_TIMEOUT)
     else:
@@ -42,13 +48,11 @@ def get_stocks(refresh=False, user=None, warehouse=None, customer=None):
 
     return stocks
 
-
-
-def refresh_order_cache(user=None, warehouse=None, customer=None):
-    """Manually refresh the order cache."""
-    cache_key = generate_cache_key("order_list", user, warehouse, customer)
-    orders = get_orders_from_db(user, warehouse, customer)
-    cache.set(cache_key, orders, CACHE_TIMEOUT)
+def refresh_stock_cache(user=None, warehouse=None, customer=None):
+    """Manually refresh the stock cache."""
+    cache_key = generate_cache_key("stock_list", user, warehouse, customer)
+    stocks = get_stocks_from_db(user, warehouse, customer)
+    cache.set(cache_key, stocks, CACHE_TIMEOUT)
 
 class Stock(models.Model):
     user = models.ForeignKey(
@@ -82,4 +86,4 @@ class Stock(models.Model):
         self.refresh_cache
 
     def refresh_cache(self):
-        refresh_order_cache(user=self.user, warehouse=self.warehouse)
+        refresh_stock_cache(user=self.user, warehouse=self.warehouse)

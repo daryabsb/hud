@@ -3,7 +3,7 @@ from django.urls import path, include
 from src.pos.views import (
     pos_home,
     # htmx views
-    add_item_with_barcode, add_order_item, change_quantity,
+    add_order_item, change_quantity,
     add_quantity, subtract_quantity, remove_item,
     # modal views
     modal_product, modal_order_item, modal_calculator, calculate, add_digit, modal_keyboard,
@@ -23,16 +23,16 @@ urlpatterns = [
 
 # HTMX VIEWS
 urlpatterns += [
-    path('change-quantity/<item_number>/',
+    path('change-quantity/<str:item_number>/',
          change_quantity, name="change-quantity"),
-    path('add-quantity/<item_number>/', add_quantity, name="add-quantity"),
-    path('subtract-quantity/<item_number>/',
+    path('add/item-quantity/<str:item_number>/', add_quantity, name="add-quantity"),
+    path('subtract/item-quantity/<str:item_number>/',
          subtract_quantity, name="subtract-quantity"),
     path('remove-item/<str:item_number>/',
          remove_item, name="remove-item"),
     path('add/order-item/', add_order_item, name="add-item"),
-    path('add/add-item-with-barcode/', add_item_with_barcode,
-         name="add-item-with-barcode"),
+#     path('add/add-item-with-barcode/', add_item_with_barcode,
+#          name="add-item-with-barcode"),
     path('delete-order-item/<str:item_number>/', delete_order_item_with_no_response,
          name="delete-order-item"),
     path('activate-order/<str:order_number>/', activate_order,

@@ -1,5 +1,4 @@
-from src.configurations.models import ApplicationProperty
-
+from src.configurations.models import ApplicationProperty, get_layout
 
 def get_application_property(name):
-    return ApplicationProperty.objects.get(name=name)
+    return get_layout(name)

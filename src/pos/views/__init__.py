@@ -4,3 +4,5 @@ from .modal_views import *
 from .payment_views import *
 from .search_views import *
 
+from .msc import *
+

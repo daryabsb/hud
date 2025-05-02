@@ -7,8 +7,8 @@ from src.pos.calculations import (create_order_item,)
 from src.pos.utils import get_active_order, get_active_item
 from src.orders.utils import context_factory
 
-from src.configurations.utils import get_application_property
-layout_object = get_application_property(name='layout')
+from src.configurations.models import get_prop
+layout_object = get_prop('layout')
 
 update_active_order_template = 'pos/partials/order-detail.html'
 update_items_list = 'pos/orders/items/list.html'
@@ -38,19 +38,21 @@ def change_quantity(request, item_number):
 
 
 def add_quantity(request, item_number):
+    print(f'subtract item_number: {item_number}')
     item = get_object_or_404(PosOrderItem, number=item_number)
     item.quantity += 1  # Set quantity to the new value received from the client
     item.save()
     # item = recalculate_item(order_item=item)
 
-    item = get_active_item(item_number)
     active_order = get_active_order(request.user)
+    item = get_active_item(item_number, active_order)
     context = {"active_order": active_order,
                "order": active_order, "item": item}
     return render(request, update_orderitem_qty_template, context)
 
 
 def subtract_quantity(request, item_number):
+    print(f'subtract item_number: {item_number}')
     item = get_object_or_404(PosOrderItem, number=item_number)
     if item.quantity > 1:
         item.quantity -= 1
@@ -58,10 +60,11 @@ def subtract_quantity(request, item_number):
     elif item.quantity == 1:
         item.delete()
         item = None
-    if item:
-        item = get_active_item(item_number)
-
+    
     active_order = get_active_order(request.user)
+    if item:
+        item = get_active_item(item_number, active_order)
+
     context = {"active_order": active_order,
                "order": active_order, "item": item or None}
     return render(request, update_orderitem_qty_template, context)
@@ -101,69 +104,48 @@ def delete_order_item_with_no_response(request, item_number):
     #     print(f'Item does not exist: {e}')
 
 
-def add_item_with_barcode(request):
-    barcode_value = request.POST.get("barcode", None)
-    barcode = get_object_or_404(Barcode, value=barcode_value)
-    order = get_active_order(request.user)
-    active_order = PosOrder.objects.get(number=order['number'])
-
-    item = PosOrderItem.objects.filter(
-        user=request.user, order=active_order, product=barcode.product).first()
-    if item:
-        item.quantity += 1  # Set quantity to the new value received from the client
-        item.save()
-    else:
-        item = create_order_item(
-            request.user, active_order, barcode.product
-        )
+def add_order_item(request):
+    barcode_value = request.POST.get("barcode")
+    product_id = request.POST.get("product_id")
+    quantity = int(request.POST.get("qty", 1))
 
     active_order = get_active_order(request.user)
-    context = {"active_order": active_order,
-               "order": active_order, "item": item}
-    # return render(request, update_order_item_template, context)
 
-    context = context_factory(
-        ["orders", "payment_types", "payment_type", "menus"], request.user, context=context)
-
-    # if request.htmx:
-    if layout_object.value == 'visual':
-        context = context_factory(['products', 'groups'], context)
-        return render(request, 'cotton/pos_base/pos_container.html', context)
-
-    return render(request, 'cotton/pos_base/standard/container.html', context)
-
-
-def add_order_item(request):
-    product_id = request.POST.get('product_id', None)
-    # quantity = int(request.POST.get('quantity', 1))
-    quantity = int(request.POST.get('qty', 1))
-    
-    # TODO fix repetative get active order
-    order = get_active_order(request.user)
-    active_order = PosOrder.objects.get(number=order['number'])
-    
-    product = get_object_or_404(Product, id=product_id)
+    if barcode_value:
+        # Barcode method
+        barcode = get_object_or_404(Barcode, value=barcode_value)
+        product = barcode.product
+    elif product_id:
+        # Product ID method
+        product = get_object_or_404(Product, id=product_id)
+    else:
+        return render(request, "error_template.html", {"error": "No product identifier provided"})
 
     item = PosOrderItem.objects.filter(
-        order=active_order, product=product).first()
+        order__number=active_order['number'], product=product
+    ).first()
 
     if not item:
         item = create_order_item(
-            request.user, active_order, product, quantity)
+            request.user, active_order['number'], product, quantity
+        )
     else:
         item.quantity += quantity
         item.save()
 
     active_order = get_active_order(request.user)
-
-    context = {"active_order": active_order,
-               "order": active_order, "item": item}
+    context = {
+        "active_order": active_order,
+        "order": active_order,
+        "item": item
+    }
 
     context = context_factory(
-        ["orders", "payment_types", "payment_type", "menus"], request.user, context=context)
+        ["orders", "payment_types", "payment_type", "menus"],
+        request.user, context=context
+    )
 
-    # if request.htmx:
-    if layout_object.value == 'visual':
+    if layout_object['value'] == 'visual':
         context = context_factory(['products', 'groups'], context)
         return render(request, 'cotton/pos_base/pos_container.html', context)
 

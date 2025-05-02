@@ -12,7 +12,7 @@
     <span class="input-group-text border-0 bg-transparent fs-20px" id="addon-wrapping"><i class="fas fa-lg fa-fw me-2 fa-barcode"></i></span>
     <input
     id="barcode-input"
-    hx-post="{% url 'pos:add-item-with-barcode' %}" 
+    hx-post="{% url 'pos:add-item' %}" 
     hx-trigger="keyup[keyCode==13]" type="text"
     autofocus
     hx-target="#standard-pos-container"

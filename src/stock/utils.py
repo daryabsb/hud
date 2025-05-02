@@ -6,6 +6,49 @@ from django.db.models import Prefetch
 from collections import OrderedDict
 
 
+def get_merged_stock_data(user=None, warehouse=None, customer=None):
+    # Step 1: Filter stocks
+    stocks = Stock.objects.select_related('product').all()
+
+    if user and not (user.is_staff or user.is_superuser):
+        stocks = stocks.filter(user=user)
+
+    if warehouse:
+        stocks = stocks.filter(warehouse=warehouse)
+
+    # Step 2: Fetch all stock controls in one query
+    product_ids = [stock.product_id for stock in stocks]
+    stock_controls = StockControl.objects.filter(
+        product_id__in=product_ids
+        ).select_related('customer').only('product_id', 'preferred_quantity', 'is_low_stock_warning_enabled',
+            'low_stock_warning_quantity', 'customer__name')
+
+    # Step 3: Map product_id -> stock_control
+    control_map = {sc.product_id: sc for sc in stock_controls}
+
+    # Step 4: Merge data
+    merged_stocks = []
+    for stock in stocks:
+        control = control_map.get(stock.product_id)
+        stock_dict = {
+            "id": stock.id,
+            "product_id": stock.product.id,
+            "product_name": stock.product.name,
+            "product_image": stock.product.image.url,
+            "product_group": stock.product.parent_group.name,
+            "quantity": stock.quantity,
+            "warehouse": stock.warehouse.name,
+            # Add control info if available
+            "customer": getattr(control.customer, "name", None),
+            "preferred_quantity": getattr(control, "preferred_quantity", None),
+            "low_stock_warning_quantity": getattr(control, "low_stock_warning_quantity", None),
+            "is_low_stock_warning_enabled": getattr(control, "is_low_stock_warning_enabled", False),
+            # Add more stock or control fields as needed
+        }
+        merged_stocks.append(stock_dict)
+
+    return merged_stocks
+
 def get_stocks_with_controls(stock_ids):
     stock_control_qs = StockControl.objects.only(
         'product_id', 'preferred_quantity', 'is_low_stock_warning_enabled',
@@ -132,3 +175,41 @@ stock_1 = OrderedDict(
         ('low_stock_warning_quantity', 12), ('preferred_quantity',
                                              75), ('is_low_stock_warning_enabled', True), ('customer', 4),
         ('created', '2025-04-22T13:54:20.142611+03:00'), ('updated', '2025-04-23T15:58:41.894346+03:00')])
+
+
+[
+    
+    {'id': 1, 'product_id': 1, 'product_name': 'Organic Bananas', 'product_group': 'Grocery', 
+        'quantity': 60, 'warehouse': 'My Warehouse', 'customer': None, 'preferred_quantity': 75, 
+        'low_stock_warning_quantity': 12, 'is_low_stock_warning_enabled': True}, 
+    {'id': 2, 'product_id': 2, 'product_name': 'Whole Milk', 'product_group': 'Grocery', 
+        'quantity': 25, 'warehouse': 'My Warehouse', 'customer': None, 'preferred_quantity': 50, 
+        'low_stock_warning_quantity': 12, 'is_low_stock_warning_enabled': True}, 
+    {'id': 3, 'product_id': 3, 'product_name': 'Chicken Breast', 'product_group': 'Grocery', 
+        'quantity': 30, 'warehouse': 'My Warehouse', 'customer': None, 'preferred_quantity': 50, 
+        'low_stock_warning_quantity': 9, 'is_low_stock_warning_enabled': True}, 
+    {'id': 4, 'product_id': 4, 'product_name': 'Sourdough Bread', 'product_group': 'Grocery', 
+        'quantity': 30, 'warehouse': 'My Warehouse', 'customer': None, 'preferred_quantity': 50, 
+        'low_stock_warning_quantity': 9, 'is_low_stock_warning_enabled': True}, 
+    {'id': 5, 'product_id': 5, 'product_name': 'Tomato Soup', 'product_group': 'Grocery', 
+        'quantity': 55, 'warehouse': 'My Warehouse', 'customer': None, 'preferred_quantity': 50, 
+        'low_stock_warning_quantity': 18, 'is_low_stock_warning_enabled': True}, 
+    {'id': 6, 'product_id': 6, 'product_name': 'Phone Pro Max', 'product_group': 'Electronics', 
+        'quantity': 15, 'warehouse': 'My Warehouse', 'customer': None, 'preferred_quantity': 15, 
+        'low_stock_warning_quantity': 9, 'is_low_stock_warning_enabled': True}, 
+    {'id': 7, 'product_id': 7, 'product_name': 'DELL Lavender', 'product_group': 'Electronics', 
+        'quantity': 18, 'warehouse': 'My Warehouse', 'customer': None, 'preferred_quantity': 15, 
+        'low_stock_warning_quantity': 6, 'is_low_stock_warning_enabled': True}, 
+    {'id': 22, 'product_id': 22, 'product_name': 'Potato Chips', 'product_group': 'Goodies', 
+        'quantity': 45, 'warehouse': 'My Warehouse', 'customer': None, 'preferred_quantity': 35, 
+        'low_stock_warning_quantity': 18, 'is_low_stock_warning_enabled': True}, 
+    {'id': 23, 'product_id': 23, 'product_name': 'Gummy Bears', 'product_group': 'Goodies', 
+        'quantity': 50, 'warehouse': 'My Warehouse', 'customer': None, 'preferred_quantity': 35, 
+        'low_stock_warning_quantity': 18, 'is_low_stock_warning_enabled': True}, 
+    {'id': 24, 'product_id': 24, 'product_name': 'Truffle Oil', 'product_group': 'Goodies', 
+        'quantity': 15, 'warehouse': 'My Warehouse', 'customer': None, 'preferred_quantity': 15, 
+        'low_stock_warning_quantity': 6, 'is_low_stock_warning_enabled': True}, 
+    {'id': 25, 'product_id': 25, 'product_name': 'Holiday Gift Basket', 'product_group': 'Goodies', 
+        'quantity': 11, 'warehouse': 'My Warehouse', 'customer': None, 'preferred_quantity': 15, 
+        'low_stock_warning_quantity': 6, 'is_low_stock_warning_enabled': True}
+]  

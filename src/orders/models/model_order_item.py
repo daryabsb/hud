@@ -3,7 +3,7 @@ from src.accounts.models import User
 from src.products.models import Product
 from django.db.models import F, Sum, Case, When, Value
 from decimal import Decimal
-
+from src.orders import cache_key as ck
 
 class PosOrderItem(models.Model):
     number = models.CharField(
@@ -23,6 +23,8 @@ class PosOrderItem(models.Model):
     price = models.DecimalField(decimal_places=3,  max_digits=15, default=0)
 
     is_locked = models.BooleanField(default=False)
+    is_enabled = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)
     discount = models.FloatField(default=0)
     discount_type = models.FloatField(default=0)
 
@@ -86,6 +88,23 @@ class PosOrderItem(models.Model):
             if target:
                 self.number = f'{target}-{self.user.id}-{date.today().strftime("%d%m%Y")}-01-{digits}'
 
-        self.order.update_items_subtotal()
-
         super(PosOrderItem, self).save(*args, **kwargs)
+        self.order.update_items_subtotal()
+        self.order.refresh_cache()
+        
+    def delete(self, *args, **kwargs):
+        from src.stock.models import Stock
+
+        # Restore stock quantity
+        stock = Stock.objects.filter(product=self.product, warehouse=self.warehouse).first()
+        if stock:
+            stock.quantity += self.quantity
+            stock.save()
+
+        # Delete the item
+        super(PosOrderItem, self).delete(*args, **kwargs)
+
+        # Update order subtotal and refresh cache
+        if self.order:
+            self.order.update_items_subtotal()
+            self.order.refresh_cache()

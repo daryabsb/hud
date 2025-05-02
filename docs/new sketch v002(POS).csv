@@ -1,0 +1,5 @@
+view;layout;arguments;includes;request;context;template
+pos_home;standard;;;GET;orders, active_order,stocks, menus, payment_types, payment_type;cotton/pos_base/standard/index.html
+pos_home;;number;;GET/HTMX;orders, active_order,stocks, menus, payment_types, payment_type;cotton/pos_base/standard/container.html
+search_stock;standard/visual;;is_next=1;GET/HTMX;stock_context;cotton/modals/search/products/rows.html
+;;;;GET/HTMX;stock_context;cotton/modals/search/products/index.html
