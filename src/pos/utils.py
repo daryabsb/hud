@@ -38,14 +38,17 @@ def get_active_order(user, active_order=None):
 
 def activate_order_and_deactivate_others(user, order_number=None):
     from src.orders.models import PosOrder, get_orders
-
-    if order_number:
-        activate_order(user, order_number)
-    elif not active_order:
+    active_order = get_active_order(user=user)
+    
+    if not active_order:
         customer = Customer.objects.first()
         active_order = PosOrder.objects.create(
             user=user, customer=customer, is_active=True)  
-    active_order = get_active_order(user=user)
+
+    if order_number != active_order['number']:
+        activate_order(user, order_number)
+        active_order = get_active_order(user=user)
+    
     return active_order
 
 
