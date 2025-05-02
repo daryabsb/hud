@@ -37,6 +37,7 @@
         hx-vals='{
             "is_ajax": true,
             "el-id": "calculations-{{ active_order.number }}",
+            "display": "order-discount",
             "url": "{% url "pos:order-discount" %}",
             "template_name":"cotton/orders/calculations.html"
         }'

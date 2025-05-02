@@ -1,0 +1,24 @@
+
+{% if digit == 'back' %}
+{% load static %}
+<button 
+    type="button" 
+    class="btn btn-outline-theme text-center" 
+    style="width:5.7rem;height:2.7rem" 
+    hx-on:click="
+        let display = htmx.find('#calculator-display-{{ display }}');
+        display.value = display.value.slice(0, -1);
+        display.focus();
+    "
+>
+<i class="fas fa-lg fa-fw me-2 fa-arrow-left"></i></button>
+{% else %}
+<button 
+    type="button" 
+    class="btn btn-outline-theme text-center fs-4" 
+    style="width:5.7rem;height:2.7rem" 
+    hx-on:click="
+        htmx.find('#calculator-display-{{ display }}').value = htmx.find('#calculator-display-{{ display }}').value + '{{ digit }}';
+        htmx.find('#calculator-display-{{ display }}').focus();
+        "
+>{{digit}}</button>{% endif %}

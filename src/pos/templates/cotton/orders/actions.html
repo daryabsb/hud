@@ -1,11 +1,19 @@
 <div class="row">
     <div class="col-md-4">
+        {% comment %} hx-get="{% url 'pos:modal-order-item' item.number %}"  {% endcomment %}
         <button type="button" class="btn fs-25px d-none calculator-btn"
         id="calculator-{{ item.number }}"
-        hx-get="{% url 'pos:modal-order-item' item.number %}" 
-        hx-target="#modalPosItem" 
+        hx-get="{% url 'pos:modal-calculator' %}"
+        hx-vals='{
+            "is_ajax": true,
+            "el-id": "calculations-{{ active_order.number }}",
+            "display": "item-discount",
+            "url": "{% url "pos:order-discount" %}",
+            "template_name":"cotton/orders/calculations.html"
+        }'
+        hx-target="#itemDiscountModal" 
         hx-trigger="click"
-        data-bs-target="#modalPosItem"
+        data-bs-target="#itemDiscountModal"
         data-bs-toggle="modal"
         >
             <i class="fas fa-md fa-fw fa-calculator"></i>
