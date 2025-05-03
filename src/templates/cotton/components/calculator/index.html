@@ -1,19 +1,28 @@
+
 <div class="card" style="width: 21.1rem;">
-    <div class="card-header fw-bold " id="message"
-        htmx::after-settle="htmx.find('#calculator-display').focus(); console.log(htmx.find('#calculator-display'))"
+    <div class="card-header fw-bold p-0" id="message"
+        htmx::after-settle="htmx.find('#calculator-display-{{ display }}').focus(); console.log(htmx.find('#calculator-display-{{ display }}'))"
         >
+        <div class="border-bottom px-3 py-3"><h5 class="modal-title">MODAL TITLE</h5></div>
         <c-components.calculator.display id="{{ display }}" />
     </div>
     <div class="card-body">
         <div class="mb-3">
+           -- {{ kamal }} --
         <div class="btn-group gap-3 w-100">
-            <label class="btn fs-4 btn-outline-theme text-center labe-sign"
+            <label class="btn fs-4 btn-{% if not discount_type %}outline-{% endif %}theme text-center labe-sign"
             
             _="on click 
                 remove .btn-theme from .labe-sign 
                 then add .btn-outline-theme to .labe-sign
                 then remove .btn-outline-theme from me 
-                then add .btn-theme to me end">
+                then add .btn-theme to me 
+                if #modal-discount-sign.classList.contains('fa-dollar-sign') then
+                    remove .fa-dollar-sign from #modal-discount-sign
+                    add .fa-percent to #modal-discount-sign
+                    set #discount-sign.value to '0'
+
+                end">
                 <input type="radio" class="d-none" id="discount-sign-0" name="payment-type" value="0" checked="true">
                 <i class="fas fa-lg fa-fw me-2 fa-percent"></i>
             </label>
@@ -23,7 +32,13 @@
                 remove .btn-theme from .labe-sign 
                 then add .btn-outline-theme to .labe-sign
                 then remove .btn-outline-theme from me 
-                then add .btn-theme to me end">
+                then add .btn-theme to me
+                if #modal-discount-sign.classList.contains('fa-percent') then
+                    remove .fa-percent from #modal-discount-sign
+                    add .fa-dollar-sign to #modal-discount-sign
+                    set #discount-sign.value to '1'
+                
+                end">
             <input type="radio" class="d-none" id="discount-sign-1" name="payment-type" value="1"
             >
             <i class="fas fa-lg fa-fw me-2 fa-money-bill-alt"></i>
@@ -33,7 +48,7 @@
     class="btn btn-outline-theme text-center fs-4" 
     
     hx-on:click="
-        let display = htmx.find('#calculator-display');
+        let display = htmx.find('#calculator-display-{{ display }}');
         display.value = display.value.slice(0, -1);
         display.focus();
     "
@@ -57,13 +72,13 @@
             {% if is_ajax %}
                 hx-post="{{ url }}"
                 hx-swap="outerHTML" 
-                {% else %} 
+            {% else %} 
                 hx-post="{% url 'pos:calculate' %}" 
                 hx-swap="none" 
                 hx-on::after-request="htmx.find('#{{ el_id }}').value = (JSON.parse(event.detail.xhr.responseText).message)"
             {% endif %}
             hx-trigger="click" 
-            hx-include="#calculator-display"
+            hx-include="#modal-discount-form-{{ display }}"
             hx-target="#{{ el_id }}"
             data-bs-dismiss="modal" 
         >Save changes</button>
@@ -71,7 +86,6 @@
 
     <c-card-arrow />
 </div>
-
 
 <!-- htmx.find('#{{ el_id }}').value = htmx.; -->
 <!-- form-control w-50px text-center mx-2    fw-bold  bg-inverse bg-opacity-15 border-0  -->

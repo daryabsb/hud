@@ -1,0 +1,13 @@
+<input type="hidden" id="el-id" name="el-id" value="calculations-{{ active_order.number }}" />
+<input type="hidden" id="url" name="url" value="{% url 'pos:order-discount' active_order.number %}" />
+<input type="hidden" id="is_ajax" name="is_ajax" value="true" />
+<c-buttons.icon_button icon="fas fa-2xl fa-percent" btn=" btn-outline-default rounded-2"
+hx-get="{% url 'pos:modal-calculator' %}" 
+hx-target="#orderDiscountModal"
+hx-include="#el-id"
+hx-include="#url"
+hx-include="#is_ajax"
+hx-trigger="click"
+data-bs-toggle="modal"
+data-bs-target="#orderDiscountModal"
+>Order Discount</c-buttons.icon_button>

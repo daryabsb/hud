@@ -20,29 +20,29 @@ class PosOrderItem(models.Model):
     round_number = models.DecimalField(
         decimal_places=3, max_digits=4, default=0)
     quantity = models.IntegerField(default=1)
-    price = models.DecimalField(decimal_places=3,  max_digits=15, default=0)
+    price = models.DecimalField(decimal_places=3, max_digits=15, default=0)
 
     is_locked = models.BooleanField(default=False)
     is_enabled = models.BooleanField(default=True)
     is_active = models.BooleanField(default=False)
     discount = models.FloatField(default=0)
     discount_type = models.FloatField(default=0)
-
+    # if type was 0 it is percent, if it was 1 it is fixed
     discounted_amount = models.GeneratedField(
         expression=Case(
-            When(discount_type=1, then=F('price') *
+            When(discount_type=0, then=F('price') *
                  F('quantity') * (F('discount') / 100)),
-            When(discount_type=0, then=F('discount')),
+            When(discount_type=1, then=F('discount')),
             default=Value(0),
             output_field=models.DecimalField(
                 decimal_places=3,  max_digits=15, default=0)
         ),
-        output_field=models.DecimalField(decimal_places=3,  max_digits=15, default=0), db_persist=True,)
+        output_field=models.DecimalField(decimal_places=3, max_digits=15, default=0), db_persist=True,)
 
     discount_sign = models.GeneratedField(
         expression=Case(
-            When(discount_type=1, then=Value('%')),
-            When(discount_type=0, then=Value('$')),
+            When(discount_type=0, then=Value('%')),
+            When(discount_type=1, then=Value('$')),
             default=Value(''),
             output_field=models.CharField(max_length=20)
         ),
@@ -50,9 +50,9 @@ class PosOrderItem(models.Model):
 
     item_total = models.GeneratedField(
         expression=Case(
-            When(discount_type=1, then=F('price') * F('quantity') -
+            When(discount_type=0, then=F('price') * F('quantity') -
                  F('price') * F('quantity') * (F('discount') / 100)),
-            When(discount_type=0, then=F('price')
+            When(discount_type=1, then=F('price')
                  * F('quantity') - F('discount')),
             default=Value(0),
             output_field=models.DecimalField(

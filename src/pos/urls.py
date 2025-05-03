@@ -9,7 +9,7 @@ from src.pos.views import (
     modal_product, modal_order_item, modal_calculator, calculate, add_digit, modal_keyboard,
     add_order_comment, add_order_customer, add_order_payment,
     delete_order_item_with_no_response, activate_order,
-    order_discount, calculator_modal, toggle_modal_comment,
+    order_discount, item_discount, calculator_modal, toggle_modal_comment,
     pos_search_modal, pos_order, search_stock,
 )
 
@@ -37,8 +37,10 @@ urlpatterns += [
          name="delete-order-item"),
     path('activate-order/<str:order_number>/', activate_order,
          name="activate-order"),
-    path('order-discount/', order_discount,
+    path('discount/order-discount/<str:order_number>/', order_discount,
          name="order-discount"),
+    path('discount/item-discount/<str:item_number>/', item_discount,
+         name="item-discount"),
 ]
 
 # MODALS
@@ -47,7 +49,7 @@ urlpatterns += [
          modal_order_item, name="modal-order-item"),
     #     path('modal-calculator/', modal_calculator, name="modal-calculator"),
     path('modals/modal-calculator/', calculator_modal, name="modal-calculator"),
-    path('modals/modal-keyboard/', modal_keyboard, name="modal-keyboard"),
+#     path('modals/modal-keyboard/', modal_keyboard, name="modal-keyboard"),
     path('modals/calculate/', calculate, name='calculate'),
     path('modals/add_digit/', add_digit, name='add_digit'),
 

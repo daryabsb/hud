@@ -6,10 +6,8 @@
         hx-get="{% url 'pos:modal-calculator' %}"
         hx-vals='{
             "is_ajax": true,
-            "el-id": "calculations-{{ active_order.number }}",
-            "display": "item-discount",
-            "url": "{% url "pos:order-discount" %}",
-            "template_name":"cotton/orders/calculations.html"
+            "el-id": "orderitem-{{ item.number }}",
+            "url": "{% url "pos:item-discount" item.number %}",
         }'
         hx-target="#itemDiscountModal" 
         hx-trigger="click"

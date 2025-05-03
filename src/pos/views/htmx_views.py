@@ -62,6 +62,7 @@ def add_quantity(request, item_number):
     item = get_object_or_404(PosOrderItem, number=item_number)
     item.quantity += 1  # Set quantity to the new value received from the client
     item.save()
+    item.refresh_from_db()
 
     active_order = get_active_order(request.user)
     item = next((item for item in active_order['items'] if item['number'] == item_number), None)
@@ -189,13 +190,37 @@ def activate_order(request, order_number):
     context = {"order": active_order, "active_order": active_order}
     return render(request, stanndard_activate_order_template, context)
 
-def order_discount(request):
+def order_discount(request, order_number):
     # Fetch the order to activate
+    order = get_object_or_404(PosOrder, number=order_number)
+    discount_sign = request.POST.get('discount-sign', None)
+    discount = request.POST.get('display', None)
+    
+    order.discount = float(discount)
+    order.discount_type = float(discount_sign)
+    order.save()
 
     # Get the updated active order (assuming this function works as intended)
     active_order = get_active_order(request.user)
 
-    print(f"order_discount: {active_order.number}")
-
     context = {"order": active_order, "active_order": active_order}
     return render(request, stanndard_activate_order_template, context)
+
+def item_discount(request, item_number=None):
+    # Fetch the order to activate
+    item = get_object_or_404(PosOrderItem, number=item_number)
+    discount_sign = request.POST.get('discount-sign', None)
+    discount = request.POST.get('display', None)
+    
+    item.discount = float(discount)
+    item.discount_type = float(discount_sign)
+    item.save()
+    
+    print(f'submission = sign: {discount_sign}, value: {discount}')
+    print(f"item to discount: {item.number}")
+
+    active_order = get_active_order(request.user)
+    item = next((item for item in active_order['items'] if item['number'] == item_number), None)
+    context = {"active_order": active_order,
+               "order": active_order, "item": item}
+    return render(request, update_orderitem_qty_template, context)

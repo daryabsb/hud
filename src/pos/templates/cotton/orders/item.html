@@ -21,7 +21,7 @@ hx-swap-oob="{{ oob }}"
                 <span class="w-20px h-20px p-0 d-flex align-items-center justify-content-center badge bg-theme text-theme-color position-absolute end-0 top-0 fw-bold fs-12px rounded-pill mt-n2 me-n2">{{ item.quantity }}</span>
             </div>
             <div class="ps-3 flex-1">
-                <div><a href="#" class="text-decoration-none text-inverse">{{ item.product_name }}</a></div>
+                <div><a href="#" class="text-decoration-none text-inverse">{{ item.product_name }}{% if item.discount %} | <span class="text-sm text-success">{{ item.currency }} {{ item.discounted_amount }} OFF</span>{% endif %}</a></div>
                 <div class="text-inverse text-opacity-50 small d-none d-xl-block">
                     {{ item.number }}
                 </div>

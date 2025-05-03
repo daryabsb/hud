@@ -66,12 +66,16 @@ def modal_calculator(request):
 
 
 def calculator_modal(request):
-    is_ajax = request.GET.get('is_ajax', False)
+    is_ajax = request.GET.get('is_ajax', True)
     div_class = request.GET.get('div-class', '')
     el_id = request.GET.get('el-id', '')
-    display = request.GET.get('display', '')
+    discount_type = request.GET.get('discount_type', '0')
     url = request.GET.get('url', '')
+    kamal = request.GET.get('kamal', '')
     template_name = request.GET.get('template-name', '')
+    print(f'kamal: {kamal}')
+    print(f'el_id: {el_id}')
+    print(f'is_ajax: {is_ajax}')
     digits = [
         [7, 8, 9], [4, 5, 6],
         [1, 2, 3], 
@@ -82,7 +86,7 @@ def calculator_modal(request):
         "is_ajax": is_ajax,
         "div_class": div_class,
         "el_id": el_id,
-        "display": display,
+        "discount_type": discount_type,
         "template_name": template_name,
         "url": url,
         "digits": digits,

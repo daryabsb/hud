@@ -36,15 +36,14 @@
         hx-get="{% url 'pos:modal-calculator' %}" hx-target="#orderDiscountModal"
         hx-vals='{
             "is_ajax": true,
+            "url": "{% url "pos:order-discount" active_order.number %}",
             "el-id": "calculations-{{ active_order.number }}",
-            "display": "order-discount",
-            "url": "{% url "pos:order-discount" %}",
             "template_name":"cotton/orders/calculations.html"
-        }'
-        data-bs-toggle="modal"
-        data-bs-target="#orderDiscountModal"
-    >Discount</c-buttons.icon_button>
-    
+            }'
+            data-bs-toggle="modal"
+            data-bs-target="#orderDiscountModal"
+            >Discount</c-buttons.icon_button>
+            
     <c-buttons.pos.comment />
     <c-buttons.pos.customer />
     
@@ -52,10 +51,8 @@
     >Cash drawer</c-buttons.icon_button> {% endcomment %}
 </div>
 <div class="d-flex flex-nowrap flex-shrink-0 gap-2 btn-group px-4 top-3">
-        <c-buttons.icon_button icon="fas fa-2xl fa-percent" btn=" btn-outline-default rounded-2"
-        hx-get="{% url 'pos:modal-keyboard' %}" hx-target="#modal-keyboard" 
-        href="#modal-keyboard" data-bs-toggle="modal"
-        >Discount</c-buttons.icon_button>
+
+        <c-buttons.pos.discount />
         <c-buttons.pos.transfer />
         <c-buttons.icon_button icon="fas fa-2xl fa-sync-alt" btn="btn-outline-default rounded-2"
         >Return</c-buttons.icon_button>
