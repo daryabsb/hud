@@ -10,7 +10,7 @@
         <tr>
             <td class="h6 text-success">Discount</td>
             {% if pos_home %}<td class="h6">promo code: <u class="text-success fw-bold small">FREESHIPPING</u> <small>(<span class="text-decoration-line-through">$120.00</span>)</small></td>{% endif %}
-            <td class="h6 text-success text-end" {% if not active_order %}colspan="2"{% endif %}>{{ active_order.currency }} {{ active_order.discounted_amount|floatformat:'0' }}</td>
+            <td class="h6 text-success text-end" {% if not active_order %}colspan="2"{% endif %}>{{ active_order.discount_sign }} {{ active_order.discounted_amount|floatformat:'0' }}</td>
         </tr>
         <tr class="h6 text-danger">
             <td class="h6 text-danger">Tax</td>

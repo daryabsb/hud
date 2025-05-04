@@ -8,37 +8,49 @@
     </div>
     <div class="card-body">
         <div class="mb-3">
-           -- {{ kamal }} --
+           
         <div class="btn-group gap-3 w-100">
-            <label class="btn fs-4 btn-{% if not discount_type %}outline-{% endif %}theme text-center labe-sign"
-            
-            _="on click 
-                remove .btn-theme from .labe-sign 
-                then add .btn-outline-theme to .labe-sign
-                then remove .btn-outline-theme from me 
-                then add .btn-theme to me 
-                if #modal-discount-sign.classList.contains('fa-dollar-sign') then
-                    remove .fa-dollar-sign from #modal-discount-sign
-                    add .fa-percent to #modal-discount-sign
-                    set #discount-sign.value to '0'
+            <label class="btn fs-4 btn-outline-theme text-center labe-sign"
 
-                end">
+            hx-on:click="
+            htmx.findAll('.labe-sign').forEach(el => {
+                el.classList.remove('btn-theme');
+                el.classList.add('btn-outline-theme');
+            });
+
+            var icon = htmx.find('#discount-sign-icon-{{ display }}');
+            var discountSign = htmx.find('#discount-sign-{{ display }}');
+            this.classList.remove('btn-outline-theme');
+            this.classList.add('btn-theme');
+            if(icon.classList.contains('fa-dollar-sign')) {
+                console.log(icon.classList.contains('fa-dollar-sign'));
+                icon.classList.remove('fa-dollar-sign');
+                icon.classList.add('fa-percent');
+            };
+            discountSign.value = 0;
+            ">
                 <input type="radio" class="d-none" id="discount-sign-0" name="payment-type" value="0" checked="true">
                 <i class="fas fa-lg fa-fw me-2 fa-percent"></i>
             </label>
             <label class="btn fs-4 btn-outline-theme text-center labe-sign"
-            
-            _="on click 
-                remove .btn-theme from .labe-sign 
-                then add .btn-outline-theme to .labe-sign
-                then remove .btn-outline-theme from me 
-                then add .btn-theme to me
-                if #modal-discount-sign.classList.contains('fa-percent') then
-                    remove .fa-percent from #modal-discount-sign
-                    add .fa-dollar-sign to #modal-discount-sign
-                    set #discount-sign.value to '1'
-                
-                end">
+            hx-on:click="
+            htmx.findAll('.labe-sign').forEach(el => {
+                el.classList.remove('btn-theme');
+                el.classList.add('btn-outline-theme');
+            });
+            var icon = htmx.find('#discount-sign-icon-{{ display }}');
+            var discountSign = htmx.find('#discount-sign-{{ display }}');
+            this.classList.remove('btn-outline-theme');
+            this.classList.add('btn-theme');
+            if(icon.classList.contains('fa-percent')) {
+            console.log(icon.classList.contains('fa-percent'));
+                icon.classList.remove('fa-percent');
+                icon.classList.add('fa-dollar-sign');
+                console.log(icon.classList);
+            };
+            discountSign.value = 1;
+            "
+           >
             <input type="radio" class="d-none" id="discount-sign-1" name="payment-type" value="1"
             >
             <i class="fas fa-lg fa-fw me-2 fa-money-bill-alt"></i>

@@ -32,18 +32,19 @@
         <c-buttons.pos.lock />
     </div>
     <div class="d-flex flex-nowrap flex-shrink-0 gap-2 btn-group px-4 top-3">
-        <c-buttons.icon_button icon="fas fa-2xl fa-cart-plus" btn="btn-outline-gray-100 rounded-2"
+        {% comment %} <c-buttons.icon_button icon="fas fa-2xl fa-cart-plus" btn="btn-outline-gray-100 rounded-2"
         hx-get="{% url 'pos:modal-calculator' %}" hx-target="#orderDiscountModal"
         hx-vals='{
             "is_ajax": true,
             "url": "{% url "pos:order-discount" active_order.number %}",
-            "el-id": "calculations-{{ active_order.number }}",
-            "template_name":"cotton/orders/calculations.html"
+            "display": "order-discount",
+            "el-id": "calculations-{{ active_order.number }}"
             }'
             data-bs-toggle="modal"
             data-bs-target="#orderDiscountModal"
-            >Discount</c-buttons.icon_button>
+            >Discount</c-buttons.icon_button> {% endcomment %}
             
+    <c-buttons.pos.comment />
     <c-buttons.pos.comment />
     <c-buttons.pos.customer />
     

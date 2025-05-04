@@ -1,8 +1,8 @@
 <form id="modal-discount-form-{{ display }}" class="input-group {% if form.errors %}has-validation{% endif %}">
     <span class="input-group-text text-theme fs-1 py-3">
-        <i id="modal-discount-sign" class="fas fa-lg fa-fw me-2 fa-percent"></i>
+        <i id="discount-sign-icon-{{ display }}" class="fas fa-lg fa-fw me-2 fa-percent"></i>
     </span>
-    <input type="hidden" id="discount-sign-{{ display }}" name="discount-sign" value="0" />
+    <input type="hidden" class="discount-sign" id="discount-sign-{{ display }}" name="discount-sign" value="0" />
     <input type="text" class="form-control ps-4 py-3 border-0 first-input fs-1 {% if form.errors %}is-invalid{% endif %}" 
     id="calculator-display-{{ display }}" name="display" value="{{ item.discount }}"
     _="init put '{{ item.discount }}' into my value  end"

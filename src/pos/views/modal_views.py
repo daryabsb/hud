@@ -71,9 +71,9 @@ def calculator_modal(request):
     el_id = request.GET.get('el-id', '')
     discount_type = request.GET.get('discount_type', '0')
     url = request.GET.get('url', '')
-    kamal = request.GET.get('kamal', '')
+    display = request.GET.get('display', '')
     template_name = request.GET.get('template-name', '')
-    print(f'kamal: {kamal}')
+    print(f'kamal: {display}')
     print(f'el_id: {el_id}')
     print(f'is_ajax: {is_ajax}')
     digits = [
@@ -86,6 +86,7 @@ def calculator_modal(request):
         "is_ajax": is_ajax,
         "div_class": div_class,
         "el_id": el_id,
+        "display": display,
         "discount_type": discount_type,
         "template_name": template_name,
         "url": url,

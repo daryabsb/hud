@@ -204,7 +204,7 @@ def order_discount(request, order_number):
     active_order = get_active_order(request.user)
 
     context = {"order": active_order, "active_order": active_order}
-    return render(request, stanndard_activate_order_template, context)
+    return render(request, stanndard_order_update_calculations_template, context)
 
 def item_discount(request, item_number=None):
     # Fetch the order to activate
