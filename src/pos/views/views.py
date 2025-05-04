@@ -14,6 +14,23 @@ def pos_home(request, number=None):
     
     orders = [order for order in get_orders(user=request.user)]
         
+    active_order = get_active_order(request.user)
+
+    if active_order is None:
+        print("No active order found")
+
+    context = {
+        'orders': orders,
+        # 'orders': [{'number': 'sales-18042025-1892'}, {'number': 'sales-30112024-0149'}],
+        'active_order': active_order,
+        # **stock_context,
+    }
+    return render(request, 'cotton/pos_home.html', context)
+
+@login_required
+def pos_order(request, number):
+    orders = [order for order in get_orders(user=request.user)]
+        
     if number:
         # active_order = next((item for item in orders if item["is_active"] == True), None)
         active_order = aod(request.user, order_number=number)

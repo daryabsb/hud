@@ -27,7 +27,7 @@ def prepare_products_variannts(queryset=None):
             })
 
 @login_required
-def pos_order(request, number):
+def pos_order2(request, number):
     active_order = aod(request.user, order_number=number)
     active_order.refresh_from_db()
     context = {

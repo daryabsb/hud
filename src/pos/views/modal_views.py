@@ -5,12 +5,9 @@ from django.views.decorators.http import require_POST, require_GET
 from django.shortcuts import get_object_or_404, render
 from src.products.models import Product
 from src.orders.models import PosOrder, PosOrderItem
-from django.core.paginator import Paginator
 from src.accounts.models import Customer
-from src.finances.models import PaymentType
 from src.pos.utils import get_active_order, activate_order_and_deactivate_others as aod
-from src.stock.models import Stock, StockControl
-from django.db.models import OuterRef, Subquery, BooleanField, ExpressionWrapper, F
+
 
 modal_item_template = 'cotton/modals/pos_item.html'
 modal_product_template = 'cotton/modals/product.html'
@@ -80,7 +77,7 @@ def calculator_modal(request):
         [7, 8, 9], [4, 5, 6],
         [1, 2, 3], 
         ['.', 0, '=']
-    ]
+        ]
     context = {
         "calc_on": True,
         "is_ajax": is_ajax,
@@ -206,12 +203,8 @@ def add_order_customer(request, order_number):
 @login_required
 @require_GET
 def pos_search_modal(request):
-    from src.stock.filters import StockFilter
     from src.stock.utils import get_paginated_stock_results
     from src.orders.models import get_orders
-    from src.stock.models import get_stocks
-    stock_controls = StockControl.objects.filter(
-        product=OuterRef('product')).select_related('customer', 'user')
 
     orders = get_orders(user=request.user)
     active_order = next(
@@ -221,29 +214,10 @@ def pos_search_modal(request):
 
     stock_context = get_paginated_stock_results(request)
 
-    # queryset = Stock.objects.annotate(
-    #     preferred_quantity=Subquery(
-    #         stock_controls.values('preferred_quantity')[:1]),
-    #     is_low_stock_warning_enabled=Subquery(
-    #         stock_controls.values('is_low_stock_warning_enabled')[:1]),
-    #     low_stock_warning_quantity=Subquery(
-    #         stock_controls.values('low_stock_warning_quantity')[:1]),
-    #     customer=Subquery(stock_controls.values('customer__name')[:1]),
-    # ).select_related('warehouse', 'user')
-
-    # stock_filter = StockFilter(request.GET, queryset=queryset)
-
-    # # Pagination
-    # page_number = request.GET.get("page", 1)
-    # paginator = Paginator(stock_filter.qs, 5)
-    # page_obj = paginator.get_page(page_number)
-
     context = {
         'active_order': active_order,
         **stock_context,
-
     }
-
     is_next = request.GET.get("is_next") == "1"
     if is_next:
         return render(request, 'cotton/modals/search/products/rows.html', context)
