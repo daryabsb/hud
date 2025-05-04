@@ -3,19 +3,19 @@
 <table class="table table-borderless table-sm m-0" id="{{ id }}" hx-swap-oob="{{ oob }}">
     <tbody>
         <tr>
-            <td class="h5 w-150px">Subtotal {{ pos_home }}</td>
-            {% if pos_home %}<td class="h5">{{ active_order.items.count }} items</td>{% endif %}
-            <td class="h5 text-end" {% if not pos_home %}colspan="2"{% endif %}>{{ active_order.currency }} {{ active_order.item_subtotal|floatformat:'0' }}</td>
+            <td class="h5 w-150px">Subtotal</td>
+            {% if pos_home %}<td class="h5">{{ active_order.items|length }} items</td>{% endif %}
+            <td class="h5 text-end" {% if not pos_home %}colspan="2"{% endif %}>{{ active_order.currency }} {{ active_order.item_subtotal|floatformat:'0'|intcomma }}</td>
         </tr>
         <tr>
             <td class="h6 text-success">Discount</td>
-            {% if pos_home %}<td class="h6">promo code: <u class="text-success fw-bold small">FREESHIPPING</u> <small>(<span class="text-decoration-line-through">$120.00</span>)</small></td>{% endif %}
-            <td class="h6 text-success text-end" {% if not active_order %}colspan="2"{% endif %}>{{ active_order.discount_sign }} {{ active_order.discounted_amount|floatformat:'0' }}</td>
+            {% if pos_home %}<td class="h6">This order has discount of: <u class="text-success fw-bold small">{{ active_order.discount_sign }} {{ active_order.discount }}</u> <small>(<span class="text-decoration-line-through">$120.00</span>)</small></td>{% endif %}
+            <td class="h6 text-success text-end" {% if not active_order %}colspan="2"{% endif %}>{{ active_order.currency }} {{ active_order.discounted_amount|floatformat:'0'|intcomma }}</td>
         </tr>
         <tr class="h6 text-danger">
             <td class="h6 text-danger">Tax</td>
             {% if pos_home %}<td class="h6 text-danger">GST {{ active_order.total_tax_rate|floatformat:'0' }}%</td>{% endif %}
-            <td class="h6 text-danger text-end" {% if not pos_home %}colspan="2"{% endif %}>{{ active_order.currency }} {{ active_order.total_tax|floatformat:'0' }}</td>
+            <td class="h6 text-danger text-end" {% if not pos_home %}colspan="2"{% endif %}>{{ active_order.currency }} {{ active_order.total_tax|floatformat:'0'|intcomma }}</td>
         </tr>
         <tr>
             <td colspan="3">

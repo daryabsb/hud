@@ -48,6 +48,12 @@ class PosOrderItem(models.Model):
         ),
         output_field=models.CharField(max_length=20), db_persist=False,)
 
+    item_total_before_discount = models.GeneratedField(
+        expression=F('price') * F('quantity'),
+        output_field=models.DecimalField(
+            decimal_places=3,  max_digits=15, default=0),
+        db_persist=True
+    )
     item_total = models.GeneratedField(
         expression=Case(
             When(discount_type=0, then=F('price') * F('quantity') -

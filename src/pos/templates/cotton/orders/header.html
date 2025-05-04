@@ -6,18 +6,20 @@
         Customer: {{ active_order.customer.name }}
     </div>
 </div>
-<div class="row align-items-center pt-2">
-    <div class="col-lg-4 d-flex align-items-center">
-        Products (3)
+<div class="row align-items-center pt-2 fs-5">
+    <div id="detail-{{ item.number }}" class="col-lg-5 m-0 row">
+        <div class="col-xl-9 col-3 d-flex align-items-center">
+            Products ({{ active_order.items|length}})
+        </div>
+        <div class="col-lg-3 py-2 ps-lg-2 text-start">
+            Price
+        </div>
     </div>
-    <div class="col-lg-2 ps-lg-3 text-start">
-        Price
-    </div>
-    <div class="col-lg-2 ps-lg-3 text-start">
+    <div class="col-xl-2 col-2 ps-lg-2 text-start">
         Quantity
     </div>
-    <div class="col-lg-2 text-start">
+    <div class="col-lg-3 text-start">
         Total
     </div>
-    <div class="col-lg-2 text-end"></div>
+    <div class="col-lg-2 m-0 text-end"></div>
 </div>

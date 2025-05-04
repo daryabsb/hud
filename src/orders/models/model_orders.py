@@ -68,19 +68,6 @@ class PosOrder(models.Model):
         null=True, blank=True, default=1)
     item_subtotal = models.DecimalField(
         decimal_places=3,  max_digits=15, default=0)
-    # item_subtotal2 = models.GeneratedField(
-    #     expression=Subquery(
-    #         Item.objects.filter(order=OuterRef('pk'))
-    #         .annotate(total=Sum('item_total'))
-    #         .values('total')[:1]
-    #     ),
-    #     output_field=models.DecimalField(max_digits=15, decimal_places=3, default=0),
-    #     db_persist=True  # Must be True for Subquery in most databases
-    # )
-    # total_tax_payer = models.DecimalField(
-    #     decimal_places=3,  max_digits=15, default=0)
-    # total_tax = models.DecimalField(
-    #     decimal_places=3,  max_digits=15, default=0)
     document_type = models.ForeignKey(
         DocumentType, on_delete=models.DO_NOTHING,
         related_name="orders", default=1
@@ -100,9 +87,9 @@ class PosOrder(models.Model):
     discount_type = models.FloatField(default=0)
     discounted_amount = models.GeneratedField(
         expression=Case(
-            When(discount_type=1, then=F('item_subtotal')
+            When(discount_type=0, then=F('item_subtotal')
                  * (F('discount') / 100)),
-            When(discount_type=0, then=F('discount')),
+            When(discount_type=1, then=F('discount')),
             default=Value(0),
             output_field=models.DecimalField(
                 decimal_places=3,  max_digits=15, default=0)
@@ -110,8 +97,8 @@ class PosOrder(models.Model):
         output_field=models.DecimalField(decimal_places=3,  max_digits=15, default=0), db_persist=True,)
     discount_sign = models.GeneratedField(
         expression=Case(
-            When(discount_type=1, then=Value('%')),
-            When(discount_type=0, then=Value('$')),
+            When(discount_type=0, then=Value('%')),
+            When(discount_type=1, then=Value('$')),
             default=Value(''),
             output_field=models.CharField(max_length=20)
         ),
