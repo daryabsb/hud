@@ -1,0 +1,21 @@
+home
+orders
+favorite
+customers
+search
+delete orders
+new sale
+save
+lock
+comment
+return
+discount
+transfer
+return
+payment
+cash
+card
+gift
+edit
+qrcode
+status: preparation (unfullfilled), ready for delivery, paid, 

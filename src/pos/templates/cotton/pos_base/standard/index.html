@@ -1,35 +1,7 @@
 <c-pos-base>
 <c-wrappers.pos_card>
     <div class="card-header bg-transparent row mx-0 align-content-between align-items-center w-100">
-        <div class="col-lg-6">
-        <c-forms.barcode_input />
-        </div>
-        <div class="col-lg-6 d-flex flex-nowrap flex-shrink-0 gap-2 btn-group justify-content-end">
-            <div class="">
-    <a href="#" class="pt-3 px-75px btn btn-outline-gray-100 mb-2" 
-        data-bs-toggle="modal" data-bs-target="#modalPosSearchModal"
-            hx-get="{% url 'pos:pos-modal-search' %}" hx-target="#modalPosSearchModal"
-        >
-        <i class="fas fa-2xl fa-search"></i><br>
-        <span class="small"></span>
-        Search
-    </a>
-</div>
-<div class="">
-    <a href="#" class="pt-3 px-75px btn btn-outline-gray-100 mb-2" icon="fas fa-2xl fa-times" btn="btn-outline-gray-100" hx-swap="outerHTML" id="item-delete-btn" hx-delete="/orders/delete-active-order" hx-target="#order-tab-sales-30112024-0149">
-        <i class="fas fa-2xl fa-times"></i><br>
-        <span class="small"></span>
-        Delete
-    </a>
-</div>
-<div class="">
-    <a href="#" class="pt-3 px-75px btn btn-outline-gray-100 mb-2" icon="fas fa-2xl fa-times" btn="btn-outline-gray-100" hx-swap="outerHTML" id="item-delete-btn" hx-delete="/orders/delete-active-order" hx-target="#order-tab-sales-30112024-0149">
-        <i class="fas fa-2xl fa-times"></i><br>
-        <span class="small"></span>
-        Delete
-    </a>
-</div>
-        </div>
+        <c-pos-base.standard.header />
     </div>
 {% comment %} {% block extra_content %}{{ orders.first }}{% endblock %} {% endcomment %}
     <div class="pos-container card-body" style="width: 100%;" id="standard-pos-container">

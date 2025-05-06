@@ -1,10 +1,15 @@
+
 <div class="row align-items-center border-bottom">
-    <div class="col-lg-6 d-flex align-items-center pb-2">
-        Order number: {{ active_order.number }}
+    <div class="col-lg-4 d-flex align-items-center py-2 fs-5">
+        Order: {{ active_order.number }}
     </div>
-    <div class="col-lg-6 d-flex align-items-center py-2">
-        Customer: {{ active_order.customer.name }}
+    <div class="col-lg-4 d-flex align-items-center py-2 fs-5">
+        Customer: {{ active_order.customer }}
     </div>
+    <c-buttons.order_status />
+    
+        {% comment %} <c-forms.order_status /> {% endcomment %}
+
 </div>
 <div class="row align-items-center pt-2 fs-5">
     <div id="detail-{{ item.number }}" class="col-lg-5 m-0 row">

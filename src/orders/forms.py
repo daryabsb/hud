@@ -4,7 +4,7 @@ from src.documents.models import Document, DocumentType
 from src.core.utils import generate_number
 from datetime import datetime, timedelta
 from django.utils.text import slugify
-from src.orders.models import PosOrder, PosOrderItem
+from src.orders.models import PosOrder, PosOrderItem, PosOrderStatus
 
 today = datetime.now()
 due_date = today + timedelta(days=15)
@@ -203,6 +203,11 @@ class CreateSaleForm(forms.Form):
         )
     )
 
+class UpdateOrderStatusForm(forms.ModelForm):
+
+    class Meta:
+        model = PosOrder
+        fields = ('status',)
 
 '''
 from src.orders.forms import DocumentForm

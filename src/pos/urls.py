@@ -10,7 +10,7 @@ from src.pos.views import (
     add_order_comment, add_order_customer, add_order_payment,
     delete_order_item_with_no_response, activate_order,
     order_discount, item_discount, calculator_modal, toggle_modal_comment,
-    pos_search_modal, pos_order, search_stock,
+    pos_search_modal, pos_order, search_stock, update_status, StatusUpdateView
 )
 
 
@@ -41,6 +41,7 @@ urlpatterns += [
          name="order-discount"),
     path('discount/item-discount/<str:item_number>/', item_discount,
          name="item-discount"),
+    path('update/active-order/status/<str:number>/', StatusUpdateView.as_view(), name='update-order-status'),
 ]
 
 # MODALS

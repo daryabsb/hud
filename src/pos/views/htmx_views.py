@@ -2,7 +2,7 @@ from django.http import JsonResponse, HttpResponse, HttpResponseServerError
 from django.shortcuts import get_object_or_404, render
 from django.views.decorators.http import require_POST, require_GET
 from src.products.models import Barcode, Product
-from src.orders.models import PosOrderItem, PosOrder
+from src.orders.models import PosOrderItem, PosOrder, PosOrderStatus
 from src.pos.calculations import (create_order_item,)
 from src.pos.utils import get_active_order, get_active_item
 from src.orders.utils import context_factory
@@ -224,3 +224,67 @@ def item_discount(request, item_number=None):
     context = {"active_order": active_order,
                "order": active_order, "item": item}
     return render(request, update_orderitem_qty_template, context)
+
+from src.pos.forms import StatusForm
+
+@require_POST
+def update_status(request):
+    
+    form = StatusForm(request.POST)
+    if form.is_valid():
+        form.user = request.user
+        form.save()
+        return render(request, 'cotton/forms/order_status.html', form)
+    
+    # status_id = request.POST.get('status', None)
+    # if status_id:
+    #     active_order = PosOrder.objects.filter(is_active=True).first()
+    #     status = get_object_or_404(PosOrderStatus, id=status_id)
+    #     active_order.status = status
+    #     active_order.save()
+    #     context = {'status_form': UpdateOrderStatusForm(require_POST)}
+
+from django.views.generic.edit import UpdateView
+from django.views.generic import View
+       
+# class StatusUpdateView(UpdateView):
+#     model = PosOrder
+#     form_class = StatusForm
+#     template_name = 'cotton/forms/order_status.html'
+
+class StatusUpdateView(View):
+    template_name = 'cotton/forms/order_status.html'
+
+    def get(self, request, **kwargs):
+        return self.render_form(request, kwargs['number'])
+
+    def post(self, request, **kwargs):
+        instance = get_object_or_404(PosOrder, number=kwargs['number'])
+        status_form = StatusForm(request.POST, instance=instance)
+
+        if status_form.is_valid():
+            status_form.save()
+
+        return self.get_render_form(request, kwargs['number'], form=status_form)
+
+    def render_form(self, request, number, form=None):
+        instance = get_object_or_404(PosOrder, number=number)
+        status_form = form or StatusForm(instance=instance)
+        active_order = get_active_order(user=request.user)
+
+        context = {
+            'status_form': status_form,
+            'active_order': active_order,
+        }
+        return render(request, self.template_name, context)
+
+    def get_render_form(self, request, number, form=None):
+        instance = get_object_or_404(PosOrder, number=number)
+        status_form = form or StatusForm(instance=instance)
+        active_order = get_active_order(user=request.user)
+
+        context = {
+            'status_form': status_form,
+            'active_order': active_order,
+        }
+        return render(request, 'cotton/buttons/order_status.html', context)

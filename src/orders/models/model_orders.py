@@ -130,8 +130,15 @@ class PosOrder(models.Model):
         db_persist=False)
 
     paid_status = models.BooleanField(default=False)
-    status = models.IntegerField(
-        choices=ORDER_STATUS,
+    # status = models.IntegerField(
+    #     choices=ORDER_STATUS,
+    #     default=1,  # Default to 'Unfulfilled'
+    #     help_text="Current status of the order"
+    # )
+    status = models.ForeignKey(
+        "PosOrderStatus",
+        null=True,
+        on_delete=models.SET_NULL,
         default=1,  # Default to 'Unfulfilled'
         help_text="Current status of the order"
     )

@@ -1,0 +1,13 @@
+{% load widget_tweaks %}
+<form 
+	hx-post="/pos/update/active-order/status/{{ active_order.number }}/"
+	hx-swap="outerHTML"
+	hx-trigger="change"
+	hx-target="#order-status-button"
+	>
+	<div class="form-group">
+		<div class="form-check">
+			{% render_field status_form.status data-bs-dismiss="modal" %}
+		</div>
+	</div>
+</form>

@@ -77,8 +77,11 @@ dz_array = {
                 ],
             },
             "js": {
-                "pos_home": [
+                "pos_order": [
                     f"{app}/plugins/interactjs/dist/interact.js",
+                ],
+                "pos_home": [
+                    # f"{app}/plugins/interactjs/dist/interact.js",
                     # f"{app}/js/demo/pos-customer-order.demo.js",
                     # f"{app}/js/datatables/functions.js",
                     # f"{app}/js/datatables/formats.js",
