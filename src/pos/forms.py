@@ -1,5 +1,24 @@
 from django import forms
 from src.orders.models import PosOrder
+from src.pos.const import POS_FORM_FIELDS
+
+class PosOrderForm(forms.ModelForm):
+    class Meta:
+        model = PosOrder
+        fields = POS_FORM_FIELDS
+        widgets = {
+            'customer':         forms.HiddenInput(), # need hidden input to post id from customer
+            'internal_note':    forms.TextInput(attrs={'class': 'form-control'}), # note are with real form field
+            'note':             forms.Textarea(
+                attrs={
+                'class': 'form-control first-input', 
+                'rows': 3, 'id': 'order-comment-id'
+                }), # ===
+            'discount':         forms.NumberInput(),
+            'discount_type':    forms.HiddenInput({'id': 'order-discount_type-id'}),
+            'paid_status':      forms.RadioSelect(),
+            'status':           forms.RadioSelect(),
+        }
 
 class FixedTaxesForm(forms.ModelForm):
     class Meta:

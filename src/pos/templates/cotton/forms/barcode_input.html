@@ -9,11 +9,18 @@
         <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
         <label class="btn btn-outline-primary" for="btnradio3">Radio 3</label>
       </div> {% endcomment %}
-    <span class="input-group-text border-0 bg-transparent fs-20px" id="addon-wrapping"><i class="fas fa-lg fa-fw me-2 fa-barcode"></i></span>
+    <span class="input-group-text border-0 bg-transparent fs-20px" id="addon-wrapping"
+    >
+    {% comment %} hx-get="{% url 'pos:focus-input' %}"
+    hx-trigger="every 10s"
+    hx-target="#barcode-input" {% endcomment %}
+      <i class="fas fa-lg fa-fw me-2 fa-barcode"></i>
+    </span>
     <input
     id="barcode-input"
     hx-post="{% url 'pos:add-item' %}" 
     hx-trigger="keyup[keyCode==13]" type="text"
+    hx-on:focus-input="console.log('REACHED!!!');"
     autofocus
     hx-target="#standard-pos-container"
     name="barcode" 

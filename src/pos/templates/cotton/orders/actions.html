@@ -1,21 +1,25 @@
 <div class="row">
     <div class="col-md-4">
-        {% comment %} hx-get="{% url 'pos:modal-order-item' item.number %}"  {% endcomment %}
-        <button type="button" class="btn fs-25px d-none calculator-btn"
-        id="calculator-{{ item.number }}"
-        hx-get="{% url 'pos:modal-calculator' %}"
+        {% comment %} hx-get="{% url 'pos:modal-order-item' item.number %}"  
         hx-vals='{
             "is_ajax": true,
             "el-id": "orderitem-{{ item.number }}",
             "display": "item-discount",
             "url": "{% url "pos:item-discount" item.number %}"
-        }'
-        hx-target="#itemDiscountModal" 
-        hx-trigger="click"
+            }'
+            hx-trigger="click" {% endcomment %}
+        <button type="button" class="btn fs-25px d-none calculator-btn"
+        id="calculator-{{ item.number }}"
+        hx-get="{% url 'pos:modal-item-discount' item.number %}"
+        hx-target="#itemDiscountModal"
         data-bs-target="#itemDiscountModal"
         data-bs-toggle="modal"
+        
         >
+        {% comment %} hx-swap="outerHTML" {% endcomment %}
+        {% comment %} title.forEach(tits=> tits.innerText = '{{ item.bumber}}';); {% endcomment %}
             <i class="fas fa-md fa-fw fa-calculator"></i>
+            
         </button>
     </div>
     <div class="col-md-4">

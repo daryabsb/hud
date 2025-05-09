@@ -3,18 +3,18 @@
 <input type="hidden" id="is_ajax" name="is_ajax" value="true" /> {% endcomment %}
 
 
+{% comment %} hx-get="{% url 'pos:modal-calculator' %}" 
+hx-target="#orderDiscountModal"
+hx-vals='{
+    "is_ajax": true,
+    "url": "{% url "pos:order-discount" active_order.number %}",
+    "display": "order-discount",
+    "el-id": "calculations-{{ active_order.number }}"
+    }'
+hx-trigger="click" {% endcomment %}
 <div class="flex-fill" id="orderCustomerButton">
     <a  class="w-100 pt-3 px-4 btn btn-outline-default rounded-2 mb-2"
         href="#orderDiscountModal" data-bs-toggle="modal"
-        hx-get="{% url 'pos:modal-calculator' %}" 
-        hx-target="#orderDiscountModal"
-        hx-vals='{
-            "is_ajax": true,
-            "url": "{% url "pos:order-discount" active_order.number %}",
-            "display": "order-discount",
-            "el-id": "calculations-{{ active_order.number }}"
-            }'
-        hx-trigger="click"
         data-bs-toggle="modal"
         >
         <i class="fas fa-2xl fa-percent"></i><br>

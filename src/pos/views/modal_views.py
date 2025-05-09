@@ -1,5 +1,5 @@
 
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST, require_GET
 from django.shortcuts import get_object_or_404, render
@@ -156,6 +156,10 @@ def toggle_modal_comment(request, order_number):
         'active_order': active_order,
     })
 
+def render_modal_title(request, title):
+    response = HttpResponse(title)
+    response['Hx-Trigger'] = 'render-title'
+    return response
 
 @login_required
 @require_POST
@@ -222,3 +226,13 @@ def pos_search_modal(request):
     if is_next:
         return render(request, 'cotton/modals/search/products/rows.html', context)
     return render(request, 'cotton/modals/search/index.html', context)
+
+
+@login_required
+@require_GET
+def modal_item_discount(request, item_number):
+    item = get_object_or_404(PosOrderItem, number = item_number )
+    context = {
+        'item': item,
+    }
+    return render(request, 'cotton/modals/item_discount.html', context)

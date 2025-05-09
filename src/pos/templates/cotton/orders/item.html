@@ -43,14 +43,14 @@ hx-swap-oob="{{ oob }}"
     <div class="col-xl-2 col-2 ps-lg-2 text-start">
         <c-forms.quantity id="qty-input-{{ item.number }}" />
     </div>
-    <div class="col-lg-3 text-start">
+    <div class="col-lg-3 text-center">
         {% if item.discount %}
         <div class="ps-3 flex-1">
-            <div>
-                <span class="text-inverse">{{ item.currency }} {{ item.item_total|floatformat:'0'|intcomma }}</span></div>
             <div class="text-inverse text-opacity-50 d-none d-xl-block">
                 <span class="text-sm text-success">-({{ item.currency }} {{ item.discounted_amount|floatformat:'0' }})</span> | <del class="text-danger">{{ item.currency }} {{ item.item_total_before_discount|floatformat:'0'|intcomma }}</del>
             </div>
+            <div>
+                <span class="text-inverse">{{ item.currency }} {{ item.item_total|floatformat:'0'|intcomma }}</span></div>
         </div>
         {% else %}
         <span class="fs-16px">{{ item.currency }} {{ item.item_total|floatformat:'0'|intcomma }}</span>

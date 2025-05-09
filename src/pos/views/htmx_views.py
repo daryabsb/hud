@@ -89,6 +89,10 @@ def subtract_quantity(request, item_number):
 
     return render(request, update_orderitem_qty_template, context)
 
+def focus_input(request):
+    response = HttpResponse(status=204)
+    response['Hx-Trigger'] = 'focus-input'
+    return response
 
 def remove_item(request, item_number):
     item = get_object_or_404(PosOrderItem, number=item_number)
@@ -244,7 +248,7 @@ def update_status(request):
     #     active_order.save()
     #     context = {'status_form': UpdateOrderStatusForm(require_POST)}
 
-from django.views.generic.edit import UpdateView
+
 from django.views.generic import View
        
 # class StatusUpdateView(UpdateView):
@@ -253,7 +257,7 @@ from django.views.generic import View
 #     template_name = 'cotton/forms/order_status.html'
 
 class StatusUpdateView(View):
-    template_name = 'cotton/forms/order_status.html'
+    template_name = 'cotton/buttons/order_status.html'
 
     def get(self, request, **kwargs):
         return self.render_form(request, kwargs['number'])
@@ -265,7 +269,7 @@ class StatusUpdateView(View):
         if status_form.is_valid():
             status_form.save()
 
-        return self.get_render_form(request, kwargs['number'], form=status_form)
+        return self.render_form(request, kwargs['number'], form=status_form)
 
     def render_form(self, request, number, form=None):
         instance = get_object_or_404(PosOrder, number=number)
@@ -277,14 +281,3 @@ class StatusUpdateView(View):
             'active_order': active_order,
         }
         return render(request, self.template_name, context)
-
-    def get_render_form(self, request, number, form=None):
-        instance = get_object_or_404(PosOrder, number=number)
-        status_form = form or StatusForm(instance=instance)
-        active_order = get_active_order(user=request.user)
-
-        context = {
-            'status_form': status_form,
-            'active_order': active_order,
-        }
-        return render(request, 'cotton/buttons/order_status.html', context)

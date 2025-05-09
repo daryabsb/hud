@@ -28,7 +28,7 @@ INITIAL_DATA = [
 
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'email', 'updated')
+    list_display = ('id', 'name', 'email', 'is_customer', 'is_supplier', 'updated')
     ordering = ('created', )
     list_filter = ('name', )
 

@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from src.stock.utils import get_paginated_stock_results
 from src.pos.utils import get_active_order, activate_order_and_deactivate_others as aod
 from src.orders.models import get_orders, PosOrder
-from src.stock.models import get_stocks
+from src.accounts.models import get_customers
 from src.configurations.models import get_prop
 layout_object = get_prop('layout')
 
@@ -13,7 +13,6 @@ layout_object = get_prop('layout')
 def pos_home(request, number=None):
     
     orders = [order for order in get_orders(user=request.user)]
-        
     active_order = get_active_order(request.user)
 
     if active_order is None:
@@ -29,12 +28,13 @@ def pos_home(request, number=None):
 
 @login_required
 def pos_order(request, number):
-    from src.pos.forms import StatusForm
+    from src.pos.forms import PosOrderForm
     orders = [order for order in get_orders(user=request.user)]
     order = get_object_or_404(PosOrder, number=number)
-    status_form = StatusForm(instance=order)
-        
-        
+    form = PosOrderForm(instance=order)
+    customers = get_customers(user=request.user)
+    
+    print(f'customers: {customers}')
         
     if number:
         # active_order = next((item for item in orders if item["is_active"] == True), None)
@@ -50,7 +50,8 @@ def pos_order(request, number):
 
     context = {
         'orders': orders,
-        'status_form': status_form,
+        'form': form,
+        'customers': customers,        
         # 'orders': [{'number': 'sales-18042025-1892'}, {'number': 'sales-30112024-0149'}],
         'active_order': active_order,
         'order': active_order,

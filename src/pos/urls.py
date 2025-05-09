@@ -1,5 +1,6 @@
 
 from django.urls import path, include
+from src.pos.views import pos_order_views as order_views
 from src.pos.views import (
     pos_home,
     # htmx views
@@ -10,7 +11,11 @@ from src.pos.views import (
     add_order_comment, add_order_customer, add_order_payment,
     delete_order_item_with_no_response, activate_order,
     order_discount, item_discount, calculator_modal, toggle_modal_comment,
-    pos_search_modal, pos_order, search_stock, update_status, StatusUpdateView
+    pos_search_modal, pos_order, search_stock, render_modal_title,
+    modal_item_discount,
+    
+    # MSC
+    focus_input
 )
 
 
@@ -41,7 +46,6 @@ urlpatterns += [
          name="order-discount"),
     path('discount/item-discount/<str:item_number>/', item_discount,
          name="item-discount"),
-    path('update/active-order/status/<str:number>/', StatusUpdateView.as_view(), name='update-order-status'),
 ]
 
 # MODALS
@@ -67,6 +71,20 @@ urlpatterns += [
     path('modal-product/<int:id>/', modal_product, name="modal-product"),
     path('search/stocks/',
          search_stock, name="modal-search-stocks"),
+    path('modal/modal-item-discount/<str:item_number>/',
+         modal_item_discount, name="modal-item-discount"),
+]
+
+urlpatterns += [
+     path('msc/focus/input/', focus_input, name="focus-input"),
+     path('msc/render/<str:title>/', render_modal_title, name="render-title"),
+]
+
+# POS ORDER UPDATE
+urlpatterns += [
+    path('update/active-order/status/<str:number>/', order_views.StatusUpdateView.as_view(), name='update-order-status'),
+    path('update/active-order/note/<str:number>/', order_views.CommentUpdateView.as_view(), name='update-order-note'),
+     
 ]
 
 

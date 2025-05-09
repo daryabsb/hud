@@ -1,0 +1,115 @@
+<div class="card-body">
+	<div class="mb-3">
+		<div class="btn-group gap-3 w-100">
+			<label class="btn fs-4 btn-outline-theme text-center labe-sign" hx-on:click="
+				htmx.findAll('.labe-sign').forEach(el => {
+				el.classList.remove('btn-theme');
+				el.classList.add('btn-outline-theme');
+				});
+				var icon = htmx.find('#discount-sign-icon-{{ display }}');
+				var discountSign = htmx.find('#discount-sign-{{ display }}');
+				this.classList.remove('btn-outline-theme');
+				this.classList.add('btn-theme');
+				if(icon.classList.contains('fa-dollar-sign')) {
+				console.log(icon.classList.contains('fa-dollar-sign'));
+				icon.classList.remove('fa-dollar-sign');
+				icon.classList.add('fa-percent');
+				};
+				discountSign.value = 0;
+				">
+			<input type="radio" class="d-none" id="discount-sign-0" name="payment-type" value="0" checked="true">
+			<i class="fas fa-lg fa-fw me-2 fa-percent"></i>
+			</label>
+			<label class="btn fs-4 btn-outline-theme text-center labe-sign" hx-on:click="
+				htmx.findAll('.labe-sign').forEach(el => {
+				el.classList.remove('btn-theme');
+				el.classList.add('btn-outline-theme');
+				});
+				var icon = htmx.find('#discount-sign-icon-{{ display }}');
+				var discountSign = htmx.find('#discount-sign-{{ display }}');
+				this.classList.remove('btn-outline-theme');
+				this.classList.add('btn-theme');
+				if(icon.classList.contains('fa-percent')) {
+				console.log(icon.classList.contains('fa-percent'));
+				icon.classList.remove('fa-percent');
+				icon.classList.add('fa-dollar-sign');
+				console.log(icon.classList);
+				};
+				discountSign.value = 1;
+				">
+			<input type="radio" class="d-none" id="discount-sign-1" name="payment-type" value="1">
+			<i class="fas fa-lg fa-fw me-2 fa-money-bill-alt"></i>
+			</label>
+			<button type="button" class="btn btn-outline-theme text-center fs-4" hx-on:click="
+				let display = htmx.find('#calculator-display-{{ display }}');
+				display.value = display.value.slice(0, -1);
+				display.focus();
+				">
+			<i class="fas fa-lg fa-fw me-2 fa-arrow-left"></i></button>
+		</div>
+	</div>
+	<div class="mb-3">
+		<div class="btn-group gap-3">
+			<button type="button" class="btn btn-outline-theme text-center fs-4" style="width:5.7rem;height:2.7rem" hx-on:click="
+				htmx.find('#calculator-display-{{ display }}').value = htmx.find('#calculator-display-{{ display }}').value + '7';
+				htmx.find('#calculator-display-{{ display }}').focus();
+				">7</button>
+			<button type="button" class="btn btn-outline-theme text-center fs-4" style="width:5.7rem;height:2.7rem" hx-on:click="
+				htmx.find('#calculator-display-{{ display }}').value = htmx.find('#calculator-display-{{ display }}').value + '8';
+				htmx.find('#calculator-display-{{ display }}').focus();
+				">8</button>
+			<button type="button" class="btn btn-outline-theme text-center fs-4" style="width:5.7rem;height:2.7rem" hx-on:click="
+				htmx.find('#calculator-display-{{ display }}').value = htmx.find('#calculator-display-{{ display }}').value + '9';
+				htmx.find('#calculator-display-{{ display }}').focus();
+				">9</button>
+		</div>
+	</div>
+	<div class="mb-3">
+		<div class="btn-group gap-3">
+			<button type="button" class="btn btn-outline-theme text-center fs-4" style="width:5.7rem;height:2.7rem" hx-on:click="
+				htmx.find('#calculator-display-{{ display }}').value = htmx.find('#calculator-display-{{ display }}').value + '4';
+				htmx.find('#calculator-display-{{ display }}').focus();
+				">4</button>
+			<button type="button" class="btn btn-outline-theme text-center fs-4" style="width:5.7rem;height:2.7rem" hx-on:click="
+				htmx.find('#calculator-display-{{ display }}').value = htmx.find('#calculator-display-{{ display }}').value + '5';
+				htmx.find('#calculator-display-{{ display }}').focus();
+				">5</button>
+			<button type="button" class="btn btn-outline-theme text-center fs-4" style="width:5.7rem;height:2.7rem" hx-on:click="
+				htmx.find('#calculator-display-{{ display }}').value = htmx.find('#calculator-display-{{ display }}').value + '6';
+				htmx.find('#calculator-display-{{ display }}').focus();
+				">6</button>
+		</div>
+	</div>
+	<div class="mb-3">
+		<div class="btn-group gap-3">
+			<button type="button" class="btn btn-outline-theme text-center fs-4" style="width:5.7rem;height:2.7rem" hx-on:click="
+				htmx.find('#calculator-display-{{ display }}').value = htmx.find('#calculator-display-{{ display }}').value + '1';
+				htmx.find('#calculator-display-{{ display }}').focus();
+				">1</button>
+			<button type="button" class="btn btn-outline-theme text-center fs-4" style="width:5.7rem;height:2.7rem" hx-on:click="
+				htmx.find('#calculator-display-{{ display }}').value = htmx.find('#calculator-display-{{ display }}').value + '2';
+				htmx.find('#calculator-display-{{ display }}').focus();
+				">2</button>
+			<button type="button" class="btn btn-outline-theme text-center fs-4" style="width:5.7rem;height:2.7rem" hx-on:click="
+				htmx.find('#calculator-display-{{ display }}').value = htmx.find('#calculator-display-{{ display }}').value + '3';
+				htmx.find('#calculator-display-{{ display }}').focus();
+				">3</button>
+		</div>
+	</div>
+	<div class="mb-3">
+		<div class="btn-group gap-3">
+			<button type="button" class="btn btn-outline-theme text-center fs-4" style="width:5.7rem;height:2.7rem" hx-on:click="
+				htmx.find('#calculator-display-{{ display }}').value = htmx.find('#calculator-display-{{ display }}').value + '.';
+				htmx.find('#calculator-display-{{ display }}').focus();
+				">.</button>
+			<button type="button" class="btn btn-outline-theme text-center fs-4" style="width:5.7rem;height:2.7rem" hx-on:click="
+				htmx.find('#calculator-display-{{ display }}').value = htmx.find('#calculator-display-{{ display }}').value + '0';
+				htmx.find('#calculator-display-{{ display }}').focus();
+				">0</button>
+			<button type="button" class="btn btn-outline-theme text-center fs-4" style="width:5.7rem;height:2.7rem" hx-on:click="
+				htmx.find('#calculator-display-{{ display }}').value = htmx.find('#calculator-display-{{ display }}').value + '=';
+				htmx.find('#calculator-display-{{ display }}').focus();
+				">=</button>
+		</div>
+	</div>
+</div>

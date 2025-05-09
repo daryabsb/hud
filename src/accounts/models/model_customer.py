@@ -1,8 +1,78 @@
 from django.db import models
+from django.core.cache import cache
 from src.accounts.models import User
 from src.core.modules import upload_image_file_path
+from src.accounts import cache_key as ck # CUSTOMER_LIST, USER_CUSTOMER_LIST
 
+CACHE_TIMEOUT = 604800  # 1 week
 
+def get_customers_from_db(user=None, is_customer=True, is_supplier=False):
+    customers = Customer.objects.filter(is_enabled=True, is_customer=is_customer, is_supplier=is_supplier)
+
+    if user and not (user.is_staff or user.is_superuser):
+        customers = customers.filter(user=user)
+        
+    customer_list = []
+
+    for customer in customers:
+        customer_data = {
+            "id": customer.id,
+            "code": customer.code,
+            "name": customer.name,
+            "address": customer.address,
+            "postal_code": customer.postal_code,
+            "city": customer.city,
+            "tax_number": customer.tax_number,
+            "email": customer.email,
+            "phone": customer.phone,
+            "is_customer": customer.is_customer,
+            "is_supplier": customer.is_supplier,
+            "due_date_period": customer.due_date_period,
+            "image": customer.image,
+            "created": customer.created,
+            "updated": customer.updated,
+        }
+        customer_list.append(customer_data)
+    return customer_list
+
+def get_customers(user=None, is_supplier=False, refresh=False):
+    if user and not (user.is_staff or user.is_superuser):
+        cache_key = ck.USER_CUSTOMERS_LIST % user.id
+    else:
+        cache_key = ck.CUSTOMERS_LIST
+    
+    if refresh:
+        print(f"1 - Cache miss, fetching customers from DB - refresh: {refresh}")
+        customers = get_customers_from_db(user=user, is_customer=True, is_supplier=False)
+        cache.set(cache_key, customers, CACHE_TIMEOUT)
+    else:
+        customers = cache.get(cache_key)
+
+        if customers is None:
+            print("2 - Cache miss, fetching customers DB")
+            customers = get_customers_from_db(user=user, is_customer=True, is_supplier=False)
+            cache.set(cache_key, customers, CACHE_TIMEOUT)
+    return customers
+
+def get_suppliers(user=None, is_supplier=True, refresh=False):
+    if user and not (user.is_staff or user.is_superuser):
+        cache_key = ck.USER_SUPPLIERS_LIST % user.id
+    else:
+        cache_key = ck.SUPPLIERS_LIST
+
+    if refresh:
+        print(f"1 - Cache miss, fetching customers from DB - refresh: {refresh}")
+        suppliers = get_customers_from_db(user=user, is_customer=False, is_supplier=True)
+        cache.set(cache_key, suppliers, CACHE_TIMEOUT)
+        
+        if suppliers is None:
+            print("2 - Cache miss, fetching customers DB")
+            suppliers = get_customers_from_db(user=user, is_customer=False, is_supplier=True)
+            cache.set(cache_key, suppliers, CACHE_TIMEOUT)
+
+    return suppliers
+
+        
 class Customer(models.Model):
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="customers")
@@ -28,7 +98,7 @@ class Customer(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.name
+        return f'{self.name}'
 
     class Meta:
         ordering = ('id',)
