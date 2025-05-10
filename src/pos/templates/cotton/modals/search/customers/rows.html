@@ -38,7 +38,11 @@ class="align-middle">
         hx-include="#input-modal-qty"
         hx-vals='{"product_id": {{ customer.product.id }}}' {% endcomment %}
     <button type="button" 
-    class="btn btn-outline-theme btn-sm"
+    class="btn btn-outline-theme btn-sm px-3 me-2"
+    data-bs-dismiss="modal"
+    >Open</button>
+    <button type="button" 
+    class="btn btn-outline-theme btn-sm px-3"
     data-bs-dismiss="modal"
     >Add</button>
     </td>
