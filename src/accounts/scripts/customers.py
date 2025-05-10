@@ -65,7 +65,7 @@ first_names = [
     "Berivan", "Darya", "Hana", "Khanzad", "Lina",
     "Miya", "Nishtiman", "Pelin", "Rojin", "Shno",
     "Tara", "Viyan", "Xezal", "Zara", "Avesta",
-    "Binevsh", "Daya", "Gulistan", "Havin", "Rengin"
+    "Binevsh", "Daryan", "Gulistan", "Havin", "Rengin"
 ]
 second_names = ["Mustafa", "Abdulla", "Mohammed", "Ali", "Khalid", "Sabah","Mahmoud"]
 apartments = [f"{i}" for i in range(1, 101)]  # 100 unique apartments
@@ -91,7 +91,7 @@ def initial_data():
             customer = Customer(**cus)
             customer.user = user
             customer.save(force_insert=True)
-            print("Fake customer: {index} created successfully.")
+            print(f"Fake customer: {index} created successfully.")
         else:
             customer.code = cus['code']
             customer.save(force_update=True)
