@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.cache import cache
+from django.utils.text import slugify
 from src.accounts.models import User
 from src.core.modules import upload_image_file_path
 from src.accounts import cache_key as ck # CUSTOMER_LIST, USER_CUSTOMER_LIST
@@ -16,8 +17,10 @@ def get_customers_from_db(user=None, is_customer=True, is_supplier=False):
 
     for customer in customers:
         customer_data = {
-            "id": customer.id,
+            "id": customer.pk,
             "code": customer.code,
+            "image": customer.image.url,
+            "slug": customer.slug,
             "name": customer.name,
             "address": customer.address,
             "postal_code": customer.postal_code,
@@ -28,7 +31,6 @@ def get_customers_from_db(user=None, is_customer=True, is_supplier=False):
             "is_customer": customer.is_customer,
             "is_supplier": customer.is_supplier,
             "due_date_period": customer.due_date_period,
-            "image": customer.image,
             "created": customer.created,
             "updated": customer.updated,
         }
@@ -81,6 +83,7 @@ class Customer(models.Model):
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="customers")
     code = models.CharField(max_length=30, null=True, blank=True)
+    slug = models.SlugField(unique=True, blank=True, null=True)
     name = models.CharField(max_length=100, unique=True)
     address = models.CharField(max_length=300, null=True, blank=True)
     postal_code = models.CharField(max_length=50, null=True, blank=True)
@@ -107,6 +110,21 @@ class Customer(models.Model):
     class Meta:
         ordering = ('id',)
 
+    def generate_code(name, phone):
+        return f"{name[0][0]}{name[1][0]}-{phone[-4:]}"
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        if self.code is None:
+            self.code = self.generate_code(self.name, self.phone)
+
+        # self.update_items_subtotal()
+        super().save(*args, **kwargs)
+        self.refresh_cache()  # <-- parentheses to call it
+
+    def refresh_cache(self):
+        refresh_customer_cache(user=self.user)
 
 class CustomerDiscount(models.Model):
     user = models.ForeignKey(
@@ -132,16 +150,3 @@ class CustomerDiscount(models.Model):
     def __str__(self):
         return f"{self.customer.name} - {self.type} | {self.uid}"
 
-    def generate_code(name, phone):
-        return f"{name[0][0]}{name[1][0]}-{phone[-4:]}"
-    
-    def save(self, *args, **kwargs):
-        if self.code is None:
-            self.code = self.generate_code(self.name, self.phone)
-
-        # self.update_items_subtotal()
-        super().save(*args, **kwargs)
-        self.refresh_cache()  # <-- parentheses to call it
-
-    def refresh_cache(self):
-        refresh_customer_cache(user=self.user)
