@@ -1,4 +1,4 @@
-<c-modals.search.products.input />
+<c-modals.search.customers.input />
 <div class="table-responsive">
     {% comment %} <input type="hidden" id="product_id" name="product_id" /> {% endcomment %}
     {% comment %} {% for stock in stocks %}
@@ -8,16 +8,17 @@
         <thead>
             <tr>
                 <th class="pt-0 pb-2"></th>
-                <th class="pt-0 pb-2">Product</th>
-                <th class="pt-0 pb-2">Inventory</th>
-                <th class="pt-0 pb-2">Type</th>
-                <th class="pt-0 pb-2">Vendor</th>
+                <th class="pt-0 pb-2">Code</th>
+                <th class="pt-0 pb-2">Name</th>
+                <th class="pt-0 pb-2">Email</th>
+                <th class="pt-0 pb-2">Phone</th>
+                <th class="pt-0 pb-2">Address</th>
                 <th class="pt-0 pb-2">Actions</th>
             </tr>
         </thead>
         <tbody id="search-products-table-rows">
-            <c-modals.search.products.rows />
+            <c-modals.search.customers.rows />
         </tbody>
-        <tfoot> {{ stocks|length }} rows found so far
+        <tfoot> {{ customers|length }} rows found so far
     </table>
 </div>

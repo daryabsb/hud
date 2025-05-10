@@ -11,8 +11,8 @@ from src.pos.views import (
     add_order_comment, add_order_customer, add_order_payment,
     delete_order_item_with_no_response, activate_order,
     order_discount, item_discount, calculator_modal, toggle_modal_comment,
-    pos_search_modal, pos_order, search_stock, render_modal_title,
-    modal_item_discount,
+    pos_search_modal, pos_order, search_stock, search_customers, 
+    render_modal_title, modal_item_discount,
     
     # MSC
     focus_input
@@ -69,8 +69,8 @@ urlpatterns += [
     path('modals/pos-modal-search/', pos_search_modal, name='pos-modal-search'),
     #     actual product modal
     path('modal-product/<int:id>/', modal_product, name="modal-product"),
-    path('search/stocks/',
-         search_stock, name="modal-search-stocks"),
+    path('search/stocks/', search_stock, name="modal-search-stocks"),
+    path('search/customers/', search_customers, name="search-customers"),
     path('modal/modal-item-discount/<str:item_number>/',
          modal_item_discount, name="modal-item-discount"),
 ]

@@ -72,6 +72,10 @@ def get_suppliers(user=None, is_supplier=True, refresh=False):
 
     return suppliers
 
+def refresh_customer_cache(user=None):
+    get_customers(user=user, refresh=True)
+    get_suppliers(user=user, refresh=True)
+
         
 class Customer(models.Model):
     user = models.ForeignKey(
@@ -127,3 +131,17 @@ class CustomerDiscount(models.Model):
 
     def __str__(self):
         return f"{self.customer.name} - {self.type} | {self.uid}"
+
+    def generate_code(name, phone):
+        return f"{name[0][0]}{name[1][0]}-{phone[-4:]}"
+    
+    def save(self, *args, **kwargs):
+        if self.code is None:
+            self.code = self.generate_code(self.name, self.phone)
+
+        # self.update_items_subtotal()
+        super().save(*args, **kwargs)
+        self.refresh_cache()  # <-- parentheses to call it
+
+    def refresh_cache(self):
+        refresh_customer_cache(user=self.user)

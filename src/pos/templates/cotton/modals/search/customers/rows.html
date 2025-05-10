@@ -1,0 +1,57 @@
+{% for customer in customers_page_obj %}
+<tr 
+class="align-middle">
+    <td class="w-10px">
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="{{ customer.product.id }}">
+            <label class="form-check-label" for="{{ customer.product.id }}"></label>
+        </div>
+    </td>{% comment %} 
+    <td>
+        <div class="d-flex align-items-center">
+            {% if customer.image %}
+            <div class="w-50px h-50px bg-inverse bg-opacity-25 d-flex align-items-center justify-content-center">
+                <img alt="" class="mw-100 mh-100" src="{{ customer.product_image }}">
+            </div>
+            {% endif %}
+            <div class="ms-3">
+                hx-post="{% url 'pos:add-item' %}"
+                hx-target="#standard-pos-container"
+                hx-include="#input-modal-qty"
+                hx-vals='{"product_id": {{ customer.product_id }}}' 
+                <a 
+                href="#" 
+                class="fs-16px text-inverse text-opacity-75 text-decoration-none"
+                data-bs-dismiss="modal"
+                >{{ customer.name }}</a>
+            </div>
+        </div>
+    </td>{% endcomment %}
+    <td>{{ customer.code }}</td>
+    <td>{{ customer.name }}</td>
+    <td>{{ customer.email }}</td>
+    <td>{{ customer.phone }}</td>
+    <td>{{ customer.address }}</td>
+    <td>
+        {% comment %} hx-post="{% url 'pos:add-item' %}"
+        hx-target="#standard-pos-container"
+        hx-include="#input-modal-qty"
+        hx-vals='{"product_id": {{ customer.product.id }}}' {% endcomment %}
+    <button type="button" 
+    class="btn btn-outline-theme btn-sm"
+    data-bs-dismiss="modal"
+    >Add</button>
+    </td>
+</tr>
+{% empty %}
+<tr><td colspan="6" class="text-center">No results found for the keyword</td></tr>
+{% endfor %}
+{% if customers_page_obj.has_next %} 
+<tr><td colspan="6" class="text-center"><a href="#"
+    _="on click remove closest <tr />"
+    >View more</a></td></tr>
+    {% endif %}
+    {% comment %} hx-get="{% url 'pos:modal-search-customers' %}?page={{ page_obj.next_page_number }}&is_next=1"
+    hx-target="#search-products-table-rows"
+    hx-include="#id_product_name"
+    hx-swap="beforeend" {% endcomment %}

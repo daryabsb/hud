@@ -12,7 +12,7 @@ layout_object = get_prop('layout')
 @login_required
 def pos_home(request, number=None):
     
-    orders = [order for order in get_orders(user=request.user)]
+    orders = get_orders(user=request.user)
     active_order = get_active_order(request.user)
 
     if active_order is None:

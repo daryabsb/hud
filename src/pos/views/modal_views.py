@@ -208,19 +208,22 @@ def add_order_customer(request, order_number):
 @require_GET
 def pos_search_modal(request):
     from src.stock.utils import get_paginated_stock_results
+    from src.accounts.utils import get_paginated_customer_results
     from src.orders.models import get_orders
 
     orders = get_orders(user=request.user)
-    active_order = next(
-        (item for item in orders if item["is_enabled"] == True), None)
+    active_order = get_active_order(user=request.user)
+
     if active_order is None:
         print("No active order found")
 
     stock_context = get_paginated_stock_results(request)
+    customers_context = get_paginated_customer_results(request)
 
     context = {
         'active_order': active_order,
         **stock_context,
+        **customers_context,
     }
     is_next = request.GET.get("is_next") == "1"
     if is_next:
