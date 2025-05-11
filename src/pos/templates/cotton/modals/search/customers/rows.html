@@ -40,6 +40,10 @@ class="align-middle">
     <button type="button" 
     class="btn btn-outline-theme btn-sm px-3 me-2"
     data-bs-dismiss="modal"
+    hx-get="{% url 'accounts:customer-profile' customer.slug %}"
+    hx-push-url="true"
+    hx-target="#app"
+    hx-swap="outerHTML"
     >Open</button>
     <button type="button" 
     class="btn btn-outline-theme btn-sm px-3"
