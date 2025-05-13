@@ -13,7 +13,7 @@ layout_object = get_prop('layout')
 def pos_home(request, number=None):
     
     orders = get_orders(user=request.user)
-    active_order = get_active_order(request.user)
+    active_order = get_active_order(user=request.user)
 
     if active_order is None:
         print("No active order found")
@@ -33,9 +33,7 @@ def pos_order(request, number):
     order = get_object_or_404(PosOrder, number=number)
     form = PosOrderForm(instance=order)
     customers = get_customers(user=request.user)
-    
-    print(f'customers: {customers}')
-        
+            
     if number:
         # active_order = next((item for item in orders if item["is_active"] == True), None)
         active_order = aod(request.user, order_number=number)
