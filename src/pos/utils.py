@@ -4,6 +4,14 @@ from django.db import transaction
 from src.accounts.models import Customer
 import after_response
 
+def create_order(user, customer=None):
+    from src.orders.models import PosOrder
+    if customer is None:
+        customer = Customer.objects.first()
+    order = PosOrder.objects.create(
+        user=user, customer=customer)
+    return order
+
 def activate_order(user, order_number):
     from src.orders.models import PosOrder
     PosOrder.objects.filter(
@@ -12,13 +20,12 @@ def activate_order(user, order_number):
     PosOrder.objects.filter(user=user).exclude(
             pk=order_number).update(is_active=False)
     active_order = PosOrder.objects.get(pk=order_number)
-    active_order.refresh_cache()
+    return active_order
 
 def get_computer_info():
     computer_name = platform.node()
     machine_id = uuid.UUID(int=uuid.getnode()).hex[-12:]
     return computer_name, machine_id
-
 
 def get_active_item(item_number=None,  active_order=None):
     from src.orders.models import PosOrderItem
