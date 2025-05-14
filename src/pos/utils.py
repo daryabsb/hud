@@ -20,6 +20,7 @@ def activate_order(user, order_number):
     PosOrder.objects.filter(user=user).exclude(
             pk=order_number).update(is_active=False)
     active_order = PosOrder.objects.get(pk=order_number)
+    active_order.refresh_cache()
     return active_order
 
 def get_computer_info():
