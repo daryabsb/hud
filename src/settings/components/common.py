@@ -24,6 +24,7 @@ DJANGO_APPS = [
     'django.contrib.humanize',
     'after_response',
     'rest_framework',
+    'channels',
 
 ]
 
@@ -40,6 +41,8 @@ THIRD_PARTY_APPS = [
     'datatableview',
     'src.games',
     'django_cotton',
+    'django_celery_beat',
+    'django_celery_results',
 ]
 
 LOCAL_APPS = [
