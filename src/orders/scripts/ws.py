@@ -1,11 +1,9 @@
-from src.orders.models import PosOrder
-from celery import shared_task
 import json
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 
-@shared_task
-def create_order_every_5_minutes():
+
+def run():
     channel_layer = get_channel_layer()
     group_name = "order_error_notification"
     message_type = 'send_error'
@@ -18,4 +16,3 @@ def create_order_every_5_minutes():
             'data': json.dumps(payload, default=str)
         }
     ) 
-    print('something good!')

@@ -17,7 +17,7 @@ dz_array = {
             # f"{htmx}/class-tools.js",
             f"{htmx}/preload.js",
             f"{htmx}/_hyperscript.js",
-            # f"{htmx}/ext/debug.js",
+            f"{htmx}/ext/ws.js",
             # f"{htmx}/ext/event-header.js",
         ],
         "global_css": [

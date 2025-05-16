@@ -8,6 +8,7 @@ from src.core.views import index, not_authorized
 from django.shortcuts import redirect, render
 from src.accounts.models import User
 from django.contrib.auth.decorators import login_required
+import src.routing as routing  # We’ll create this
 
 from src.configurations.models import ApplicationProperty
 from src.core.views import search_datatable
@@ -81,3 +82,5 @@ if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,
                           document_root=settings.MEDIA_ROOT)
     # urlpatterns += debug_toolbar_urls()
+
+websocket_urlpatterns = routing.websocket_urlpatterns

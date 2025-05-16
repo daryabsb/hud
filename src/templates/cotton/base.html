@@ -18,31 +18,32 @@ hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
 hx-ext="preload"
 hx-on="htmx:load: jscolor.install();"
 class="theme-success"
->
+    >
 
 {% comment %} hx-get="/load-password-window/"
 hx-target="#warning-toaster"
 hx-trigger="load delay:5s" {% endcomment %}
 <div id="app" 
-    class="app app-sidebar-collapsed {{ extra_app_class }}">
-    <c-partials.header />
-    <c-partials.sidebar />
-    <button class="app-sidebar-mobile-backdrop" data-toggle-target=".app"
-    data-toggle-class="app-sidebar-mobile-toggled"></button>
-    
-    {{ content }}
-    {{ modals }}
-    
-    <a href="#" data-toggle="scroll-to-top" class="btn-scroll-top fade"><i class="fa fa-arrow-up"></i></a>
-    {% comment %} <c-theme-panel /> {% endcomment %}
+class="app app-sidebar-collapsed {{ extra_app_class }}">
+<c-partials.header />
+<c-partials.sidebar />
+<button class="app-sidebar-mobile-backdrop" data-toggle-target=".app"
+data-toggle-class="app-sidebar-mobile-toggled"></button>
+
+{{ content }}
+{{ modals }}
+
+<a href="#" data-toggle="scroll-to-top" class="btn-scroll-top fade"><i class="fa fa-arrow-up"></i></a>
+{% comment %} <c-theme-panel /> {% endcomment %}
 </div>
-        <input type="hidden" id="success-response" />
+<input type="hidden" id="success-response" />
 
-    <c-modals.confirm_logout />
-    <c-enter-pin />
+<c-modals.confirm_logout />
+<c-enter-pin />
 
 
-    <div id="warning-toaster"></div>
+<c-toasts />
+<div id="warning-toaster"></div>
 
     <input type="hidden" id="load-temp" />
     <c-partials.bottom_js />

@@ -9,6 +9,7 @@ WS_ENDPOINT = config('WS_ENDPOINT', default='ws://127.0.0.1:8000')
 SITE_ID = 1
 
 DJANGO_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.sites',
     'django.contrib.auth',

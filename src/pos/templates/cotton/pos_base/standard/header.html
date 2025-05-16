@@ -19,11 +19,11 @@
             Status
         </a>
     </div>
-    <div class="">
+    <div class="" hx-ext="ws" ws-connect="/ws/orders/">
         <a href="#" class="pt-3 px-75px btn btn-outline-gray-100 mb-2" icon="fas fa-2xl fa-times" btn="btn-outline-gray-100" hx-swap="outerHTML" id="item-delete-btn" hx-delete="/orders/delete-active-order" hx-target="#order-tab-sales-30112024-0149">
             <i class="fas fa-2xl fa-times"></i><br>
-            <span class="small"></span>
-            Delete
+            <span id="orders-count"  class="small" hx-swap-oob="outerHTML">{{ count }}</span>
+            Orders
         </a>
     </div>
 </div>
