@@ -17,7 +17,7 @@ class OrdersConsumer(AsyncWebsocketConsumer):
         data = event['data']
 
         received_data = json.loads(data)
-        received_data = 5
+        # received_data = 5
         html = await sync_to_async(render_to_string)('cotton/ws/count.html', {'count': received_data})
         await self.send(text_data=html)
 
