@@ -1,7 +1,8 @@
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from asgiref.sync import sync_to_async
-from django.template.loader import render_to_string
+from django.template.loader import render_to_string, get_template
+from django.template import Template
 
 class OrdersConsumer(AsyncWebsocketConsumer):
     async def connect(self):
@@ -18,6 +19,9 @@ class OrdersConsumer(AsyncWebsocketConsumer):
 
         received_data = json.loads(data)
         # received_data = 5
-        html = await sync_to_async(render_to_string)('cotton/ws/count.html', {'count': received_data})
+        html = get_template('cotton/ws/count.html').render(
+            context={'count': received_data}
+        )
+        # html = await sync_to_async(render_to_string)('cotton/ws/count.html', {'count': received_data})
         await self.send(text_data=html)
 
