@@ -4,7 +4,9 @@
 <c-slot name="content fade">
 <div id="content"
 hx-on::load="bInput=htmx.find('#barcode-input');bInput.value= '';bInput.focus();" 
-class="app-content p-1 ps-xl-4 pe-xl-4 pt-xl-3 pb-xl-3">
+class="app-content p-1 ps-xl-4 pe-xl-4 pt-xl-3 pb-xl-3"
+hx-ext="ws" ws-connect="/ws/orders/"
+>
     {{ slot }}
     <c-buttons.mobile_sidebar />
 </div>

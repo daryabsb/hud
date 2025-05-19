@@ -1,7 +1,7 @@
-<div 
-    class="table-responsive" 
+<div class="table-responsive" 
     style="height: 38rem !important;" 
     id="pos-tabs-orders-table"
+    hx-swap-oob="outerHTML"
     
     >
     <table class="table table-hover text-nowrap">
@@ -59,3 +59,5 @@
         </tbody>
     </table>
 </div>
+
+<span id="orders-count" hx-swap-oob="outerHTML">{{ count }}</span>
