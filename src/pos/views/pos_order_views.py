@@ -67,6 +67,11 @@ class CommentUpdateView(ActiveOrderViewsMixin, View):
     template_name = 'cotton/buttons/pos/comment.html'
 
 
+class InternalNoteUpdateView(ActiveOrderViewsMixin, View):
+    form_fields = ['internal_note']
+    template_name = 'cotton/buttons/pos/internal_note.html'
+
+
 class DiscountUpdateView(ActiveOrderViewsMixin, View):
     form_fields = ['discount', 'discount_type']
     template_name = 'cotton/orders/calculations.html'

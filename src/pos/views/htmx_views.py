@@ -233,12 +233,14 @@ from src.pos.forms import StatusForm
 
 @require_POST
 def update_status(request):
-    
+    active_order = get_active_order(user=request.user)
+    context = {'active_order': active_order}
     form = StatusForm(request.POST)
     if form.is_valid():
         form.user = request.user
         form.save()
-        return render(request, 'cotton/forms/order_status.html', form)
+        context['form'] = form
+        return render(request, 'cotton/forms/order_status.html', context)
     
     # status_id = request.POST.get('status', None)
     # if status_id:

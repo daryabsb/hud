@@ -35,7 +35,13 @@ MY_TEMPLATES = {
 4. create a document with document_item
 5. create payment:
     - if payment amount == order_total => move on
-    - else: leave the order open, close the document
+    - else: leave the order (partially paid), close the document, 
+        create new payment for the same document if happened
+    - documents can have multiple payments until done for cases like:
+        * pay the rest later
+        * pay in split
+        * pay with different payment_types such as cash, card or others
+    - if more or less paid, the customer balance will reflect the differences
 '''
 
 

@@ -6,12 +6,14 @@ from src.pos.utils import get_active_order, activate_order_and_deactivate_others
 from src.orders.models import get_orders, PosOrder
 from src.accounts.models import get_customers
 from src.configurations.models import get_prop
-layout_object = get_prop('layout')
+from src.finances.models.models_payment_type import get_tree_nodes as get_payment_types
+from src.configurations.models import get_menus
+
 
 
 @login_required
 def pos_home(request, number=None):
-    
+    layout_object = get_prop('layout')
     orders = get_orders(user=request.user)
     active_order = get_active_order(user=request.user)
 
@@ -29,14 +31,12 @@ def pos_home(request, number=None):
 @login_required
 def pos_order(request, number):
     from src.pos.forms import PosOrderForm
-    orders = [order for order in get_orders(user=request.user)]
-    order = get_object_or_404(PosOrder, number=number)
-    form = PosOrderForm(instance=order)
-    customers = get_customers(user=request.user)
+    layout_object = get_prop('layout')
             
     if number:
         # active_order = next((item for item in orders if item["is_active"] == True), None)
         active_order = aod(request.user, order_number=number)
+        order_instance = get_object_or_404(PosOrder, number=number)
     else:
         active_order = get_active_order(request.user)
 
@@ -47,30 +47,24 @@ def pos_order(request, number):
         print("No active order found")
 
     context = {
-        'orders': orders,
-        'form': form,
-        'customers': customers,        
+        'orders': get_orders(user=request.user),
+        'form': PosOrderForm(instance=order_instance),
+        'menus': get_menus(),
+        'payment_types': get_payment_types(),
+        'payment_type': get_payment_types()[0],
+        'customers': get_customers(user=request.user),        
         # 'orders': [{'number': 'sales-18042025-1892'}, {'number': 'sales-30112024-0149'}],
         'active_order': active_order,
-        'order': active_order,
         # **stock_context,
     }
+    if layout_object['value'] == 'visual':
+        context = context_factory(['products', 'groups'], request.user, context)
 
-    context = context_factory(
-        [
-            "payment_types", "payment_type", "menus"], request.user, context=context)
-    # context = {
-    #     'active_order': active_order,
-    #     'orders': [{'number': 'sales-18042025-1892'}, {'number': 'sales-30112024-0149'}]
-    # }
     if request.htmx:
         if layout_object['value'] == 'visual':
-            context = context_factory(['products', 'groups'], context)
             return render(request, 'cotton/pos_base/pos_container.html', context)
-
         return render(request, 'cotton/pos_base/standard/container.html', context)
 
     if layout_object['value'] == 'visual':
-        context = context_factory(['products', 'groups'], context)
         return render(request, 'cotton/pos_base/visual/index.html', context)
     return render(request, 'cotton/pos_base/standard/index.html', context)

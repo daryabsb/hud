@@ -47,6 +47,10 @@ def get_orders(user=None, warehouse=None, customer=None, refresh=False):
     return orders
 
 
+def get_all_orders(user=None, warehouse=None, customer=None, refresh=False):
+    pass
+
+
 def refresh_order_cache(user=None, warehouse=None, customer=None):
     """Manually refresh the order cache."""
     if user and not (user.is_staff or user.is_superuser):

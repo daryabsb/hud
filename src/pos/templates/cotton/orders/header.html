@@ -1,5 +1,5 @@
 
-<div class="row align-items-center border-bottom">
+<div class="row align-items-center border-bottom pb-2">
     <div class="col-lg-4 d-flex align-items-center py-2 fs-5">
         Order: {{ active_order.number }}
     </div>
@@ -11,10 +11,10 @@
         {% comment %} <c-forms.order_status /> {% endcomment %}
 
 </div>
-<div class="row align-items-center pt-2 fs-5">
+<div class="row align-items-center text-uppercase">
     <div id="detail-{{ item.number }}" class="col-lg-5 m-0 row">
         <div class="col-xl-9 col-3 d-flex align-items-center">
-            Products ({{ active_order.items|length}})
+            Products
         </div>
         <div class="col-lg-3 py-2 ps-lg-2 text-start">
             Price

@@ -1,0 +1,16 @@
+<div id="pos-comment-button" class="flex-fill">
+    <a  class="w-100 pt-3 px-4 btn btn-outline-default rounded-2 mb-2 position-relative"
+        title="{{ active_order.note }}"
+        href="#modalOrderInternalNote"
+        hx-target="#modalOrderInternalNote"
+        data-bs-toggle="modal"
+        id="orderInternalNoteButton"
+        >
+        {% comment %} hx-get="{% url 'pos:modal-comment' active_order.number %}" {% endcomment %}
+        <i class="far fa-2xl fa-comment-alt"></i><br>
+        <span class="small">Internal Note</span>
+        {% if active_order.internal_note %}
+        <c-buttons.badge />
+        {% endif %}
+    </a>
+</div>

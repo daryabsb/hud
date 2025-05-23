@@ -60,6 +60,20 @@ data-toggle-class="app-sidebar-mobile-toggled"></button>
 
         });
     });
+    document.addEventListener('hide.bs.modal', function (event) {
+    // Check if the currently focused element is inside the modal
+    console.log('event = ', event.target.ariaHidden)
+    const modal = event.target || document.querySelector('.modal.show'); // fallback
+    const activeElement = document.activeElement;
+    if (modal && modal.contains(activeElement)) {
+        modal.ariaHidden = false
+        // Move focus to a neutral element (customize the selector)
+        const fallback = document.querySelector('#barcode-input, body');
+        if (fallback) {
+            fallback.focus();
+        }
+    }
+});
     {% if debug %}
         if (typeof htmx !== "undefined") {
             htmx.on("htmx:afterSettle", function(detail) {

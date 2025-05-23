@@ -8,7 +8,11 @@ class PosOrderForm(forms.ModelForm):
         fields = POS_FORM_FIELDS
         widgets = {
             'customer':         forms.HiddenInput(), # need hidden input to post id from customer
-            'internal_note':    forms.TextInput(attrs={'class': 'form-control'}), # note are with real form field
+            'internal_note':    forms.Textarea(
+                attrs={
+                    'class': 'form-control first-input',
+                    'rows': 3, 'id': 'order-internal-note-id'
+                    }), # note are with real form field
             'note':             forms.Textarea(
                 attrs={
                 'class': 'form-control first-input', 
