@@ -14,6 +14,11 @@ TODO LATER:
     - if fullfilled or cancelled: the orders will be filtered (status.ordinal < 7)
 
 
+## In case of save sale, or payment or quick cash pay
+    - a document will be created from the order
+    - 
+
+
 Here’s a comprehensive list of possible **utilities**, **functions**, and **views** you might need to implement full **CRUD functionality** and core **POS operations** for your `PosOrder` and `PosOrderItem` models in your POS app:
 
 ---
