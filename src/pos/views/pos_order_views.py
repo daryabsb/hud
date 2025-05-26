@@ -94,3 +94,4 @@ class DiscountAndTypeUpdateView(UpdateView):
             'form': form,
             'field_name': 'discount_and_type'
         })
+
