@@ -1,4 +1,6 @@
-<div class="input-group flex-nowrap menu-item dropdown dropdown-mobile-full">
+<div class="input-group flex-nowrap menu-item dropdown dropdown-mobile-full "
+ 
+>
     {% comment %} <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
         <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
         <label class="btn btn-outline-primary" for="btnradio1">Radio 1</label>
@@ -15,7 +17,7 @@
     hx-trigger="every 10s"
     hx-target="#barcode-input" {% endcomment %}
     <div class="">
-      <a href="#" class="pt-3 px-75px btn btn-outline-gray-100" 
+      <a href="#" class="pt-3 btn btn-outline-gray-100" 
           data-bs-toggle="modal" data-bs-target="#modalPosSearchModal"
               hx-get="{% url 'pos:pos-modal-search' %}" hx-target="#modalPosSearchModal"
           >
@@ -45,9 +47,7 @@
     ><i class="fas fa-lg fa-fw me-2 fa-keyboard"></i></span> {% endcomment %}
     
     
-    <div class="dropdown-menu mt-1 w-100 fs-11px pt-1 bg-theme-dark"
-    style="z-index:1000;"
-    >
+    <div class="dropdown-menu mt-1 w-100 fs-11px pt-1 bg-theme-dark z-3">
       <h6 class="dropdown-header fs-10px mb-1">NOTIFICATIONS</h6>
       <div class="dropdown-divider mt-1"></div>
       <a href="#" class="d-flex align-items-center py-10px dropdown-item text-wrap fw-semibold">
@@ -98,7 +98,9 @@
           <i class="bi bi-chevron-right"></i>
         </div>
       </a>
-      <a href="#" class="d-flex align-items-center py-10px dropdown-item text-wrap fw-semibold">
+      <a href="#" class="d-flex align-items-center py-10px dropdown-item text-wrap fw-semibold"
+      style="z-index: 250;"
+      >
         <div class="fs-20px w-20px">
           <i class="bi bi-credit-card text-theme"></i>
         </div>
