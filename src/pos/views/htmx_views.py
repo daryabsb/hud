@@ -174,6 +174,14 @@ def add_order_item(request):
     return render(request, 'cotton/pos_base/standard/container.html', context)
     # return render(request, stanndard_order_item_add_template, context)
 
+
+from django.db.models import Q
+
+
+
+
+
+
 def activate_order(request, order_number):
     # Fetch the order to activate
     print(f"Activating order: {order_number}")

@@ -1,0 +1,89 @@
+	<div class="dropdown-menu mt-1 w-100 fs-11px pt-1 bg-theme-dark"
+    id="barcode-input-dropdown"
+    >
+		<h6 class="dropdown-header fs-10px mb-1">NOTIFICATIONS</h6>
+		<div class="dropdown-divider mt-1"></div>
+		<a href="#" class="d-flex align-items-center py-10px dropdown-item text-wrap fw-semibold">
+			<div class="fs-20px">
+				<i class="bi bi-bag text-theme"></i>
+			</div>
+			<div class="flex-1 flex-wrap ps-3">
+				<div class="mb-1 text-inverse">NEW ORDER RECEIVED ($1,299)</div>
+				<div class="small text-inverse text-opacity-50">JUST NOW</div>
+			</div>
+			<div class="ps-2 fs-16px">
+				<i class="bi bi-chevron-right"></i>
+			</div>
+		</a>
+        {% for product in products %}
+		<a href="#" class="d-flex align-items-center py-10px dropdown-item text-wrap fw-semibold">
+			<div class="fs-20px w-20px">
+				<i class="bi bi-person-circle text-theme"></i>
+			</div>
+			<div class="flex-1 flex-wrap ps-3">
+				<div class="mb-1 text-inverse">{{ product.name }}</div>
+				<div class="small text-inverse text-opacity-50">2 MINUTES AGO</div>
+			</div>
+			<div class="ps-2 fs-16px">
+				<i class="bi bi-chevron-right"></i>
+			</div>
+		</a>
+        {% endfor %}
+		<a href="#" class="d-flex align-items-center py-10px dropdown-item text-wrap fw-semibold">
+			<div class="fs-20px w-20px">
+				<i class="bi bi-person-circle text-theme"></i>
+			</div>
+			<div class="flex-1 flex-wrap ps-3">
+				<div class="mb-1 text-inverse">3 NEW ACCOUNT CREATED</div>
+				<div class="small text-inverse text-opacity-50">2 MINUTES AGO</div>
+			</div>
+			<div class="ps-2 fs-16px">
+				<i class="bi bi-chevron-right"></i>
+			</div>
+		</a>
+		<a href="#" class="d-flex align-items-center py-10px dropdown-item text-wrap fw-semibold">
+			<div class="fs-20px w-20px">
+				<i class="bi bi-gear text-theme"></i>
+			</div>
+			<div class="flex-1 flex-wrap ps-3">
+				<div class="mb-1 text-inverse">SETUP COMPLETED</div>
+				<div class="small text-inverse text-opacity-50">3 MINUTES AGO</div>
+			</div>
+			<div class="ps-2 fs-16px">
+				<i class="bi bi-chevron-right"></i>
+			</div>
+		</a>
+		<a href="#" class="d-flex align-items-center py-10px dropdown-item text-wrap fw-semibold">
+			<div class="fs-20px w-20px">
+				<i class="bi bi-grid text-theme"></i>
+			</div>
+			<div class="flex-1 flex-wrap ps-3">
+				<div class="mb-1 text-inverse">WIDGET INSTALLATION DONE</div>
+				<div class="small text-inverse text-opacity-50">5 MINUTES AGO</div>
+			</div>
+			<div class="ps-2 fs-16px">
+				<i class="bi bi-chevron-right"></i>
+			</div>
+		</a>
+		<a href="#" class="d-flex align-items-center py-10px dropdown-item text-wrap fw-semibold"
+			style="z-index: 250;"
+			>
+			<div class="fs-20px w-20px">
+				<i class="bi bi-credit-card text-theme"></i>
+			</div>
+			<div class="flex-1 flex-wrap ps-3">
+				<div class="mb-1 text-inverse">PAYMENT METHOD ENABLED</div>
+				<div class="small text-inverse text-opacity-50">10 MINUTES AGO</div>
+			</div>
+			<div class="ps-2 fs-16px">
+				<i class="bi bi-chevron-right"></i>
+			</div>
+		</a>
+		<hr class="my-0">
+		<div class="py-10px mb-n2 text-center">
+			<a href="#" class="text-decoration-none fw-bold"
+            				data-bs-toggle="modal" data-bs-target="#modalPosSearchModal"
+				hx-get="{% url 'pos:pos-modal-search' %}" hx-target="#modalPosSearchModal"
+            >SEE ALL</a>
+		</div>
+	</div>

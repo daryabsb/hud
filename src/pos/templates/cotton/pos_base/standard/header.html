@@ -3,7 +3,14 @@
 </div>
 <div class="col-lg-5 d-flex flex-nowrap flex-shrink-0 gap-2 btn-group justify-content-between">
     <c-buttons.order_status />
-    <div class="col-lg-6 d-flex align-items-center py-2 fs-5 justify-content-end">
-        Order: {{ active_order.number }}
+    <div class="col-lg-6 d-flex align-items-center py-2 fs-4 justify-content-end">
+        <div class="card border-theme text-theme text-uppercase">
+            <div class="card-body">
+               {{ active_order.number }}
+            </div>
+            <c-card-arrow />
+        </div>
     </div>
 </div>
+
+

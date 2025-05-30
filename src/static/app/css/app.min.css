@@ -6241,7 +6241,8 @@ fieldset:disabled .btn {
     margin-bottom: 0;
     color: var(--bs-card-cap-color);
     background-color: var(--bs-card-cap-bg);
-    border-bottom: var(--bs-card-border-width) solid var(--bs-card-border-color)
+    border-bottom: var(--bs-card-border-width) solid var(--bs-card-border-color);
+    z-index: 11 !important;
 }
 
 .card-header:first-child {
