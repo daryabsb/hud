@@ -1,16 +1,25 @@
-<div class="col-lg-7 row align-items-center border-end">
-    <c-forms.barcode_input />
+<div class="col-lg-6 row align-items-center border-end">
+	<c-forms.barcode_input />
 </div>
-<div class="col-lg-5 d-flex flex-nowrap flex-shrink-0 gap-2 btn-group justify-content-between">
-    <c-buttons.order_status />
-    <div class="col-lg-6 d-flex align-items-center py-2 fs-4 justify-content-end">
-        <div class="card border-theme text-theme text-uppercase">
-            <div class="card-body">
-               {{ active_order.number }}
-            </div>
-            <c-card-arrow />
-        </div>
-    </div>
+<div class="col-lg-6 d-flex gap-2 justify-content-end text-center">
+	<a href="#orderStatusModal" class="card fs-5 {{ active_order.status_class }} text-uppercase w-250px"
+		data-bs-toggle="modal" id="order-status-button"
+		>
+		<div class="card-body">
+			{{ active_order.status }}
+		</div>
+		<c-card-arrow />
+	</a>
+	<div class="card fs-5 border-theme text-theme text-uppercase w-250px">
+		<div class="card-body">
+			{{ active_order.number }}
+		</div>
+		<c-card-arrow />
+	</div>
 </div>
 
 
+
+{% comment %} 
+<c-buttons.order_status />
+{% endcomment %}
