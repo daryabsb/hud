@@ -1,0 +1,9 @@
+<div class="pos-container card-body overflow-hidden d-flex" id="{{ container_id }}-container">
+    <div class="pos-content resizable" id="{{ container_id }}-left" style="min-width: 30%; flex: 1;">
+        {{ left_content|safe }}
+    </div>
+    <div class="resizer" id="{{ container_id }}-resizer"></div>
+    <div class="pos-sidebar resizable" id="{{ container_id }}-right" style="min-width: 30%; flex: 1;">
+        {{ right_content|safe }}
+    </div>
+</div>

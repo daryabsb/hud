@@ -56,7 +56,8 @@ class PosOrderStatus(models.Model):
         PRIMARY = 'primary', 'border-primary text-primary',  # Ready for delivery
         DANGER = 'danger', 'border-danger text-danger',  # Cancelled
         SUCCESS = 'success', 'border-success text-success',  # Fulfilled
-        DEFAULT = 'default', 'border-default text-default',  # Fulfilled
+        # DEFAULT = 'default', 'border-default text-default',  # Fulfilled
+        DEFAULT = 'default', 'btn-outline-default text-default',  # Fulfilled
         
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="order_statuses"
