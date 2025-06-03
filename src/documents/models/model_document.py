@@ -7,6 +7,8 @@ from src.documents.managers import DocumentManager
 
 today = datetime.now()
 due_date = today + timedelta(days=15)
+def get_due_date():
+    return 15
 
 TRUE_FALSE_CHOICES = (
     (True, 'Paid'),
@@ -35,11 +37,11 @@ class Document(models.Model):
         Warehouse, null=True, on_delete=models.DO_NOTHING,
         related_name="documents"
     )
-    date = models.DateTimeField(default=today)
+    date = models.DateTimeField(null=True, blank=True)
     reference_document_number = models.CharField(max_length=100, unique=True)
     internal_note = models.TextField(null=True, blank=True)
     note = models.TextField(null=True, blank=True)
-    due_date = models.DateTimeField(default=due_date)
+    due_date = models.SmallIntegerField(default=get_due_date)
     discount = models.SmallIntegerField(default=0)
     discount_type = models.SmallIntegerField(default=0)
     discount_apply_rule = models.SmallIntegerField(default=0)
