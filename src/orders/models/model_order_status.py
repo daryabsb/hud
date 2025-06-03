@@ -51,13 +51,13 @@ def refresh_order_statuses_cache(user=None):
 
 class PosOrderStatus(models.Model):
     class ColorClassChoices(models.TextChoices):
-        WARNING = 'warning', 'border-warning text-warning'  # Unfulfilled
-        INFO = 'info', 'border-info text-info',       # Ready for pickup
-        PRIMARY = 'primary', 'border-primary text-primary',  # Ready for delivery
-        DANGER = 'danger', 'border-danger text-danger',  # Cancelled
-        SUCCESS = 'success', 'border-success text-success',  # Fulfilled
+        WARNING = 'warning', 'warning'  # Unfulfilled
+        INFO = 'info', 'info',       # Ready for pickup
+        PRIMARY = 'primary', 'primary',  # Ready for delivery
+        DANGER = 'danger', 'danger',  # Cancelled
+        SUCCESS = 'success', 'success',  # Fulfilled
         # DEFAULT = 'default', 'border-default text-default',  # Fulfilled
-        DEFAULT = 'default', 'btn-outline-default text-default',  # Fulfilled
+        DEFAULT = 'default', 'default',  # Fulfilled
         
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="order_statuses"
