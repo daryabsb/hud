@@ -1,9 +1,12 @@
-
-	<a href="#orderStatusModal" class="card fs-5 btn {{ active_order.status_class }} text-uppercase"
-	data-bs-toggle="modal" id="order-status-button"
-	>
-	<div class="card-body">
-		{{ active_order.status }}
-	</div>
-	<c-card-arrow />
-</a>
+<div class="card">
+  <a
+    href="#orderStatusModal"
+    class="fs-5 h-100 w-100 align-content-center align-items-center py-0 btn btn-outline-{{ active_order.status_class }} 
+	text-uppercase w-250px"
+    data-bs-toggle="modal"
+    id="order-status-button"
+  >
+    {{ active_order.status }}
+  </a>
+  <c-card-arrow />
+</div>

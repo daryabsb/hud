@@ -70,7 +70,6 @@ def add_quantity(request, item_number):
                "order": active_order, "item": item}
     return render(request, update_orderitem_qty_template, context)
 
-
 def subtract_quantity(request, item_number):
 
     item = get_object_or_404(PosOrderItem, number=item_number)
@@ -176,10 +175,6 @@ def add_order_item(request):
 
 
 from django.db.models import Q
-
-
-
-
 
 
 def activate_order(request, order_number):
