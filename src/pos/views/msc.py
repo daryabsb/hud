@@ -131,3 +131,91 @@ def add_order_item3(request):
     response = render(request, "cotton/forms/barcode_input_dropdown.html", context)
     response["HX-Target"] = "#barcode-input-dropdown"
     return response
+
+def add_order_item4(request):
+    barcode_value = request.POST.get("barcode")
+    product_id = request.POST.get("product_id")
+    quantity = int(request.POST.get("qty", 1))
+
+    active_order = get_active_order(request.user)
+
+    if barcode_value:
+        # Barcode method
+        # barcode = get_object_or_404(Barcode, value=barcode_value)
+        print(f'barcode value: {barcode_value}')
+        barcode = Barcode.objects.filter(value=barcode_value).first()
+        print('barcode value found')
+        if barcode:
+            print('barcode exista: {barcode.value}')
+            product = barcode.product
+            
+            item = PosOrderItem.objects.filter(
+                order__number=active_order['number'], product=product
+            ).first()
+            
+            if not item:
+                item = create_order_item(
+                    request.user, active_order['number'], product, quantity
+                )
+            else:
+                item.quantity += quantity
+                item.save()
+            active_order = get_active_order(request.user)
+            
+            context = {
+                "active_order": active_order,
+                "order": active_order,
+                "item": item
+            }
+            context = context_factory(
+                ["orders", "payment_types", "payment_type", "menus"],
+                request.user, context=context
+            )
+            if layout_object['value'] == 'visual':
+                context = context_factory(['products', 'groups'], context)
+                return render(request, 'cotton/pos_base/pos_container.html', context)
+
+            return render(request, 'cotton/pos_base/standard/container.html', context)
+        # context = context_factory(
+        else:
+            print('''
+                  This means a keyword sent to search for a product_name, a barcode__value or a parent_group__name
+                  all on the Product model and returns a payload to #barcode-input-dropdown instead of adding a new
+                  item to the order like the found barcode does
+                  also: the Hx-Target will be modified and will be added to the response
+                  ''')
+        
+    elif product_id:
+        # Product ID method
+        product = get_object_or_404(Product, id=product_id)
+        item = PosOrderItem.objects.filter(
+            order__number=active_order['number'], product=product
+        ).first()
+        if not item:
+            item = create_order_item(
+                request.user, active_order['number'], product, quantity
+            )
+        else:
+            item.quantity += quantity
+            item.save()
+
+        context = {
+            "active_order": active_order,
+            "order": active_order,
+            "item": item
+        }
+        context = context_factory(
+            ["orders", "payment_types", "payment_type", "menus"],
+            request.user, context=context
+        )
+
+        if layout_object['value'] == 'visual':
+            context = context_factory(['products', 'groups'], context)
+            return render(request, 'cotton/pos_base/pos_container.html', context)
+
+        return render(request, 'cotton/pos_base/standard/container.html', context)
+    else:
+        return render(request, "error_template.html", {"error": "No product identifier provided"})
+        
+    
+    return render(request, stanndard_order_item_add_template, context)

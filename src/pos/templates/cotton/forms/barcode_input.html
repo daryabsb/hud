@@ -21,14 +21,23 @@
 	<input
 		id="barcode-input"
 		hx-post="{% url 'pos:add-item' %}" 
-		hx-trigger="keyup[keyCode==13], keyup changed delay:300ms" type="text"
-		hx-on:focus-input="console.log('REACHED!!!');"
+		hx-trigger="keyup[keyCode==13], keyup changed delay:300ms" 
+		type="text"
+		hx-on:click="
+		htmx.find('#barcode-input-dropdown')
+		.classList.add('show');
+		this.setAttribute('hx-target', '#barcode-input-dropdown-content')
+		"
+		hx-on:blur="
+		htmx.find('#barcode-input-dropdown')
+		.classList.remove('show');
+		this.setAttribute('hx-target', '#standard-pos-container')
+		"
 		autofocus
 		hx-target="#standard-pos-container"
 		autocomplete="off"
 		name="barcode" 
-		class="form-control form-control-lg active border-0 bg-transparent show
-		" 
+		class="form-control form-control-lg active border-0 bg-transparent show" 
 		placeholder="Search for barcodes..">
     <c-forms.barcode_input_dropdown />
   </div>

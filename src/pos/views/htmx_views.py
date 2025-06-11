@@ -1,13 +1,15 @@
 from django.http import JsonResponse, HttpResponse, HttpResponseServerError
 from django.shortcuts import get_object_or_404, render
+from django.urls import base
 from django.views.decorators.http import require_POST, require_GET
 from src.products.models import Barcode, Product
 from src.orders.models import PosOrderItem, PosOrder, PosOrderStatus
 from src.pos.calculations import (create_order_item,)
-from src.pos.utils import get_active_order, get_active_item
+from src.pos.utils import get_active_order, process_order_item, get_order_context
 from src.orders.utils import context_factory
 import after_response
 from src.configurations.models import get_prop
+from django.db.models import Q
 layout_object = get_prop('layout')
 
 update_active_order_template = 'pos/partials/order-detail.html'
@@ -44,7 +46,6 @@ def add_quantity_on_db(item_number):
         item.save()
     except Exception as e:
         print(f'Failed to update item quantity for item {item_number}: {e}')
-
 
 @after_response.enable
 def subtract_quantity_on_db(item_number):
@@ -129,48 +130,49 @@ def add_order_item(request):
     barcode_value = request.POST.get("barcode")
     product_id = request.POST.get("product_id")
     quantity = int(request.POST.get("qty", 1))
-
     active_order = get_active_order(request.user)
 
+    # Case 1: Barcode input handling
     if barcode_value:
-        # Barcode method
-        barcode = get_object_or_404(Barcode, value=barcode_value)
-        product = barcode.product
+        barcode = Barcode.objects.filter(value=barcode_value).first()
+        
+        # Case 1a: Exact barcode match - Add item to order
+        if barcode:
+            item = process_order_item(request.user, active_order, barcode.product, quantity)
+            context = get_order_context(request.user, item)
+            template = 'cotton/pos_base/pos_container.html' if layout_object['value'] == 'visual' else 'cotton/pos_base/standard/container.html'
+            return render(request, template, context)
+            
+        # Case 1b: No exact match - Search products and show dropdown
+        else:
+            # Perform product search
+            products = Product.objects.filter(
+                Q(name__icontains=barcode_value) |
+                Q(barcode__value__icontains=barcode_value) |
+                Q(parent_group__name__icontains=barcode_value)
+                )[:10]
+            
+            context = {
+                'products': products,
+                'search_term': barcode_value,
+                'results': True
+            }
+            response = render(request, 'cotton/forms/barcode_input_dropdown/content.html', context)
+            response['Hx-Target'] = 'barcode-input-dropdown-content'
+            return response
+
+    # Case 2: Product ID handling
     elif product_id:
-        # Product ID method
         product = get_object_or_404(Product, id=product_id)
-    else:
-        return render(request, "error_template.html", {"error": "No product identifier provided"})
+        item = process_order_item(request.user, active_order, product, quantity)
+        context = get_order_context(request.user, item)
+        
+        template = 'cotton/pos_base/pos_container.html' if layout_object['value'] == 'visual' else 'cotton/pos_base/standard/container.html'
+        return render(request, template, context)
 
-    item = PosOrderItem.objects.filter(
-        order__number=active_order['number'], product=product
-    ).first()
-
-    if not item:
-        item = create_order_item(
-            request.user, active_order['number'], product, quantity
-        )
-    else:
-        item.quantity += quantity
-        item.save()
-
-    active_order = get_active_order(request.user)
-    context = {
-        "active_order": active_order,
-        "order": active_order,
-        "item": item
-    }
-
-    context = context_factory(
-        ["orders", "payment_types", "payment_type", "menus"],
-        request.user, context=context
-    )
-
-    if layout_object['value'] == 'visual':
-        context = context_factory(['products', 'groups'], context)
-        return render(request, 'cotton/pos_base/pos_container.html', context)
-
-    return render(request, 'cotton/pos_base/standard/container.html', context)
+    return render(request, "error_template.html", {"error": "No product identifier provided"})
+        
+    
     # return render(request, stanndard_order_item_add_template, context)
 
 
@@ -286,3 +288,18 @@ class StatusUpdateView(View):
             'active_order': active_order,
         }
         return render(request, self.template_name, context)
+
+
+response =  [
+    '__bytes__', '__class__', '__contains__', '__delattr__', '__delitem__', '__dict__', '__dir__', 
+    '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getitem__', '__getstate__', 
+    '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__lt__', '__module__', 
+    '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__setitem__', '__sizeof__', 
+    '__str__', '__subclasshook__', '__weakref__', '_charset', '_container', '_content_type_for_repr', '_handler_class', 
+    '_reason_phrase', '_resource_closers', 
+    
+    'charset', 'close', 'closed', 'content', 'cookies', 'delete_cookie', 'flush', 
+    'get', 'getvalue', 'has_header', 'headers', 'items', 'make_bytes', 'readable', 
+    'reason_phrase', 'seekable', 'serialize', 'serialize_headers', 'set_cookie', 'set_signed_cookie', 
+    'setdefault', 'status_code', 'streaming', 'tell', 'text', 'writable', 'write', 'writelines'
+    ]

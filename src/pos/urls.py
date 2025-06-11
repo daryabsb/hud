@@ -18,7 +18,6 @@ from src.pos.views import (
     focus_input
 )
 
-
 app_name = "pos"
 
 urlpatterns = [

@@ -43,7 +43,6 @@ def get_active_order(user, active_order=None):
         return {}
     return active_order
 
-
 def activate_order_and_deactivate_others(user, order_number=None):
     from src.orders.models import PosOrder, get_orders
     active_order = get_active_order(user=user)
@@ -59,7 +58,6 @@ def activate_order_and_deactivate_others(user, order_number=None):
     
     return active_order
 
-
 def get_context(active_order):
     from src.pos.calculations import update_order_totals
     order, discount, tax_amount, tax_rate = update_order_totals(active_order)
@@ -70,6 +68,42 @@ def get_context(active_order):
         "tax_amount": tax_amount,
         "dscnt": tax_amount
     }
+
+
+def process_order_item(user, active_order, product, quantity=1):
+    """Process order item creation or update."""
+    item = PosOrderItem.objects.filter(
+        order__number=active_order['number'],
+        product=product
+    ).first()
+    
+    if not item:
+        item = create_order_item(
+            user, active_order['number'], product, quantity
+        )
+    else:
+        item.quantity += quantity
+        item.save()
+    
+    return item
+
+def get_order_context(user, item=None):
+    """Get common order context."""
+    active_order = get_active_order(user)
+    context = {
+        "active_order": active_order,
+        "order": active_order,
+        "item": item
+    }
+    context = context_factory(
+        ["orders", "payment_types", "payment_type", "menus"],
+        user, context=context
+    )
+    
+    if layout_object['value'] == 'visual':
+        context = context_factory(['products', 'groups'], context)
+    
+    return context
 
 
 # QWERTY keyboard layout with shift, space, caps lock, and enter
