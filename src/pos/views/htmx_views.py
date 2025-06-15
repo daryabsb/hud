@@ -123,61 +123,74 @@ def delete_order_item_with_no_response(request, item_number):
 
     return response
 
-    # except Exception as e:
-    #     print(f'Item does not exist: {e}')
-
 def add_order_item(request):
-    barcode_value = request.POST.get("barcode")
+    barcode_value = request.POST.get("barcode", "").strip()
     product_id = request.POST.get("product_id")
     quantity = int(request.POST.get("qty", 1))
+
     active_order = get_active_order(request.user)
+    item = None
+    product = None
 
-    # Case 1: Barcode input handling
     if barcode_value:
-        barcode = Barcode.objects.filter(value=barcode_value).first()
-        
-        # Case 1a: Exact barcode match - Add item to order
-        if barcode:
-            item = process_order_item(request.user, active_order, barcode.product, quantity)
-            context = get_order_context(request.user, item)
-            template = 'cotton/pos_base/pos_container.html' if layout_object['value'] == 'visual' else 'cotton/pos_base/standard/container.html'
-            return render(request, template, context)
-            
-        # Case 1b: No exact match - Search products and show dropdown
-        else:
-            # Perform product search
-            products = Product.objects.filter(
-                Q(name__icontains=barcode_value) |
-                Q(barcode__value__icontains=barcode_value) |
-                Q(parent_group__name__icontains=barcode_value)
-                )[:10]
-            
-            context = {
-                'products': products,
-                'search_term': barcode_value,
-                'results': True
-            }
-            response = render(request, 'cotton/forms/barcode_input_dropdown/content.html', context)
-            response['Hx-Target'] = 'barcode-input-dropdown-content'
-            return response
+        # Try exact barcode match first
+        try:
+            barcode = Barcode.objects.get(value=barcode_value)
+            product = barcode.product
 
-    # Case 2: Product ID handling
+            # Try to get existing order item
+            item = PosOrderItem.objects.filter(
+                order__number=active_order['number'], product=product
+            ).first()
+
+            if not item:
+                item = create_order_item(request.user, active_order['number'], product, quantity)
+            else:
+                item.quantity += quantity
+                item.save()
+
+            # Full order context response (treat as Enter key)
+            context = {
+                "active_order": active_order,
+                "order": active_order,
+                "item": item
+            }
+            context = context_factory(
+                ["orders", "payment_types", "payment_type", "menus"],
+                request.user, context=context
+            )
+
+            if layout_object['value'] == 'visual':
+                context = context_factory(['products', 'groups'], context)
+                return render(request, 'cotton/pos_base/pos_container.html', context, content_type="text/html")
+
+            return render(request, 'cotton/pos_base/standard/container.html', context, content_type="text/html")
+
+        except Barcode.DoesNotExist:
+            # Not an exact barcode, fall through to search
+            pass
+
     elif product_id:
         product = get_object_or_404(Product, id=product_id)
-        item = process_order_item(request.user, active_order, product, quantity)
-        context = get_order_context(request.user, item)
-        
-        template = 'cotton/pos_base/pos_container.html' if layout_object['value'] == 'visual' else 'cotton/pos_base/standard/container.html'
-        return render(request, template, context)
+        item = PosOrderItem.objects.filter(order__number=active_order['number'], product=product).first()
+        if not item:
+            item = create_order_item(request.user, active_order['number'], product, quantity)
+        else:
+            item.quantity += quantity
+            item.save()
 
-    return render(request, "error_template.html", {"error": "No product identifier provided"})
-        
-    
-    # return render(request, stanndard_order_item_add_template, context)
+        # Reuse the full order context
+        context = {
+            "active_order": active_order,
+            "order": active_order,
+            "item": item
+        }
+        context = context_factory(
+            ["orders", "payment_types", "payment_type", "menus"],
+            request.user, context=context
+        )
 
-
-from django.db.models import Q
-
+        return render(request, 'cotton/pos_base/standard/container.html', context)
 
 def activate_order(request, order_number):
     # Fetch the order to activate

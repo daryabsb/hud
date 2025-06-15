@@ -219,3 +219,57 @@ def add_order_item4(request):
         
     
     return render(request, stanndard_order_item_add_template, context)
+
+
+
+
+
+def add_order_item5(request):
+    barcode_value = request.POST.get("barcode")
+    product_id = request.POST.get("product_id")
+    quantity = int(request.POST.get("qty", 1))
+    active_order = get_active_order(request.user)
+
+    # Case 1: Barcode input handling
+    if barcode_value:
+        barcode = Barcode.objects.filter(value=barcode_value).first()
+        
+        # Case 1a: Exact barcode match - Add item to order
+        if barcode:
+            item = process_order_item(request.user, active_order, barcode.product, quantity)
+            context = get_order_context(request.user, item)
+            template = 'cotton/pos_base/pos_container.html' if layout_object['value'] == 'visual' else 'cotton/pos_base/standard/index.html'
+            return render(request, template, context)
+            
+        # Case 1b: No exact match - Search products and show dropdown
+        else:
+            # Perform product search
+            products = Product.objects.filter(
+                Q(name__icontains=barcode_value) |
+                Q(barcode__value__icontains=barcode_value) |
+                Q(parent_group__name__icontains=barcode_value)
+                )[:10]
+            
+            context = {
+                'products': products,
+                'search_term': barcode_value,
+                'results': True
+            }
+            response = render(request, 'cotton/forms/barcode_input_dropdown/content.html', context)
+            response['Hx-Target'] = 'barcode-input-dropdown-content'
+            return response
+
+    # Case 2: Product ID handling
+    elif product_id:
+        product = get_object_or_404(Product, id=product_id)
+        item = process_order_item(request.user, active_order, product, quantity)
+        context = get_order_context(request.user, item)
+        
+        template = 'cotton/pos_base/pos_container.html' if layout_object['value'] == 'visual' else 'cotton/pos_base/standard/index.html'
+        return render(request, template, context)
+
+    return render(request, "error_template.html", {"error": "No product identifier provided"})
+        
+    
+    # return render(request, stanndard_order_item_add_template, context)
+

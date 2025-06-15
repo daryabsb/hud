@@ -2,6 +2,8 @@ import platform
 import uuid
 from django.db import transaction
 from src.accounts.models import Customer
+
+
 import after_response
 
 def create_order(user, customer=None):
@@ -72,6 +74,8 @@ def get_context(active_order):
 
 def process_order_item(user, active_order, product, quantity=1):
     """Process order item creation or update."""
+    from src.orders.models import PosOrderItem
+    from src.pos.calculations import create_order_item
     item = PosOrderItem.objects.filter(
         order__number=active_order['number'],
         product=product
@@ -89,7 +93,12 @@ def process_order_item(user, active_order, product, quantity=1):
 
 def get_order_context(user, item=None):
     """Get common order context."""
+    from src.orders.utils import context_factory, get_active_order
+    from src.configurations.models import get_prop
+    layout_object = get_prop('layout')
+    from src.pos.calculations import update_order_totals
     active_order = get_active_order(user)
+
     context = {
         "active_order": active_order,
         "order": active_order,
