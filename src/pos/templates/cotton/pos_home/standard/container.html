@@ -1,0 +1,49 @@
+<div class="pos card h-100 user-select-none" id="pos">
+	<div class="card-header p-0 bg-transparent row mx-0 align-content-between align-items-center w-100">
+		<c-pos-base.standard.header />
+	</div>
+	<div class="card-body py-0 px-0 h-100" id="order-tab-{{ active_order.number }}">
+		<div class="pos-container card-body overflow-hidden" style="width: 100%;" id="standard-pos-container">
+			<c-pos-menu />
+			<div class="pos-content" id="container1" style="width: 55%; min-width: 40%;">
+				<c-orders.list  id="order-tab-list-1">
+					{% comment %} 
+					<c-orders.order />
+					{% endcomment %}
+					<div class="col-xxl-12 px-0 h-100"
+						id="order-tab-{{ active_order.number }}"
+						>
+						<div class="tab-content h-100">
+							<div class="tab-pane fade show active h-100" id="order-tab-home-{{active_order.number}}">
+								<c-orders.detail />
+							</div>
+							<div class="tab-pane fade" id="order-tab-orders-{{active_order.number}}">
+								<c-tabs.orders />
+							</div>
+							<div class="tab-pane fade" id="order-tab-recent-{{active_order.number}}">
+								<c-tabs.recent />
+							</div>
+							<div class="tab-pane fade" id="order-tab-customers-{{active_order.number}}">
+								<c-tabs.customers />
+							</div>
+						</div>
+					</div>
+				</c-orders.list>
+			</div>
+			<div class="pos-sidebar" id="container2" style="width: 35%; min-width: 35%;">
+				<c-orders.order_detail />
+			</div>
+		</div>
+		<div class="modal modal-cover fade" id="modalOrderComment"
+			hx-swap-oob="outerHTML"
+			>
+			<c-modals.comment />
+		</div>
+		<div class="modal modal-cover fade" id="modalOrderInternalNote"
+			hx-swap-oob="outerHTML"
+			>
+			<c-modals.internal_note />
+		</div>
+	</div>
+	<c-card-arrow />
+</div>

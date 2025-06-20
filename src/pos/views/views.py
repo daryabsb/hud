@@ -63,9 +63,9 @@ def pos_order(request, number):
     if request.htmx:
         if layout_object['value'] == 'visual':
             return render(request, 'cotton/pos_base/pos_container.html', context)
-        return render(request, 'cotton/pos_base/standard/container.html', context)
+        return render(request, 'cotton/pos_home/standard/container.html', context)
 
     if layout_object['value'] == 'visual':
         return render(request, 'cotton/pos_base/visual/index.html', context)
-    return render(request, 'cotton/pos_base/standard/index.html', context)
+    return render(request, 'cotton/pos_home/standard/index.html', context)
 
