@@ -3,7 +3,8 @@
 	hx-post="/pos/update/active-order/status/{{ active_order.number }}/"
 	hx-swap="outerHTML"
 	hx-trigger="change"
-	hx-target="#order-status-button"
+	hx-target="#order-status-button-{{ active_order.number }}"
+
 	>
 	<div class="form-group">
 		<div class="form-check">
