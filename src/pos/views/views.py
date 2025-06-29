@@ -13,16 +13,23 @@ from src.configurations.models import get_menus
 
 @login_required
 def pos_home(request, number=None):
+    from src.pos.forms import PosOrderForm
     layout_object = get_prop('layout')
     orders = get_orders(user=request.user)
-    active_order = get_active_order(user=request.user)
+    
+    active_order = aod(request.user, order_number=number)
+    
+    print('active number = ', active_order['number'])
 
     if active_order is None:
         print("No active order found")
 
+    order_instance = get_object_or_404(PosOrder, number=active_order['number'])
+
     context = {
         'orders': orders,
         # 'orders': [{'number': 'sales-18042025-1892'}, {'number': 'sales-30112024-0149'}],
+        'form': PosOrderForm(instance=order_instance),
         'active_order': active_order,
         # **stock_context,
     }

@@ -16,6 +16,7 @@ def create_order(user, customer=None):
 
 def activate_order(user, order_number):
     from src.orders.models import PosOrder
+    
     PosOrder.objects.filter(
             pk=order_number, user=user).update(is_active=True)
         # Deactivate others
@@ -52,7 +53,10 @@ def activate_order_and_deactivate_others(user, order_number=None):
     if not active_order:
         customer = Customer.objects.first()
         active_order = PosOrder.objects.create(
-            user=user, customer=customer, is_active=True)  
+            user=user, customer=customer, is_active=True)
+
+    if not order_number:
+        order_number = active_order['number']
 
     if order_number != active_order['number']:
         activate_order(user, order_number)
