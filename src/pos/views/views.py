@@ -26,7 +26,7 @@ def pos_home(request, number=None):
         'active_order': active_order,
         # **stock_context,
     }
-    return render(request, 'cotton/pos_home.html', context)
+    return render(request, 'cotton/pos_home/main/index.html', context)
 
 @login_required
 def pos_order(request, number):

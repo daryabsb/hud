@@ -1,0 +1,34 @@
+<c-pos-base>
+    <c-wrappers.pos_card>
+        <div class="card-header">
+        </div>
+        <div class="pos-container card-body" style="width: 100%;" id="standard-pos-container">
+            <div class="container-xxl p-3 p-lg-5 z-2 position-relative">
+				<div class="text-center mb-5">
+					<h1 class="mb-3">Pick up where you left off</h1>
+					<p class="fs-16px text-body text-opacity-50">
+                        Welcome back!
+                    </p>
+                    <p class="fs-16px text-body text-opacity-50">
+                        Here, you can choose one of the recent unclosed orders you left.
+                    </p>
+                    <p class="fs-16px text-body text-opacity-50">
+                        You can either choose one, search for an older order or a customer.
+					</p>
+				</div>
+                <div style="height: 32rem;">
+                    <c-pos-home.main.table />
+                </div>
+			</div>
+        </div>
+        <c-card-arrow />
+    </c-wrappers.pos_card>
+
+<c-slot name="additional_pos_script">
+    {% comment %} <c-scripts.resize /> {% endcomment %}
+        {% comment %} <c-tabs.scripts /> {% endcomment %}
+    <script>
+    console.log('additional_pos_script from inside pos_home');
+    </script>
+</c-slot>
+</c-pos-base>
