@@ -1,43 +1,47 @@
-
 <c-base>
-<c-slot name="extra_app_class">app-content-full-height position-relative</c-slot>
-<c-slot name="content fade">
-<div id="content"
-hx-on::load="bInput=htmx.find('#barcode-input');bInput.value= '';bInput.focus();" 
-class="app-content p-1 ps-xl-4 pe-xl-4 pt-xl-3 pb-xl-3"
-hx-ext="ws" ws-connect="/ws/orders/"
->
-    {{ slot }}
-    <c-buttons.mobile_sidebar />
-</div>
-{% comment %} <c-buttons.order_panel /> {% endcomment %}
-</c-slot>
-<c-panels.orders />
+  <c-slot name="extra_app_class"
+    >app-content-full-height position-relative</c-slot
+  >
+  <c-slot name="content fade">
+    <div
+      id="content"
+      hx-on::load="bInput=htmx.find('#barcode-input');bInput.value= '';bInput.focus();"
+      class="app-content p-1 ps-xl-4 pe-xl-4 pt-xl-3 pb-xl-3"
+      hx-ext="ws"
+      ws-connect="/ws/orders/"
+    >
+      {{ slot }}
+      <c-buttons.mobile_sidebar />
+    </div>
+    {% comment %} <c-buttons.order_panel /> {% endcomment %}
+  </c-slot>
+  <c-panels.orders />
 
+  {% comment %} {% include 'pos/modals/pos-panel.html' %} {% endcomment %}
 
-{% comment %} {% include 'pos/modals/pos-panel.html' %} {% endcomment %}
-
-<c-slot name="modals">
+  <c-slot name="modals">
     <c-modals />
-</c-slot>
-<c-slot name="additional_js">
-<script>
-console.log('additional_js from pos_base');
-</script>
-{{ additional_pos_script }}
-</c-slot>
-{% if debug %}
-<script>
+  </c-slot>
+  <c-slot name="additional_js">
+    <script>
+      console.log("additional_js from pos_base");
+    </script>
+    <c-scripts.resize />
+    <c-tabs.scripts />
+    {{ additional_pos_script }}
+  </c-slot>
+  {% if debug %}
+  <script>
     if (typeof window.htmx !== "undefined") {
-        htmx.on("htmx:afterSettle", function(detail) {
-            if (
-                typeof window.djdt !== "undefined"
-                && detail.target instanceof HTMLBodyElement
-            ) {
-                djdt.show_toolbar();
-            }
-        });
+      htmx.on("htmx:afterSettle", function (detail) {
+        if (
+          typeof window.djdt !== "undefined" &&
+          detail.target instanceof HTMLBodyElement
+        ) {
+          djdt.show_toolbar();
+        }
+      });
     }
-</script>
-{% endif %}
+  </script>
+  {% endif %}
 </c-base>
