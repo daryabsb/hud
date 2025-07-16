@@ -60,6 +60,7 @@ urlpatterns = [
     path('search-datatable/<str:app_name>/<str:model>/',
          search_datatable, name="search-datatable"),
     path('pos/', include('src.pos.urls'), name="pos"),
+    path('pos2/', include('src.pos2.urls'), name="pos"),
     path('payments/', include('src.payments.urls'), name="payments"),
     path('mgt/', include('src.management.urls'), name="mgt"),
     path('my-accounts/', include('src.accounts.urls'), name="my-accounts"),

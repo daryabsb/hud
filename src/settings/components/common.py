@@ -53,6 +53,7 @@ LOCAL_APPS = [
     'src.documents',
     'src.finances',
     'src.pos',
+    'src.pos2',
     'src.management',
     'src.products',
     'src.orders',
@@ -109,6 +110,7 @@ TEMPLATES = [
             PROJECT_PATH + "\\games\\templates",
             PROJECT_PATH + "\\payments\\templates",
             PROJECT_PATH + "\\stock\\templates",
+            PROJECT_PATH + "\\pos2\\templates",
 
         ],
         'APP_DIRS': True,
