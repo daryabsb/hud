@@ -5,5 +5,5 @@ app_name = "pos2"
 
 urlpatterns = [
     path('', views.pos_home, name='pos-home'),
-    # path('<str:number>/', pos_order, name='pos-order'),
+    path('<str:number>/', views.pos_order, name='pos-order'),
 ]

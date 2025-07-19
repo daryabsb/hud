@@ -1,5 +1,16 @@
 <c-pos>
   <c-slot name="pos_content">
     <h1>Home</h1>
+    {% comment %} hx-get="{% url 'pos2:pos-order' %}"
+    hx-target="#active_order"
+    hx-swap="outerHTML" {% endcomment %}
+    <div class="list-group">
+      {% for order in orders %}
+      <a href="{% url 'pos2:pos-order' order.number %}" 
+      class="list-group-item list-group-item-action {% if order.is_active %}active{% endif %}">{{ order.number }}</a>
+      {% empty %}
+      <h6>No orders</h6>
+     {% endfor %}
+    </div>
   </c-slot>
 </c-pos>

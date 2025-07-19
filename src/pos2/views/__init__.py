@@ -1,4 +1,5 @@
-from .main import pos_home
+from .main import (
+    pos_home, pos_order, )
 
 
-__all__ = ['pos_home']
+__all__ = ['pos_home', 'pos_order']
