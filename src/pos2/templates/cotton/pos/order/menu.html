@@ -1,0 +1,54 @@
+<div class="pos-menu">
+    <!-- BEGIN logo -->
+    <div class="logo">
+        <a href="/pos/">
+            <div class="logo-img">
+                <i class="bi bi-x-diamond" style="font-size: 2.1rem"></i>
+            </div>
+            <div class="logo-text">Zeneon LLC.</div>
+        </a>
+    </div>
+    <!-- END logo -->
+    <!-- BEGIN nav-container -->
+    <div class="nav-container">
+        <div
+            data-scrollbar="true"
+            data-height="100%"
+            data-skip-mobile="true"
+            class="ps"
+            data-init="true"
+            style="height: 100%">
+            <ul class="nav nav-tabs">
+                {% for menu in menus %}
+                <li class="nav-item">
+                    <a
+                        class="nav-link {% if menu.order == 1 %}active{% endif %}"
+                        href="#order-tab-{{ menu.name }}-{{active_order.number}}"
+                        data-bs-toggle="tab">
+                        <div class="card">
+                            <div class="card-body">
+                                <i class="fa fa-fw fa-{{ menu.value }}"></i> {{ menu.title }}
+                            </div>
+                            <c-card-arrow />
+                        </div>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+            <div class="ps__rail-x" style="left: 0px; bottom: 0px">
+                <div
+                    class="ps__thumb-x"
+                    tabindex="0"
+                    style="left: 0px; width: 0px"></div>
+            </div>
+            <div class="ps__rail-y" style="top: 0px; right: 0px">
+                <div
+                    class="ps__thumb-y"
+                    tabindex="0"
+                    style="top: 0px; height: 0px"></div>
+            </div>
+        </div>
+    </div>
+    <!-- END nav-container -->
+</div>
+{% comment %} {{ menu.params }} {% endcomment %}
