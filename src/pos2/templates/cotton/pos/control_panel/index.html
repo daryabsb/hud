@@ -1,0 +1,60 @@
+<div class="h-100 d-flex flex-column p-0" id="orders-detail">
+    <div class="d-flex flex-nowrap flex-shrink-0 gap-2 btn-group px-4 border-bottom mt-2 mb-3">
+
+        <c-pos.buttons.icon_button icon="fas fa-2xl fa-times" btn="btn-outline-gray-100"
+            hx-delete="{% url 'orders:delete-active-order' %}"
+            hx-target="#order-tab-{{ active_order.number }}"
+            hx-swap="outerHTML"
+            id="item-delete-btn">Delete</c-pos.buttons.icon_button>
+
+        <c-pos.buttons.icon_button icon="fas fa-2xl fa-search" btn="btn-outline-gray-100 rounded-2"
+            data-bs-toggle="modal" data-bs-target="#modalPosSearchModal"
+            hx-get="{% url 'pos:pos-modal-search' %}" hx-target="#modalPosSearchModal">Search</c-pos.buttons.icon_button>
+        <c-pos.buttons.icon_button
+            icon="fas fa-2xl fa-plus"
+            btn="btn-outline-gray-100 rounded-2"
+            hx-delete="{% url 'orders:add-new-order' %}"
+            hx-target="#order-tab-{{ active_order.number }}"
+            hx-swap="outerHTML">New sale</c-pos.buttons.icon_button>
+    </div>
+    <c-components.payment_types />
+    <c-pos.buttons.drag_handle />
+    <hr />
+    <div class="d-flex flex-nowrap flex-shrink-0 gap-2 btn-group px-4 top-3">
+        <c-pos.buttons.pos.delete />
+        <c-pos.buttons.icon_button icon="far fa-2xl fa-save" btn="btn-outline-default rounded-2">Save sale</c-pos.buttons.icon_button>
+        <c-pos.buttons.pos.lock />
+    </div>
+    <div class="d-flex flex-nowrap flex-shrink-0 gap-2 btn-group px-4 top-3">
+        {% comment %} <c-pos.buttons.icon_button icon="fas fa-2xl fa-cart-plus" btn="btn-outline-gray-100 rounded-2"
+            hx-get="{% url 'pos:modal-calculator' %}" hx-target="#orderDiscountModal"
+            hx-vals='{
+            "is_ajax": true,
+            "url": "{% url "pos:order-discount" active_order.number %}",
+            "display": "order-discount",
+            "el-id": "calculations-{{ active_order.number }}"
+            }'
+            data-bs-toggle="modal"
+            data-bs-target="#orderDiscountModal">Discount</c-pos.buttons.icon_button> {% endcomment %}
+
+        <c-pos.buttons.pos.comment />
+        <c-pos.buttons.pos.internal_note />
+        <c-pos.buttons.pos.customer />
+
+        {% comment %} <c-pos.buttons.icon_button icon="fas fa-2xl fa-fax" btn="btn-outline-default rounded-2">Cash drawer</c-pos.buttons.icon_button> {% endcomment %}
+    </div>
+    <div class="d-flex flex-nowrap flex-shrink-0 gap-2 btn-group px-4 top-3">
+
+        <c-pos.buttons.pos.discount />
+        <c-pos.buttons.pos.transfer />
+        <c-pos.buttons.icon_button icon="fas fa-2xl fa-sync-alt" btn="btn-outline-default rounded-2">Return</c-pos.buttons.icon_button>
+    </div>
+    <div class="d-flex flex-nowrap flex-shrink-0 gap-2 btn-group px-4 mb-3">
+        <c-pos.buttons.pos.payment />
+
+        <c-pos.buttons.main_menu />
+    </div>
+    {% comment %} DESKTOP-H79AUGO\Hi
+    Ikg5039999 {% endcomment %}
+
+</div>

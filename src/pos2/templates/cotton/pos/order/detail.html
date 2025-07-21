@@ -1,0 +1,18 @@
+{% load humanize  %}
+	
+
+<div id='standard-container-{{ active_order.number }}' class="card  border-0 p-0 flex-grow-1" style="height: 100%;" >
+	<div class="card-header bg-inverse bg-opacity-10">
+		<c-orders.header />
+	</div>
+	<div class="card-body py-2 mx-0 px-0 w-100 text-inverse overflow-y-auto">
+		<input type="hidden" name="selected-item" id="selected-item" />
+		{% for item in active_order.items %}
+		<c-orders.item />
+		
+		{% endfor %}
+	</div>
+	<div class="card-footer bg-none d-flex flex-column" id="calculations-{{ active_order.number }}">
+		<c-orders.calculations  pos_home=True />
+	</div>
+</div>

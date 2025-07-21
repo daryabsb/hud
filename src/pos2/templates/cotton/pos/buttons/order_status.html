@@ -1,0 +1,14 @@
+<div class="card" id="order-status-button-{{ active_order.number }}">
+
+  <a
+    href="#orderStatusModal"
+    class="fs-5 h-100 w-100 align-content-center 
+    align-items-center py-0 btn btn-outline-{{ active_order.status_class }} 
+	text-uppercase w-250px"
+    data-bs-toggle="modal"
+
+  >
+    {{ active_order.status }}
+  </a>
+  <c-card-arrow />
+</div>

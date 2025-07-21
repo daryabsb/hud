@@ -1,0 +1,25 @@
+<div class="flex-fill min-w-350px">
+    <a class="w-100 pt-2 px-4 btn btn-success rounded-2 mb-2"
+    hx-get="{% url 'pos:modal-order-payment' active_order.number %}"
+    hx-target="#modalOrderPayment"
+    hx-trigger="click"
+    _="on click wait 2 seconds then call testKey(e) end"
+    
+    href="#modalOrderPayment"
+    data-bs-toggle="modal"
+    >
+    <div class="display-7">F4</div>
+    <span class="small">Payment <span id="payment-success"></span> </span>
+</a>
+</div>
+{% comment %} 
+_="on keydown[key=='F4'] from window call testKey(e) end"
+_="on keyup[keyCode==13] from window trigger click on me end" {% endcomment %}
+<script>
+    addEventListener("DOMContentLoaded", (event) => { 
+
+        function testKey(event){
+            console.log(event)
+        }
+    });
+</script>
