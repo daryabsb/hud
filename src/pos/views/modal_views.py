@@ -75,9 +75,9 @@ def calculator_modal(request):
     print(f'is_ajax: {is_ajax}')
     digits = [
         [7, 8, 9], [4, 5, 6],
-        [1, 2, 3], 
+        [1, 2, 3],
         ['.', 0, '=']
-        ]
+    ]
     context = {
         "calc_on": True,
         "is_ajax": is_ajax,
@@ -156,10 +156,12 @@ def toggle_modal_comment(request, order_number):
         'active_order': active_order,
     })
 
+
 def render_modal_title(request, title):
     response = HttpResponse(title)
     response['Hx-Trigger'] = 'render-title'
     return response
+
 
 @login_required
 @require_POST
@@ -234,7 +236,7 @@ def pos_search_modal(request):
 @login_required
 @require_GET
 def modal_item_discount(request, item_number):
-    item = get_object_or_404(PosOrderItem, number = item_number )
+    item = get_object_or_404(PosOrderItem, number=item_number)
     context = {
         'item': item,
     }
