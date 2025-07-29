@@ -13,7 +13,6 @@ active_order_template = 'cotton/pos/order/active_order.html'
 class ActiveOrderViewsMixin:
     model = PosOrder
     form_class = PosOrderForm
-    # template_name = None
     template_name = active_order_template
     form_fields = None  # Allows specifying which fields to include
 

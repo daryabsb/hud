@@ -1,10 +1,10 @@
 <div class="flex-fill" id="orderLockButton">
     <a href="#modalOrderLock"
-       class="w-100 pt-3 px-4 btn btn-outline-default rounded-2 mb-2"
-       hx-get="{% url 'pos2:update-order-generic' active_order.number %}?fields=is_locked"
-       hx-target="#pos"
-       hx-swap="innerHTML"
-       data-bs-toggle="modal">
+        class="w-100 pt-3 px-4 btn btn-outline-default rounded-2 mb-2"
+        {% comment %}hx-get="{% url 'pos2:update-order-generic' active_order.number %}?fields=is_locked" {% endcomment %}
+        hx-target="#pos"
+        hx-swap="innerHTML"
+        data-bs-toggle="modal">
         <i class="fas fa-2xl fa-lock"></i><br>
         <span class="small">Lock</span>
     </a>

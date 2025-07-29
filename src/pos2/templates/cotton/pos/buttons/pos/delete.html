@@ -1,10 +1,10 @@
+{% comment %}hx-get="{% url 'pos2:update-order-generic' active_order.number %}?fields=status"{% endcomment %}
 <div class="flex-fill" id="orderDeleteButton">
     <a href="#modalOrderDelete"
-       class="w-100 pt-3 px-4 btn btn-danger rounded-2 mb-2"
-       hx-get="{% url 'pos2:update-order-generic' active_order.number %}?fields=status"
-       hx-target="#pos"
-       hx-swap="innerHTML"
-       data-bs-toggle="modal">
+        class="w-100 pt-3 px-4 btn btn-danger rounded-2 mb-2"
+        hx-target="#pos"
+        hx-swap="innerHTML"
+        data-bs-toggle="modal">
         <i class="fas fa-2xl fa-trash"></i><br>
         <span class="small">Void</span>
     </a>
