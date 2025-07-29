@@ -1,0 +1,32 @@
+<div class="card" id="generic-update-button-{{ active_order.number }}">
+  <a
+    href="#genericOrderModal"
+    class="fs-5 h-100 w-100 align-content-center align-items-center py-0 btn btn-outline-primary text-uppercase w-250px"
+    data-bs-toggle="modal"
+    hx-get="{% url 'pos2:update-order-generic' active_order.number %}"
+    hx-target="#pos"
+    hx-swap="innerHTML"
+    hx-trigger="click"
+  >
+    Update Order
+  </a>
+  <c-card-arrow />
+</div>
+
+{% comment %}
+This button directly updates the #pos element with a form that can update any field in the PosOrder model.
+You can customize which fields are shown in the form by adding hidden inputs with the field names:
+
+<input type="hidden" name="status" value="1">
+<input type="hidden" name="note" value="">
+
+Or you can modify the hx-get URL to include query parameters that specify which fields to include:
+
+hx-get="{% url 'pos2:update-order-generic' active_order.number %}?fields=status,note,discount"
+
+The GenericOrderUpdateView will only process fields that are included in the form submission
+and are valid for the PosOrder model.
+
+This button targets the #pos element directly, which will update the entire POS interface
+when the form is submitted, similar to how order_status.html works.
+{% endcomment %}

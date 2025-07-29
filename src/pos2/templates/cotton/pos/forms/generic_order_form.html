@@ -1,0 +1,65 @@
+{% load widget_tweaks %}
+<form
+	hx-post="{% url 'pos2:update-order-generic' active_order.number %}"
+	hx-swap="innerHTML"
+	hx-trigger="change"
+	hx-target="#pos">
+
+	<div class="form-group">
+		{% comment %}
+		This form can handle any field from the PosOrder model.
+		The fields to update are determined by what's included in the form submission.
+		For example, to update the status field:
+		{% endcomment %}
+		
+		{% if 'status' in form.fields %}
+		<div class="form-check mb-3">
+			<label class="form-label">Order Status</label>
+			{% render_field form.status class="form-control" data-bs-dismiss="modal" %}
+		</div>
+		{% endif %}
+		
+		{% if 'note' in form.fields %}
+		<div class="form-group mb-3">
+			<label class="form-label">Order Comment</label>
+			{% render_field form.note class="form-control" rows="3" %}
+		</div>
+		{% endif %}
+		
+		{% if 'internal_note' in form.fields %}
+		<div class="form-group mb-3">
+			<label class="form-label">Internal Note</label>
+			{% render_field form.internal_note class="form-control" rows="3" %}
+		</div>
+		{% endif %}
+		
+		{% if 'discount' in form.fields %}
+		<div class="form-group mb-3">
+			<label class="form-label">Discount</label>
+			{% render_field form.discount class="form-control" %}
+		</div>
+		{% endif %}
+		
+		{% if 'discount_type' in form.fields %}
+		<div class="form-group mb-3">
+			<label class="form-label">Discount Type</label>
+			{% render_field form.discount_type class="form-control" %}
+		</div>
+		{% endif %}
+		
+		{% comment %}
+		You can add more fields as needed. The view will only process fields
+		that are included in the form submission and are valid for the PosOrder model.
+		{% endcomment %}
+	</div>
+	
+	{% if not form.fields %}
+	<div class="alert alert-warning">
+		No valid fields selected for update.
+	</div>
+	{% endif %}
+	
+	<div class="form-group mt-3">
+		<button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save Changes</button>
+	</div>
+</form>

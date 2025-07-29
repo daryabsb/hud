@@ -1,0 +1,81 @@
+{% extends 'cotton/pos/order/active_order.html' %}
+
+{% block order_actions %}
+  <div class="row mb-3">
+    <div class="col-12">
+      <h5 class="text-muted">Order Actions</h5>
+    </div>
+  </div>
+  
+  <div class="row mb-3">
+    <div class="col-md-6">
+      {% include 'cotton/pos/buttons/generic_update_button.html' with active_order=active_order %}
+    </div>
+    
+    <div class="col-md-6">
+      <!-- Example of a specialized button for status updates only -->
+      <div class="card">
+        <a
+          href="#genericOrderModal"
+          class="fs-5 h-100 w-100 align-content-center align-items-center py-0 btn btn-outline-success text-uppercase"
+          data-bs-toggle="modal"
+          hx-get="{% url 'pos2:update-order-generic' active_order.number %}?fields=status"
+          hx-target="#pos"
+          hx-swap="innerHTML"
+          hx-trigger="click"
+        >
+          Update Status
+        </a>
+        <c-card-arrow />
+      </div>
+    </div>
+  </div>
+  
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <!-- Example of a specialized button for notes only -->
+      <div class="card">
+        <a
+          href="#genericOrderModal"
+          class="fs-5 h-100 w-100 align-content-center align-items-center py-0 btn btn-outline-info text-uppercase"
+          data-bs-toggle="modal"
+          hx-get="{% url 'pos2:update-order-generic' active_order.number %}?fields=note,internal_note"
+          hx-target="#pos"
+          hx-swap="innerHTML"
+          hx-trigger="click"
+        >
+          Update Notes
+        </a>
+        <c-card-arrow />
+      </div>
+    </div>
+    
+    <div class="col-md-6">
+      <!-- Example of a specialized button for discount updates only -->
+      <div class="card">
+        <a
+          href="#genericOrderModal"
+          class="fs-5 h-100 w-100 align-content-center align-items-center py-0 btn btn-outline-warning text-uppercase"
+          data-bs-toggle="modal"
+          hx-get="{% url 'pos2:update-order-generic' active_order.number %}?fields=discount,discount_type"
+          hx-target="#pos"
+          hx-swap="innerHTML"
+          hx-trigger="click"
+        >
+          Update Discount
+        </a>
+        <c-card-arrow />
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block modals %}
+  {{ block.super }}
+  <!-- Modal for generic order updates -->
+  <div class="modal fade" id="genericOrderModal" tabindex="-1" aria-labelledby="genericOrderModalLabel" aria-hidden="true">
+    <div class="modal-content">
+      <!-- Content will be loaded via HTMX -->
+    </div>
+  </div>
+{% endblock %}

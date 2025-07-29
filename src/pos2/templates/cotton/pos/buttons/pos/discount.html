@@ -12,13 +12,15 @@ hx-vals='{
     "el-id": "calculations-{{ active_order.number }}"
     }'
 hx-trigger="click" {% endcomment %}
-<div class="flex-fill" id="orderCustomerButton">
+<div class="flex-fill" id="orderDiscountButton">
     <a  class="w-100 pt-3 px-4 btn btn-outline-default rounded-2 mb-2"
-        href="#orderDiscountModal" data-bs-toggle="modal"
+        href="#orderDiscountModal"
+        hx-get="{% url 'pos2:update-order-generic' active_order.number %}?fields=discount,discount_type"
+        hx-target="#pos"
+        hx-swap="innerHTML"
         data-bs-toggle="modal"
         >
         <i class="fas fa-2xl fa-percent"></i><br>
         <span class="small">Order Discount</span>
-        {% comment %} data-bs-target="#orderDiscountModal" {% endcomment %}
     </a>
 </div>

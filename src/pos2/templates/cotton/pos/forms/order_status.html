@@ -1,7 +1,7 @@
 {% load widget_tweaks %}
 <form
 	hx-post="{% url 'pos2:update-order-status' active_order.number %}"
-	hx-swap="outerHTML"
+	hx-swap="innerHTML"
 	hx-trigger="change"
 	hx-target="#pos">
 

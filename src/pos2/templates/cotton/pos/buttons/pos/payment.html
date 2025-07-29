@@ -1,7 +1,8 @@
 <div class="flex-fill min-w-350px">
     <a class="w-100 pt-2 px-4 btn btn-success rounded-2 mb-2"
-    hx-get="{% url 'pos:modal-order-payment' active_order.number %}"
-    hx-target="#modalOrderPayment"
+    hx-get="{% url 'pos2:update-order-generic' active_order.number %}?fields=payment"
+    hx-target="#pos"
+    hx-swap="innerHTML"
     hx-trigger="click"
     _="on click wait 2 seconds then call testKey(e) end"
     

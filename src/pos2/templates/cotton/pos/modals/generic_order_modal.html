@@ -1,0 +1,13 @@
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="card">
+            <div class="card-header fw-bold">
+                Update Order: {{ active_order.number }}
+            </div>
+            <div class="card-body pb-0">
+                {% include 'cotton/pos/forms/generic_order_form.html' %}
+            </div>
+            <c-card-arrow />
+        </div>
+    </div>
+</div>

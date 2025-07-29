@@ -4,11 +4,17 @@ from src.pos.forms import PosOrderForm
 from src.pos.utils import get_active_order
 from src.configurations.models import get_menus
 
+from src.finances.models.models_payment_type import get_tree_nodes as get_payment_types
+from src.accounts.models import get_customers
+
+active_order_template = 'cotton/pos/order/active_order.html'
+
 
 class ActiveOrderViewsMixin:
     model = PosOrder
     form_class = PosOrderForm
-    template_name = None
+    # template_name = None
+    template_name = active_order_template
     form_fields = None  # Allows specifying which fields to include
 
     def get_instance(self, number):
@@ -39,6 +45,9 @@ class ActiveOrderViewsMixin:
             'form': form,
             'order': active_order,
             'active_order': active_order,
+            'payment_types': get_payment_types(),
+            'payment_type': get_payment_types()[0],
+            'customers': get_customers(user=request.user),
         }
         return render(request, self.template_name, context)
 

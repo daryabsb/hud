@@ -1,0 +1,134 @@
+{% load widget_tweaks %}
+
+<div class="container mt-4">
+  <h3>Inline Order Update Example</h3>
+  <p class="text-muted">This example demonstrates how to use the GenericOrderUpdateView directly in a template without a modal.</p>
+  
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h5>Update Order Status</h5>
+        </div>
+        <div class="card-body">
+          <!-- Status update form with direct HTMX submission -->
+          <form
+            id="status-form"
+            hx-post="{% url 'pos2:update-order-generic' active_order.number %}"
+            hx-swap="innerHTML"
+            hx-target="#pos"
+            hx-trigger="change from:#id_status">
+            
+            <div class="form-group mb-3">
+              <label class="form-label">Order Status</label>
+              {% render_field form.status class="form-control" id="id_status" %}
+            </div>
+            
+            <!-- Hidden input to indicate this is a status update -->
+            <input type="hidden" name="status" value="1">
+            
+            <div class="form-text text-muted">
+              Status will update automatically when changed.
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h5>Update Order Notes</h5>
+        </div>
+        <div class="card-body">
+          <!-- Notes update form with explicit submit button -->
+          <form
+            id="notes-form"
+            hx-post="{% url 'pos2:update-order-generic' active_order.number %}"
+            hx-swap="innerHTML"
+            hx-target="#pos">
+            
+            <div class="form-group mb-3">
+              <label class="form-label">Order Comment</label>
+              {% render_field form.note class="form-control" rows="3" %}
+            </div>
+            
+            <div class="form-group mb-3">
+              <label class="form-label">Internal Note</label>
+              {% render_field form.internal_note class="form-control" rows="3" %}
+            </div>
+            
+            <!-- Hidden inputs to indicate this is a notes update -->
+            <input type="hidden" name="note" value="">
+            <input type="hidden" name="internal_note" value="">
+            
+            <button type="submit" class="btn btn-primary">Save Notes</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row mt-4">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h5>Update Order Discount</h5>
+        </div>
+        <div class="card-body">
+          <!-- Discount update form with explicit submit button -->
+          <form
+            id="discount-form"
+            hx-post="{% url 'pos2:update-order-generic' active_order.number %}"
+            hx-swap="innerHTML"
+            hx-target="#pos">
+            
+            <div class="form-group mb-3">
+              <label class="form-label">Discount</label>
+              {% render_field form.discount class="form-control" %}
+            </div>
+            
+            <div class="form-group mb-3">
+              <label class="form-label">Discount Type</label>
+              {% render_field form.discount_type class="form-control" %}
+            </div>
+            
+            <!-- Hidden inputs to indicate this is a discount update -->
+            <input type="hidden" name="discount" value="0">
+            <input type="hidden" name="discount_type" value="1">
+            
+            <button type="submit" class="btn btn-primary">Apply Discount</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h5>Current Order Information</h5>
+        </div>
+        <div class="card-body">
+          <dl class="row">
+            <dt class="col-sm-4">Order Number</dt>
+            <dd class="col-sm-8">{{ active_order.number }}</dd>
+            
+            <dt class="col-sm-4">Status</dt>
+            <dd class="col-sm-8">
+              <span class="badge bg-{{ active_order.status_class }}">{{ active_order.get_status_display }}</span>
+            </dd>
+            
+            <dt class="col-sm-4">Note</dt>
+            <dd class="col-sm-8">{{ active_order.note|default:"No note" }}</dd>
+            
+            <dt class="col-sm-4">Internal Note</dt>
+            <dd class="col-sm-8">{{ active_order.internal_note|default:"No internal note" }}</dd>
+            
+            <dt class="col-sm-4">Discount</dt>
+            <dd class="col-sm-8">{{ active_order.discount|default:"0" }} ({{ active_order.get_discount_type_display }})</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
