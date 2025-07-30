@@ -1,0 +1,14 @@
+{% load widget_tweaks %}
+<!-- BEGIN input-group -->
+<div class="input-group row gap-0 mb-4" hx-include="this">
+   {% comment %} {{ form.customer }} {% endcomment %}
+    <div class="col-8 flex-fill position-relative">
+        <div class="input-group">
+            <div class="input-group-text position-absolute top-0 end-0 bottom-0 bg-none border-0 ps-0" style="z-index: 1020;">
+                <i class="fa fa-search opacity-5"></i>
+            </div>
+            {{ customers_form.name}}
+        </div>
+    </div>
+</div>
+<!-- END input-group -->

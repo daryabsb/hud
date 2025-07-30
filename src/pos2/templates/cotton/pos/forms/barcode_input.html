@@ -1,0 +1,41 @@
+<div class="input-group flex-nowrap dropdown dropdown-mobile-full">
+
+	<span class="input-group-text border-0 bg-transparent fs-20px" id="addon-wrapping">
+		{% comment %} hx-get="{% url 'pos:focus-input' %}"
+		hx-trigger="every 10s"
+		hx-target="#barcode-input" {% endcomment %}
+		<div class="">
+			<a href="#" class="pt-3 btn btn-outline-gray-100"
+				data-bs-toggle="modal" data-bs-target="#modalPosSearchModal"
+				hx-get="{% url 'pos2:pos-modal-search' %}" hx-target="#modalPosSearchModal">
+				<i class="fas fa-2xl fa-search"></i><br>
+				<span class="small"></span>
+				Search
+			</a>
+		</div>
+	</span>
+	<input
+		id="barcode-input"
+		hx-post="{% url 'pos2:add-item' %}"
+		hx-trigger="keyup[keyCode==13], keyup changed delay:300ms"
+		type="text"
+		hx-on:click="
+		htmx.find('#barcode-input-dropdown')
+		.classList.add('show');
+		this.setAttribute('hx-target', '#barcode-input-dropdown-content')
+		"
+		hx-on:blur="
+		htmx.find('#barcode-input-dropdown')
+		.classList.remove('show');
+		this.setAttribute('hx-target', '#standard-pos-container')
+		"
+		autofocus
+		hx-target="#standard-pos-container"
+		autocomplete="off"
+		name="barcode"
+		class="form-control form-control-lg active border-0 bg-transparent show"
+		placeholder="Search for barcodes..">
+	<c-pos.forms.barcode_input_dropdown />
+</div>
+{% comment %} data-bs-toggle="dropdown"
+data-bs-display="static" {% endcomment %}

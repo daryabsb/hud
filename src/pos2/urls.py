@@ -10,6 +10,10 @@ urlpatterns = [
 ]
 
 urlpatterns += [
+    path('add/order-item/', views.AddOrderItemView.as_view(), name="add-item"),
+]
+
+urlpatterns += [
     path('update/active-order/status/<str:number>/',
          views.StatusUpdateView.as_view(), name='update-order-status'),
     path('update/active-order/note/<str:number>/',
@@ -24,4 +28,9 @@ urlpatterns += [
     # Modal view for the generic order update form
     path('modal/update-order/<str:number>/',
          GenericOrderModalView.as_view(), name='modal-update-order-generic'),
+]
+
+urlpatterns += [
+    path('modal/pos-modal-search/',
+         views.pos_search_modal, name='pos-modal-search'),
 ]

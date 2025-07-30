@@ -1,0 +1,25 @@
+{% load static %}
+<div class="table-responsive">
+    {% comment %} <table class="table table-hover text-nowrap" id="{{ id }}">
+    </table> {% endcomment %}
+    <table class="table table-hover text-nowrap">
+        <thead>
+            <tr>
+                <th class="pt-0 pb-2"></th>
+                <th class="pt-0 pb-2">Product</th>
+                <th class="pt-0 pb-2">Inventory</th>
+                <th class="pt-0 pb-2">Type</th>
+                <th class="pt-0 pb-2">Vendor2</th>
+            </tr>
+        </thead>
+        <tbody hx-get="{% url 'products:product-list' %}" hx-trigger="load" hx-swap="innerHTML">
+            <tr>
+                <td>something2</td>
+                <td>something</td>
+                <td>something</td>
+                <td>something</td>
+                <td>something</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

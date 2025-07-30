@@ -1,0 +1,44 @@
+
+<div class="modal-dialog modal-xl">
+    <div class="modal-content vh-100" >
+        <div class="card mt-4">
+            {% comment %} <div class="card-header">
+                <c-modals.search.input_group />
+            </div> {% endcomment %}
+            <c-modals.search.nav />
+            <c-tabs>
+                <c-tabs.content active=True id="search-products-tab">
+                    
+                    <c-modals.search.products /> 
+                        {% comment %} id="search-products-table"
+                        input="search-modal-product-input"
+                        app_name="products"
+                        model_name="product"
+                    /> {% endcomment %}
+                </c-tabs.content>
+                <c-tabs.content id="search-customers-tab">
+                    <c-modals.search.customers />
+                </c-tabs.content>
+                <c-tabs.content id="search-orders-tab">
+                    <h1>This is orders search tab</h1>
+                </c-tabs.content>
+                <c-tabs.content id="search-documents-tab">
+                    <h1>This is documents search tab</h1>
+                    {% comment %} <c-modals.search.render_table 
+                        id="search-documents-table"
+                        input="search-modal-product-input"
+                        app_name="documents"
+                        model_name="Document"
+                    /> {% endcomment %}
+                </c-tabs.content>
+                <c-tabs.content id="search-misc-tab">
+                    <h1>This is misc search tab</h1>
+                </c-tabs.content>
+            </c-tabs>
+            <div class="card-footer d-flex justify-content-end">
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+            </div>
+            <c-card-arrow />
+        </div>
+    </div>
+</div>
