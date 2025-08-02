@@ -80,5 +80,5 @@ def pos_search_modal(request):
     }
     is_next = request.GET.get("is_next") == "1"
     if is_next:
-        return render(request, 'cotton/modals/search/products/rows.html', context)
-    return render(request, 'cotton/modals/search/index.html', context)
+        return render(request, 'cotton/pos/modals/search/products/rows.html', context)
+    return render(request, 'cotton/pos/modals/search/index.html', context)

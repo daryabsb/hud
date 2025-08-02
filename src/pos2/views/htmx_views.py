@@ -1,3 +1,4 @@
+from src.pos2.const import active_order_template
 from src.pos.forms import StatusForm
 from django.http import JsonResponse, HttpResponse, HttpResponseServerError
 from django.shortcuts import get_object_or_404, render
@@ -11,6 +12,10 @@ from src.pos.utils import get_active_order, process_order_item, get_order_contex
 from src.orders.utils import context_factory
 import after_response
 from src.configurations.models import get_prop
+from src.configurations.models import get_menus
+from src.finances.models.models_payment_type import get_tree_nodes as get_payment_types
+from src.accounts.models import get_customers
+
 from django.db.models import Q
 layout_object = get_prop('layout')
 
@@ -170,24 +175,27 @@ class AddOrderItemView(View):
                     order.refresh_cache()
 
                 # Get the refreshed active order with updated calculations
+                orders = get_orders(user=request.user)
                 active_order = get_active_order(request.user)
 
                 # Full order context response (treat as Enter key)
                 context = {
+                    'orders': orders,
+                    'menus': get_menus(),
                     "active_order": active_order,
                     "order": active_order,
-                    "item": item
+                    "item": item,
+                    'payment_types': get_payment_types(),
+                    'payment_type': get_payment_types()[0],
+                    'customers': get_customers(user=request.user),
                 }
-                context = context_factory(
-                    ["orders", "payment_types", "payment_type", "menus"],
-                    request.user, context=context
-                )
+                print(context['orders'][0])
 
                 # if layout_object['value'] == 'visual':
                 #     context = context_factory(['products', 'groups'], context)
                 #     return render(request, 'cotton/pos_base/pos_container.html', context, content_type="text/html")
 
-                return render(request, 'cotton/pos/order/index.html', context, content_type="text/html")
+                return render(request, active_order_template, context, content_type="text/html")
 
             except Barcode.DoesNotExist:
                 # Not an exact barcode, fall through to search
