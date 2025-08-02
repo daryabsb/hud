@@ -30,6 +30,7 @@ control fields as needed } {% endcomment %}
           data-bs-dismiss="modal"
           hx-post="{% url 'pos2:add-item' %}"
           hx-target="#pos"
+          hx-swap="innerHTML"
           hx-include="#input-modal-qty"
           hx-vals='{"product_id": {{ stock.product_id }}}'>{{ stock.product_name }}</a>
       </div>

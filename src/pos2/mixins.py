@@ -1,13 +1,13 @@
 from django.shortcuts import get_object_or_404, render
-from src.orders.models import PosOrder, get_orders
-from src.pos.forms import PosOrderForm
+from src.orders.models import PosOrder, PosOrderItem, get_orders
+from src.pos2.forms import PosOrderForm, PosOrderItemForm
 from src.pos.utils import get_active_order
 from src.configurations.models import get_menus
 
 from src.finances.models.models_payment_type import get_tree_nodes as get_payment_types
 from src.accounts.models import get_customers
 
-active_order_template = 'cotton/pos/order/active_order.html'
+from src.pos2.const import active_order_template
 
 
 class ActiveOrderViewsMixin:
@@ -62,3 +62,8 @@ class ActiveOrderViewsMixin:
             form.save()
 
         return self.render_form(request, kwargs['number'], form=form)
+
+
+class AddOrderItemMixin:
+    model = PosOrderItem
+    form_class = PosOrderItemForm

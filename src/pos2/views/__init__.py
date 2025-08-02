@@ -16,7 +16,7 @@ from .htmx_views import (
     focus_input,
     remove_item,
     delete_order_item_with_no_response,
-    add_order_item,
+    # add_order_item,
     AddOrderItemView,
     activate_order,
     order_discount,
@@ -39,7 +39,7 @@ __all__ = [
     # HTMX
     'change_quantity', 'add_quantity_on_db', 'subtract_quantity_on_db',
     'add_quantity', 'subtract_quantity', 'focus_input', 'remove_item',
-    'delete_order_item_with_no_response', 'add_order_item', 'AddOrderItemView', 'activate_order',
+    'delete_order_item_with_no_response', 'AddOrderItemView', 'activate_order',
     'order_discount', 'item_discount', 'update_status',
     # SEARCH
     'search_stock', 'search_customers',

@@ -1,7 +1,8 @@
+from dataclasses import fields
 from django.utils.html import format_html
 from django import forms
-from src.orders.models import PosOrder
-from src.pos2.const import POS_FORM_FIELDS
+from src.orders.models import PosOrder, PosOrderItem
+from src.pos2.const import POS_FORM_FIELDS, POS_ITEM_FORM_FIELDS
 
 
 class PosOrderForm(forms.ModelForm):
@@ -25,6 +26,16 @@ class PosOrderForm(forms.ModelForm):
             'discount_type':    forms.HiddenInput({'id': 'order-discount_type-id'}),
             'paid_status':      forms.RadioSelect(),
             'status':           forms.RadioSelect(),
+        }
+
+
+class PosOrderItemForm(forms.ModelForm):
+    class Meta:
+        model = PosOrderItem
+        fields = POS_ITEM_FORM_FIELDS
+        widgets = {
+            'product': forms.HiddenInput(),
+            'order': forms.HiddenInput(),
         }
 
 
