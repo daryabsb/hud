@@ -67,3 +67,90 @@ class ActiveOrderViewsMixin:
 class AddOrderItemMixin:
     model = PosOrderItem
     form_class = PosOrderItemForm
+    form_fields = None  # Allows specifying which fields to include
+    template_name = 'cotton/pos/order/index.html'  # Default template
+
+    def get_order_instance(self, order_number):
+        return get_object_or_404(PosOrder, number=order_number)
+    
+    def get_item_instance(self, item_number=None):
+        if item_number:
+            return get_object_or_404(PosOrderItem, number=item_number)
+        return None
+
+    def get_form(self, request, instance=None, data=None):
+        """Instantiate the form with specific fields if form_fields is set."""
+        form_class = self.form_class
+        if self.form_fields:
+            # Limit the form to the specified fields
+            form_class = type(
+                f"Partial{self.form_class.__name__}",
+                (self.form_class,),
+                {'Meta': type('Meta', (self.form_class.Meta,),
+                              {'fields': self.form_fields})}
+            )
+        return form_class(data, instance=instance)
+
+    def render_order_form(self, request, order_number, form=None):
+        order_instance = self.get_order_instance(order_number)
+        form = form or self.get_form(request, instance=None)
+        active_order = get_active_order(user=request.user)
+
+        context = context_factory(
+            ["orders", "payment_types", "payment_type", "menus"],
+            request.user,
+            context={
+                'form': form,
+                'order': active_order,
+                'active_order': active_order,
+                'customers': get_customers(user=request.user),
+            }
+        )
+        return render(request, self.template_name, context)
+
+    def get(self, request, **kwargs):
+        order_number = kwargs.get('order_number')
+        return self.render_order_form(request, order_number)
+
+    def post(self, request, **kwargs):
+        order_number = kwargs.get('order_number')
+        item_number = kwargs.get('item_number')
+        
+        # Get the order instance
+        order_instance = self.get_order_instance(order_number)
+        
+        # Get the item instance if updating, otherwise None for new item
+        item_instance = self.get_item_instance(item_number)
+        
+        # Create or update the item
+        form = self.get_form(request, instance=item_instance, data=request.POST)
+        
+        if form.is_valid():
+            item = form.save(commit=False)
+            
+            # Set order if it's a new item
+            if not item_number:
+                item.order = order_instance
+                item.user = request.user
+            
+            item.save()
+            
+            # Refresh the order cache to update calculations
+            order_instance.refresh_cache()
+        
+        # Re-fetch the active order to get updated calculations
+        active_order = get_active_order(request.user)
+        
+        # Build context with updated data
+        context = context_factory(
+            ["orders", "payment_types", "payment_type", "menus"],
+            request.user,
+            context={
+                'form': form,
+                'order': active_order,
+                'active_order': active_order,
+                'item': item_instance,
+            }
+        )
+        
+        return render(request, self.template_name, context)

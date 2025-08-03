@@ -10,7 +10,8 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-    path('add/order-item/', views.AddOrderItemView.as_view(), name="add-item"),
+    path('add/order-item/<str:order_number>/', views.AddOrderItemView.as_view(), name="add-item"),
+    path('update/order-item/<str:order_number>/<str:item_number>/', views.UpdateOrderItemView.as_view(), name="update-item"),
 ]
 
 urlpatterns += [

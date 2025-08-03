@@ -5,17 +5,25 @@ from src.products.models import Barcode, Product
 from src.orders.models import PosOrderItem, PosOrder, PosOrderStatus
 from src.pos.calculations import (create_order_item,)
 from src.pos.utils import get_active_order
+from src.pos2.mixins import AddOrderItemMixin
 
-class AddOrderItemView(View):
-    def post(self, request):
+class AddOrderItemView(AddOrderItemMixin, View):
+    """View for adding new order items.
+    
+    This view uses the AddOrderItemMixin to handle adding new order items.
+    It expects order_number to be provided in the URL kwargs.
+    """
+    template_name = 'cotton/pos/order/index.html'
+    
+    def post(self, request, **kwargs):
         barcode_value = request.POST.get("barcode", "").strip()
         product_id = request.POST.get("product_id")
         quantity = int(request.POST.get("qty", 1))
 
+        order_number = kwargs.get('order_number')
         active_order = get_active_order(request.user)
         item = None
         product = None
-        order_number = active_order['number'] if active_order else None
 
         if barcode_value:
             # Try exact barcode match first
@@ -95,3 +103,41 @@ class AddOrderItemView(View):
             )
 
             return render(request, 'cotton/pos_base/standard/container.html', context)
+
+
+class UpdateOrderItemView(AddOrderItemMixin, View):
+    """View for updating existing order items.
+    
+    This view uses the AddOrderItemMixin to handle updating order items.
+    It expects both order_number and item_number to be provided in the URL kwargs.
+    """
+    template_name = 'cotton/pos/order/index.html'
+    
+    def get(self, request, **kwargs):
+        order_number = kwargs.get('order_number')
+        item_number = kwargs.get('item_number')
+        
+        # Get the item instance
+        item_instance = self.get_item_instance(item_number)
+        
+        # Create a form with the item instance
+        form = self.get_form(request, instance=item_instance)
+        
+        # Build context with the form and item
+        active_order = get_active_order(request.user)
+        context = context_factory(
+            ["orders", "payment_types", "payment_type", "menus"],
+            request.user,
+            context={
+                'form': form,
+                'order': active_order,
+                'active_order': active_order,
+                'item': item_instance,
+            }
+        )
+        
+        return render(request, self.template_name, context)
+    
+    def post(self, request, **kwargs):
+        # Use the post method from the mixin
+        return super().post(request, **kwargs)

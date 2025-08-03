@@ -140,104 +140,18 @@ def delete_order_item_with_no_response(request, item_number):
     return response
 
 
-class AddOrderItemView(View):
-    def post(self, request):
-        barcode_value = request.POST.get("barcode", "").strip()
-        product_id = request.POST.get("product_id")
-        quantity = int(request.POST.get("qty", 1))
+# AddOrderItemView has been moved to item_views.py
 
-        active_order = get_active_order(request.user)
-        item = None
-        product = None
-        order_number = active_order['number'] if active_order else None
-
-        if barcode_value:
-            # Try exact barcode match first
-            try:
-                barcode = Barcode.objects.get(value=barcode_value)
-                product = barcode.product
-
-                # Try to get existing order item
-                item = PosOrderItem.objects.filter(
-                    order__number=order_number, product=product
-                ).first()
-
-                if not item:
-                    item = create_order_item(
-                        request.user, order_number, product, quantity)
-                else:
-                    item.quantity += quantity
-                    item.save()
-
-                # Refresh the order to get updated calculations
-                if order_number:
-                    order = PosOrder.objects.get(number=order_number)
-                    order.refresh_cache()
-
-                # Get the refreshed active order with updated calculations
-                orders = get_orders(user=request.user)
-                active_order = get_active_order(request.user)
-
-                # Full order context response (treat as Enter key)
-                context = {
-                    'orders': orders,
-                    'menus': get_menus(),
-                    "active_order": active_order,
-                    "order": active_order,
-                    "item": item,
-                    'payment_types': get_payment_types(),
-                    'payment_type': get_payment_types()[0],
-                    'customers': get_customers(user=request.user),
-                }
-                print(context['orders'][0])
-
-                # if layout_object['value'] == 'visual':
-                #     context = context_factory(['products', 'groups'], context)
-                #     return render(request, 'cotton/pos_base/pos_container.html', context, content_type="text/html")
-
-                return render(request, active_order_template, context, content_type="text/html")
-
-            except Barcode.DoesNotExist:
-                # Not an exact barcode, fall through to search
-                pass
-
-        elif product_id:
-            product = get_object_or_404(Product, id=product_id)
-            item = PosOrderItem.objects.filter(
-                order__number=order_number, product=product).first()
-            if not item:
-                item = create_order_item(
-                    request.user, order_number, product, quantity)
-            else:
-                item.quantity += quantity
-                item.save()
-
-            # Refresh the order to get updated calculations
-            if order_number:
-                order = PosOrder.objects.get(number=order_number)
-                order.refresh_cache()
-
-            # Get the refreshed active order with updated calculations
-            active_order = get_active_order(request.user)
-
-            # Reuse the full order context
-            context = {
-                "active_order": active_order,
-                "order": active_order,
-                "item": item
-            }
-            context = context_factory(
-                ["orders", "payment_types", "payment_type", "menus"],
-                request.user, context=context
-            )
-
-            return render(request, 'cotton/pos_base/standard/container.html', context)
+# Rest of AddOrderItemView has been moved to item_views.py
 
 
 # Legacy function-based view for backward compatibility
 def add_order_item(request):
+    from src.pos2.views.item_views import AddOrderItemView
+    active_order = get_active_order(request.user)
+    order_number = active_order['number'] if active_order else None
     view = AddOrderItemView()
-    return view.post(request)
+    return view.post(request, order_number=order_number)
 
 
 def activate_order(request, order_number):

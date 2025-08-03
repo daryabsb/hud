@@ -90,7 +90,22 @@ class PosOrderItem(models.Model):
             digits = str(random.randint(min, max))
             digits = (len(str(max))-len(digits))*'0'+digits
             target = 'item'
-            print(digits)
             if target:
                 self.number = f'{target}-{self.user.id}-{date.today().strftime("%d%m%Y")}-01-{digits}'
         super(PosOrderItem, self).save(*args, **kwargs)
+        # Refresh the order cache after saving the item
+        self.refresh_cache()
+        
+    def refresh_cache(self):
+        """Refresh the order cache when an item is saved, updated, or deleted."""
+        if self.order:
+            self.order.refresh_cache()
+            
+    def delete(self, *args, **kwargs):
+        # Store the order reference before deletion
+        order = self.order
+        # Delete the item
+        super(PosOrderItem, self).delete(*args, **kwargs)
+        # Refresh the order cache after deletion
+        if order:
+            order.refresh_cache()
