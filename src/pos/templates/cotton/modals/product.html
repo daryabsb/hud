@@ -97,7 +97,7 @@
                                 hx-post="{% url 'pos:add-item' %}"
                                 hx-target="#standard-container-{{ active_order.number }}"
                                 hx-include="#input-modal-qty"
-                                hx-vals='{"product_id": {{ product.id }}}'
+                                hx-vals='{"product_id": {{ product.id }}, "order_number": "{{ active_order.number }}"}'
                                 >Add to order <i class="bi bi-plus fa-2x ms-2 my-n3"></i></a>
                             </div>
                         </div>

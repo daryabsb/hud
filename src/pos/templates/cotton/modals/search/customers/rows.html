@@ -18,7 +18,7 @@ class="align-middle">
                 hx-post="{% url 'pos:add-item' %}"
                 hx-target="#standard-pos-container"
                 hx-include="#input-modal-qty"
-                hx-vals='{"product_id": {{ customer.product_id }}}' 
+                hx-vals='{"product_id": {{ customer.product_id }}, "order_number": "{{ active_order.number }}"}' 
                 <a 
                 href="#" 
                 class="fs-16px text-inverse text-opacity-75 text-decoration-none"
@@ -36,7 +36,7 @@ class="align-middle">
         {% comment %} hx-post="{% url 'pos:add-item' %}"
         hx-target="#standard-pos-container"
         hx-include="#input-modal-qty"
-        hx-vals='{"product_id": {{ customer.product.id }}}' {% endcomment %}
+        hx-vals='{"product_id": {{ customer.product.id }}, "order_number": "{{ active_order.number }}"}' {% endcomment %}
     <button type="button" 
     class="btn btn-outline-theme btn-sm px-3 me-2"
     data-bs-dismiss="modal"

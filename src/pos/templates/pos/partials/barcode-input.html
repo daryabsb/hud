@@ -18,7 +18,7 @@
     hx-target="#standard-container"
     name="barcode" 
     class="form-control form-control-lg active position-relative border-0 bg-transparent" 
-    
+    hx-vals='{"order_number": "{{ active_order.number }}"}'
     placeholder="Search for barcodes..">
     {% comment %} hx-target="#orders-detail" {% endcomment %}
     <span class="input-group-text border-0 bg-transparent"

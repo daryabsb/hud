@@ -16,7 +16,7 @@
 	</span>
 	<input
 		id="barcode-input"
-		hx-post="{% url 'pos2:add-item' %}"
+		hx-post="{% url 'pos2:add-item' active_order.number %}"
 		hx-trigger="keyup[keyCode==13], keyup changed delay:300ms"
 		type="text"
 		hx-on:click="

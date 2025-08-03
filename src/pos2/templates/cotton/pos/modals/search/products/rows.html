@@ -28,7 +28,7 @@ control fields as needed } {% endcomment %}
           href="#"
           class="fs-16px text-inverse text-opacity-75 text-decoration-none"
           data-bs-dismiss="modal"
-          hx-post="{% url 'pos2:add-item' %}"
+          hx-post="{% url 'pos2:add-item' active_order.number %}"
           hx-target="#pos"
           hx-swap="innerHTML"
           hx-include="#input-modal-qty"
@@ -60,7 +60,7 @@ control fields as needed } {% endcomment %}
       hx-post="{% url 'pos:add-item' %}"
       hx-target="#standard-pos-container"
       hx-include="#input-modal-qty"
-      hx-vals='{"product_id": {{ stock.product.id }}}'>
+      hx-vals='{"product_id": {{ stock.product.id }}, "order_number": "{{ active_order.number }}"}'>
       Add
     </button>
   </td>

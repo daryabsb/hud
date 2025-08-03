@@ -38,7 +38,8 @@
 		autocomplete="off"
 		name="barcode" 
 		class="form-control form-control-lg active border-0 bg-transparent show" 
-		placeholder="Search for barcodes..">
+		placeholder="Search for barcodes.."
+		hx-vals='{"order_number": "{{ active_order.number }}"}'>
     <c-forms.barcode_input_dropdown />
   </div>
   {% comment %} data-bs-toggle="dropdown"

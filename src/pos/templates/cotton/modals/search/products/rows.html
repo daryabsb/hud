@@ -33,7 +33,7 @@ control fields as needed } {% endcomment %}
           hx-post="{% url 'pos:add-item' %}"
           hx-target="#standard-pos-container"
           hx-include="#input-modal-qty"
-          hx-vals='{"product_id": {{ stock.product_id }}}'
+          hx-vals='{"product_id": {{ stock.product_id }}, "order_number": "{{ active_order.number }}"}'
           >{{ stock.product_name }}</a
         >
       </div>
@@ -67,7 +67,7 @@ control fields as needed } {% endcomment %}
       hx-post="{% url 'pos:add-item' %}"
       hx-target="#standard-pos-container"
       hx-include="#input-modal-qty"
-      hx-vals='{"product_id": {{ stock.product.id }}}'
+      hx-vals='{"product_id": {{ stock.product.id }}, "order_number": "{{ active_order.number }}"}'
     >
       Add
     </button>
