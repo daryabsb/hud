@@ -15,6 +15,7 @@ from src.configurations.models import get_prop
 from src.configurations.models import get_menus
 from src.finances.models.models_payment_type import get_tree_nodes as get_payment_types
 from src.accounts.models import get_customers
+from src.pos2.utils import prepare_order_context
 
 from django.db.models import Q
 layout_object = get_prop('layout')
@@ -42,7 +43,7 @@ def change_quantity(request, item_number):
         item.save()
 
     active_order = get_active_order(request.user)
-    context = {"active_order": active_order, "item": item}
+    context = prepare_order_context(request, item=item)
     return render(request, update_order_item_template, context)
 
 
@@ -78,8 +79,7 @@ def add_quantity(request, item_number):
     active_order = get_active_order(request.user)
     item = next(
         (item for item in active_order['items'] if item['number'] == item_number), None)
-    context = {"active_order": active_order,
-               "order": active_order, "item": item}
+    context = prepare_order_context(request, item=item)
     return render(request, update_orderitem_qty_template, context)
 
 
@@ -97,8 +97,7 @@ def subtract_quantity(request, item_number):
     item = next(
         (item for item in active_order['items'] if item['number'] == item_number), None)
 
-    context = {"active_order": active_order,
-               "order": active_order, "item": item or None}
+    context = prepare_order_context(request, item=item or None)
 
     return render(request, update_orderitem_qty_template, context)
 
@@ -114,8 +113,7 @@ def remove_item(request, item_number):
     item.delete()
 
     active_order = get_active_order(request.user)
-    context = {"active_order": active_order}
-    # context = get_context(active_order)
+    context = prepare_order_context(request)
 
     return render(request, update_order_list_template, context)
 
@@ -130,7 +128,7 @@ def delete_order_item_with_no_response(request, item_number):
 
     active_order = get_active_order(request.user)
 
-    context = {"active_order": active_order}
+    context = prepare_order_context(request)
 
     # response = HttpResponse(status=204)
     response = render(
@@ -171,7 +169,7 @@ def activate_order(request, order_number):
     # Get the updated active order (assuming this function works as intended)
     active_order = get_active_order(request.user)
 
-    context = {"order": active_order, "active_order": active_order}
+    context = prepare_order_context(request)
     return render(request, stanndard_activate_order_template, context)
 
 
@@ -188,7 +186,7 @@ def order_discount(request, order_number):
     # Get the updated active order (assuming this function works as intended)
     active_order = get_active_order(request.user)
 
-    context = {"order": active_order, "active_order": active_order}
+    context = prepare_order_context(request)
     return render(request, stanndard_order_update_calculations_template, context)
 
 
@@ -208,15 +206,14 @@ def item_discount(request, item_number=None):
     active_order = get_active_order(request.user)
     item = next(
         (item for item in active_order['items'] if item['number'] == item_number), None)
-    context = {"active_order": active_order,
-               "order": active_order, "item": item}
+    context = prepare_order_context(request, item=item)
     return render(request, update_orderitem_qty_template, context)
 
 
 @require_POST
 def update_status(request):
     active_order = get_active_order(user=request.user)
-    context = {'active_order': active_order}
+    context = prepare_order_context(request)
     form = StatusForm(request.POST)
     if form.is_valid():
         form.user = request.user
@@ -257,12 +254,10 @@ class StatusUpdateView(View):
     def render_form(self, request, number, form=None):
         instance = get_object_or_404(PosOrder, number=number)
         status_form = form or StatusForm(instance=instance)
-        active_order = get_active_order(user=request.user)
-
-        context = {
-            'status_form': status_form,
-            'active_order': active_order,
-        }
+        
+        context = prepare_order_context(request, number)
+        context['status_form'] = status_form
+        
         return render(request, self.template_name, context)
 
 

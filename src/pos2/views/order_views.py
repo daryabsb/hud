@@ -5,6 +5,7 @@ from src.orders.models import PosOrder
 from src.pos.forms import StatusForm, PosOrderForm
 from src.pos2.mixins import ActiveOrderViewsMixin
 from src.pos.utils import get_active_order
+from src.pos2.utils import prepare_order_context
 from src.pos.forms import (
     DiscountAndTypeForm,
 )
@@ -81,10 +82,8 @@ class DiscountAndTypeUpdateView(UpdateView):
 
     def form_valid(self, form):
         self.object = form.save()
-        active_order = get_active_order(self.request.user)
-        return render(self.request, stanndard_order_update_calculations_template, {
-            'active_order': active_order,
-        })
+        context = prepare_order_context(self.request)
+        return render(self.request, stanndard_order_update_calculations_template, context)
 
     def form_invalid(self, form):
         return render(self.request, self.template_name, {

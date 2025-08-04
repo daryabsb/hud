@@ -4,8 +4,8 @@ from django.views.decorators.http import require_POST, require_GET
 from django.views import View
 from src.orders.models import PosOrder
 from src.pos.forms import PosOrderForm
-
 from src.pos.utils import get_active_order, activate_order_and_deactivate_others as aod
+from src.pos2.utils import prepare_order_context
 
 
 class GenericOrderModalView(View):
@@ -48,11 +48,9 @@ class GenericOrderModalView(View):
             )
             form = form_class(instance=active_order)
 
-        # Prepare the context
-        context = {
-            'active_order': active_order,
-            'form': form,
-        }
+        # Prepare the context using the utility function
+        context = prepare_order_context(request, number)
+        context['form'] = form
 
         return render(request, self.template_name, context)
 
@@ -73,11 +71,9 @@ def pos_search_modal(request):
     stock_context = get_paginated_stock_results(request)
     customers_context = get_paginated_customer_results(request)
 
-    context = {
-        'active_order': active_order,
-        **stock_context,
-        **customers_context,
-    }
+    context = prepare_order_context(request)
+    context.update(stock_context)
+    context.update(customers_context)
     is_next = request.GET.get("is_next") == "1"
     if is_next:
         return render(request, 'cotton/pos/modals/search/products/rows.html', context)

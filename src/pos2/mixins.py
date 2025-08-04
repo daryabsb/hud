@@ -3,9 +3,9 @@ from src.orders.models import PosOrder, PosOrderItem, get_orders
 from src.pos2.forms import PosOrderForm, PosOrderItemForm
 from src.pos.utils import get_active_order
 from src.configurations.models import get_menus
-
 from src.finances.models.models_payment_type import get_tree_nodes as get_payment_types
 from src.accounts.models import get_customers
+from src.pos2.utils import prepare_order_context
 
 from src.pos2.const import active_order_template
 
@@ -35,19 +35,13 @@ class ActiveOrderViewsMixin:
     def render_form(self, request, number, form=None):
         instance = self.get_instance(number)
         form = form or self.get_form(request, instance=instance)
-        orders = get_orders(user=request.user)
-        active_order = get_active_order(user=request.user)
-
-        context = {
-            'orders': orders,
-            'menus': get_menus(),
-            'form': form,
-            'order': active_order,
-            'active_order': active_order,
-            'payment_types': get_payment_types(),
-            'payment_type': get_payment_types()[0],
-            'customers': get_customers(user=request.user),
-        }
+        
+        # Use the utility function to prepare the context
+        context = prepare_order_context(request, number)
+        
+        # Add the form to the context
+        context['form'] = form
+        
         return render(request, self.template_name, context)
 
     def get(self, request, **kwargs):
@@ -94,18 +88,13 @@ class AddOrderItemMixin:
     def render_order_form(self, request, order_number, form=None):
         order_instance = self.get_order_instance(order_number)
         form = form or self.get_form(request, instance=None)
-        active_order = get_active_order(user=request.user)
-
-        context = context_factory(
-            ["orders", "payment_types", "payment_type", "menus"],
-            request.user,
-            context={
-                'form': form,
-                'order': active_order,
-                'active_order': active_order,
-                'customers': get_customers(user=request.user),
-            }
-        )
+        
+        # Use the utility function to prepare the context
+        context = prepare_order_context(request, order_number)
+        
+        # Add the form to the context
+        context['form'] = form
+        
         return render(request, self.template_name, context)
 
     def get(self, request, **kwargs):
@@ -141,16 +130,8 @@ class AddOrderItemMixin:
         # Re-fetch the active order to get updated calculations
         active_order = get_active_order(request.user)
         
-        # Build context with updated data
-        context = context_factory(
-            ["orders", "payment_types", "payment_type", "menus"],
-            request.user,
-            context={
-                'form': form,
-                'order': active_order,
-                'active_order': active_order,
-                'item': item_instance,
-            }
-        )
+        # Build context with updated data using the utility function
+        context = prepare_order_context(request, order_number, item_instance)
+        context['form'] = form
         
         return render(request, self.template_name, context)

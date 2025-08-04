@@ -11,6 +11,7 @@ from src.finances.models.models_payment_type import get_tree_nodes as get_paymen
 from src.configurations.models import get_menus
 from src.pos2.mixins import AddOrderItemMixin
 from src.pos.forms import PosOrderForm
+from src.pos2.utils import prepare_order_context
 
 
 from src.pos2.const import active_order_template
@@ -63,17 +64,7 @@ class AddOrderItemView(AddOrderItemMixin, View):
                     PosOrder, number=active_order['number'])
 
                 # Full order context response (treat as Enter key)
-                context = {
-                    'orders': get_orders(user=request.user),
-                    'form': PosOrderForm(instance=order_instance),
-                    'menus': get_menus(),
-                    'payment_types': get_payment_types(),
-                    'payment_type': get_payment_types()[0],
-                    'customers': get_customers(user=request.user),
-                    "active_order": active_order,
-                    "order": active_order,
-                    "item": item
-                }
+                context = prepare_order_context(request, order_number, item)
 
                 # if layout_object['value'] == 'visual':
                 #     context = context_factory(['products', 'groups'], context)
@@ -107,17 +98,7 @@ class AddOrderItemView(AddOrderItemMixin, View):
                 PosOrder, number=active_order['number'])
 
             # Reuse the full order context
-            context = {
-                'orders': get_orders(user=request.user),
-                'form': PosOrderForm(instance=order_instance),
-                'menus': get_menus(),
-                'payment_types': get_payment_types(),
-                'payment_type': get_payment_types()[0],
-                'customers': get_customers(user=request.user),
-                "active_order": active_order,
-                "order": active_order,
-                "item": item
-            }
+            context = prepare_order_context(request, order_number, item)
 
             return render(request, active_order_template, context)
 
@@ -146,17 +127,7 @@ class UpdateOrderItemView(AddOrderItemMixin, View):
             PosOrder, number=active_order['number'])
 
         # Reuse the full order context
-        context = {
-            'orders': get_orders(user=request.user),
-            'form': PosOrderForm(instance=order_instance),
-            'menus': get_menus(),
-            'payment_types': get_payment_types(),
-            'payment_type': get_payment_types()[0],
-            'customers': get_customers(user=request.user),
-            "active_order": active_order,
-            "order": active_order,
-            "item": item
-        }
+        context = prepare_order_context(request, order_number, item_instance)
 
         return render(request, self.template_name, context)
 
