@@ -8,6 +8,8 @@ from src.finances.models.models_payment_type import get_tree_nodes as get_paymen
 from src.configurations.models import get_menus
 from src.pos.forms import PosOrderForm
 
+from src.pos2.const import active_order_template
+
 
 @login_required
 def pos_home(request, nunmber=None):
@@ -31,4 +33,7 @@ def pos_order(request, number):
         'customers': get_customers(user=request.user),
         'active_order': active_order,
     }
+    if request.htmx:
+        return render(request, active_order_template, context)
+
     return render(request, 'cotton/pos/order/index.html', context)

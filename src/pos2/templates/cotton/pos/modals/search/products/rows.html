@@ -31,8 +31,12 @@ control fields as needed } {% endcomment %}
           hx-post="{% url 'pos2:add-item' active_order.number %}"
           hx-target="#pos"
           hx-swap="innerHTML"
-          hx-include="#input-modal-qty"
-          hx-vals='{"product_id": {{ stock.product_id }}}'>{{ stock.product_name }}</a>
+          hx-include="#input-modal-qty">
+{{ stock.product_name }}</a>
+        <!-- Hidden form fields from PosOrderItemForm -->
+        {% load widget_tweaks %}
+        {{ stock.order_item_form.product }}
+        {{ stock.order_item_form.order|attr:"value:active_order.number" }}
       </div>
     </div>
   </td>
@@ -57,12 +61,14 @@ control fields as needed } {% endcomment %}
       type="button"
       class="btn btn-outline-theme btn-sm"
       data-bs-dismiss="modal"
-      hx-post="{% url 'pos:add-item' %}"
-      hx-target="#standard-pos-container"
-      hx-include="#input-modal-qty"
-      hx-vals='{"product_id": {{ stock.product.id }}, "order_number": "{{ active_order.number }}"}'>
+      hx-post="{% url 'pos2:add-item' active_order.number %}"
+      hx-target="#pos"
+      hx-include="#input-modal-qty">
       Add
     </button>
+    <!-- Hidden form fields from PosOrderItemForm -->
+    {{ stock.order_item_form.product }}
+    {{ stock.order_item_form.order|attr:"value:active_order.number" }}
   </td>
 </tr>
 {% empty %}

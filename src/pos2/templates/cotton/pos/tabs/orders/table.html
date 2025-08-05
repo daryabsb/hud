@@ -39,7 +39,7 @@
             hx-get="{% url 'pos2:pos-order' order.number %}"
             hx-push-url="true"
             hx-target="#pos"
-            hx-swap="outerHTML">#{{ order.number }}</a>
+            hx-swap="innerHTML">#{{ order.number }}</a>
         </td>
         <td class="align-middle">Thu 26 Nov, 12:23pm</td>
         <td class="align-middle">{{ order.customer }}</td>

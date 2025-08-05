@@ -124,13 +124,17 @@ def delete_order_item_with_no_response(request, item_number):
     return response
 
 def add_order_item(request):
+    from src.pos.forms import PosOrderItemForm
+    
     barcode_value = request.POST.get("barcode", "").strip()
-    product_id = request.POST.get("product_id")
     quantity = int(request.POST.get("qty", 1))
 
     active_order = get_active_order(request.user)
     item = None
     product = None
+    
+    # Create a form instance with the POST data
+    form = PosOrderItemForm(request.POST)
 
     if barcode_value:
         # Try exact barcode match first
@@ -170,14 +174,34 @@ def add_order_item(request):
             # Not an exact barcode, fall through to search
             pass
 
-    elif product_id:
-        product = get_object_or_404(Product, id=product_id)
-        item = PosOrderItem.objects.filter(order__number=active_order['number'], product=product).first()
+    elif form.is_valid():
+        # Get product and order from the form
+        product = form.cleaned_data['product']
+        order = form.cleaned_data.get('order')
+        
+        # If order is not in the form, use the active order
+        if not order and active_order:
+            order = get_object_or_404(PosOrder, number=active_order['number'])
+        
+        # Try to get existing order item
+        item = PosOrderItem.objects.filter(order=order, product=product).first()
+        
         if not item:
-            item = create_order_item(request.user, active_order['number'], product, quantity)
+            # Create a new item but don't save the form directly
+            # as we need to set the user and handle quantity
+            item = PosOrderItem(
+                user=request.user,
+                order=order,
+                product=product,
+                quantity=quantity
+            )
+            item.save()
         else:
             item.quantity += quantity
             item.save()
+
+        # Refresh the order to get updated calculations
+        order.refresh_cache()
 
         # Reuse the full order context
         context = {

@@ -4,6 +4,8 @@ from src.stock.models import Stock, StockControl, get_stocks
 from src.stock.filters import StockFilter
 from django.db.models import Prefetch
 from collections import OrderedDict
+from src.pos2.forms import PosOrderItemForm
+from src.products.models import Product
 
 
 def get_merged_stock_data(user=None, warehouse=None, customer=None):
@@ -70,6 +72,13 @@ def get_paginated_stock_results(request=None):
     # 4. Reverse-filter the cached list using the filtered IDs
     stocks = [stock for stock in stocks if stock['id'] in filtered_ids]
 
+    # 5. Create a PosOrderItemForm for each stock item
+    for stock in stocks:
+        # Initialize form with product_id and default quantity=1
+        stock['order_item_form'] = PosOrderItemForm(initial={
+            'product': stock['product_id'],
+            'quantity': 1
+        })
 
     filtered_qs = stock_filter.qs
 
@@ -197,4 +206,4 @@ stock_1 = OrderedDict(
     {'id': 25, 'product_id': 25, 'product_name': 'Holiday Gift Basket', 'product_group': 'Goodies', 
         'quantity': 11, 'warehouse': 'My Warehouse', 'customer': None, 'preferred_quantity': 15, 
         'low_stock_warning_quantity': 6, 'is_low_stock_warning_enabled': True}
-]  
+]

@@ -11,6 +11,7 @@ from src.finances.models.models_payment_type import get_tree_nodes as get_paymen
 from src.configurations.models import get_menus
 from src.pos2.mixins import AddOrderItemMixin
 from src.pos.forms import PosOrderForm
+from src.pos2.forms import PosOrderItemForm
 from src.pos2.utils import prepare_order_context
 
 
@@ -27,13 +28,15 @@ class AddOrderItemView(AddOrderItemMixin, View):
 
     def post(self, request, **kwargs):
         barcode_value = request.POST.get("barcode", "").strip()
-        product_id = request.POST.get("product_id")
         quantity = int(request.POST.get("qty", 1))
 
         order_number = kwargs.get('order_number')
         active_order = get_active_order(request.user)
         item = None
         product = None
+
+        # Create a form instance with the POST data
+        form = PosOrderItemForm(request.POST)
 
         if barcode_value:
             # Try exact barcode match first
@@ -66,39 +69,47 @@ class AddOrderItemView(AddOrderItemMixin, View):
                 # Full order context response (treat as Enter key)
                 context = prepare_order_context(request, order_number, item)
 
-                # if layout_object['value'] == 'visual':
-                #     context = context_factory(['products', 'groups'], context)
-                #     return render(request, 'cotton/pos_base/pos_container.html', context, content_type="text/html")
-
                 return render(request, active_order_template, context)
 
             except Barcode.DoesNotExist:
                 # Not an exact barcode, fall through to search
                 pass
 
-        elif product_id:
-            product = get_object_or_404(Product, id=product_id)
+        elif form.is_valid():
+            # Get product and order from the form
+            product = form.cleaned_data['product']
+            order = form.cleaned_data.get('order')
+            
+            # If order is not in the form, use the order_number from URL
+            if not order and order_number:
+                order = get_object_or_404(PosOrder, number=order_number)
+            
+            # Try to get existing order item
             item = PosOrderItem.objects.filter(
-                order__number=order_number, product=product).first()
+                order=order, product=product).first()
+            
             if not item:
-                item = create_order_item(
-                    request.user, order_number, product, quantity)
+                # Create a new item but don't save the form directly
+                # as we need to set the user and handle quantity
+                item = PosOrderItem(
+                    user=request.user,
+                    order=order,
+                    product=product,
+                    quantity=quantity
+                )
+                item.save()
             else:
                 item.quantity += quantity
                 item.save()
 
             # Refresh the order to get updated calculations
-            if order_number:
-                order = PosOrder.objects.get(number=order_number)
-                order.refresh_cache()
+            order.refresh_cache()
 
             # Get the refreshed active order with updated calculations
             active_order = get_active_order(request.user)
-            order_instance = get_object_or_404(
-                PosOrder, number=active_order['number'])
-
+            
             # Reuse the full order context
-            context = prepare_order_context(request, order_number, item)
+            context = prepare_order_context(request, order.number, item)
 
             return render(request, active_order_template, context)
 
