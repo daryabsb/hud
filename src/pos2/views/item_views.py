@@ -145,3 +145,143 @@ class UpdateOrderItemView(AddOrderItemMixin, View):
     def post(self, request, **kwargs):
         # Use the post method from the mixin
         return super().post(request, **kwargs)
+
+
+class UpdateItemQuantityView(AddOrderItemMixin, View):
+    """View for updating item quantity."""
+    form_fields = ['quantity']
+    template_name = active_order_template
+
+    def post(self, request, **kwargs):
+        order_number = kwargs.get('order_number')
+        item_number = kwargs.get('item_number')
+        
+        # Get the item instance
+        item_instance = self.get_item_instance(item_number)
+        
+        # Handle quantity change from POST data
+        quantity = request.POST.get('quantity') or request.POST.get('display')
+        
+        if quantity:
+            try:
+                item_instance.quantity = float(quantity)
+                item_instance.save()
+                
+                # Refresh the order cache
+                order_instance = self.get_order_instance(order_number)
+                order_instance.refresh_cache()
+                
+            except (ValueError, TypeError):
+                pass  # Invalid quantity, ignore
+        
+        # Return the full order context
+        context = prepare_order_context(request, order_number, item_instance)
+        return render(request, self.template_name, context)
+
+
+class AddItemQuantityView(AddOrderItemMixin, View):
+    """View for adding 1 to item quantity."""
+    template_name = active_order_template
+
+    def post(self, request, **kwargs):
+        order_number = kwargs.get('order_number')
+        item_number = kwargs.get('item_number')
+        
+        # Get the item instance
+        item_instance = self.get_item_instance(item_number)
+        
+        # Add 1 to quantity
+        item_instance.quantity += 1
+        item_instance.save()
+        
+        # Refresh the order cache
+        order_instance = self.get_order_instance(order_number)
+        order_instance.refresh_cache()
+        
+        # Return the full order context
+        context = prepare_order_context(request, order_number, item_instance)
+        return render(request, self.template_name, context)
+
+
+class SubtractItemQuantityView(AddOrderItemMixin, View):
+    """View for subtracting 1 from item quantity."""
+    template_name = active_order_template
+
+    def post(self, request, **kwargs):
+        order_number = kwargs.get('order_number')
+        item_number = kwargs.get('item_number')
+        
+        # Get the item instance
+        item_instance = self.get_item_instance(item_number)
+        
+        # Subtract 1 from quantity or delete if quantity becomes 0
+        if item_instance.quantity > 1:
+            item_instance.quantity -= 1
+            item_instance.save()
+        else:
+            item_instance.delete()
+            item_instance = None  # Set to None since item is deleted
+        
+        # Refresh the order cache
+        order_instance = self.get_order_instance(order_number)
+        order_instance.refresh_cache()
+        
+        # Return the full order context
+        context = prepare_order_context(request, order_number, item_instance)
+        return render(request, self.template_name, context)
+
+
+class UpdateItemDiscountView(AddOrderItemMixin, View):
+    """View for updating item discount."""
+    form_fields = ['discount', 'discount_type']
+    template_name = active_order_template
+
+    def post(self, request, **kwargs):
+        order_number = kwargs.get('order_number')
+        item_number = kwargs.get('item_number')
+        
+        # Get the item instance
+        item_instance = self.get_item_instance(item_number)
+        
+        # Handle discount update from POST data
+        discount = request.POST.get('discount') or request.POST.get('display')
+        discount_sign = request.POST.get('discount_type') or request.POST.get('discount-sign')
+        
+        if discount is not None:
+            try:
+                item_instance.discount = float(discount)
+                if discount_sign is not None:
+                    item_instance.discount_type = float(discount_sign)
+                item_instance.save()
+                
+                # Refresh the order cache
+                order_instance = self.get_order_instance(order_number)
+                order_instance.refresh_cache()
+                
+            except (ValueError, TypeError):
+                pass  # Invalid discount, ignore
+        
+        # Return the full order context
+        context = prepare_order_context(request, order_number, item_instance)
+        return render(request, self.template_name, context)
+
+
+class DeleteItemView(AddOrderItemMixin, View):
+    """View for deleting an item."""
+    template_name = active_order_template
+
+    def post(self, request, **kwargs):
+        order_number = kwargs.get('order_number')
+        item_number = kwargs.get('item_number')
+        
+        # Get the item instance and delete it
+        item_instance = self.get_item_instance(item_number)
+        item_instance.delete()
+        
+        # Refresh the order cache
+        order_instance = self.get_order_instance(order_number)
+        order_instance.refresh_cache()
+        
+        # Return the full order context without the deleted item
+        context = prepare_order_context(request, order_number)
+        return render(request, self.template_name, context)

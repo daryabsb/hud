@@ -26,6 +26,11 @@ from .htmx_views import (
 from .item_views import (
     AddOrderItemView,
     UpdateOrderItemView,
+    UpdateItemQuantityView,
+    AddItemQuantityView,
+    SubtractItemQuantityView,
+    UpdateItemDiscountView,
+    DeleteItemView,
 )
 
 from .search_views import (

@@ -12,6 +12,13 @@ urlpatterns = [
 urlpatterns += [
     path('add/order-item/<str:order_number>/', views.AddOrderItemView.as_view(), name="add-item"),
     path('update/order-item/<str:order_number>/<str:item_number>/', views.UpdateOrderItemView.as_view(), name="update-item"),
+    
+    # Specific item update views
+    path('update/item-quantity/<str:order_number>/<str:item_number>/', views.UpdateItemQuantityView.as_view(), name="update-item-quantity"),
+    path('add/item-quantity/<str:order_number>/<str:item_number>/', views.AddItemQuantityView.as_view(), name="add-item-quantity"),
+    path('subtract/item-quantity/<str:order_number>/<str:item_number>/', views.SubtractItemQuantityView.as_view(), name="subtract-item-quantity"),
+    path('update/item-discount/<str:order_number>/<str:item_number>/', views.UpdateItemDiscountView.as_view(), name="update-item-discount"),
+    path('delete/item/<str:order_number>/<str:item_number>/', views.DeleteItemView.as_view(), name="delete-item"),
 ]
 
 urlpatterns += [

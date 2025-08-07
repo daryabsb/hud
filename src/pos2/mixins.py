@@ -62,7 +62,7 @@ class AddOrderItemMixin:
     model = PosOrderItem
     form_class = PosOrderItemForm
     form_fields = None  # Allows specifying which fields to include
-    template_name = 'cotton/pos/order/index.html'  # Default template
+    template_name = active_order_template  # Use active order template by default
 
     def get_order_instance(self, order_number):
         return get_object_or_404(PosOrder, number=order_number)
@@ -85,12 +85,13 @@ class AddOrderItemMixin:
             )
         return form_class(data, instance=instance)
 
-    def render_order_form(self, request, order_number, form=None):
+    def render_order_form(self, request, order_number, item_number=None, form=None):
         order_instance = self.get_order_instance(order_number)
-        form = form or self.get_form(request, instance=None)
+        item_instance = self.get_item_instance(item_number) if item_number else None
+        form = form or self.get_form(request, instance=item_instance)
         
         # Use the utility function to prepare the context
-        context = prepare_order_context(request, order_number)
+        context = prepare_order_context(request, order_number, item_instance)
         
         # Add the form to the context
         context['form'] = form
@@ -99,7 +100,8 @@ class AddOrderItemMixin:
 
     def get(self, request, **kwargs):
         order_number = kwargs.get('order_number')
-        return self.render_order_form(request, order_number)
+        item_number = kwargs.get('item_number')
+        return self.render_order_form(request, order_number, item_number)
 
     def post(self, request, **kwargs):
         order_number = kwargs.get('order_number')
