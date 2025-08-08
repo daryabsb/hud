@@ -124,7 +124,7 @@ def delete_order_item_with_no_response(request, item_number):
     return response
 
 def add_order_item(request):
-    from src.pos.forms import PosOrderItemForm
+    from src.pos2.forms import PosOrderItemForm
     
     barcode_value = request.POST.get("barcode", "").strip()
     quantity = int(request.POST.get("qty", 1))

@@ -12,6 +12,7 @@ def search_stock(request):
         return render(request, 'cotton/modals/search/products/rows.html', stock_context)
     return render(request, "cotton/modals/search/products/index.html", stock_context)
 
+
 @login_required
 def search_customers(request):
     customers_context = get_paginated_customer_results(request)

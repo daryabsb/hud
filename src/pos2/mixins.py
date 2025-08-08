@@ -58,6 +58,50 @@ class ActiveOrderViewsMixin:
         return self.render_form(request, kwargs['number'], form=form)
 
 
+class ItemUpdateMixin:
+    """Mixin for item update operations with common functionality."""
+    template_name = active_order_template
+    
+    def get_order_instance(self, order_number):
+        """Get the order instance by order number."""
+        return get_object_or_404(PosOrder, number=order_number)
+
+    def get_item_instance(self, item_number):
+        """Get the item instance by item number."""
+        return get_object_or_404(PosOrderItem, number=item_number)
+    
+    def refresh_order_and_render(self, request, order_number, item_instance=None):
+        """Common method to refresh order cache and render response."""
+        # Refresh the order cache
+        order_instance = self.get_order_instance(order_number)
+        order_instance.refresh_cache()
+        
+        # Return the full order context
+        context = prepare_order_context(request, order_number, item_instance)
+        return render(request, self.template_name, context)
+    
+    def update_item_field(self, request, **kwargs):
+        """Template method for updating item fields. Override in subclasses."""
+        order_number = kwargs.get('order_number')
+        item_number = kwargs.get('item_number')
+        
+        # Get the item instance
+        item_instance = self.get_item_instance(item_number)
+        
+        # Perform the specific update (to be implemented by subclasses)
+        self.perform_update(request, item_instance)
+        
+        # Save the item
+        item_instance.save()
+        
+        # Refresh order and render response
+        return self.refresh_order_and_render(request, order_number, item_instance)
+    
+    def perform_update(self, request, item_instance):
+        """Override this method in subclasses to perform specific updates."""
+        raise NotImplementedError("Subclasses must implement perform_update method")
+
+
 class AddOrderItemMixin:
     model = PosOrderItem
     form_class = PosOrderItemForm

@@ -55,26 +55,3 @@ class GenericOrderModalView(View):
         return render(request, self.template_name, context)
 
 
-@login_required
-@require_GET
-def pos_search_modal(request):
-    from src.stock.utils import get_paginated_stock_results
-    from src.accounts.utils import get_paginated_customer_results
-    from src.orders.models import get_orders
-
-    orders = get_orders(user=request.user)
-    active_order = get_active_order(user=request.user)
-
-    if active_order is None:
-        print("No active order found")
-
-    stock_context = get_paginated_stock_results(request)
-    customers_context = get_paginated_customer_results(request)
-
-    context = prepare_order_context(request)
-    context.update(stock_context)
-    context.update(customers_context)
-    is_next = request.GET.get("is_next") == "1"
-    if is_next:
-        return render(request, 'cotton/pos/modals/search/products/rows.html', context)
-    return render(request, 'cotton/pos/modals/search/index.html', context)

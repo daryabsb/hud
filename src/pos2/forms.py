@@ -38,6 +38,15 @@ class PosOrderItemForm(forms.ModelForm):
             'order': forms.HiddenInput(),
         }
 
+class DefaultPosOrderItemForm(forms.ModelForm):
+    class Meta:
+        model = PosOrderItem
+        fields = ['product','order']
+        widgets = {
+            'product': forms.HiddenInput(),
+            'order': forms.HiddenInput(),
+        }
+
 
 class FixedTaxesForm(forms.ModelForm):
     class Meta:

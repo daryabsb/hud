@@ -35,12 +35,12 @@ from .item_views import (
 
 from .search_views import (
     search_stock,
+    pos_search_modal,
     search_customers
 )
 
-from .modal_views import (
-    pos_search_modal,
-)
+# from .modal_views import (
+# )
 
 __all__ = [
     'pos_home', 'pos_order',
