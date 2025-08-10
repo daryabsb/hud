@@ -42,4 +42,6 @@ urlpatterns += [
     path('modal/pos-modal-search/',
          views.pos_search_modal, name='pos-modal-search'),
     path('search/stocks/', views.search_stock, name="modal-search-stocks"),
+    path('modals/modal-order-payment/<str:order_number>/',
+         views.add_order_payment, name='modal-order-payment'),
 ]

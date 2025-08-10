@@ -27,7 +27,6 @@ def modal_order_item(request, number):
         }
         return render(request, modal_item_template, context)
 
-
 def modal_product(request, id):
     print('ID = ', id)
     active_order = get_active_order(request.user)
@@ -38,7 +37,6 @@ def modal_product(request, id):
         "active_order": active_order
     }
     return render(request, modal_product_template, context)
-
 
 def modal_calculator(request):
     import json
@@ -60,7 +58,6 @@ def modal_calculator(request):
     }
 
     return render(request, 'pos/modals/calculator-modal.html', context)
-
 
 def calculator_modal(request):
     is_ajax = request.GET.get('is_ajax', True)
@@ -91,7 +88,6 @@ def calculator_modal(request):
     }
 
     return render(request, 'cotton/modals/calculator.html', context)
-
 
 def modal_keyboard(request):
     from src.pos.utils import qwerty
@@ -129,14 +125,12 @@ def modal_keyboard(request):
 
     return render(request, 'pos/modals/keyboard-modal.html', context)
 
-
 def calculate(request):
     from django.http import JsonResponse
     calculation = request.POST.get('display', '')
     # Process the calculation as needed, e.g., log it, store it, etc.
     print("calculation = ", calculation)
     return JsonResponse({'message': calculation})
-
 
 def add_digit(request):
     if request.method == 'POST':
@@ -145,7 +139,6 @@ def add_digit(request):
         new_value = current_value + digit
         return render(request, 'components/calculator/input_display.html', {'new_value': new_value})
     return render(request, 'keypad.html', {'error': 'Invalid request'})
-
 
 def toggle_modal_comment(request, order_number):
     order = get_object_or_404(PosOrder, number=order_number)
@@ -156,12 +149,10 @@ def toggle_modal_comment(request, order_number):
         'active_order': active_order,
     })
 
-
 def render_modal_title(request, title):
     response = HttpResponse(title)
     response['Hx-Trigger'] = 'render-title'
     return response
-
 
 @login_required
 @require_POST
@@ -187,7 +178,6 @@ def add_order_comment(request, order_number):
 
     return render(request, 'cotton/buttons/pos/comment.html', context)
 
-
 @login_required
 @require_GET
 def add_order_customer(request, order_number):
@@ -204,7 +194,6 @@ def add_order_customer(request, order_number):
         return render(request, 'pos/buttons/active-order-customer.html', {'active_order': order})
     else:
         return JsonResponse({'error': 'No customer selected'})
-
 
 @login_required
 @require_GET
@@ -231,7 +220,6 @@ def pos_search_modal(request):
     if is_next:
         return render(request, 'cotton/modals/search/products/rows.html', context)
     return render(request, 'cotton/modals/search/index.html', context)
-
 
 @login_required
 @require_GET

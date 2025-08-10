@@ -16,15 +16,23 @@ def order_payment_change(request, order_number):
     }
     
     # Retrieve the payment amounts from the request
-    for payment_type in payment_types:
-        pid = f"payment-amount-{payment_type.code}"
-        p_amount = request.GET.get(pid, None)
-        if p_amount:
-            p_amount = p_amount.replace(',', '')
-            paid[payment_type.code] = Decimal(p_amount) if p_amount else Decimal(0.00)
+    # for payment_type in payment_types:
+    #     pid = f"payment-amount-{payment_type.code}"
+    #     p_amount = request.GET.get(pid, None)
+    #     if p_amount:
+    #         p_amount = p_amount.replace(',', '')
+    #         paid[payment_type.code] = Decimal(p_amount) if p_amount else Decimal(0.00)
+    # total_paid = sum(paid.values())
+    
+    pid = f"payment-amount-CASH"
+    p_amount = request.GET.get(pid, None)
+    if p_amount:
+        p_amount = p_amount.replace(',', '')
+        paid = Decimal(p_amount) if p_amount else Decimal(0.00)
+    total_paid = paid
+    print(total_paid)
 
     # Calculate the total paid amount
-    total_paid = sum(paid.values())
 
     # Retrieve the order
     order = PosOrder.objects.get(number=order_number)
@@ -42,4 +50,4 @@ def order_payment_change(request, order_number):
         'payment_types': payment_types,
     }
 
-    return render(request, 'pos/payment/partials/change.html', context)
+    return render(request, 'cotton/pos/payment/partials/change.html', context)

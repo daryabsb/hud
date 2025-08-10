@@ -1,0 +1,83 @@
+<!-- BEGIN #modalEdit -->
+<div class="modal-dialog modal-xl">
+  <div class="modal-content">
+    <div class="card">
+      <div class="modal-header border-bottom">
+        <h5 class="modal-title">Payment for {{ active_order.number }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body py-0">
+        <div class="row px-0 bg-inverse bg-opacity-10">
+          <div class="col-4 px-0 pt-3 border-end" id="payment-order-items">
+            <label class="h4 ps-4">Items</label>
+            <hr />
+            <c-pos.payment.partials.modal_items />
+          </div>
+          <div class="col-8 row ms-0 pt-3 px-0 bg-inverse bg-opacity-10 border-0" id="payment-order-details">
+            <div class="col-12 border-bottom">
+              <c-pos.payment.partials.top_buttons />
+            </div>
+            <div class="col-4 border-end pt-2">
+              <label class="h4 text-center w-100">Payment types</label>
+              <hr />
+              {% comment %} {% include 'components/payment/payment-types.html' %} {% endcomment %}
+              <c-pos.payment.partials.payment_type_nav />
+            </div>
+            <div class="col-8">
+              <div class="my-3">
+                <c-pos.payment.partials.order_summary />
+                {% comment %} {% include 'pos/standard/order/calculations.html' %} {% endcomment %}
+              </div>
+              <div class="mb-3">
+                <form id="order-payment">
+                  <div class="mb-3">
+                    <c-pos.payment.partials.paid-input />
+                  </div>
+                  <c-pos.payment.partials.change />
+                  <hr />
+                  <c-pos.payment.partials.note-input />
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="my-0" />
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-gray-100" data-bs-dismiss="modal">Close</button>
+        <button
+          type="button"
+          class="btn btn-outline-theme"
+          data-bs-dismiss="modal"
+          hx-post="{% url 'payments:save-payment' active_order.number %}"
+          hx-target="#payment-success"
+          hx-include="#payment-amount"
+        >
+          Save changes
+        </button>
+      </div>
+      <c-card-arrow />
+    </div>
+  </div>
+</div>
+<!-- END #modalEdit -->
+<script>
+  // Function to increase the input value
+  // Function to increase the input value
+
+  var decreaseBtn = document.getElementById("decrease-modal-qty");
+  var increaseBtn = document.getElementById("increase-modal-qty");
+  increaseBtn.addEventListener("click", function () {
+    var qtyInput = document.getElementById("input-modal-qty");
+    var value = parseInt(qtyInput.value, 10);
+    value++;
+    qtyInput.value = value;
+  });
+  decreaseBtn.addEventListener("click", function () {
+    var qtyInput = document.getElementById("input-modal-qty");
+    var value = parseInt(qtyInput.value, 10);
+    value--;
+    qtyInput.value = value;
+  });
+</script>

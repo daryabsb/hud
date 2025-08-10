@@ -1,40 +1,42 @@
 <div class="modal modal-cover fade" id="orderStatusModal">
-    <c-pos.modals.order_status />
+  <c-pos.modals.order_status />
 </div>
 <div class="modal modal-cover fade" data-bs-backdrop="static" id="orderDiscountModal">
-    <c-modals.order_discount />
+  <c-modals.order_discount />
 </div>
 <div class="modal modal-cover fade" data-bs-backdrop="static" id="itemDiscountModal">
-    <c-modals.item_discount />
+  <c-modals.item_discount />
 </div>
 <div class="modal fade" id="mainMenuModal">
-    <c-modals.main_menu />
+  <c-modals.main_menu />
 </div>
-{% comment %} <div class="modal fade" id="orderDiscountModal">
-    <c-components.calculator />
-</div> {% endcomment %}
+{% comment %}
+<div class="modal fade" id="orderDiscountModal">
+  <c-components.calculator />
+</div>
+{% endcomment %}
 <div class="modal modal-pos fade" id="modalPosItem">
-    <c-modals.pos_item />
+  <c-modals.pos_item />
 </div>
 <div class="modal modal-pos fade" id="modalProduct">
-    <c-modals.product />
+  <c-modals.product />
 </div>
 <div class="modal modal-cover fade" id="modalPosSearchModal">
-    <c-modals.search />
+  <c-modals.search />
 </div>
 <div class="modal modal-cover fade" id="modalOrderComment">
-    <c-pos.modals.comment />
+  <c-pos.modals.comment />
 </div>
 <div class="modal modal-cover fade" id="modalOrderInternalNote">
-    <c-pos.modals.internal_note />
+  <c-pos.modals.internal_note />
 </div>
 <div class="modal modal-cover fade" id="modalOrderCustomer">
-    <c-modals.customer />
+  <c-modals.customer />
 </div>
 <div class="modal modal-cover fade" id="modalOrderPayment">
-    {% include 'pos/payment/payment-modal.html' %}
+  <c-pos.payment.payment-modal />
 </div>
 <c-modals.all_modals />
 <div class="modal fade" id="modalPosItem">
-    <c-modals.pos_item />
+  <c-modals.pos_item />
 </div>
