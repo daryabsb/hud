@@ -18,12 +18,13 @@
           class="h4 focus-ring-none w-100 text-end pos-form-control rounded-0 border-0 border-bottom first-input"
           value="{{ remaining|floatformat:'2'|intcomma }}"
           id="payment-amount-{{ pt.id }}"
-          name="payment-amount-{{ pt.code }}"
+          name="payment-amount"
           hx-get="{% url 'payments:change' active_order.number %}"
           hx-target="#paid-change"
           hx-trigger="keyup changed delay:750ms"
           hx-include="#order-payment"
         />
+        <!-- name="payment-amount-{{ pt.code }}" -->
       </div>
     </div>
   </div>

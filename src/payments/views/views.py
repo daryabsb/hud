@@ -6,7 +6,8 @@ from django.shortcuts import render
 
 def save_pos_payment(request, order_number):
 
-    amount = request.POST.get('amount', None)
+    amount = request.POST.getlist('payment-amount', None)
+
 
     if amount:
         print(f'An amount of {amount} payed for {order_number}')
