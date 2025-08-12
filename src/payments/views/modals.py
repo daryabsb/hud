@@ -6,48 +6,34 @@ from src.finances.models import PaymentType
 
 def order_payment_change(request, order_number):
     payment_types = PaymentType.objects.all()
-    paid = {
-        'CASH': Decimal(0.00),
-        'CC': Decimal(0.00),
-        'DC': Decimal(0.00),
-        'CHEQ': Decimal(0.00),
-        'VOU': Decimal(0.00),
-        'GC': Decimal(0.00),
-    }
+    paid = {}
+    
+    # Initialize paid amounts for each payment type
+    for pt in payment_types:
+        paid[pt.code] = Decimal('0.00')
     
     # Retrieve the payment amounts from the request
-    # for payment_type in payment_types:
-    #     pid = f"payment-amount-{payment_type.code}"
-    #     p_amount = request.GET.get(pid, None)
-    #     if p_amount:
-    #         p_amount = p_amount.replace(',', '')
-    #         paid[payment_type.code] = Decimal(p_amount) if p_amount else Decimal(0.00)
-    # total_paid = sum(paid.values())
+    for key, value in request.GET.items():
+        if key.startswith('payment-amount-') and value:
+            try:
+                payment_type_id = key.replace('payment-amount-', '')
+                amount = Decimal(str(value).replace(',', ''))
+                # Find the payment type by ID and update the paid amount
+                payment_type = PaymentType.objects.get(id=payment_type_id)
+                paid[payment_type.code] = amount
+            except (ValueError, PaymentType.DoesNotExist):
+                continue
     
-    pid = f"payment-amount-CASH"
-    p_amount = request.GET.get(pid, None)
-    if p_amount:
-        p_amount = p_amount.replace(',', '')
-        paid = Decimal(p_amount) if p_amount else Decimal(0.00)
-    total_paid = paid
-    print(total_paid)
-
-    # Calculate the total paid amount
-
-    # Retrieve the order
+    # Calculate total paid and change
+    total_paid = sum(paid.values())
     order = PosOrder.objects.get(number=order_number)
-    order_total = order.total
-
-    # Calculate the remaining amount and change
-    remaining = order_total - total_paid
-    change = total_paid - order_total if total_paid > order_total else Decimal(0.00)
-
+    change = total_paid - order.total if total_paid > order.total else Decimal('0.00')
+    
     context = {
-        'active_order': order,
-        'paid': total_paid,
+        'paid': paid,
+        'total_paid': total_paid,
         'change': change,
-        'remaining': remaining,
-        'payment_types': payment_types,
+        'order': order,
     }
-
-    return render(request, 'cotton/pos/payment/partials/change.html', context)
+    
+    return render(request, 'cotton/pos/payment/partials/paid_change.html', context)

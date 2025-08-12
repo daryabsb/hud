@@ -29,13 +29,20 @@
                 {% comment %} {% include 'pos/standard/order/calculations.html' %} {% endcomment %}
               </div>
               <div class="mb-3">
-                <form id="order-payment">
+                <form id="order-payment"
+                      hx-post="{% url 'payments:save' active_order.number %}"
+                      hx-target="#pos"
+                      hx-swap="outerHTML">
                   <div class="mb-3">
                     <c-pos.payment.partials.paid-input />
                   </div>
-                  <c-pos.payment.partials.change />
+                  <c-pos.payment.partials.paid_change />
                   <hr />
                   <c-pos.payment.partials.note-input />
+                  <div class="d-flex justify-content-end mt-3">
+                    <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success">Complete Payment</button>
+                  </div>
                 </form>
               </div>
             </div>

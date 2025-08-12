@@ -1,0 +1,33 @@
+{% load humanize %}
+<table class="table table-borderless table-sm m-0" id="paid-change">
+    <tbody>
+        <tr>
+            <td class="h5 w-150px">TOTAL PAID</td>
+            <td class="h5 text-end" colspan="2">{{ order.currency }} {{ total_paid|floatformat:'2'|intcomma }}</td>
+        </tr>
+        <tr>
+            <td class="h5 w-150px">REMAINING</td>
+            <td class="h5 text-end" colspan="2">{{ order.currency }} {{ order.total|sub:total_paid|floatformat:'2'|intcomma }}</td>
+        </tr>
+        <tr>
+            <td class="h5 w-150px">CHANGE</td>
+            <td class="h5 text-end" colspan="2">{{ order.currency }} {{ change|floatformat:'2'|intcomma }}</td>
+        </tr>
+        {% if paid %}
+        <tr>
+            <td colspan="3">
+                <hr class="my-2">
+                <small class="text-muted">Payment breakdown:</small>
+                {% for payment_code, amount in paid.items %}
+                    {% if amount > 0 %}
+                    <div class="d-flex justify-content-between">
+                        <span class="small">{{ payment_code }}:</span>
+                        <span class="small">{{ order.currency }} {{ amount|floatformat:'2'|intcomma }}</span>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </td>
+        </tr>
+        {% endif %}
+    </tbody>
+</table>
