@@ -10,7 +10,7 @@ from django.core.cache import cache
 from src.products.models import Product
 from django.db.models import OuterRef, Subquery
 from src.core.utils import recursive_to_dict
-
+from src.pos.models import CashRegister
 
 CACHE_TIMEOUT = 604800  # 1 week
 
@@ -26,10 +26,12 @@ def get_orders_from_db(user=None, warehouse=None, customer=None):
 
 def get_orders(user=None, warehouse=None, customer=None, refresh=False):
     if user and not (user.is_staff or user.is_superuser):
-        cache_key = ck.USER_ORDERS_CACHE_KEY % user.id # generate_cache_key("orders_list", user, warehouse, customer)
+        # generate_cache_key("orders_list", user, warehouse, customer)
+        cache_key = ck.USER_ORDERS_CACHE_KEY % user.id
     else:
-        cache_key = ck.ORDERS_LIST_CACHE_KEY # generate_cache_key("orders_list", user, warehouse, customer)
-    
+        # generate_cache_key("orders_list", user, warehouse, customer)
+        cache_key = ck.ORDERS_LIST_CACHE_KEY
+
     if refresh:
         print(f"1 - Cache miss, fetching from DB - refresh: {refresh}")
         orders = get_orders_from_db(user, warehouse, customer)
@@ -54,7 +56,8 @@ def get_all_orders(user=None, warehouse=None, customer=None, refresh=False):
 def refresh_order_cache(user=None, warehouse=None, customer=None):
     """Manually refresh the order cache."""
     if user and not (user.is_staff or user.is_superuser):
-        cache_key = ck.USER_ORDERS_CACHE_KEY % user.id # generate_cache_key("orders_list", user, warehouse, customer)
+        # generate_cache_key("orders_list", user, warehouse, customer)
+        cache_key = ck.USER_ORDERS_CACHE_KEY % user.id
     else:
         cache_key = ck.ORDERS_LIST_CACHE_KEY
     orders = get_orders_from_db(user, warehouse, customer)
@@ -70,6 +73,10 @@ class PosOrder(models.Model):
     customer = models.ForeignKey(
         Customer, on_delete=models.CASCADE, related_name="orders",
         null=True, blank=True, default=1)
+    cash_register = models.ForeignKey(
+        CashRegister, on_delete=models.SET_NULL,
+        null=True, blank=True, related_name="orders"
+    )
     item_subtotal = models.DecimalField(
         decimal_places=3,  max_digits=15, default=0)
     document_type = models.ForeignKey(
@@ -204,7 +211,6 @@ class PosOrder(models.Model):
 
         self.fixed_taxes = taxes['fixed_tax'] or Decimal('0.00')
         self.total_tax_rate = taxes['percentage_tax'] or Decimal('0.00')
-
 
     @property
     def currency(self):

@@ -30,9 +30,9 @@
               </div>
               <div class="mb-3">
                 <form id="order-payment"
-                      hx-post="{% url 'payments:save' active_order.number %}"
-                      hx-target="#pos"
-                      hx-swap="outerHTML">
+                  hx-post="{% url 'payments:save-payment' active_order.number %}"
+                  hx-target="#pos"
+                  hx-swap="outerHTML">
                   <div class="mb-3">
                     <c-pos.payment.partials.paid-input />
                   </div>
@@ -59,8 +59,7 @@
           data-bs-dismiss="modal"
           hx-post="{% url 'payments:save-payment' active_order.number %}"
           hx-target="#payment-success"
-          hx-include="[name='payment-amount']"
-        >
+          hx-include="[name='payment-amount']">
           Save changes
         </button>
       </div>

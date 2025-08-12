@@ -1,14 +1,19 @@
 from django.db import models
 from src.accounts.models import User, Warehouse, Customer
 from src.pos.models import CashRegister
-# from src.orders.models import PosOrder
+from src.core.utils import generate_number
 from datetime import datetime, timedelta
 from src.documents.managers import DocumentManager
+from src.documents.const import DEFAULT_DUE_DATE
+
 
 today = datetime.now()
 due_date = today + timedelta(days=15)
+
+
 def get_due_date():
     return 15
+
 
 TRUE_FALSE_CHOICES = (
     (True, 'Paid'),
@@ -41,7 +46,7 @@ class Document(models.Model):
     reference_document_number = models.CharField(max_length=100, unique=True)
     internal_note = models.TextField(null=True, blank=True)
     note = models.TextField(null=True, blank=True)
-    due_date = models.SmallIntegerField(default=get_due_date)
+    due_date = models.SmallIntegerField(default=DEFAULT_DUE_DATE)
     discount = models.SmallIntegerField(default=0)
     discount_type = models.SmallIntegerField(default=0)
     discount_apply_rule = models.SmallIntegerField(default=0)
@@ -58,3 +63,10 @@ class Document(models.Model):
 
     def __str__(self):
         return f"{self.document_type.stock_direction} | {self.total}  | {self.number} | Pay status: {'Paid' if self.paid_status else 'Not Paid'}"
+
+    def save(self, *args, **kwargs):
+        if self.number is None or self.number == '':
+            doc_type = kwargs.pop('doc_type', 'doc')
+            self.number = generate_number(doc_type)
+        # self.update_items_subtotal()
+        super().save(*args, **kwargs)
