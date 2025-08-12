@@ -161,7 +161,8 @@ class PosOrder(models.Model):
 
     # objects = OrderManager()
     class Meta:
-        ordering = ['-created']
+        ordering = ['-created', 'is_enabled']
+
 
     def __str__(self):
         return f"{self.number}: {self.total}"

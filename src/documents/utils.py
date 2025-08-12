@@ -3,7 +3,7 @@
 from src.documents.models import Document, DocumentType
 from src.pos.models import CashRegister
 from src.orders.models import PosOrder
-
+from django.db import transaction
 
 from django.utils import timezone
 from datetime import timedelta
@@ -17,7 +17,7 @@ def get_due_date():
     return 15
 
 
-def create_document_from_order(order: PosOrder):
+def create_document_from_order(order: PosOrder) -> Document:
     """
     Utility function to create a Document instance from a PosOrder instance.
 
@@ -30,7 +30,19 @@ def create_document_from_order(order: PosOrder):
     Raises:
         ValueError: If required fields are missing or invalid
     """
-
+    with transaction.atomic():
+        # If the order is active, activate the next available order before saving
+        if order.is_active:
+            next_order: PosOrder = (
+                PosOrder.objects
+                .filter(user=order.user, is_enabled=True, is_active=False)
+                .exclude(pk=order.pk)
+                .order_by("-created")  # Or another ordering criterion
+                .first()
+            )
+            if next_order:
+                next_order.is_active = True
+                next_order.save()
     # Generate reference document number if not provided
     reference_doc_number = order.reference_document_number or f"REF-{order.number}"
 

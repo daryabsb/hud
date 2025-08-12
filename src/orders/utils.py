@@ -92,7 +92,7 @@ def context_factory(context_keys, user, context=None):
 
 
 def _get_orders_from_db(user=None, warehouse=None, customer=None):
-    orders = PosOrder.objects.all()
+    orders = PosOrder.objects.filter(is_enabled=True)
 
     if user and not (user.is_staff or user.is_superuser):
         orders = orders.filter(user=user)
