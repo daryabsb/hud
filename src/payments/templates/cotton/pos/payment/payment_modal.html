@@ -57,6 +57,16 @@
           type="button"
           class="btn btn-outline-theme"
           data-bs-dismiss="modal"
+          hx-post="{% url 'pos2:pay-and-close' active_order.number %}"
+          hx-target="#pos"
+          hx-include="[name='payment-amount']"
+          hx-swap="innerHTML">
+          Pay and close
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-theme"
+          data-bs-dismiss="modal"
           hx-post="{% url 'payments:save-payment' active_order.number %}"
           hx-target="#payment-success"
           hx-include="[name='payment-amount']">

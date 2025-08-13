@@ -10,15 +10,22 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-    path('add/order-item/<str:order_number>/', views.AddOrderItemView.as_view(), name="add-item"),
-    path('update/order-item/<str:order_number>/<str:item_number>/', views.UpdateOrderItemView.as_view(), name="update-item"),
-    
+    path('add/order-item/<str:order_number>/',
+         views.AddOrderItemView.as_view(), name="add-item"),
+    path('update/order-item/<str:order_number>/<str:item_number>/',
+         views.UpdateOrderItemView.as_view(), name="update-item"),
+
     # Specific item update views
-    path('update/item-quantity/<str:order_number>/<str:item_number>/', views.UpdateItemQuantityView.as_view(), name="update-item-quantity"),
-    path('add/item-quantity/<str:order_number>/<str:item_number>/', views.AddItemQuantityView.as_view(), name="add-item-quantity"),
-    path('subtract/item-quantity/<str:order_number>/<str:item_number>/', views.SubtractItemQuantityView.as_view(), name="subtract-item-quantity"),
-    path('update/item-discount/<str:order_number>/<str:item_number>/', views.UpdateItemDiscountView.as_view(), name="update-item-discount"),
-    path('delete/item/<str:order_number>/<str:item_number>/', views.DeleteItemView.as_view(), name="delete-item"),
+    path('update/item-quantity/<str:order_number>/<str:item_number>/',
+         views.UpdateItemQuantityView.as_view(), name="update-item-quantity"),
+    path('add/item-quantity/<str:order_number>/<str:item_number>/',
+         views.AddItemQuantityView.as_view(), name="add-item-quantity"),
+    path('subtract/item-quantity/<str:order_number>/<str:item_number>/',
+         views.SubtractItemQuantityView.as_view(), name="subtract-item-quantity"),
+    path('update/item-discount/<str:order_number>/<str:item_number>/',
+         views.UpdateItemDiscountView.as_view(), name="update-item-discount"),
+    path('delete/item/<str:order_number>/<str:item_number>/',
+         views.DeleteItemView.as_view(), name="delete-item"),
 ]
 
 urlpatterns += [
@@ -44,4 +51,6 @@ urlpatterns += [
     path('search/stocks/', views.search_stock, name="modal-search-stocks"),
     path('modals/modal-order-payment/<str:order_number>/',
          views.add_order_payment, name='modal-order-payment'),
+    path('payment/pay-and-close/<str:order_number>/',
+         views.pay_order_and_close, name='pay-and-close'),
 ]

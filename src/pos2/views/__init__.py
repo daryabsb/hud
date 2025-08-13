@@ -41,6 +41,8 @@ from .search_views import (
 
 from .payment_views import (
     add_order_payment,
+    pay_order_and_close,
+
 )
 
 
@@ -61,5 +63,6 @@ __all__ = [
     'search_stock', 'search_customers',
     # MODAL
     'pos_search_modal',
-    'add_order_payment',
+    'add_order_payment', 'pay_order_and_close',
+
 ]

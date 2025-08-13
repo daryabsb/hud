@@ -1,9 +1,25 @@
 from decimal import Decimal
+from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST, require_GET
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, reverse
+
 from src.orders.models import PosOrder, PosOrderItem
 from src.finances.models import PaymentType
+from src.pos2.const import active_order_template
+from src.pos2.utils import prepare_order_context
+
+
+@login_required
+@require_POST
+def pay_order_and_close(request, order_number):
+    # Process payment logic
+    redirect_url = reverse(
+        'pos2:pos-order', kwargs={'number': 'sales-30112024-0149'})
+    # Empty response (HTMX will handle redirect)
+    response = HttpResponse(status=204)
+    response['HX-Redirect'] = redirect_url  # HTMX-specific redirect header
+    return response
 
 
 @login_required
