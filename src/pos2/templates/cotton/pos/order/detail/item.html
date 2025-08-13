@@ -1,0 +1,73 @@
+{% load humanize %}
+<div
+  id="orderitem-{{ item.number }}"
+  class="row mx-0 px-3 mb-2 py-2 align-items-center border-bottom orderitem bg-opacity-20"
+  hx-swap-oob="{{ oob }}"
+>
+  <div
+    id="detail-{{ item.number }}"
+    class="col-lg-5 m-0 row"
+    hx-on:click="
+    const input = htmx.find('#selected-item');
+    const detail = htmx.find('#orderitem-{{ item.number }}');
+    const calculatorBtn = htmx.find('#calculator-{{ item.number }}')
+    const selected = detail.classList.contains('bg-theme');
+    htmx.findAll('.orderitem').forEach(el => el.classList.remove('bg-theme'));
+    htmx.findAll('.calculator-btn').forEach(el => el.classList.add('d-none'));
+    selected 
+    ? (input.value = '', calculatorBtn.classList.add('d-none'))
+    : (detail.classList.add('bg-theme'), input.value = '{{ item.number }}', calculatorBtn.classList.toggle('d-none'));
+    "
+  >
+    <div class="col-xl-9 px-0 col-3 d-flex align-items-center">
+      <div class="h-40px w-40px d-flex align-items-center justify-content-center position-relative bg-white p-1">
+        <img src="{{ item.product_image }}" alt="" class="mw-100 mh-100" />
+        {% if item.discount %}
+        <span
+          class="w-20px h-20px p-0 d-flex align-items-center justify-content-center badge bg-theme text-theme-color position-absolute end-0 top-0 fw-bold rounded-pill mt-n2 me-n2"
+          ><span class="text-center ps-2"><i class="fas fa-lg fa-fw me-2 fa-percent text-center"></i></span
+        ></span>
+        {% endif %}
+      </div>
+      <div class="ps-3 flex-1">
+        <div>
+          <a href="#" class="text-decoration-none text-inverse"
+            >{{ item.product_name }}{% if item.discount %} |
+            <span class="text-sm text-success">{{ item.discount_sign }} {{ item.discount|intcomma }} OFF</span>{% endif
+            %}</a
+          >
+        </div>
+        <div class="text-inverse text-opacity-50 small d-none d-xl-block">
+          {{ active_order.number }}
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3 py-2 px-0 text-start">
+      {{ item.currency }} {{ item.price|floatformat:'0'|intcomma }}
+    </div>
+  </div>
+
+  <div class="col-xl-2 col-2 ps-lg-2 text-start">
+    <c-forms.quantity id="qty-input-{{ item.number }}" />
+  </div>
+  <div class="col-lg-3 text-center">
+    {% if item.discount %}
+    <div class="ps-3 flex-1">
+      <div class="text-inverse text-opacity-50 d-none d-xl-block">
+        <span class="text-sm text-success">-({{ item.currency }} {{ item.discounted_amount|floatformat:'0' }})</span> |
+        <del class="text-danger"
+          >{{ item.currency }} {{ item.item_total_before_discount|floatformat:'0'|intcomma }}</del
+        >
+      </div>
+      <div>
+        <span class="text-inverse">{{ item.currency }} {{ item.item_total|floatformat:'0'|intcomma }}</span>
+      </div>
+    </div>
+    {% else %}
+    <span class="fs-16px">{{ item.currency }} {{ item.item_total|floatformat:'0'|intcomma }}</span>
+    {% endif %}
+  </div>
+  <div class="col-lg-2 m-0 text-end">
+    <c-orders.actions />
+  </div>
+</div>
