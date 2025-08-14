@@ -54,7 +54,7 @@ def create_document_from_order(order: PosOrder) -> Document:
     discount_apply_rule = 0  # Default value, modify based on your business logic
 
     # Create and save the document
-    document = Document.objects.create(
+    document: Document = Document.objects.create(
         user=order.user,
         customer=order.customer,
         cash_register=order.cash_register,

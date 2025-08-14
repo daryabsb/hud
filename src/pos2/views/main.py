@@ -8,6 +8,7 @@ from src.finances.models.models_payment_type import get_tree_nodes as get_paymen
 from src.configurations.models import get_menus
 from src.pos.forms import PosOrderForm
 from src.pos2.utils import prepare_order_context
+
 from src.pos2.const import active_order_template
 
 
