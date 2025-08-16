@@ -8,7 +8,7 @@ from src.accounts.models import Customer
 from django.db.models import Prefetch
 
 
-def create_new_order(user, document_type=None):
+def create_new_order(user, document_type=None) -> PosOrder:
     if not document_type:
         document_type = DocumentType.objects.get(code=200)
     order = PosOrder(user=user, document_type=document_type, is_active=False)

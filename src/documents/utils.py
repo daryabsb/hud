@@ -3,6 +3,7 @@
 from src.documents.models import Document, DocumentType
 from src.pos.models import CashRegister
 from src.orders.models import PosOrder
+from src.orders.utils import create_new_order
 from django.db import transaction
 
 from django.utils import timezone
@@ -30,6 +31,8 @@ def create_document_from_order(order: PosOrder) -> Document:
     Raises:
         ValueError: If required fields are missing or invalid
     """
+    next_order: PosOrder = None
+
     with transaction.atomic():
         # If the order is active, activate the next available order before saving
         if order.is_active:
@@ -40,8 +43,15 @@ def create_document_from_order(order: PosOrder) -> Document:
                 .order_by("-created")  # Or another ordering criterion
                 .first()
             )
+            # ADD A FALLBACK CREATE ORDER IF NO ORDER EXIST
             if next_order:
                 next_order.is_active = True
+                next_order.save()
+            else:
+                next_order = create_new_order(
+                    user=order.user,
+                )
+                next_order.is_active=True
                 next_order.save()
     # Generate reference document number if not provided
     reference_doc_number = order.reference_document_number or f"REF-{order.number}"
@@ -76,9 +86,12 @@ def create_document_from_order(order: PosOrder) -> Document:
 
     order.reference_document_number = document.number
     order.is_enabled = False
+    order.is_active = False
+
     order.save()
 
-    return document
+    return document, next_order
+
 
 
 def create_document(

@@ -1,16 +1,22 @@
 from django.db import models
 from src.pos.utils import get_computer_info
 # MACHINE ID WILL BE THE ID FOR THE CASH REGISTER
-
+from src.accounts.models import User, Warehouse
 
 class CashRegister(models.Model):
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="cash_registers", default=1
+    )
     number = models.CharField(
         max_length=100, primary_key=True,
         db_index=True, unique=True,
         default=get_computer_info()[1]
     )
     name = models.CharField(max_length=50, default=get_computer_info()[0])
-
+    warehouse = models.ForeignKey(
+        Warehouse, null=True, on_delete=models.DO_NOTHING,
+        related_name="cash_registers"
+    )
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

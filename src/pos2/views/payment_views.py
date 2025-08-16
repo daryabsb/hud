@@ -16,11 +16,13 @@ from src.documents.utils import create_document_from_order as cdo
 def pay_order_and_close(request, order_number):
     # Process payment logic
     order = get_object_or_404(PosOrder, number=order_number)
-    document = cdo(order)
-    print(document.number)
+    document, next_order = cdo(order)
 
+    if next_order:
+        number = next_order.number
+    context = prepare_order_context(request, number)
     redirect_url = reverse(
-        'pos2:pos-order', kwargs={'number': 'sales-20052025-2349'})
+        'pos2:pos-order', kwargs={'number': number})
     # Empty response (HTMX will handle redirect)
     response = HttpResponse(status=204)
     response['HX-Redirect'] = redirect_url  # HTMX-specific redirect header

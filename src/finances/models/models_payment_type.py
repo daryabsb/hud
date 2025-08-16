@@ -14,7 +14,6 @@ def get_tree_nodes_from_db(user_id=None):
         for payment_type in queryset]
     return tree_data
 
-
 def get_tree_nodes(user_id=None, refresh=False, no_check=False):
     from django.core.cache import cache
     from src.finances.const import payment_type_cache_nodes
