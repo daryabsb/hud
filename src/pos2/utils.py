@@ -24,9 +24,8 @@ def prepare_order_context(request, order_number=None, item=None):
     """
     # Get the active order
     active_order = get_active_order(user=request.user)
-    if not active_order or not order_number != active_order['number']:
+    if not active_order or order_number != active_order['number']:
         active_order = aod(request.user, order_number=order_number)
-
     # Get the order instance if we have an active order
     order_instance = None
     if active_order and active_order.get('number'):
